@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="orderStoreBonus">
+ 
+   
+   
+   <!-- 바코드로 점 상품 가져오기   -->
+   <parameterMap id="orderStoreProductSelectParameterMap" class="java.util.Map">
+    <parameter property="CORP_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="SCAN_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="STR_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="ROUTE_GB"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     /> 
+  	<parameter property="VEN_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     /> 
+  	<parameter property="PUR_GB"      javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     /> 
+  	<parameter property="CUR"         javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+  </parameterMap>
+   <procedure id="orderStoreProductSelectBonus"  parameterMap="orderStoreProductSelectParameterMap"  resultClass="java.util.HashMap"  > 
+   	 {   call PKG_ORDER_STORE_BONUS.ORDER_STORE_PRODUCT_SELECT( ? , ? , ? , ?, ?, ?, ? )       }
+   </procedure>
+    
+      
+   <!-- 공통코드 테이블의 MGMT_ENTRY 들 가져오기   -->
+   <parameterMap id="getCommonMgmtEntryParameterMap" class="java.util.Map">
+    <parameter property="CORP_CODE"   	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="CD_CL"   		javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="CD_ID"    		javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="CUR"         	javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+  </parameterMap>
+   <procedure id="getCommonMgmtEntryBonus"  parameterMap="getCommonMgmtEntryParameterMap"  resultClass="java.util.HashMap"  > 
+   	 {   call PKG_ORDER_STORE_BONUS.GET_COMMON_MGMT_ENTRY( ? , ? , ? , ? )       }
+   </procedure>
+   
+   
+    
+
+   <!--  발주 헤더 조회  검색  -->
+   <parameterMap id="orderHeadSearchParameterMap" class="java.util.Map">
+  	<parameter property="CORP_CODE"    	 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="STR_CODE"    	 	 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="ORD_DT_FROM"    	 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="ORD_DT_TO"    		 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="ROUTE_GB"    		 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="CFM_YN"    		 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="PUR_GB"    		 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	
+  	<parameter property="CUR"         	 	 javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+  </parameterMap>
+   <procedure id="orderHeadSearchBonus"  parameterMap="orderHeadSearchParameterMap"  resultClass="java.util.HashMap"  > 
+   	 {   call PKG_ORDER_STORE_BONUS.ORDER_HEAD_LIST( ? , ? , ? , ? , ? , ?, ? , ? )       }
+   </procedure>
+   
+    
+   
+   
+
+  <!--  발주등록  -->
+  <parameterMap id="orderStoreProductRegisterParameterMap" class="java.util.Map">     
+    <parameter property="CORP_CODE"   				javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+    <parameter property="EMP_NO"   					javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />   
+  	<parameter property="CRUD_BIT"   					javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />   
+  	<parameter property="ORDER_STORE_HEADER"   		javaType="java.lang.String"     jdbcType="CLOB"       mode="IN"      /> 
+  	<parameter property="ORDER_STORE_DETAIL"   		javaType="java.lang.String"     jdbcType="CLOB"       mode="IN"      /> 
+  	<parameter property="RETURN_CUR"        		javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"   mode="OUT"     /> 
+  </parameterMap>
+    
+  <procedure id="orderStoreProductRegisterBonus"  parameterMap="orderStoreProductRegisterParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_ORDER_STORE_BONUS.ORDER_STORE_PRODUCT_REGISTER( ? , ? , ? , ? , ? , ? )  }   
+  </procedure>
+   
+
+
+
+   <!--  발주 헤더 상세조회  -->
+   <parameterMap id="orderHeadInfoParameterMap" class="java.util.Map">
+    <parameter property="CORP_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="SLIP_NO"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="CUR"         javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+   </parameterMap>
+   <procedure id="orderHeadInfoBonus"  parameterMap="orderHeadInfoParameterMap"  resultClass="java.util.HashMap"  > 
+   	 {   call PKG_ORDER_STORE_BONUS.ORDER_HEAD_INFO( ? , ?, ? )       }
+   </procedure>
+
+
+
+   <!--  발주상품 리스트 정보 보여주기  -->
+   <parameterMap id="orderDetailInfoParameterMap" class="java.util.Map">
+    <parameter property="CORP_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     /> 
+  	<parameter property="STR_CODE"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     /> 
+  	<parameter property="SLIP_NO"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     /> 
+  	<parameter property="CUR"         javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+  </parameterMap>
+   <procedure id="orderDetailInfoBonus"  parameterMap="orderDetailInfoParameterMap"  resultClass="java.util.HashMap"  > 
+   	 {   call PKG_ORDER_STORE_BONUS.ORDER_DETAIL_INFO( ? ,? , ?, ? )       }
+   </procedure>
+   
+   
+  <!--  발주 삭제  -->
+  <parameterMap id="orderDelParameterMap" class="java.util.Map">     
+    <parameter property="CORP_CODE"   				javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+   	<parameter property="SLIP_NO_XML"   			javaType="java.lang.String"     jdbcType="CLOB"       mode="IN"      /> 
+  	<parameter property="RETURN_CUR"        		javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"   mode="OUT"     /> 
+  </parameterMap> 
+  <procedure id="orderDelBonus"  parameterMap="orderDelParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_ORDER_STORE_BONUS.ORDER_DEL( ? , ? , ?  )  }   
+  </procedure>
+
+</sqlMap>

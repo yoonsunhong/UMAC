@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="daySales">
+	<parameterMap id="paramMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_BUSI_DT"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"      				javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"    />
+	</parameterMap>
+		
+	<procedure id="daySalesSettlementList" parameterMap="paramMap" resultClass="java.util.HashMap">
+		{ call PKG_BUSINESS_DAYSALES.BUSINESS_DAYSALES_LIST (  ?, ?, ?, ?)  }
+	</procedure>
+		
+	<procedure id="daySalesSettlementList2" parameterMap="paramMap" resultClass="java.util.HashMap">
+		{ call PKG_BUSINESS_DAYSALES.BUSINESS_DAYSALES_LIST2 ( ?, ?, ?, ?)  }
+	</procedure>
+		
+	<procedure id="daySalesSettlementList3" parameterMap="paramMap" resultClass="java.util.HashMap">
+		{ call PKG_BUSINESS_DAYSALES.BUSINESS_DAYSALES_LIST3 ( ?, ?, ?, ?)  }
+	</procedure>
+	
+	<procedure id="daySalesSettlementList4" parameterMap="paramMap" resultClass="java.util.HashMap">
+		{ call PKG_BUSINESS_DAYSALES.BUSINESS_DAYSALES_LIST4 ( ?, ?, ?, ?)  }
+	</procedure>
+		
+</sqlMap>

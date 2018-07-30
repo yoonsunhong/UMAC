@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="memberDm">
+	
+	<parameterMap id="memberDmMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CUST_NAME"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_MBR_GRADE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_BUSI_FLAG"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_GONG_DT"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_END_DT"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALE_AMT_S"    javaType="java.lang.String"      jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_SALE_AMT_E"    javaType="java.lang.String"      jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_MOD_CUST_CNT"  javaType="java.lang.String"      jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_FIRST_INDEX"   javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_RECORD_COUNT"  javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_COLUMN_NAME"   javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ORDERBY"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="memberDmResultMap" />
+		<parameter property="TOT_CNT"         javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="OUT"   />
+	</parameterMap>
+	
+	<resultMap id="memberDmResultMap" class="java.util.HashMap">
+		<result property="RNUM" column="RNUM" />
+		<result property="CORP_CODE" column="CORP_CODE" />
+		<result property="CUST_NO" column="CUST_NO" />
+		<result property="CUST_NAME" column="CUST_NAME" />
+		<result property="TEL_NO" column="TEL_NO" />
+		<result property="MOBIL_NO" column="MOBIL_NO" />
+		<result property="SEND_EMAIL" column="SEND_EMAIL" />
+		<result property="BUSI_NO" column="BUSI_NO" />
+		<result property="BUSI_NAME" column="BUSI_NAME" />
+		<result property="STR_CODE" column="STR_CODE" />
+		<result property="POST_NO" column="POST_NO" />
+		<result property="ADDR" column="ADDR" />
+		<result property="ADDR_DTL" column="ADDR_DTL" />
+		<result property="SALE_AMT_SUM" column="SALE_AMT_SUM" />
+		<result property="CUST_CNT" column="CUST_CNT" />
+		<result property="MOD_CUST_CNT" column="MOD_CUST_CNT" />
+	</resultMap>
+	
+	<procedure id="getMemberDm" parameterMap="memberDmMap" >
+		{ call PKG_MEMBER.MEMBER_DM_SELECT ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="memberDmExcelMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CUST_NAME"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_MBR_GRADE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_BUSI_FLAG"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_GONG_DT"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_END_DT"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALE_AMT_S"    javaType="java.lang.String"      jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_SALE_AMT_E"    javaType="java.lang.String"      jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_MOD_CUST_CNT"  javaType="java.lang.String"      jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"   />
+	</parameterMap>
+	
+	<procedure id="getMemberDmExcel" parameterMap="memberDmExcelMap" resultClass="java.util.HashMap" >
+		{ call PKG_MEMBER.MEMBER_DM_SELECT_ALL ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	
+	
+</sqlMap>

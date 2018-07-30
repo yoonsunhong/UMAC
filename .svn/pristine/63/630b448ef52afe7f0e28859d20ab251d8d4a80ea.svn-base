@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="comm">
+
+	<!-- 권한그룹 목록 조회 파라미터 맵 -->
+	<parameterMap id="parmaMap1" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap1" />
+	</parameterMap>
+	<!-- 권한그룹 목록 조회 리절트 맵 -->
+	<resultMap id="resultMap1" class="java.util.HashMap">
+	    <result property="ROLE_ID"  column="ROLE_ID" nullValue="" />  
+	    <result property="ROLE_NM"  column="ROLE_NM"  nullValue="" />
+	</resultMap>
+	
+	<!-- 공통코드 목록 조회 파라미터 맵 -->
+	<parameterMap id="parmaMap2" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CD_CL" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap2" />
+	</parameterMap>
+	<parameterMap id="parmaMap22" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CD_CL" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MGMT_ENTRY" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap22" />
+	</parameterMap>
+	<!-- 공통코드 목록 조회 리절트 맵 -->
+	<resultMap id="resultMap2" class="java.util.HashMap">
+	    <result property="CD_NM"  column="CD_NM" nullValue="" />  
+	    <result property="CD_ID"  column="CD_ID"  nullValue="" />
+	</resultMap>	
+	<resultMap id="resultMap22" class="java.util.HashMap">
+	    <result property="CD_NM"  column="CD_NM" nullValue="" />  
+	    <result property="CD_ID"  column="CD_ID"  nullValue="" />
+	</resultMap>
+	
+	<!-- 점포코드 조회 파라미터 맵 -->
+	<parameterMap id="parmaMap3" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_UPTAE_FLAG" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_BONBU_FLAG" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap3" />
+	</parameterMap>
+	<!-- 점포코드 조회 리절트 맵 -->
+	<resultMap id="resultMap3" class="java.util.HashMap">
+	    <result property="STR_CODE"  column="STR_CODE" nullValue="" />  
+	    <result property="STR_NAME"  column="STR_NAME"  nullValue="" />
+	</resultMap>
+	
+    <!-- 공통코드 목록 조회  -->
+ 	<procedure id="getCommonCodeSelectBoxList" parameterMap="parmaMap2" resultMap="resultMap2" >
+		{ call PKG_COMMON.GET_COMMON_CODE_SELECT_LIST ( ?,  ?,  ? )  }
+	</procedure>
+ 	<procedure id="getCommonCodeSelectBoxList2" parameterMap="parmaMap22" resultMap="resultMap22" >
+		{ call PKG_COMMON.GET_COMMON_CODE_SELECT_LIST2 ( ?,  ?,  ? ,  ? )  }
+	</procedure>
+	
+	
+	<!-- 공통코드의 회원등급을 회원구분 별로 조회 파라미터 맵 -->
+	<parameterMap id="getCommonCodeGradeSelectBoxListMap" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CD_CL" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MGMT_ENTRY_1" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="getCommonCodeGradeSelectBoxListResultMap" />
+	</parameterMap>
+	<!-- 공통코드의 회원등급을 회원구분 별로 조회 리절트 맵 -->
+	<resultMap id="getCommonCodeGradeSelectBoxListResultMap" class="java.util.HashMap">
+	    <result property="CD_NM"  column="CD_NM" nullValue="" />
+	    <result property="CD_ID"  column="CD_ID"  nullValue="" />
+	</resultMap>
+	
+	<!-- 공통코드의 회원등급을 회원구분 별로 조회 -->
+ 	<procedure id="getCommonCodeGradeSelectBoxList" parameterMap="getCommonCodeGradeSelectBoxListMap" resultMap="getCommonCodeGradeSelectBoxListResultMap" >
+		{ call PKG_COMMON.GET_COMMON_GRADE_SELECT_LIST ( ?,  ?,  ?,  ? )  }
+	</procedure>
+	
+	
+	
+	<!-- 대중소 분류 코드조회 파라미터 맵 -->    
+	<parameterMap id="parmaMapCateCode" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" 	javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CATE_GUBUN" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CATE_CODE" 	javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap2" />
+	</parameterMap>
+	<!-- 대중소 분류 코드 조회 리절트 맵 -->
+	<resultMap id="resultMapCateCode" class="java.util.HashMap">
+	    <result property="CD_NM"  column="CD_NM"  nullValue="" />  
+	    <result property="CD_ID"  column="CD_ID"  nullValue="" />
+	</resultMap> 
+    <!-- 대중소 분류 코드  목록 조회  -->
+ 	<procedure id="getCateCodeSelectBoxList" parameterMap="parmaMapCateCode" resultMap="resultMapCateCode" >
+		{ call PKG_COMMON.GET_CATE_CODE_SELECT_LIST( ? , ? , ? , ? )  }
+	</procedure>
+	
+	
+	
+	<!--  지불주기 -->
+	<parameterMap id="parmaPaySeqCode" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" 	javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MGMT_ENTRY" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" /> 
+		 <parameter property="CUR"  		javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap2" />
+	</parameterMap> 
+	<resultMap id="resultPaySeqCode" class="java.util.HashMap">
+	    <result property="CD_NM"  column="CD_NM"  nullValue="" />  
+	    <result property="CD_ID"  column="CD_ID"  nullValue="" />
+	</resultMap>  
+ 	<procedure id="getPaySeqCodeSelectBoxList" parameterMap="parmaPaySeqCode" resultMap="resultPaySeqCode" >
+		{ call PKG_COMMON.GET_PAY_SEQ_CODE_SELECT_LIST( ? , ? , ?  )  }
+	</procedure>
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 관리부서  목록 조회 파라미터 맵 -->
+	<parameterMap id="parmaMapDept" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" /> 
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMapDept" />
+	</parameterMap>
+	<!--관리부서  목록 조회 리절트 맵 -->
+	<resultMap id="resultMapDept" class="java.util.HashMap">
+	    <result property="DEPT_NAME"  column="DEPT_NAME"  nullValue="" />  
+	    <result property="DEPT_CODE"  column="DEPT_CODE"  nullValue="" />
+	</resultMap> 
+	<!-- 관리부서 selectbox 목록 조회  -->
+ 	<procedure id="getDeptCodeSelectBoxListInGrid" parameterMap="parmaMapDept" resultMap="resultMapDept" >
+		{ call PKG_COMMON.GET_DEPT_CODE_SELECT_LIST (  ?,  ? )  }
+	</procedure>
+	
+    
+	<!-- 관리담당자  목록 조회 파라미터 맵 -->
+	<parameterMap id="parmaMapEmp" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" /> 
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMapEmp" />
+	</parameterMap>
+	<!--관리담당자  목록 조회 리절트 맵 -->
+	<resultMap id="resultMapEmp" class="java.util.HashMap">
+	    <result property="EMP_NM"  column="EMP_NM"  nullValue="" />  
+	    <result property="EMP_NO"  column="EMP_NO"  nullValue="" />
+	</resultMap> 
+	<!-- 관리담당자 selectbox 목록 조회  -->
+ 	<procedure id="getEmpNoSelectBoxListInGrid" parameterMap="parmaMapEmp" resultMap="resultMapEmp" >
+		{ call PKG_COMMON.GET_EMP_NO_SELECT_LIST (  ?,  ? )  }
+	</procedure>
+    
+    
+    
+    
+    
+    
+    
+     <!-- 권한그룹 목록 조회  -->
+ 	 <procedure id="getAuthSelectBoxList" parameterMap="parmaMap1" resultMap="resultMap1" >
+		{ call PKG_COMMON.GET_AUTH_SELECT_LIST ( ?,  ? )  }
+	 </procedure>
+	 
+	 <procedure id="getStoreCode" parameterMap="parmaMap3" resultMap="resultMap3">
+	 	{ call PKG_COMMON.GET_STROE_CODE_SELECT ( ?,  ?, ?, ?)  }
+	 </procedure>
+	 
+	 <!-- 점포코드 조회 리절트 맵 -->
+	 <parameterMap id="parmaMapStore" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_UPTAE_FLAG" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMapStore" />
+	</parameterMap>
+	<!-- 점포코드 조회 리절트 맵 -->
+	<resultMap id="resultMapStore" class="java.util.HashMap">
+	    <result property="STR_CODE"  column="STR_CODE" nullValue="" />  
+	    <result property="STR_NAME"  column="STR_NAME"  nullValue="" />
+	</resultMap>
+	 
+	 <procedure id="getStoreCodeFlag" parameterMap="parmaMapStore" resultMap="resultMapStore">
+	 	{ call PKG_COMMON.GET_STROE_CODE_SELECT_FLAG ( ?,  ?, ? )  }
+	 </procedure>
+	 
+	 <!-- 해당 점포의 POS 마스터 계산원 파라미터 맵 -->
+	<parameterMap id="getPosMasterMemberMap" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE"  javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN" />
+	     <parameter property="P_STR_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN" />
+		 <parameter property="CUR"          javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT" resultMap="getPosMasterMemberResultMap" />
+	</parameterMap>
+	<!-- 해당 점포의 POS 마스터 계산원 조회 리절트 맵 -->
+	<resultMap id="getPosMasterMemberResultMap" class="java.util.HashMap">
+	    <result property="EMP_NO"  column="EMP_NO" nullValue="" />  
+	    <result property="EMP_NAME"  column="EMP_NAME"  nullValue="" />
+	</resultMap>
+	<!-- 해당 점포의 POS 마스터 계산원 조회 -->
+	<procedure id="getPosMasterMember" parameterMap="getPosMasterMemberMap" >
+		{ call PKG_COMMON.GET_POS_MASTER_MEMBER_SELECT ( ?,  ?, ? )  }
+	</procedure>
+	 
+	 
+   <!--  입고예정일 조회  -->
+   <parameterMap id="orderPurDtSelectParameterMap" class="java.util.Map">
+    <parameter property="CORP_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="STR_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="BASE_DT"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="TERM_DAY"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="CUR"         javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+   </parameterMap>
+   <procedure id="orderPurDtSelect"  parameterMap="orderPurDtSelectParameterMap"  resultClass="java.util.HashMap"  > 
+   	 {   call PKG_COMMON.ORDER_PUR_DT_SELECT( ? , ? , ?  , ? , ? )       }
+   </procedure>
+   
+   
+   <!-- 협력업체(VEN_CODE) 조회하여 지불주기(PAY_CON),지불차수(PAY_SEQ)를 가져온다. -->
+	<parameterMap id="parmaPayNum" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" 	javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_VEN_CODE"   javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" /> 
+		 <parameter property="CUR"  		javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultPayNum" />
+	</parameterMap> 
+	<resultMap id="resultPayNum" class="java.util.HashMap">
+	    <result property="PAY_CON"    column="PAY_CON"    nullValue="" />  
+	    <result property="PAY_SEQ"    column="PAY_SEQ"    nullValue="" />
+	    <result property="PAY_TYPE"   column="PAY_TYPE"   nullValue="" />
+	    <result property="PAY_CON_NM" column="PAY_CON_NM" nullValue="" />
+	    <result property="PAY_SEQ_NM" column="PAY_SEQ_NM" nullValue="" />
+	</resultMap>
+   <procedure id="getPayNum" parameterMap="parmaPayNum" resultMap="resultPayNum" >
+		{ call PKG_COMMON.GET_PY_PAY_NUM( ? , ? , ?  )  }
+	</procedure>
+  
+</sqlMap>

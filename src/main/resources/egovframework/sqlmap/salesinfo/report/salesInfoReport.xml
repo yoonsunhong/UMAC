@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="salesInfoReport">
+
+	<parameterMap id="salesInfoReportPromptListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"			javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_STR_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_SALE_DT"      		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="CUR"             		javaType="java.sql.ResultSet"		jdbcType="ORACLECURSOR"		mode="OUT" />
+	</parameterMap>
+
+	<parameterMap id="salesInfoReportPromptSalesListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_STR_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_SALE_DT"      		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="CUR"             		javaType="java.sql.ResultSet"    	jdbcType="ORACLECURSOR"  	mode="OUT" />
+	</parameterMap>
+
+	<parameterMap id="salesInfoReportYieldListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_STR_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_SALE_DT"      		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="CUR"             		javaType="java.sql.ResultSet"    	jdbcType="ORACLECURSOR"  	mode="OUT" />
+	</parameterMap>
+
+	<parameterMap id="salesInfoReportYieldDetailListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_STR_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_SALE_DT"      		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="CUR"             		javaType="java.sql.ResultSet"    	jdbcType="ORACLECURSOR"  	mode="OUT" />
+	</parameterMap>
+
+	<parameterMap id="salesInfoReportTermListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_STR_DT_TYPE1"        javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_STR_DT_TYPE2"        javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_END_DT_TYPE1"        javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_END_DT_TYPE2"        javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="CUR"             		javaType="java.sql.ResultSet"    	jdbcType="ORACLECURSOR"  	mode="OUT" />
+	</parameterMap>
+
+	<parameterMap id="salesInfoReportTermDetailListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_STR_CODE"      		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_STR_DT_TYPE1"        javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_STR_DT_TYPE2"        javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_END_DT_TYPE1"        javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_END_DT_TYPE2"        javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="CUR"             		javaType="java.sql.ResultSet"    	jdbcType="ORACLECURSOR"  	mode="OUT" />
+	</parameterMap>
+
+	<parameterMap id="salesInfoReportPaymentListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_STR_CODE"      		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_STR_DT"        		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_END_DT"        		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_UPTAE_FLAG"     		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="CUR"             		javaType="java.sql.ResultSet"    	jdbcType="ORACLECURSOR"  	mode="OUT" />
+	</parameterMap>
+	
+	<parameterMap id="salesInfoReportPaymentDetailListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_STR_CODE"      		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_STR_DT"        		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_END_DT"        		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="CUR"             		javaType="java.sql.ResultSet"    	jdbcType="ORACLECURSOR"  	mode="OUT" />
+	</parameterMap>
+
+	<parameterMap id="salesInfoReportMonthListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_STR_CODE"      		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_SALE_DT"        		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="CUR"             		javaType="java.sql.ResultSet"    	jdbcType="ORACLECURSOR"  	mode="OUT" />
+	</parameterMap>
+
+	<parameterMap id="salesInfoReportMonthDetailListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_STR_CODE"      		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_SALE_DT"        		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="CUR"             		javaType="java.sql.ResultSet"    	jdbcType="ORACLECURSOR"  	mode="OUT" />
+	</parameterMap>
+
+	<parameterMap id="salesInfoReportRcvPayDateListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_STR_CODE"      		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_INV_DT"        		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_CLS_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_MID_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_LRG_CODE"			javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="CUR"             		javaType="java.sql.ResultSet"    	jdbcType="ORACLECURSOR"  	mode="OUT" />
+	</parameterMap>	
+	
+	<parameterMap id="salesInfoReportRcvPayDateDetailListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE" 			javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_STR_CODE" 			javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_INV_DT" 				javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_CLS_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"      	mode="IN" />
+		<parameter property="P_MID_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"      	mode="IN" />
+		<parameter property="P_LRG_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"      	mode="IN" />
+		<parameter property="CUR" 					javaType="java.sql.ResultSet" 		jdbcType="ORACLECURSOR" 	mode="OUT" />
+	</parameterMap>
+
+	<parameterMap id="salesInfoReportRcvPayMonthListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE" 			javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_STR_CODE" 			javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_INV_MT" 				javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_CLS_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_MID_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_LRG_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />		
+		<parameter property="CUR" 					javaType="java.sql.ResultSet" 		jdbcType="ORACLECURSOR" 	mode="OUT" />
+	</parameterMap>
+	<parameterMap id="salesInfoReportRcvPayMonthDetailListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE" 			javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_STR_CODE" 			javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_INV_MT" 				javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_CLS_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_MID_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_LRG_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />			
+		<parameter property="CUR" 					javaType="java.sql.ResultSet" 		jdbcType="ORACLECURSOR" 	mode="OUT" />
+	</parameterMap>
+
+	<parameterMap id="salesInfoReportRcvPayMonthBatchMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE" 			javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_START_DATE" 			javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_END_DATE" 			javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="RETURN_CODE" 			javaType="java.lang.Integer" 		jdbcType="INTEGER" 			mode="OUT" />
+	</parameterMap>
+
+	<parameterMap id="salesInfoReportGISListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE" 			javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_STR_CODE" 			javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_STR_DT" 				javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_END_DT" 				javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_CLS_CODE" 			javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_MID_CODE" 			javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_LRG_CODE" 			javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_ITM_SHORT_NAME" 		javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_ITM_CODE" 			javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_FIRST_INDEX"      	javaType="java.lang.Integer"     	jdbcType="INTEGER"       	mode="IN" />
+		<parameter property="P_RECORD_COUNT"     	javaType="java.lang.Integer"     	jdbcType="INTEGER"       	mode="IN" />
+		<parameter property="P_COLUMN_NAME"      	javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_ORDERBY"      	 	javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />		
+		<parameter property="CUR" 					javaType="java.sql.ResultSet" 		jdbcType="ORACLECURSOR" 	mode="OUT"	resultMap="salesInfoReportGISListResultMap" />
+		<parameter property="CUR2" 					javaType="java.sql.ResultSet" 		jdbcType="ORACLECURSOR" 	mode="OUT"	resultMap="salesInfoReportGISListResultMap2" />
+		<parameter property="TOT_CNT"            	javaType="java.lang.Integer"     	jdbcType="INTEGER"  	   	mode="OUT" 	/>
+	</parameterMap>
+	
+	<parameterMap id="salesInfoReportDlvrListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"			javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />	
+		<parameter property="P_STR_CODE"			javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />	
+		<parameter property="P_OPEN_DT"				javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />	
+		<parameter property="P_END_DT"				javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />	
+		<parameter property="P_USER_NM"				javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />	
+		<parameter property="P_BUSI_FLAG"			javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />	
+		<parameter property="P_INDUST_FLAG"			javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />	
+		<parameter property="CUR"					javaType="java.sql.ResultSet"		jdbcType="ORACLECURSOR"		mode="OUT" />	
+	</parameterMap> 
+	
+	<parameterMap id="salesInfoReportvrListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"			javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+		<parameter property="P_STR_CODE"			javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />	
+		<parameter property="P_OPEN_DT"				javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />	
+		<parameter property="P_END_DT"				javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />	
+		<parameter property="P_USER_ID"				javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />	
+		<parameter property="P_ORD_MTHD_FLAG"		javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />	
+		<parameter property="P_BUSI_FLAG"			javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />	
+		<parameter property="P_INDUST_FLAG"			javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+		<parameter property="P_EMP_GUBUN"			javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />	
+		<parameter property="CUR"					javaType="java.sql.ResultSet"		jdbcType="ORACLECURSOR"		mode="OUT" />	
+	</parameterMap>	
+	
+	<parameterMap id="salesInfoReportDlvrDListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"			javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+		<parameter property="P_SALE_DT"				javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+		<parameter property="P_STR_CODE"			javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+		<parameter property="P_POS_NO"				javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+		<parameter property="P_TRXN_NO"				javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+		<parameter property="CUR"					javaType="java.sql.ResultSet"		jdbcType="ORACLECURSOR"		mode="OUT" />
+	</parameterMap>
+
+	<parameterMap id="salesInfoReportEGLListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"			javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+		<parameter property="P_STR_CODE"			javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+		<parameter property="P_OPEN_DT"				javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+		<parameter property="P_END_DT"				javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+		<parameter property="P_ITM_CODE"			javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+		<parameter property="P_VEN_NAME"			javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+		<parameter property="P_CLS_CODE"			javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+		<parameter property="P_MID_CODE"			javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+		<parameter property="P_LRG_CODE"			javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+		<parameter property="P_EVT_CODE"			javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+		<parameter property="P_ITM_NAME"			javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+		<parameter property="CUR"					javaType="java.sql.ResultSet"		jdbcType="ORACLECURSOR"		mode="OUT" />
+	</parameterMap>
+	
+	<resultMap id="salesInfoReportGISListResultMap" class="java.util.HashMap">
+		<result property="INV_DT"					column="INV_DT" />
+		<result property="CORP_CODE"				column="CORP_CODE" />
+		<result property="STR_CODE"					column="STR_CODE" />
+		<result property="ITM_CODE"					column="ITM_CODE" />
+		<result property="SCAN_CODE"				column="SCAN_CODE" />
+		<result property="CLS_CODE"					column="CLS_CODE" />
+		<result property="CLS_NAME"					column="CLS_NAME" />
+		<result property="ITM_SHORT_NAME"			column="ITM_SHORT_NAME" />
+		<result property="BASE_QTY"					column="BASE_QTY" />
+		<result property="PUR_QTY"					column="PUR_QTY" />
+		<result property="PUR_WAMT"					column="PUR_WAMT" />
+		<result property="SALE_QTY"					column="SALE_QTY" />
+		<result property="SALE_SPRC"				column="SALE_SPRC" />
+		<result property="DIN_QTY"					column="DIN_QTY" />
+		<result property="DIN_WPRC"					column="DIN_WPRC" />
+		<result property="DOUT_QTY"					column="DOUT_QTY" />
+		<result property="DOUT_WPRC"				column="DOUT_WPRC" />
+		<result property="INV_ADJ_QTY"				column="INV_ADJ_QTY" />
+		<result property="INV_ADJ_SPRC"				column="INV_ADJ_SPRC" />
+		<result property="INV_END_QTY"				column="INV_END_QTY" />
+		<result property="INV_END_WAMT"				column="INV_END_WAMT" />
+		<result property="RTN_QTY"					column="RTN_QTY" />
+		<result property="RTN_WPRC"					column="RTN_WPRC" />
+	</resultMap>
+	
+	<resultMap id="salesInfoReportGISListResultMap2" class="java.util.HashMap">
+		<result property="PUR_QTY"					column="PUR_QTY" />
+		<result property="PUR_WAMT"					column="PUR_WAMT" />
+		<result property="SALE_QTY"					column="SALE_QTY" />
+		<result property="SALE_SPRC"				column="SALE_SPRC" />
+		<result property="DIN_QTY"					column="DIN_QTY" />
+		<result property="DIN_WPRC"					column="DIN_WPRC" />
+		<result property="DOUT_QTY"					column="DOUT_QTY" />
+		<result property="DOUT_WPRC"				column="DOUT_WPRC" />
+		<result property="INV_ADJ_QTY"				column="INV_ADJ_QTY" />
+		<result property="INV_ADJ_SPRC"				column="INV_ADJ_SPRC" />
+		<result property="INV_END_WAMT"				column="INV_END_WAMT" />
+		<result property="RTN_QTY"					column="RTN_QTY" />
+		<result property="RTN_WPRC"					column="RTN_WPRC" />
+	</resultMap>
+	
+	<parameterMap id="salesInfoReportGISDownloadMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE" 			javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_STR_DT" 				javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_END_DT" 				javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_STR_CODE" 			javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_CLS_CODE" 			javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_MID_CODE" 			javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_LRG_CODE" 			javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_ITM_SHORT_NAME" 		javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_ITM_CODE" 			javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="CUR"             	 	javaType="java.sql.ResultSet"    	jdbcType="ORACLECURSOR"  	mode="OUT"	resultMap="salesInfoReportGISDownloadResultMap" />	
+	</parameterMap>	
+
+	<resultMap id="salesInfoReportGISDownloadResultMap" class="java.util.HashMap">
+		<result property="CORP_CODE"				column="CORP_CODE" />
+		<result property="STR_CODE"					column="STR_CODE" />
+		<result property="ITM_CODE"					column="ITM_CODE" />
+		<result property="SCAN_CODE"				column="SCAN_CODE" />
+		<result property="CLS_CODE"					column="CLS_CODE" />
+		<result property="CLS_NAME"					column="CLS_NAME" />
+		<result property="ITM_SHORT_NAME"			column="ITM_SHORT_NAME" />
+		<result property="BASE_QTY"					column="BASE_QTY" />
+		<result property="PUR_QTY"					column="PUR_QTY" />
+		<result property="PUR_WAMT"					column="PUR_WAMT" />
+		<result property="SALE_QTY"					column="SALE_QTY" />
+		<result property="SALE_SPRC"				column="SALE_SPRC" />
+		<result property="DIN_QTY"					column="DIN_QTY" />
+		<result property="DIN_WPRC"					column="DIN_WPRC" />
+		<result property="DOUT_QTY"					column="DOUT_QTY" />
+		<result property="DOUT_WPRC"				column="DOUT_WPRC" />
+		<result property="INV_ADJ_QTY"				column="INV_ADJ_QTY" />
+		<result property="INV_ADJ_SPRC"				column="INV_ADJ_SPRC" />
+		<result property="INV_END_QTY"				column="INV_END_QTY" />
+		<result property="INV_END_WAMT"				column="INV_END_WAMT" />
+		<result property="INV_DT"					column="INV_DT" />
+		<result property="RTN_QTY"					column="RTN_QTY" />
+		<result property="RTN_WPRC"					column="RTN_WPRC" />
+	</resultMap>
+	
+	
+	<parameterMap id="salesInfoReportNewsFlashListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"			javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+		<parameter property="P_STR_CODE"			javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+		<parameter property="P_STANDARD_START_DT"	javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+		<parameter property="P_STANDARD_END_DT"		javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+		<parameter property="P_CONTRACT_START_DT"	javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+		<parameter property="P_CONTRACT_END_DT"		javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+		<parameter property="CUR"					javaType="java.sql.ResultSet"		jdbcType="ORACLECURSOR"		mode="OUT" />
+	</parameterMap>
+	
+			
+	<procedure id="salesInfoReportPromptList" parameterMap="salesInfoReportPromptListMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_REPORT_PROMPT_LIST ( ?, ?, ?, ? )  }
+	</procedure>  
+
+	<procedure id="salesInfoReportPromptSalesList" parameterMap="salesInfoReportPromptSalesListMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_REPORT_PROMPT_SLIST ( ?, ?, ?, ? )  }
+	</procedure>  
+
+	<procedure id="salesInfoReportYieldList" parameterMap="salesInfoReportYieldListMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_REPORT_YIELD_LIST ( ?, ?, ?, ? )  }
+	</procedure>  
+
+	<procedure id="salesInfoReportYieldDetailList" parameterMap="salesInfoReportYieldDetailListMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_REPORT_YIELD_DLIST ( ?, ?, ?, ? )  }
+	</procedure>  
+
+	<procedure id="salesInfoReportTermList" parameterMap="salesInfoReportTermListMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_REPORT_TERM_LIST ( ?, ?, ?, ?, ?, ? )  }
+	</procedure>  
+
+	<procedure id="salesInfoReportTermDetailList" parameterMap="salesInfoReportTermDetailListMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_REPORT_TERM_D_LIST ( ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+
+	<procedure id="salesInfoReportPaymentList" parameterMap="salesInfoReportPaymentListMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_REPORT_PAYMENT_LIST ( ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<procedure id="salesInfoReportPaymentDetailList" parameterMap="salesInfoReportPaymentDetailListMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_REPORT_DPAY_LIST ( ?, ?, ?, ?, ? )  }
+	</procedure>
+
+	<procedure id="salesInfoReportMonthList" parameterMap="salesInfoReportMonthListMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_REPORT_MONTH_LIST ( ?, ?, ?, ? )  }
+	</procedure>
+
+	<procedure id="salesInfoReportMonthDetailList" parameterMap="salesInfoReportMonthDetailListMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_REPORT_MONTH_D_LIST ( ?, ?, ?, ? )  }
+	</procedure>	
+
+	<procedure id="salesInfoReportRcvPayDateList" parameterMap="salesInfoReportRcvPayDateListMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_REPORT_RPD_LIST ( ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>	
+	
+	<procedure id="salesInfoReportRcvPayDateDetailList" parameterMap="salesInfoReportRcvPayDateDetailListMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_REPORT_RPD_D_LIST ( ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+
+	<procedure id="salesInfoReportRcvPayMonthList" parameterMap="salesInfoReportRcvPayMonthListMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_REPORT_RPM_LIST ( ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+
+	<procedure id="salesInfoReportRcvPayMonthDetailList" parameterMap="salesInfoReportRcvPayMonthDetailListMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_REPORT_RPM_D_LIST ( ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+
+	<procedure id="salesInfoReportRcvPayMonthBatch" parameterMap="salesInfoReportRcvPayMonthBatchMap" resultClass="java.util.HashMap">
+		{ call PKG_BATCH.BATCH_IV_MT_ITEM_COLL ( ?, ?, ?, ? )  }
+	</procedure>
+
+	<procedure id="salesInfoReportGISList" parameterMap="salesInfoReportGISListMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_REPORT_GIS_LIST ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<!-- 60.배달사원별매출조회-조회(배달사원) -->
+	<procedure id="salesInfoReportDlvrList" parameterMap="salesInfoReportDlvrListMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_ANAL.SALES_ANAL_REPORT_DLVR_LIST ( ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<!-- 60.배달사원별매출조회-조회(영업사원) -->
+	<procedure id="salesInfoReportvrList" parameterMap="salesInfoReportvrListMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_ANAL.SALES_ANAL_REPORT_VR_LIST ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+		
+	<procedure id="salesInfoReportDlvrDList" parameterMap="salesInfoReportDlvrDListMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_ANAL.SALES_ANAL_REPORT_DLVR_D_LIST ( ?, ?, ?, ?, ?, ? ) }
+	</procedure>	
+
+	<procedure id="salesInfoReportEGLList" parameterMap="salesInfoReportEGLListMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_REPORT_EGL_LIST ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,?) }
+	</procedure>	
+
+	<procedure id="salesInfoReportGISDownload" parameterMap="salesInfoReportGISDownloadMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_REPORT_GIS_DOWN ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>	
+	
+	<procedure id="salesInfoReportNewsFlashList" parameterMap="salesInfoReportNewsFlashListMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_REPORT_NEWS_FLASH ( ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+		
+	
+</sqlMap>

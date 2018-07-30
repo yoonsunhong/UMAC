@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="businessNotice">
+	<parameterMap id="businessNoticeInputInsertMap" class="java.util.Map">
+		<parameter property="D_PRIORITY"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_TITLE"      			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_OPEN_DT"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_END_DT"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_CONTENTS"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_FILE_NAME"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_FILE_SIZE"      		javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="D_IEMP_NO"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_REGI_CHNL"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_CORP_CODE"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_FILE_NAME1"      	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_OPEN_FLAG"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+	</parameterMap>
+	
+	<parameterMap id="businessNoticeInputListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_FIRST_INDEX"   		javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_RECORD_COUNT"  		javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_TITLE"      			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_OPEN_DT"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_END_DT"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_NAME"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_COLUMN_NAME"   		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ORDERBY"       		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />		
+		<parameter property="P_REGI_CHNL"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />		
+		<parameter property="P_US"			   		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />		
+		<parameter property="CUR"             		javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"   resultMap="businessNoticeInputListResultMap" />
+		<parameter property="TOT_CNT"             	javaType="java.lang.Integer"     jdbcType="INTEGER"  	  mode="OUT" />
+	</parameterMap>
+	
+	<parameterMap id="businessNoticeInputUpdateMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_PRIORITY"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_TITLE"      			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_OPEN_DT"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_END_DT"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_CONTENTS"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_FILE_NAME"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_FILE_SIZE"      		javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="D_UEMP_NO"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_UD"      			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />				
+		<parameter property="D_SEQ"      			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />	
+		<parameter property="D_FILE_NAME1"      	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />			
+		<parameter property="D_OPEN_FLAG"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />			
+	</parameterMap>
+	
+	<parameterMap id="businessNoticeInputFileDeleteMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEQ"      			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+	</parameterMap>
+	
+	<parameterMap id="businessNoticeInputFileDownloadMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEQ"      			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             		javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"   />
+	</parameterMap>
+	
+	<parameterMap id="businessNoticeV2InputListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_FIRST_INDEX"   		javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_RECORD_COUNT"  		javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_TITLE"      			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_OPEN_DT"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_END_DT"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_NAME"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_COLUMN_NAME"   		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ORDERBY"       		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />		
+		<parameter property="P_REGI_CHNL"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_US"      			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             		javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"   resultMap="businessNoticeInputListResultMapSCM" />
+		<parameter property="TOT_CNT"             	javaType="java.lang.Integer"     jdbcType="INTEGER"  	  mode="OUT" />
+	</parameterMap>
+	
+	<resultMap id="businessNoticeInputListResultMap" class="java.util.HashMap">
+		<result property="PRIORITY" 			column="PRIORITY" />	
+		<result property="PRIORITY_NM" 			column="PRIORITY_NM" />	
+		<result property="TITLE" 				column="TITLE" />	
+		<result property="OPEN_DT" 				column="OPEN_DT" />	
+		<result property="END_DT" 				column="END_DT" />	
+		<result property="SEQ" 					column="SEQ" />	
+		<result property="IEMP_NO" 				column="IEMP_NO" />	
+		<result property="USER_NM" 				column="USER_NM" />	
+		<result property="IDATE" 				column="IDATE" />	
+		<result property="RNUM" 				column="RNUM" />	
+		<result property="CONTENTS" 			column="CONTENTS" />	
+		<result property="FILE_NAME" 			column="FILE_NAME" />	
+		<result property="FILE_NAME1" 			column="FILE_NAME1" />	
+		<result property="FILE_SIZE" 			column="FILE_SIZE" />	
+		<result property="VEN_NAME" 			column="VEN_NAME" />	
+		<result property="OPEN_FLAG" 			column="OPEN_FLAG" />	
+	</resultMap>
+
+	<resultMap id="businessNoticeInputListResultMapSCM" class="java.util.HashMap">
+		<result property="PRIORITY" 			column="PRIORITY" />	
+		<result property="PRIORITY_NM" 			column="PRIORITY_NM" />	
+		<result property="TITLE" 				column="TITLE" />	
+		<result property="OPEN_DT" 				column="OPEN_DT" />	
+		<result property="END_DT" 				column="END_DT" />	
+		<result property="SEQ" 					column="SEQ" />	
+		<result property="IEMP_NO" 				column="IEMP_NO" />	
+		<result property="IDATE" 				column="IDATE" />	
+		<result property="RNUM" 				column="RNUM" />	
+		<result property="CONTENTS" 			column="CONTENTS" />	
+		<result property="FILE_NAME" 			column="FILE_NAME" />	
+		<result property="FILE_NAME1" 			column="FILE_NAME1" />	
+		<result property="FILE_SIZE" 			column="FILE_SIZE" />	
+		<result property="VEN_NAME" 			column="VEN_NAME" />	
+	</resultMap>	
+
+
+	<procedure id="businessNoticeInputInsert" parameterMap="businessNoticeInputInsertMap" resultClass="java.util.HashMap">
+		{ call PKG_BUSINESS.BUSINESS_NOTICE_INSERT ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  }
+	</procedure>
+	
+	<procedure id="businessNoticeInputList" parameterMap="businessNoticeInputListMap" resultClass="java.util.HashMap">
+		{ call PKG_BUSINESS.BUSINESS_NOTICE_LIST ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  }
+	</procedure> 
+	
+	<procedure id="businessNoticeInputUpdate" parameterMap="businessNoticeInputUpdateMap" resultClass="java.util.HashMap">
+		{ call PKG_BUSINESS.BUSINESS_NOTICE_UPDATE ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  }
+	</procedure> 	
+	
+	<procedure id="businessNoticeInputFileDelete" parameterMap="businessNoticeInputFileDeleteMap" resultClass="java.util.HashMap">
+		{ call PKG_BUSINESS.BUSINESS_NOTICE_FILE_DELETE ( ?, ? )  }
+	</procedure> 		
+	
+	<procedure id="businessNoticeInputFileDownload" parameterMap="businessNoticeInputFileDownloadMap" resultClass="java.util.HashMap">
+		{ call PKG_BUSINESS.BUSINESS_NOTICE_FILE_DOWNLOAD ( ?, ?, ? )  }
+	</procedure> 			
+
+	<procedure id="businessNoticeV2InputList" parameterMap="businessNoticeV2InputListMap" resultClass="java.util.HashMap">
+		{ call PKG_BUSINESS.BUSINESS_NOTICE_LIST_SCM ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)  }
+	</procedure>
+
+		
+</sqlMap>

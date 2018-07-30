@@ -1,0 +1,664 @@
+/********************************************************
+ * 설명: 일매출정산집계조회 매뉴화면
+ * 수정일      	수정자       수정내용
+ * ------------------------------------------------------
+ * ------------------------------------------------------
+ * author	: 추황영
+ * since	: 2017.04.05
+ * version : 1.0
+ ********************************************************/
+// ----------------------- 전역변수 설정 시작 -------------------------------------
+var sumObj = {
+	sumCash: 0,
+	sumCard: 0,
+	sumPoint: 0,
+	sumTransfer: 0
+};
+
+// ----------------------- 그리드 설정 시작 -------------------------------------
+
+//그리드 데이터활용을 위한 전역변수
+var gridApp1, gridRoot1, dataGrid1, dataRow1;
+var gridApp2, gridRoot2, dataGrid2, dataRow2;
+var gridApp3, gridRoot3, dataGrid3, dataRow3;
+var gridApp4, gridRoot4, dataGrid4, dataRow4;
+var gridApp5, gridRoot5, dataGrid5, dataRow5;
+
+var gridData1 = [];
+var gridData2 = [];
+var gridData3 = [];
+var gridData4 = [];
+var gridData5 = [];
+//그리드2 데이터 초기화
+
+//rMate그리드 경로정보 셋팅
+rMateGridH5.setAssetsPath("/resources/js/rMateGridH5/Assets/");
+rMateGridH5.setConfig(rMateGridH5.style);
+
+//rMate 그리드 생성 준비가 완료된 상태 시 호출할 함수를 지정합니다.
+var jsVars1 = "rMateOnLoadCallFunction=gridReadyHandler1";
+var jsVars2 = "rMateOnLoadCallFunction=gridReadyHandler2";
+var jsVars3 = "rMateOnLoadCallFunction=gridReadyHandler3";
+var jsVars4 = "rMateOnLoadCallFunction=gridReadyHandler4";
+var jsVars5 = "rMateOnLoadCallFunction=gridReadyHandler5";
+
+//rMateDataGrid 를 생성합니다.
+//파라메터 (순서대로)
+//1. 그리드의 id ( 임의로 지정하십시오. )
+//2. 그리드가 위치할 div 의 id (즉, 그리드의 부모 div 의 id 입니다.)
+//3. 그리드 생성 시 필요한 환경 변수들의 묶음인 jsVars
+//4. 그리드의 가로 사이즈 (생략 가능, 생략 시 100%)
+//5. 그리드의 세로 사이즈 (생략 가능, 생략 시 100%)
+rMateGridH5.create("grid1", "gridHolder1", jsVars1,"100%","50px");
+rMateGridH5.create("grid2", "gridHolder2", jsVars2,"100%","50px");
+rMateGridH5.create("grid3", "gridHolder3", jsVars3);
+rMateGridH5.create("grid4", "gridHolder4", jsVars4, "100%","400px");
+rMateGridH5.create("grid5", "gridHolder5", jsVars5, "100%","400px");
+
+//그리드의 속성인 rMateOnLoadCallFunction 으로 설정된 함수.
+//rMate 그리드의 준비가 완료된 경우 이 함수가 호출됩니다.
+//이 함수를 통해 그리드에 레이아웃과 데이터를 삽입합니다.
+//파라메터 : id - rMateGridH5.create() 사용 시 사용자가 지정한 id 입니다.
+
+var gridData1ClickStrCode = "";
+
+//그리드1 레디 핸들러
+function gridReadyHandler1(id) {
+	if(id == "grid1"){
+		// rMateGrid 관련 객체
+		gridApp1 = document.getElementById(id); // 그리드를 포함하는 div 객체	
+		gridRoot1 = gridApp1.getRoot(); // 데이터와 그리드를 포함하는 객체
+		//그리드1에 헤더 및 레이아웃 셋팅
+		gridApp1.setLayout(layoutStr1);
+		
+		//최초 로딩시 그리드1 데이터 조회 및 그리드 데이터 셋팅
+		//getGridData();
+		
+		gridRoot1.addEventListener("layoutComplete", layoutCompleteHandler1);
+		//gridRoot1.addEventListener("dataComplete", dataCompleteHandler1);
+	}
+}
+function layoutCompleteHandler1() {
+	dataGrid1 = gridRoot1.getDataGrid();  // 그리드 객체
+}
+
+function gridReadyHandler2(id) {
+	if(id == "grid2"){
+		// rMateGrid 관련 객체
+		gridApp2 = document.getElementById(id); // 그리드를 포함하는 div 객체	
+		gridRoot2 = gridApp2.getRoot(); // 데이터와 그리드를 포함하는 객체
+		gridApp2.setLayout(layoutStr2);
+		
+		//getGridData();
+		
+		gridRoot2.addEventListener("layoutComplete", layoutCompleteHandler2);
+	}
+}
+function layoutCompleteHandler2() {
+	dataGrid2 = gridRoot2.getDataGrid();  // 그리드 객체
+}
+
+function gridReadyHandler3(id) {
+	if(id == "grid3"){
+		// rMateGrid 관련 객체
+		gridApp3 = document.getElementById(id); // 그리드를 포함하는 div 객체	
+		gridRoot3 = gridApp3.getRoot(); // 데이터와 그리드를 포함하는 객체
+		gridApp3.setLayout(layoutStr3);
+		
+		gridRoot3.addEventListener("layoutComplete", layoutCompleteHandler3);
+	}
+}
+function layoutCompleteHandler3() {
+	dataGrid3 = gridRoot3.getDataGrid();  // 그리드 객체
+}
+
+function gridReadyHandler4(id) {
+	if(id == "grid4"){
+		// rMateGrid 관련 객체
+		gridApp4 = document.getElementById(id); // 그리드를 포함하는 div 객체	
+		gridRoot4 = gridApp4.getRoot(); // 데이터와 그리드를 포함하는 객체
+		//그리드1에 헤더 및 레이아웃 셋팅
+		gridApp4.setLayout(layoutStr4);
+		
+		//getGridData();
+		
+		gridRoot4.addEventListener("layoutComplete", layoutCompleteHandler4);
+	}
+}
+function layoutCompleteHandler4() {
+	dataGrid4 = gridRoot4.getDataGrid();  // 그리드 객체
+}
+function gridReadyHandler5(id) {
+	if(id == "grid5"){
+		// rMateGrid 관련 객체
+		gridApp5 = document.getElementById(id); // 그리드를 포함하는 div 객체	
+		gridRoot5 = gridApp5.getRoot(); // 데이터와 그리드를 포함하는 객체
+		//그리드1에 헤더 및 레이아웃 셋팅
+		gridApp5.setLayout(layoutStr5);
+		
+		//getGridData();
+		
+		gridRoot5.addEventListener("layoutComplete", layoutCompleteHandler5);
+	}
+}
+function layoutCompleteHandler5() {
+	dataGrid5 = gridRoot5.getDataGrid();  // 그리드 객체
+}
+
+//----------------------- 그리드 설정 끝 -----------------------
+
+//그리드1 헤더 및 레이아웃 
+var layoutStr1 =
+	'<rMateGrid>\
+		<NumberFormatter id="numfmt" useThousandsSeparator="true" />\
+		<DateFormatter id="datefmt" formatString="YYYY-MM-DD"/>\
+			<DataGrid id="dg1" sortableColumns="true" showDataTips="true"  verticalAlign="middle" >\
+				<groupedColumns>\
+					<DataGridColumn dataField="SALE_AMT_TAX2IV_DT_CENTER_COLL" 	headerText="'+taxFreeSales+'" 	textAlign="right" formatter="{numfmt}"   width="110"    />\
+					<DataGridColumn dataField="SALE_AMT_TAX1" 	headerText="'+taxableSales+'" 	textAlign="right" formatter="{numfmt}"	  width="110"   />\
+					<DataGridColumn dataField="SALE_TOTAL_AMT" 	headerText="'+totalSales+'"  		textAlign="right" formatter="{numfmt}"	  width="110"  />\
+					<DataGridColumn dataField="DC_AMT" 				headerText="'+productDc+'"  		textAlign="right" formatter="{numfmt}"	  width="110" />\
+					<DataGridColumn dataField="MBR_DC_AMT" 		headerText="'+memberDc+'"  		textAlign="right" formatter="{numfmt}"	  width="110" />\
+					<DataGridColumn dataField="SALE_AMT"   			headerText="'+selngAmount+'"    	textAlign="right" formatter="{numfmt}"	  width="110" />\
+					<DataGridColumn dataField="CUST_CNT"   			headerText="'+cstmrCnt+'"    		textAlign="right" formatter="{numfmt}"	  width="110" />\
+					<DataGridColumn dataField="CUST_AMT" 			headerText="'+unitPrice+'"  			textAlign="right" formatter="{numfmt}"  width="110" />\
+				</groupedColumns>\
+			</DataGrid>\
+	</rMateGrid>';
+//그리드2 헤더 및 레이아웃 
+var layoutStr2 =
+	'<rMateGrid>\
+		<NumberFormatter id="numfmt" useThousandsSeparator="true" />\
+		<DateFormatter id="datefmt" formatString="YYYY-MM-DD"/>\
+			<DataGrid id="dg2" sortableColumns="true" showDataTips="true"  verticalAlign="middle" >\
+				<groupedColumns>\
+					<DataGridColumn dataField="CNT" 					headerText="'+co+'" 				textAlign="right" formatter="{numfmt}"  width="60" />\
+					<DataGridColumn dataField="CASH" 					headerText="'+cashDeposit+'" 	textAlign="right" formatter="{numfmt}"  width="110"/>\
+					<DataGridColumn dataField="CARD" 					headerText="'+card+'"  			textAlign="right" formatter="{numfmt}"  width="110"  />\
+					<DataGridColumn dataField="POINT" 				headerText="포인트"  			textAlign="right" formatter="{numfmt}"  width="110"  />\
+					<DataGridColumn dataField="BANK" 					headerText="계좌이체"  			textAlign="right" formatter="{numfmt}"  width="110"  />\
+					<DataGridColumn dataField="TOTAL" 				headerText="'+totalDeposit+'"  textAlign="right" formatter="{numfmt}"  width="110" />\
+				</groupedColumns>\
+			</DataGrid>\
+	</rMateGrid>';
+//그리드3 헤더 및 레이아웃 
+var layoutStr3 =
+	'<rMateGrid>\
+		<SpanRowAttribute id="sumRowAttr_T" styleName="allTotalStyle" backgroundColor="#bbd713" />\
+		<NumberFormatter id="numfmt" useThousandsSeparator="true" />\
+		<DateFormatter id="datefmt" formatString="YYYY-MM-DD"/>\
+			<DataGrid id="dg3" sortableColumns="true" showDataTips="true"  verticalAlign="middle" >\
+				<groupedColumns>\
+					<DataGridColumn dataField="POS_NO" 						headerText="'+pos+'" 			width="70" 		textAlign="center"/>\
+					<DataGridColumn dataField="EMP_NO" 						headerText="계산원" 		textAlign="center" width="110"/>\
+					<DataGridColumn dataField="EMP_NM" 						headerText="계산원명"  		textAlign="center" width="150"  />\
+					<DataGridColumn dataField="SUB_TOT_AMT" 				headerText="매출액"  		textAlign="right" formatter="{numfmt}"  width="110" />\
+					<DataGridColumn dataField="ZAN_AMT" 					headerText="잔전"  	textAlign="right" formatter="{numfmt}"  width="110" />\
+					<DataGridColumn dataField="RES_FUND_AMT"   			headerText="준비금"    				textAlign="right" formatter="{numfmt}"  width="110" />\
+					<DataGridColumn dataField="MID_CASH_AMT"   			headerText="중간입금"    				textAlign="right" formatter="{numfmt}"  width="110" />\
+					<DataGridColumn dataField="CASH" 							headerText="현금"  	textAlign="right" formatter="{numfmt}"  width="110" />\
+					<DataGridColumn dataField="CARD"   						headerText="신용카드"    			textAlign="right" formatter="{numfmt}"  width="110"/>\
+					<DataGridColumn dataField="CREDIT"   						headerText="외상매출"    	textAlign="right" formatter="{numfmt}"  width="110" />\
+					<DataGridColumn dataField="POINT"   						headerText="포인트"    	textAlign="right" formatter="{numfmt}"  width="110" />\
+					<DataGridColumn dataField="DPOT_TOT_AMT"   			headerText="입금합계"    	textAlign="right" formatter="{numfmt}"  width="110" />\
+					<DataGridColumn dataField="DPOT_EX"   					headerText="입금예정"    	textAlign="right" formatter="{numfmt}"  width="110" />\
+					<DataGridColumn dataField="EXCESS"   						headerText="과부족"    	textAlign="right" formatter="{numfmt}"  width="110" />\
+				</groupedColumns>\
+				<dataProvider>\
+				 <SpanSummaryCollection source="{$gridData}">\
+					<summaries>\
+					    <SpanSummaryRow summaryPlacement="last" label="'+sm+'" labelDataField="POS_NO" rowAttribute="{sumRowAttr_T}"  >\
+					    <SpanSummaryField dataField="SUB_TOT_AMT" summaryOperation="SUM" />\
+					    <SpanSummaryField dataField="ZAN_AMT" summaryOperation="SUM" />\
+					    <SpanSummaryField dataField="RES_FUND_AMT" summaryOperation="SUM" />\
+					    <SpanSummaryField dataField="MID_CASH_AMT" summaryOperation="SUM" />\
+					    <SpanSummaryField dataField="CASH" summaryOperation="SUM" />\
+					    <SpanSummaryField dataField="CARD" summaryOperation="SUM" />\
+					    <SpanSummaryField dataField="CREDIT" summaryOperation="SUM" />\
+					    <SpanSummaryField dataField="POINT" summaryOperation="SUM" />\
+					    <SpanSummaryField dataField="DPOT_TOT_AMT" summaryOperation="SUM" />\
+					    <SpanSummaryField dataField="DPOT_EX" summaryOperation="SUM" />\
+					    <SpanSummaryField dataField="EXCESS" summaryOperation="SUM" />\
+					    </SpanSummaryRow>\
+					</summaries>\
+			      </SpanSummaryCollection>\
+		       </dataProvider>\
+			</DataGrid>\
+	</rMateGrid>';
+//그리드4 헤더 및 레이아웃 
+var layoutStr4 =
+	'<rMateGrid>\
+	<SpanRowAttribute id="sumRowAttr_T" styleName="allTotalStyle" backgroundColor="#bbd713" />\
+	<SpanRowAttribute id="sumRowAttr" styleName="allTotalStyle" backgroundColor="#FFF19F"/>\
+	<SpanCellAttribute id="sum2CellAttr" colNo="0" styleName="subTotalStyle" backgroundColor="#FFE048"/>\
+	<NumberFormatter id="numfmt" useThousandsSeparator="true" />\
+	<DateFormatter id="datefmt" formatString="YYYY-MM-DD"/>\
+	<DataGrid id="dg4" sortableColumns="true" showDataTips="true"  horizontalScrollPolicy="auto" >\
+		<groupedColumns>\
+			<DataGridColumn dataField="ACCT_DEPT" 			headerText="'+accountingCode+'" 			width="70"	textAlign="center"/>\
+			<DataGridColumn dataField="CUST_NO" 		headerText="'+cusNo+'"  		textAlign="center"  width="70"  />\
+			<DataGridColumn dataField="CUST_NAME" 	headerText="'+cusName+'"  		textAlign="left"   width="120" />\
+			<DataGridColumn dataField="RCP_DT" 			headerText="'+rcpDt+'" 			width="90" 	formatter="{datefmt}"	textAlign="center"/>\
+			<DataGridColumn dataField="DPOT_FLAG_NM" headerText="입금구분"    				textAlign="center"   width="70" />\
+			<DataGridColumn dataField="DPOT_DTL_AMT" 		headerText="'+dpotAmt+'"  	textAlign="right" formatter="{numfmt}"  width="90" />\
+			<DataGridColumn dataField="REMARK"   		headerText="'+remarks+'"    				textAlign="left"   width="200" />\
+			<DataGridColumn dataField="EMP_NM" 			headerText="'+inputName+'"  	textAlign="center"  width="100" />\
+			<DataGridColumn dataField="IDT"   				headerText="'+inputDate+'"    			textAlign="center"  width="100"/>\
+		</groupedColumns>\
+		<dataProvider>\
+		 <SpanSummaryCollection source="{$gridData}">\
+			<mergingFields>\
+				<SpanMergingField name="ACCT_DEPT" colNum="0" >\</SpanMergingField>\
+				<SpanMergingField name="CUST_NO" colNum="1" >\
+					<SpanSummaryRow label="소계" labelDataField="CUST_NO" rowAttribute="{sumRowAttr}" cellAttribute="{sum2CellAttr}" >\
+					<SpanSummaryField dataField="DPOT_DTL_AMT" summaryOperation="SUM" />\
+					</SpanSummaryRow>\
+				</SpanMergingField>\
+				<SpanMergingField name="CUST_NAME" colNum="2" >\</SpanMergingField>\
+				<SpanMergingField name="RCP_DT" colNum="3" >\</SpanMergingField>\
+			</mergingFields>\
+			<summaries>\
+				<SpanSummaryRow summaryPlacement="last" label="'+sm+'" labelDataField="CUST_NAME" rowAttribute="{sumRowAttr_T}"  >\
+				<SpanSummaryField dataField="DPOT_DTL_AMT" summaryOperation="SUM" />\
+				</SpanSummaryRow>\
+			</summaries>\
+			</SpanSummaryCollection>\
+		  </dataProvider>\
+		 </DataGrid>\
+		</rMateGrid>';
+
+
+//그리드5 헤더 및 레이아웃 
+var layoutStr5 =
+	'<rMateGrid>\
+	<SpanRowAttribute id="sumRowAttr_T" styleName="allTotalStyle" backgroundColor="#bbd713" />\
+	<SpanRowAttribute id="sumRowAttr" styleName="allTotalStyle" backgroundColor="#FFF19F"/>\
+	<SpanCellAttribute id="sum2CellAttr" colNo="0" styleName="subTotalStyle" backgroundColor="#FFE048"/>\
+	<NumberFormatter id="numfmt" useThousandsSeparator="true" />\
+	<DateFormatter id="datefmt" formatString="YYYY-MM-DD"/>\
+	<DataGrid id="dg5" sortableColumns="true" showDataTips="true"  horizontalScrollPolicy="auto" >\
+	<groupedColumns>\
+	<DataGridColumn dataField="ACCT_DEPT" 			headerText="회계코드" 			width="80" 		textAlign="center"/>\
+	<DataGridColumn dataField="CUST_NO" 			headerText="회원번호"  	textAlign="center" width="80" />\
+	<DataGridColumn dataField="CUST_NAME" 	headerText="'+cusName+'"  		textAlign="left"   width="140" />\
+	<DataGridColumn dataField="SALE_DT" 				headerText="매출일자" 	formatter="{datefmt}"	textAlign="center"  width="100"/>\
+	<DataGridColumn dataField="CANC_FLAG" 				headerText="매출구분" 	textAlign="center"  width="80"/>\
+	<DataGridColumn dataField="POS_NO" 				headerText="POS"  		textAlign="center"  width="60"  />\
+	<DataGridColumn dataField="TRXN_NO" 			headerText="거래번호"  		textAlign="center"   width="80" />\
+	<DataGridColumn dataField="PAY_ZAN_AMT" 		headerText="매출액"    			 formatter="{numfmt}" 	textAlign="right"   width="140" />\
+	</groupedColumns>\
+	<dataProvider>\
+	 <SpanSummaryCollection source="{$gridData}">\
+	<mergingFields>\
+		<SpanMergingField name="ACCT_DEPT" colNum="0" >\</SpanMergingField>\
+			<SpanMergingField name="CUST_NO" colNum="1" >\
+				<SpanSummaryRow label="소계" labelDataField="CUST_NO" rowAttribute="{sumRowAttr}" cellAttribute="{sum2CellAttr}" >\
+				<SpanSummaryField dataField="PAY_ZAN_AMT" summaryOperation="SUM" />\
+				</SpanSummaryRow>\
+		</SpanMergingField>\
+		<SpanMergingField name="CUST_NAME" colNum="2" >\</SpanMergingField>\
+		<SpanMergingField name="SALE_DT" colNum="3" >\</SpanMergingField>\
+		</mergingFields>\
+		<summaries>\
+		    <SpanSummaryRow summaryPlacement="last" label="'+sm+'" labelDataField="STR_NAME" rowAttribute="{sumRowAttr_T}"  >\
+		    <SpanSummaryField dataField="PAY_ZAN_AMT" summaryOperation="SUM" />\
+		    </SpanSummaryRow>\
+		</summaries>\
+     </SpanSummaryCollection>\
+  </dataProvider>\
+</DataGrid>\
+</rMateGrid>';
+
+
+//목록 그리드 조회 
+//매출합계정보 조회
+function getGridData() {
+	
+	var P_STR_CODE		= 	$("#P_STR_CODE").val();
+	if(P_STR_CODE=="" || P_STR_CODE==null){
+		alert("점포를 선택해주세요.");
+		return;
+	}
+	
+	var params = $("#frm").serializeAllObject();
+	//데이터 조회후 그리드1에 데이터를 넣을때 itemClickHandler1 실행된다.
+	jQuery.ajax({ 
+	    url:"/daySalesSettlementList.do",//매출합계정보 조회
+	    type:"POST",
+		datatype:"json",
+		//async:false,
+		data: params,
+		beforeSend : function(){ 	    	
+            gridRoot3.addLoadingBar();
+	    }, 
+		success:function(data){
+			//debugger;
+			//그리드1 데이터 조회
+			if(data == null || data == ""){
+				gridRoot1.removeAll();	
+				gridRoot2.removeAll();	
+				gridRoot3.removeAll();	
+			}else{
+				gridApp1.setData(data);
+				getGridData2();//외상매출입금 그리드2
+				getGridData3();//POS별매출집계 그리드3
+			}
+	    },
+	    complete : function(data) {
+	    	gridRoot3.removeLoadingBar();
+	    },
+	    error : function(xhr, status, error) {
+	    	CommonJs.alertErrorStatus(xhr.status, error);
+	    	gridRoot3.removeLoadingBar();
+	    }
+	});
+}
+
+//목록 그리드2 조회
+//외상매출입금정보 조회
+function getGridData2() {
+	
+	var params = $("#frm").serializeAllObject();
+	
+	
+	jQuery.ajax({ 
+		url:"/daySalesSettlementList2.do",//외상매출입금정보 조회
+		type:"POST",
+		datatype:"json",
+		//async:false,
+		data: params,
+		beforeSend : function(){ 	    	
+			gridRoot2.addLoadingBar();
+		}, 
+		success:function(data){
+			gridApp2.setData(data);
+
+		},
+		complete : function(data) {
+			gridRoot2.removeLoadingBar();
+		},
+		error : function(xhr, status, error) {
+			CommonJs.alertErrorStatus(xhr.status, error);
+			gridRoot2.removeLoadingBar();
+		}
+	});
+}
+
+//목록 그리드3 조회
+//POS별매출집계 조회
+function getGridData3() {
+	
+	var params = $("#frm").serializeAllObject();
+	
+	jQuery.ajax({ 
+		url:"/daySalesSettlementList3.do",//POS별매출집계 조회
+		type:"POST",
+		datatype:"json",
+		//async:false,
+		data: params,
+		beforeSend : function(){ 	    	
+			gridRoot3.addLoadingBar();
+		}, 
+		success:function(data){
+			//그리드3 데이터 조회
+			gridApp3.setData(data);
+			
+		},
+		complete : function(data) {
+			gridRoot3.removeLoadingBar();
+		},
+		error : function(xhr, status, error) {
+			CommonJs.alertErrorStatus(xhr.status, error);
+			gridRoot3.removeLoadingBar();
+		}
+	});
+}
+
+//목록 그리드4 조회
+//외상매출입금정보 팝업 조회
+function getGridData4() {
+	
+	var params = $("#frm").serializeAllObject();
+	
+	jQuery.ajax({ 
+		url:"/daySalesSettlementList4.do",//POS별매출집계 조회
+		type:"POST",
+		datatype:"json",
+		//async:false,
+		data: params,
+		beforeSend : function(){ 	    	
+			gridRoot4.addLoadingBar();
+		}, 
+		success:function(data){
+			//그리드4 데이터 조회
+			gridApp4.setData(data);
+			
+		},
+		complete : function(data) {
+			gridRoot4.removeLoadingBar();
+		},
+		error : function(xhr, status, error) {
+			CommonJs.alertErrorStatus(xhr.status, error);
+			gridRoot4.removeLoadingBar();
+		}
+	});
+}
+//목록 그리드5 조회
+//외상매출발생정보 팝업 조회
+function getGridData5() {
+	
+	var params = $("#frm").serializeAllObject();
+	
+	jQuery.ajax({ 
+		url:"/daySalesSettlementList5.do",//POS별매출집계 조회
+		type:"POST",
+		datatype:"json",
+		//async:false,
+		data: params,
+		beforeSend : function(){ 	    	
+			gridRoot5.addLoadingBar();
+		}, 
+		success:function(data){
+			//그리드5 데이터 조회
+			gridApp5.setData(data);
+			
+		},
+		complete : function(data) {
+			gridRoot5.removeLoadingBar();
+		},
+		error : function(xhr, status, error) {
+			CommonJs.alertErrorStatus(xhr.status, error);
+			gridRoot5.removeLoadingBar();
+		}
+	});
+}
+
+
+
+//출력
+function btn_print(){
+	
+	
+	var P_CORP_CODE		=	$("#P_CORP_CODE").val();
+	var P_STR_CODE			= 	$("#P_STR_CODE").val();
+	var P_BUSI_TEXT_DT	=	$("#P_BUSI_DT").val();
+	var P_BUSI_DT			= 	$("#P_BUSI_DT").val().replace(/-/gi,'');
+	var params = "?reportMode=HTML"	+
+	"&P_CORP_CODE="		+P_CORP_CODE+
+	"&P_STR_CODE="		+P_STR_CODE+
+	"&P_BUSI_DT="			+P_BUSI_DT+
+	"&P_BUSI_TEXT_DT="	+P_BUSI_TEXT_DT;
+	 // AIViewer 파라미터
+	window.open("aireportDaySalesSettlementPrint.do"+params,'AIViewer','width=1180,height=900,top=10,left=10,toolbar=no,menubar=no,lacation=no,scrollbars=no,status=no,resizable=yes');
+	
+}
+
+//출력
+function btnPopPrint(flag){
+	
+	
+	var P_CORP_CODE		=	$("#P_CORP_CODE").val();
+	var P_STR_CODE			= 	$("#P_STR_CODE").val();
+	var P_BUSI_DT			= 	$("#P_BUSI_DT").val().replace(/-/gi,'');
+	var params = "?reportMode=HTML"	+
+	"&P_CORP_CODE="		+P_CORP_CODE+
+	"&P_STR_CODE="		+P_STR_CODE+
+	"&P_SALE_DT="			+P_BUSI_DT;
+	// AIViewer 파라미터
+	if(flag == "C"){
+		window.open("aireportDaySalesSettlementCreditPrint.do"+params,'AIViewer','width=1180,height=900,top=10,left=10,toolbar=no,menubar=no,lacation=no,scrollbars=no,status=no,resizable=yes');
+	}else if(flag == "P"){
+		window.open("aireportDaySalesSettlementPayPrint.do"+params,'AIViewer','width=1180,height=900,top=10,left=10,toolbar=no,menubar=no,lacation=no,scrollbars=no,status=no,resizable=yes');
+	}else {
+		return;
+	}
+	
+}
+
+function btn_close(val){
+	if(val=="D"){
+		$("#pop_wrap1").dialog('close');
+	}else{
+		$("#pop_wrap2").dialog('close');
+	}
+}
+
+function btnExcell(){
+	var str_name 		=  $("#P_STR_CODE option:selected").text();
+	var bust_dt 		=  $("#P_BUSI_DT").val().replace(/-/gi,'');
+		dataGrid4.exportFileName = "외상매출입금상세_"+str_name+"_"+bust_dt+".xlsx";
+		gridRoot4.excelExportSave("/gridExcelDown.do", false);
+}
+
+$(document).ready(function () {	
+	
+	//사용자 권한정보 조회
+	 var psotValue = {};
+	 
+	 jQuery.ajax({ 
+	    url:"/selectUserOrgType.do",         
+	    type:"POST",
+		datatype:"json",
+		async:false,
+		data: psotValue,
+		success:function(data){  
+			var sessionGroupCode = data[0].GROUP_CODE;
+			if(sessionGroupCode == "ROLE001" || sessionGroupCode == "ROLE025" || sessionGroupCode == "ROLE026" || sessionGroupCode == "ROLE002"){
+				$("#top_search select[name=P_STR_CODE]").attr("disabled", false);
+			}
+	    },
+	    complete : function(data) {
+	    },
+	    error : function(xhr, status, error) {
+	    	CommonJs.alertErrorStatus(xhr.status, error);   
+	    }
+	});
+	 
+	//최초 도움말 불러오기 
+	setHelpMessage($(location).attr('pathname').replace('/',''));
+	
+	$(".datepicker").datepicker();
+	
+	var beforeDate = new CommDateManager().before(0, 0, 1).getDate("yyyy-mm-dd"); // 일주일전 before(년,월,일)
+	$("#P_BUSI_DT").val(beforeDate);
+	
+	//$("#top_search select[name=P_STR_CODE]").append('<option value="">'+ all +'</option>');
+	getStoreCode("top_search select[name=P_STR_CODE]");
+	//$("#frm select[id='P_STR_CODE']").val(SSSC).prop("selected", true);
+	$("#frm select[id='P_STR_CODE']").val($("#SESSION_STR_CODE").val());
+	getCommonCodeSelectBoxList("P_BUSI_FLAG","BUSI_FLAG");
+	
+	
+	//조회
+	$("#btn_search").click(function(){
+		getGridData();
+		
+		setTimeout(function(){ fnSum(); }, 1000);
+
+	});	
+
+	$("#btn_print").click(function(){
+		btn_print();
+	});
+	
+	$("#btn_pop").click(function(){
+		var chkdata = gridRoot2.getItemAt(0);
+		if(chkdata !="" && chkdata != null ){
+			$( '#pop_wrap1' ).dialog( 'open' );	
+			gridApp4.resize();
+			getGridData4();
+		}else{
+			alert("외생매출입금내역이 없습니다.");
+		}
+	});
+	
+	$("#btn_pop2").click(function(){
+			var chkdata = gridRoot3.getItemAt(0);
+			if(chkdata !="" && chkdata != null ){
+				$( '#pop_wrap2' ).dialog( 'open' );	
+				gridApp5.resize();
+				getGridData5();
+			}else{
+				alert("외생매출발생내역이 없습니다.");
+			}
+	});
+	
+	$("#pop_wrap1").dialog({
+	    autoOpen : false,
+	    modal : true,
+	    width : "70%",
+	    resizable : false,
+	    open: function(){
+    	$("body").css("overflow-y", "hidden");
+        },
+        close: function(){
+    	$("body").css("overflow-y", "scroll");
+        }
+	});
+	
+	$("#pop_wrap2").dialog({
+		autoOpen : false,
+		modal : true,
+		width : "70%",
+		resizable : false,
+		open: function(){
+			$("body").css("overflow-y", "hidden");
+		},
+		close: function(){
+			$("body").css("overflow-y", "scroll");
+		}
+	});
+	
+	
+	var w = ($(window).width()-58)/10;
+	$(".lft_wid").width(w*6);
+	$(".rgt_wid").width(w*4);
+	
+	//368
+	$("#gridHolder3").height( $(window).height() - 360 );
+	
+	$(window).on('resize',function (){	
+		var w = ($(window).width()-58)/10;
+		$(".lft_wid").width(w*6);
+		$(".rgt_wid").width(w*4);
+		
+		//368
+		$("#gridHolder3").height( $(window).height() - 360 );
+	});
+	
+});
+
+function fnSum() {
+	var collection2 = gridRoot2.getCollection();
+	var collection3 = gridRoot3.getCollection();
+	
+	sumObj.sumCash = gridRoot2.getItemAt(collection2.getLength() - 1).CASH + gridRoot3.getItemAt(collection3.getLength() - 1).CASH;
+	sumObj.sumCard = gridRoot2.getItemAt(collection2.getLength() - 1).CARD + gridRoot3.getItemAt(collection3.getLength() - 1).CARD;
+	sumObj.sumPoint = gridRoot2.getItemAt(collection2.getLength() - 1).POINT+ gridRoot3.getItemAt(collection3.getLength() - 1).POINT;
+	sumObj.sumTransfer = gridRoot2.getItemAt(collection2.getLength() - 1).BANK;
+	
+	$('#sumCash').text(CommonJs.numberFormat(sumObj.sumCash));
+	$('#sumCard').text(CommonJs.numberFormat(sumObj.sumCard));
+	$('#sumPoint').text(CommonJs.numberFormat(sumObj.sumPoint));
+	$('#sumTransfer').text(CommonJs.numberFormat(sumObj.sumTransfer));
+}

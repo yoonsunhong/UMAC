@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="memberShip">
+	
+	<parameterMap id="memberShipListMap" class="java.util.Map">
+	     <parameter property="P_CUST_NO"           javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"   />
+		<parameter property="P_CORP_CODE"           javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"   />
+		<parameter property="P_CUST_NAME"           javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"   />
+		<parameter property="P_STATUS_YN"           javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"   />
+		<parameter property="P_BUSI_FLAG"           javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"   />
+		<parameter property="P_MBR_GRADE"           javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"   />
+		<parameter property="P_INDUST_FLAG"         javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"   />
+		<parameter property="P_MBR_DC_YN"           javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"   />
+		<parameter property="P_CREDIT_USE_YN"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"   />
+		<parameter property="P_POINT_USE_YN"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"   />
+		<parameter property="P_BILL_PUBLISH_YN"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"   />
+		<parameter property="P_PAGE_INDEX"          javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"   />
+		<parameter property="P_PAGE_DISPLAY_TOTAL"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"   />
+		<parameter property="CUR"                   javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  />
+	</parameterMap>
+	
+	<resultMap id="memberShipListResultMap" class="java.util.HashMap">
+		<result property="CUST_NO" column="CUST_NO" />
+		<result property="CUST_NAME" column="CUST_NAME" />
+		<result property="BUSI_FLAG" column="BUSI_FLAG" />
+		<result property="MBR_GRADE" column="MBR_GRADE" />
+		<result property="INDUST_FLAG" column="INDUST_FLAG" />
+		<result property="TEL_NO" column="TEL_NO" />
+		<result property="MOBIL_NO" column="MOBIL_NO" />
+		<result property="MOBILE_NO1" column="MOBILE_NO1" />
+		<result property="BUSI_NO" column="BUSI_NO" />
+		<result property="CUST_STATUS" column="CUST_STATUS" />
+		<result property="TO_DT" column="TO_DT" />
+		<result property="SALE_UPOINT" column="SALE_UPOINT" />
+		<result property="MBR_DC_YN" column="MBR_DC_YN" />
+		<result property="CREDIT_USE_YN" column="CREDIT_USE_YN" />
+		<result property="POINT_USE_YN" column="POINT_USE_YN" />
+		<result property="SMS_YN" column="SMS_YN" />
+		<result property="POST_NO" column="POST_NO" />
+		<result property="ADDR" column="ADDR" />
+		<result property="ADDR_DTL" column="ADDR_DTL" />
+	</resultMap>
+
+	<procedure id="getMemberShipList" parameterMap="memberShipListMap" resultClass="java.util.HashMap"  >
+		{ call PKG_MEMBER.MEMBER_SHIP_LIST ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+</sqlMap>

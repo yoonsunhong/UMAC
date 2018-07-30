@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="organization">
+		
+	<typeAlias alias="OrganizationVO" type="retail.organization.service.OrganizationVO" />
+	
+	<!-- 조직목록의 트리메뉴 리스트 조회 파라미터 맵 -->
+	<parameterMap id="pramMap1" class="java.util.HashMap">
+		 <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap1" />
+	</parameterMap>
+	<!-- 조직목록의 트리메뉴 리스트 조회 리절트 맵 -->
+	<resultMap id="resultMap1" class="java.util.HashMap">
+	    <result property="DEPT_CODE"  column="DEPT_CODE" nullValue="" />  
+	    <result property="DEPT_NAME"  column="DEPT_NAME"  nullValue="" />
+	    <result property="UPPER_DEPT"  column="UPPER_DEPT"  nullValue="" />
+	    <result property="UPPER_DEPT_NAME"  column="UPPER_DEPT_NAME"  nullValue="" />
+	    <result property="GRADE"  column="GRADE"  nullValue="" />
+	    <result property="ORG_TYPE"  column="ORG_TYPE"  nullValue="" />
+	    <result property="ORG_TYPE_NAME"  column="ORG_TYPE_NAME"  nullValue="" />
+	    <result property="USE_YN"  column="USE_YN"  nullValue="" />
+	</resultMap>
+	
+	<!-- 조직정보 상세조회 파라미터 맵 -->
+	<parameterMap id="pramMap2" class="java.util.HashMap">
+		 <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="P_DEPT_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap2" />
+	</parameterMap>
+	<!-- 조직정보 상세 조회 리절트 맵 -->
+	<resultMap id="resultMap2" class="java.util.HashMap">
+	    <result property="DEPT_CODE"  column="DEPT_CODE" nullValue="" />  
+	    <result property="DEPT_NAME"  column="DEPT_NAME"  nullValue="" />
+	    <result property="UPPER_DEPT"  column="UPPER_DEPT"  nullValue="" />
+	    <result property="UPPER_DEPT_NAME"  column="UPPER_DEPT_NAME"  nullValue="" />
+	    <result property="GRADE"  column="GRADE"  nullValue="" />
+	    <result property="ORG_TYPE"  column="ORG_TYPE"  nullValue="" />
+	    <result property="BUSI_NO"  column="BUSI_NO"  nullValue="" />
+	    <result property="REP_NAME"  column="REP_NAME"  nullValue="" />
+	    <result property="UPTAE"  column="UPTAE"  nullValue="" />
+	    <result property="UPJONG"  column="UPJONG"  nullValue="" />
+	    <result property="POST_NO"  column="POST_NO"  nullValue="" />
+	    <result property="ADDR"  column="ADDR"  nullValue="" />
+	    <result property="ADDR_DTL"  column="ADDR_DTL"  nullValue="" />
+	    <result property="TEL_NO"  column="TEL_NO"  nullValue="" />
+	    <result property="UPTAE_FLAG"  column="UPTAE_FLAG"  nullValue="" />
+	    <result property="OPEN_DT"  column="OPEN_DT"  nullValue="" />
+	    <result property="STR_AREA"  column="STR_AREA"  nullValue="" />
+	    <result property="CAR_AREA"  column="CAR_AREA"  nullValue="" />
+	    <result property="ACCT_DEPT"  column="ACCT_DEPT"  nullValue="" />
+	    <result property="ACCT_UPPER_DEPT"  column="ACCT_UPPER_DEPT"  nullValue="" />
+	    <result property="FAX_NO"  column="FAX_NO"  nullValue="" />
+	    <result property="TERM_ID_VAN"  column="TERM_ID_VAN"  nullValue="" />
+	    <result property="CENTA_CODE"  column="CENTA_CODE"  nullValue="" />
+	    <result property="SALE_TRM"  column="SALE_TRM"  nullValue="" />
+	    <result property="SIGN_AMT"  column="SIGN_AMT"  nullValue="" />
+	    <result property="USE_YN"  column="USE_YN"  nullValue="" />
+	    <result property="IEMP_NO"  column="IEMP_NO"  nullValue="" />
+	    <result property="IDATE"  column="IDATE"  nullValue="" />
+	    <result property="UEMP_NO"  column="UEMP_NO"  nullValue="" />
+	    <result property="UDATE"  column="UDATE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 사용자 정보 등록/수정 파라미터 맵 -->
+	<parameterMap id="pramMap4" class="java.util.HashMap">
+	     <parameter property="P_DEPT_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_DEPT_NAME" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_UPPER_DEPT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_GRADE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_ORG_TYPE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_USE_YN" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_SALE_YN" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_REP_NAME" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_POST_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_ADDR" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_ADDR_DTL" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_TEL_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_FAX_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_BUSI_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_UPJONG" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_UPTAE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_UPTAE_FLAG" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_OPEN_DT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_STR_AREA" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CAR_AREA" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_ACCT_DEPT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_ACCT_UPPER_DEPT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_TERM_ID_VAN" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CENTA_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_SALE_TRM" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_SIGN_AMT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CRUD_FLAG" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_IEMP_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_UEMP_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap4" />
+	</parameterMap>
+	<!-- 사용자 정보 등록/수정 리절트 맵 -->
+	<resultMap id="resultMap4" class="java.util.HashMap">
+		<result property="RETURN_CODE"  column="RETURN_CODE" nullValue="" />  
+	    <result property="RETURN_MESSAGE"  column="RETURN_MESSAGE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 부서코드 중복 조회 파라미터 맵 -->
+	<parameterMap id="pramMap3" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="P_DEPT_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap3" />
+	</parameterMap>
+	<!-- 부서코드 중복 조회 리절트 맵 -->
+	<resultMap id="resultMap3" class="java.util.HashMap">
+	    <result property="CNT"  column="CNT" nullValue="" />  
+	</resultMap>
+	
+	<!-- 조직목록의 트리메뉴 리스트 조회-->    
+    <procedure id="getOrganizationList" parameterMap="pramMap1" resultMap="resultMap1">
+        { call PKG_ORGANIZATION.PR_GET_ORGANIZATION_LIST( ? , ?) }   
+  	</procedure>
+  	
+  	<!-- 조직정보 상세조회-->    
+    <procedure id="getOrganizationDetailInfo" parameterMap="pramMap2" resultMap="resultMap2">
+        { call PKG_ORGANIZATION.GET_ORGANIZATION_DETAIL_INFO( ? , ?, ?) }   
+  	</procedure>
+  	
+  	<!-- 조직정보 상세조회-->    
+    <procedure id="selectCountDeptCode" parameterMap="pramMap3" resultMap="resultMap3">
+        { call PKG_ORGANIZATION.PR_GET_DEPT_CODE_COUNT( ? , ?, ?) }   
+  	</procedure>
+  	
+  	<!-- 조직정보 신규/수정-->    
+    <procedure id="setDeptInfo" parameterMap="pramMap4" resultMap="resultMap4">
+        { call PKG_ORGANIZATION.PR_SET_DEPT_INFO( ? , ?, ?, ? , ? ,?, ?, ?, ? , ? ,?, ?, ?, ? , ? ,?, ?, ?, ? , ? ,?, ?, ?, ? , ? ,? ,?, ? , ? ,? ,?) }   
+  	</procedure>
+  	
+</sqlMap>

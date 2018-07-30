@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="businessManage">
+
+	<parameterMap id="businessManageCardMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CARD_CODE"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_DET_CARD_CODE"  	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT" 	resultMap="businessCardDetailResultMap" />
+		<parameter property="CUR2"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT" 	resultMap="businessCardResultMap" />
+	</parameterMap>
+	
+	<parameterMap id="businessManageDrinkMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_START_DT" javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_END_DT"  	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_POS_NO"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"   />
+	</parameterMap>
+	
+	<resultMap id="businessCardResultMap" class="java.util.HashMap">
+		<result property="CD_ID" column="CD_ID" />
+		<result property="CD_NM" column="CD_NM" />
+		<result property="MGMT_ENTRY_1" column="MGMT_ENTRY_1" />
+	</resultMap>
+	
+	<resultMap id="businessCardDetailResultMap" class="java.util.HashMap">
+		<result property="CARD_PREFIX" 	column="CARD_PREFIX" />
+		<result property="MBR_DSNT" 	column="MBR_DSNT" />
+		<result property="BANK_CODE" 	column="BANK_CODE" />
+		<result property="BANK_NAME" 	column="BANK_NAME" />
+	</resultMap>
+	
+	<parameterMap id="businessCardInsertMap" class="java.util.Map">
+		<parameter property="P_DATA_LIST"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CORP_CODE"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_USER_ID"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"     	javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	
+  	<procedure id="selectBusinessManageCard" parameterMap="businessManageCardMap" >
+		{   call PKG_BUSINESS.BUSINESS_MANAGE_CARD_SELECT ( ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	<procedure id="insertBusinessManageCard" parameterMap="businessCardInsertMap" >
+		{   call PKG_BUSINESS.BUSINESS_MANAGE_CARD_INSERT ( ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	<procedure id="selectBusinessManageDrink" parameterMap="businessManageDrinkMap" resultClass="java.util.HashMap">
+		{   call PKG_BUSINESS.BUSINESS_MANAGE_DRINK_SELECT ( ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	<procedure id="updateBusinessManageDrink" parameterMap="businessCardInsertMap" >
+		{   call PKG_BUSINESS.BUSINESS_MANAGE_DRINK_UPDATE ( ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+</sqlMap>

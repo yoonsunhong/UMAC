@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="posClosedDouzoneDay">
+	
+	<parameterMap id="posClosedDouzoneDayMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALE_DT"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="posClosedDouzoneDayResultMap" />
+	</parameterMap>
+	
+	<resultMap id="posClosedDouzoneDayResultMap" class="java.util.HashMap">
+		<result property="CORP_CODE" column="CORP_CODE" />
+		<result property="STR_CODE" column="STR_CODE" />
+		<result property="SALE_DT" column="SALE_DT" />
+		<result property="SEQ" column="SEQ" />
+		<result property="CONF_EMP_NO" column="CONF_EMP_NO" />
+		<result property="CONF_DT" column="CONF_DT" />
+		<result property="DRCR_FG" column="DRCR_FG" />
+		<result property="DRCR_FG_NM" column="DRCR_FG_NM" />
+		<result property="ACCT_DEPT" column="ACCT_DEPT" />
+		<result property="ACCT_CD" column="ACCT_CD" />
+		<result property="ACCT_NAME" column="ACCT_NAME" />
+		<result property="VEN_CODE" column="VEN_CODE" />
+		<result property="VEN_NAME" column="VEN_NAME" />
+		<result property="BUSI_NO" column="BUSI_NO" />
+		<result property="SALE_AMT" column="SALE_AMT" />
+		<result property="RMK_DC" column="RMK_DC" />
+		<result property="ATTR_CD" column="ATTR_CD" />
+		<result property="ETELC" column="ETELC" />
+		<result property="NTS" column="NTS" />
+		<result property="IN_FLAG" column="IN_FLAG" />
+		<result property="IEMP_NO" column="IEMP_NO" />
+		<result property="IEMP_NAME" column="IEMP_NAME" />
+		<result property="IDATE" column="IDATE" />
+		<result property="CONF_TYPE" column="CONF_TYPE" />
+	</resultMap>
+	
+	<procedure id="getPosClosedDouzoneDay" parameterMap="posClosedDouzoneDayMap" >
+		{ call PKG_POS_CLOSED.POS_CLOSED_DOUZONE_DAY_SELECT ( ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="posClosedDouzoneDaySumMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALE_DT"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="DRCR_FG_AMT1"    javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="DRCR_FG_AMT2"    javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="DRCR_FG_AMT3"    javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="OUT"   />
+	</parameterMap>
+	
+	<procedure id="posClosedDouzoneDaySum" parameterMap="posClosedDouzoneDaySumMap" >
+		{ call PKG_POS_CLOSED.POS_CLOSED_DOUZONE_DAY_SELECT2 ( ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="updatePosClosedDouzoneDayMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALE_DT"           javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_REG_ID"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"         javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	<procedure id="updatePosClosedDouzoneDay" parameterMap="updatePosClosedDouzoneDayMap" >
+		{ call PKG_POS_CLOSED.POS_CLOSED_DOUZONE_DAY_UPDATE ( ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="updatePosClosedDouzoneDay1Map" class="java.util.Map">
+		<parameter property="P_CORP_CODE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALE_DT"           javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_REG_ID"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"         javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	<procedure id="updatePosClosedDouzoneDay1" parameterMap="updatePosClosedDouzoneDay1Map" >
+		{ call PKG_POS_CLOSED.POS_CLOSED_DOUZONE_DAY_UPDATE1 ( ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="updatePosClosedDouzoneDay2Map" class="java.util.Map">
+		<parameter property="P_CORP_CODE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALE_DT"           javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_REG_ID"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"         javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	<procedure id="updatePosClosedDouzoneDay2" parameterMap="updatePosClosedDouzoneDay2Map" >
+		{ call PKG_POS_CLOSED.POS_CLOSED_DOUZONE_DAY_UPDATE2 ( ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="updatePosClosedDouzoneDay3Map" class="java.util.Map">
+		<parameter property="P_CORP_CODE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALE_DT"           javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_REG_ID"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"         javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	<procedure id="updatePosClosedDouzoneDay3" parameterMap="updatePosClosedDouzoneDay3Map" >
+		{ call PKG_POS_CLOSED.POS_CLOSED_DOUZONE_DAY_UPDATE3 ( ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="updatePosClosedDouzoneDay4Map" class="java.util.Map">
+		<parameter property="P_CORP_CODE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALE_DT"           javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_REG_ID"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ADD_LIST"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"         javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	<procedure id="updatePosClosedDouzoneDay4" parameterMap="updatePosClosedDouzoneDay4Map" >
+		{ call PKG_POS_CLOSED.POS_CLOSED_DOUZONE_DAY_UPDATE4 ( ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="updatePosClosedDouzoneDay5Map" class="java.util.Map">
+		<parameter property="P_CORP_CODE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALE_DT"           javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_REG_ID"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"         javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	<procedure id="updatePosClosedDouzoneDay5" parameterMap="updatePosClosedDouzoneDay5Map" >
+		{ call PKG_POS_CLOSED.POS_CLOSED_DOUZONE_DAY_UPDATE5 ( ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	
+	
+	<parameterMap id="oracleToXmlFileSaveMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALE_DT"           javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+<!-- 		<parameter property="P_REG_ID"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    /> -->
+		<parameter property="RETURN_CODE"         javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+		<parameter property="CUR"         		  javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+	</parameterMap> 
+	<procedure id="oracleToXmlFileSave" parameterMap="oracleToXmlFileSaveMap"  resultClass="java.util.HashMap" >
+		{ call PKG_POS_CLOSED_ORACLE_TO_FILE.ORACLE_TO_XML_FILE_SAVE ( ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="canclePosClosedDouzoneDayMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALE_DT"           javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_REG_ID"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"         javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	<procedure id="canclePosClosedDouzoneDay" parameterMap="canclePosClosedDouzoneDayMap" >
+		{ call PKG_POS_CLOSED.POS_CLOSED_DOUZONE_DAY_CANCEL ( ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+</sqlMap>

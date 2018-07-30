@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="memberInfo">
+	
+	<parameterMap id="memberInfoDetailMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CUST_NO"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="memberInfoDetailResultMap" />
+		<parameter property="CUR2"            javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="memberInfoDetailResultMap2" />
+	</parameterMap>
+	
+	<resultMap id="memberInfoDetailResultMap" class="java.util.HashMap">
+		<result property="SAL_AMT" column="SAL_AMT" />
+		<result property="MINUS_POINT" column="MINUS_POINT" />
+		<result property="SAL_UPOINT" column="SAL_UPOINT" />
+	</resultMap>
+	
+	<resultMap id="memberInfoDetailResultMap2" class="java.util.HashMap">
+		<result property="MBR_CARD_NO" column="MBR_CARD_NO" />
+		<result property="STR_CODE" column="STR_CODE" />
+		<result property="STR_NAME" column="STR_NAME" />
+		<result property="CUST_NO" column="CUST_NO" />
+		<result property="FROM_DT" column="FROM_DT" />
+		<result property="DUSE_DT" column="DUSE_DT" />
+		<result property="CARD_ISSUE_FLAG" column="CARD_ISSUE_FLAG" />
+		<result property="USE_YN" column="USE_YN" />
+		<result property="USE_NM" column="USE_NM" />
+		<result property="IEMP_NO" column="IEMP_NO" />
+		<result property="IDATE" column="IDATE" />
+		<result property="USER_NM" column="USER_NM" />
+	</resultMap>
+	
+	<procedure id="getMemberInfoDetail" parameterMap="memberInfoDetailMap" >
+		{ call PKG_MEMBER.MEMBER_INFO_SELECT ( ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="memberInfoCountMap" class="java.util.Map">
+		<parameter property="S_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_CUST_NAME"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="TOT_CNT"         javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="R_CUST_NO"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	<procedure id="memberInfoCount" parameterMap="memberInfoCountMap" >
+		{ call PKG_MEMBER.MEMBER_INFO_SELECT_COUNT ( ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="memberPhoneCountMap" class="java.util.Map">
+		<parameter property="S_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_MOBIL_NO"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="TOT_CNT"         javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="OUT"   />
+	</parameterMap>
+	
+	<procedure id="memberPhoneCount" parameterMap="memberPhoneCountMap" >
+		{ call PKG_MEMBER.MEMBER_INFO_SELECT_MOB_COUNT ( ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="memberBusiNoCountMap" class="java.util.Map">
+		<parameter property="B_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_BUSI_NO"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="TOT_CNT"         javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="OUT"   />
+	</parameterMap>
+	
+	<procedure id="memberBusiNoCount" parameterMap="memberBusiNoCountMap" >
+		{ call PKG_MEMBER.MEMBER_INFO_SELECT_BUSI_COUNT ( ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="memberInfoSelectMap" class="java.util.Map">
+		<parameter property="S_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"   />
+		<parameter property="S_CUST_NO"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"   />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  />
+	</parameterMap>
+	
+	<procedure id="memberInfoSelect" parameterMap="memberInfoSelectMap" resultClass="java.util.HashMap" >
+		{   call PKG_MEMBER.MEMBER_INFO_SELECT_DETAIL ( ?, ?, ? )  }
+  	</procedure>
+	
+	<parameterMap id="updateMemberInfoPersonalMap" class="java.util.Map">
+		<parameter property="P_TYPE"              javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CORP_CODE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_REG_ID"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CARD_LIST"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CUST_NAME"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEX"               javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CUST_NO"           javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_BIR_TYPE"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_BIR_DATE"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_TEL_NO_1"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_TEL_NO_2"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_TEL_NO_3"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_MOBIL_NO_1"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_MOBIL_NO_2"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_MOBIL_NO_3"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CASH_APP_YN"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CASH_MOBIL_NO_1"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CASH_MOBIL_NO_2"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CASH_MOBIL_NO_3"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CASH_MOBIL_NO_4"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CASH_MOBIL_NO_5"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_END_TEL_NO"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEND_EMAIL"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_EMAIL_YN"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SMS_YN"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_DM_YN"             javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_MBR_GRADE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_POST_NO"           javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ADDR"              javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ADDR_DTL"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_REMARK"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_EMP_NO"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_BAL_TYPE"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_POINT_USE_YN"      javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CREDIT_LIMIT_YN"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CREDIT_LIMIT"      javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="RETURN_CODE"         javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+		<parameter property="RETURN_CUST_NO"      javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	<procedure id="updateMemberInfoPersonal" parameterMap="updateMemberInfoPersonalMap" >
+		{ call PKG_MEMBER.MEMBER_INFO_PERSONAL_UPDATE ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="updateMemberInfoBuisnessMap" class="java.util.Map">
+		<parameter property="B_TYPE"              javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_CORP_CODE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_STR_CODE"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_REG_ID"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_CARD_LIST"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_CUST_NAME"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_CUST_NO"           javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_BUSI_NO"           javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_OWN_NAME"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_UPTAE"             javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_UPJONG"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_TEL_NO_1"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_TEL_NO_2"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_TEL_NO_3"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_FAX_NO_1"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_FAX_NO_2"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_FAX_NO_3"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_MOBIL_NO_1"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_MOBIL_NO_2"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_MOBIL_NO_3"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_POINT_USE_YN"      javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_CREDIT_LIMIT_YN"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_CREDIT_LIMIT"      javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="B_INDUST_FLAG"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_MBR_GRADE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_CASH_APP_YN"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_CASH_MOBIL_NO_1"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_CASH_MOBIL_NO_2"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_CASH_MOBIL_NO_3"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_CASH_MOBIL_NO_4"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_CASH_MOBIL_NO_5"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_END_TEL_NO"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_MBR_DC_YN"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_LIQUOR_SALE_YN"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_ACCT_DEPT"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_EMP_NO"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_BIR_TYPE"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_BIR_DATE"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_SEND_EMAIL"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_EMAIL_YN"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_SMS_YN"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_DM_YN"             javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_BAL_TYPE"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_POST_NO"           javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_ADDR"              javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_ADDR_DTL"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="B_REMARK"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"         javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+		<parameter property="RETURN_CUST_NO"      javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	<procedure id="updateMemberInfoBuisness" parameterMap="updateMemberInfoBuisnessMap" >
+		{ call PKG_MEMBER.MEMBER_INFO_BUISNESS_UPDATE ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+</sqlMap>

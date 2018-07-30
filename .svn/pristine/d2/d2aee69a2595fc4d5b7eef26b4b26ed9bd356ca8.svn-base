@@ -1,0 +1,36 @@
+
+#report {
+    background-color: #aeaeae;
+}
+
+#subreport.top > div { /* page div*/
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.xtcontainer { /* aiTable div*/
+    border-width: 1px;
+    border-style: solid;
+    overflow: hidden; /*temp for IE8*/
+}
+
+.no-close-dialog .ui-dialog-titlebar-close {
+    display: none;
+}
+
+body, ul {
+    background: url('bg.bmp') 0 0 repeat-x;
+    margin: 0;
+    padding: 0;
+}
+
+#menubar li {
+    display: block;
+}
+
+.link {
+    color: blue;
+    cursor: pointer;
+    font-family: '돋움',serif;
+    font-size: 14pt;
+}

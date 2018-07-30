@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OverAndShorts">
+	
+	<parameterMap id="posClosedOverAndShortsMap" class="java.util.Map">
+		<parameter property="S_CORP_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_STR_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_SALE_DT"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_SALE_DT_E"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_EMP_NO"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="posClosedOverAndShortsResultMap" />
+	</parameterMap>
+	
+	<parameterMap id="posClosedOverAndShortsListExcelMap" class="java.util.Map">
+		<parameter property="S_CORP_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_STR_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_SALE_DT"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_SALE_DT_E"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_EMP_NO"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  />
+	</parameterMap>
+	
+	<resultMap id="posClosedOverAndShortsResultMap" class="java.util.HashMap">
+		<result property="CORP_CODE" 	column="CORP_CODE"/>
+		<result property="STR_NAME" column="STR_NAME" />
+		<result property="EMP_NO" column="EMP_NO" />
+		<result property="STR_CODE" column="STR_CODE" />
+		<result property="EMP_NAME" column="EMP_NAME" />
+		<result property="SALE_DT" column="SALE_DT" />
+		<result property="POS_NO" column="POS_NO" />
+		<result property="AS_TOT_CNT" column="AS_TOT_CNT" />
+		<result property="AS_CASH_SALE_TOTAL" column="AS_CASH_SALE_TOTAL" />
+		<result property="AS_CARD_TOTAL" column="AS_CARD_TOTAL" />
+		<result property="AS_CREDIT_AMT" column="AS_CREDIT_AMT" />
+		<result property="AS_POINT_USE_AMT" column="AS_POINT_USE_AMT" />
+		<result property="AS_SALE_TOTAL" column="AS_SALE_TOTAL" />
+		<result property="CASH_SHORT_OVER" column="CASH_SHORT_OVER" />
+	</resultMap>
+	
+	<procedure id="getPosClosedOverAndShorts" parameterMap="posClosedOverAndShortsMap" >
+		{ call PKG_POS_CLOSED_OVER.POS_CLOSED_O_S_SELECT ( ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+		<procedure id="posClosedOverAndShortsListExcel" parameterMap="posClosedOverAndShortsListExcelMap" resultClass="java.util.HashMap" >
+		{ call PKG_POS_CLOSED_OVER.POS_CLOSED_O_S_SELECT ( ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	
+</sqlMap>

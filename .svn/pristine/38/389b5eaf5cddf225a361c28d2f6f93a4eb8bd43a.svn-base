@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="memberSalesStat">
+
+	<!-- 매출TR 조회 -->
+	<parameterMap id="paramMap" class="java.util.Map">
+		<parameter property="S_CORP_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"            mode="IN"    />
+		<parameter property="S_STR_CODE"   javaType="java.lang.String"      jdbcType="VARCHAR"            mode="IN"    />
+		<parameter property="S_STR_DATE"   javaType="java.lang.String"      jdbcType="VARCHAR"            mode="IN"    />
+		<parameter property="S_END_DATE"   javaType="java.lang.String"      jdbcType="VARCHAR"            mode="IN"    />
+		<parameter property="CUR"          javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"       mode="OUT"   />
+	</parameterMap>
+
+	<parameterMap id="paramInMap" class="java.util.Map">
+		<parameter property="S_CORP_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"            mode="IN"    />
+		<parameter property="S_STR_CODE"   javaType="java.lang.String"      jdbcType="VARCHAR"            mode="IN"    />
+		<parameter property="I_STR_DATE"   javaType="java.lang.String"      jdbcType="VARCHAR"            mode="IN"    />
+		<parameter property="I_END_DATE"   javaType="java.lang.String"      jdbcType="VARCHAR"            mode="IN"    />
+		<parameter property="CUR"          javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"       mode="OUT"   />
+	</parameterMap>
+
+	<procedure id="memberSalesStatList" parameterMap="paramMap" resultClass="java.util.HashMap">
+		{ call PKG_MEMBER_STAT.MEMBER_SALES_STAT ( ?, ?, ?, ?, ? )  }
+	</procedure>  
+
+	<procedure id="memberStatByDayList" parameterMap="paramInMap" resultClass="java.util.HashMap">
+		{ call PKG_MEMBER_STAT.MEMBER_STAT_BY_DAY ( ?, ?, ?, ?, ? )  }
+	</procedure>  
+
+</sqlMap>

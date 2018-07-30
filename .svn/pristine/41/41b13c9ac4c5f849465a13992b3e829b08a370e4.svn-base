@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="paymentLedger">
+
+	<parameterMap id="paymentLedgerMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"  			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_DT" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_GRE_GB"   			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_CON"   			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_SEQ"   			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_START_SEARCH_DT" 	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_END_SEARCH_DT" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"         			javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"    />
+	</parameterMap>
+
+	<parameterMap id="paymentLedgerSaleMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"  			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_TYPE" 				javaType="java.lang.String"  	 jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_DT" 			javaType="java.lang.String"  	 jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_START_SEARCH_DT" 	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_END_SEARCH_DT" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_SEQ"   			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_GRE_GB"   			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"         			javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"    />
+	</parameterMap>
+	
+	<parameterMap id="paymentPurchInsertMap" class="java.util.Map">
+		<parameter property="P_DATA_LIST"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"     	javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	<parameterMap id="paymentLedgerCloseUpdateMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_TYPE" 			javaType="java.lang.String"  	 jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_DT" 		javaType="java.lang.String"  	 jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_SEQ"   		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_USER_ID" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"     	javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	<parameterMap id="paymentLedgerBefHoldMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"  			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_DT" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_BEFORE_SEARCH_DT"	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_GRE_GB"   			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_CON"   			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_SEQ"   			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_BEF_HOLD_AMT"		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"         			javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"    />
+	</parameterMap>
+
+	<parameterMap id="paymentPayCloseMap" class="java.util.Map">
+		<parameter property="P_DATA_LIST"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CORP_CODE"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_TYPE"       		javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_DT"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_SEQ"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_USER_ID"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"     	javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+
+	</parameterMap>
+	
+	<parameterMap id="paramPaymentPayConSeqMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"  			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CD_CL" 				javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CD_ID" 				javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"         			javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"    />
+	</parameterMap>
+	<resultMap id="resultPaymentPayConSeqMap" class="java.util.HashMap">
+		<result property="CD_NM" 			column="CD_NM" 			nullValue=""  	/>
+		<result property="MGMT_ENTRY_1" 	column="MGMT_ENTRY_1" 	nullValue=""  	/>
+		<result property="MGMT_ENTRY_2" 	column="MGMT_ENTRY_2" 	nullValue=""  	/>
+	</resultMap>
+  	<procedure id="selectPaySeqList" parameterMap="paramPaymentPayConSeqMap" resultMap="resultPaymentPayConSeqMap">
+		{   call PKG_PAYMENT.PAYMENT_PAYSEQ_SELECT ( ?, ?, ?, ? )  }
+  	</procedure>
+	
+	<!--
+  	<procedure id="selectVencodeList" parameterMap="paymentLedgerMap" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_VENCODE_SELECT ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	-->
+  	
+  	<!--
+  	<procedure id="selectPurchList" parameterMap="paymentLedgerMap" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_PURCH_SELECT ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	-->
+  	
+  	<!--
+  	<procedure id="selectPayNumCheck" parameterMap="paymentLedgerMap" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_PAYNUM_CHECK ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	-->
+  	
+  	<!--
+  	<procedure id="selectLinkCodeList" parameterMap="paymentLedgerMap" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_LINK_CODE_SELECT ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	-->
+  	
+  	<parameterMap id="paymentRateMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"  			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<!--<parameter property="P_JANG_SUM" 			javaType="java.lang.String"  	 jdbcType="VARCHAR"       mode="IN"    />-->
+		<parameter property="P_PAY_YM" 				javaType="java.lang.String"  	 jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"         			javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"    />
+	</parameterMap>
+  	<!--
+  	<procedure id="selectPayRate" parameterMap="paymentRateMap" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_RATE_SELECT ( ?, ?, ?, ? )  }
+  	</procedure>
+  	<procedure id="selectPayRate_2" parameterMap="paymentRateMap" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_RATE_SELECT_2 ( ?, ?, ?, ? )  }
+  	</procedure>
+  	-->
+  	
+  	<!--
+  	<procedure id="insertPayPurch" parameterMap="paymentPayCloseMap" >
+		{   call PKG_PAYMENT.PAYMENT_PURCH_INSERT ( ?, ?, ?, ?, ?, ?, ?, ?  )  }
+  	</procedure>
+
+  	<procedure id="insertPayPurch_2" parameterMap="paymentPayCloseMap" >
+		{   call PKG_PAYMENT.PAYMENT_PURCH_INSERT_2 ( ?, ?, ?, ?, ?, ?, ?, ?  )  }
+  	</procedure>
+  	-->
+  	
+  	<procedure id="selectPayCloseCheck" parameterMap="paymentLedgerSaleMap" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_PAYCLOSE_CHECK ( ?, ?, ?, ?, ?, ?, ?, ? ) }
+  	</procedure>
+  	
+  	<procedure id="selectPayJobCheck" parameterMap="paymentLedgerSaleMap" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_PAYJOB_CHECK ( ?, ?, ?, ?, ?, ?, ?, ? ) }
+  	</procedure>
+  	
+  	<!--
+  	<procedure id="selectSaleList" parameterMap="paymentLedgerSaleMap" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_SALE_SELECT ( ?, ?, ?, ?, ?, ?, ?, ? ) }
+  	</procedure>
+  	<procedure id="selectSaleList_2" parameterMap="paymentLedgerSaleMap" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_SALE_SELECT_2 ( ?, ?, ?, ?, ?, ?, ?, ? ) }
+  	</procedure>
+  	-->
+  	
+  	<!--
+  	<procedure id="insertPaySale" parameterMap="paymentPayCloseMap" >
+		{   call PKG_PAYMENT.PAYMENT_SALE_INSERT ( ?, ?, ?, ?, ?, ?, ?, ?  )  }
+  	</procedure>
+
+  	<procedure id="insertPaySale_2" parameterMap="paymentPayCloseMap" >
+		{   call PKG_PAYMENT.PAYMENT_SALE_INSERT_2 ( ?, ?, ?, ?, ?, ?, ?, ?  )  }
+  	</procedure>
+  	-->
+  	
+  	<!--
+  	<procedure id="updatePayLedgerClose" parameterMap="paymentLedgerCloseUpdateMap" >
+		{   call PKG_PAYMENT.PAYMENT_LEDGER_CLOSE_UPDATE ( ?, ?, ?, ?, ?, ?, ? ) }
+  	</procedure>
+  	-->
+  	
+  	<!--
+  	<resultMap id="resultPaymentPayConMap" class="java.util.HashMap">
+		<result property="PAY_CON" 		column="PAY_CON" />
+	</resultMap>
+  	<procedure id="selectPayCon" parameterMap="paymentLedgerMap" resultMap="resultPaymentPayConMap">
+		{   call PKG_PAYMENT.PAYMENT_PAYCON_SELECT ( ?, ?, ?, ?, ?, ? , ?, ?, ?, ?)  }
+  	</procedure>
+  	-->
+  	
+  	<!--
+  	<procedure id="selectLedgerPurch" parameterMap="paymentLedgerMap" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_PURCH_SALE_SELECT ( ?, ?, ?, ?, ?, ? , ?, ?, ?, ?)  }
+  	</procedure>
+
+  	<procedure id="selectBefHoldAmt" parameterMap="paymentLedgerBefHoldMap" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_BEF_HOLD_AMT_SELECT ( ?, ?, ?, ?, ?, ? , ?, ?, ?, ? )  }
+  	</procedure>
+
+  	<procedure id="selectBefHoldCnt" parameterMap="paymentLedgerBefHoldMap" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_BEF_AMT_CNT_SELECT ( ?, ?, ?, ?, ?, ? , ?, ?, ?, ? )  }
+  	</procedure>
+
+  	<procedure id="insertPayBefHoldAmt" parameterMap="paymentPurchInsertMap" >
+		{   call PKG_PAYMENT.PAYMENT_BEF_HOLD_AMT_INSERT ( ?, ?, ? )  }
+  	</procedure>
+  	-->
+  	
+  	<!--
+  	<procedure id="insertPayLedger" parameterMap="paymentPayCloseMap" >
+		{   call PKG_PAYMENT.PAYMENT_LEDGER_INSERT ( ?, ?, ?, ?, ?, ?, ?, ?  )  }
+  	</procedure>
+  	-->
+  	<!--
+  	<procedure id="insertPayLedger_2" parameterMap="paymentPayCloseMap" >
+		{   call PKG_PAYMENT.PAYMENT_LEDGER_INSERT_2 ( ?, ?, ?, ?, ?, ?, ?, ?  )  }
+  	</procedure>
+  	-->
+  	
+  	<procedure id="updatePayLedgerCancle" parameterMap="paymentLedgerCloseUpdateMap" >
+		{   call PKG_PAYMENT.PAYMENT_LEDGER_CANCLE ( ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	<parameterMap id="paramPaymentLedger_PayListMap" class="java.util.Map">
+		<parameter property="P_SEARCH_DT" 	  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CORP_CODE"	  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_FIRST_INDEX"   javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_RECORD_COUNT"  javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_COLUMN_NAME"   javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ORDERBY"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT" resultMap="resultPaymentLedger_PayListMap" />
+		<parameter property="TOT_CNT"         javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="OUT"   />
+	</parameterMap>
+	<resultMap id="resultPaymentLedger_PayListMap" class="java.util.HashMap">
+		<result property="CORP_CODE" 	column="CORP_CODE" />
+		<result property="PAY_YM" 		column="PAY_YM" />
+		<result property="PAY_SEQ" 		column="PAY_SEQ" />
+		<result property="CD_NM" 		column="CD_NM" />
+		<result property="STR_CODE" 	column="STR_CODE" />
+		<result property="SALE_CLOSE" 	column="SALE_CLOSE" />
+		<result property="PUR_CLOSE" 	column="PUR_CLOSE" />
+		<result property="JANG_CLOSE" 	column="JANG_CLOSE" />
+		<result property="ORG_CREAT" 	column="ORG_CREAT" />
+		<result property="TAX_CLOSE" 	column="TAX_CLOSE" />
+		<result property="PAY_CLOSE" 	column="PAY_CLOSE" />
+		<result property="ETC_CLOSE" 	column="ETC_CLOSE" />
+		<result property="IEMP_NO" 		column="IEMP_NO" />
+		<result property="IDATE" 		column="IDATE" />
+		<result property="UEMP_NO" 		column="UEMP_NO" />
+		<result property="UDATE" 		column="UDATE" />
+		<result property="SALE_CLOSE_COUNT" 	column="SALE_CLOSE_COUNT" />
+		<result property="PUR_CLOSE_COUNT" 		column="PUR_CLOSE_COUNT" />
+		<result property="JANG_CLOSE_COUNT" 	column="JANG_CLOSE_COUNT" />
+		<result property="ORG_CREAT_COUNT" 		column="ORG_CREAT_COUNT" />
+	</resultMap>
+  	<procedure id="paymentLedgerInfo_PayList" parameterMap="paramPaymentLedger_PayListMap" >
+		{   call PKG_PAYMENT.GET_PY_PAY_CLOSE ( ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+
+	<parameterMap id="paramPaymentSaleResultMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_YM"			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_TYPE"			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_DT"		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_SEQ"			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_USER_ID"			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"		javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+  	<procedure id="paymentSaleResult" parameterMap="paramPaymentSaleResultMap" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_SALE_RESULT ( ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	<parameterMap id="paramPaymentPurchResultMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_YM"			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_TYPE"			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_DT"		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_START_SEARCH_DT"	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_END_SEARCH_DT"	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_SEQ"			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_USER_ID"			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_JANG_TYPE"		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"		javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+  	<procedure id="paymentPurchResult" parameterMap="paramPaymentPurchResultMap" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_PURCH_RESULT ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	<parameterMap id="paramPaymentPefHoldAmtResultMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_YM"				javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_TYPE"				javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_DT"			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_BEFORE_SEARCH_DT"	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_START_SEARCH_DT"		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_END_SEARCH_DT"		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_SEQ"				javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_USER_ID"				javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"			javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+  	<procedure id="paymentPefHoldAmtResult" parameterMap="paramPaymentPefHoldAmtResultMap" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_BEF_HOLD_AMT_RESULT ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+</sqlMap>

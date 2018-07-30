@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+ <HEAD>
+  <TITLE> aireport_EN </TITLE>
+  <META NAME="Generator" CONTENT="EditPlus">
+  <META NAME="Author" CONTENT="">
+  <META NAME="Keywords" CONTENT="">
+  <META NAME="Description" CONTENT="">
+
+<style type="text/css">
+
+
+/* Common */
+
+body,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,table,th,td,form,fieldset,legend,input,textarea,button,select{
+background:url(bg.bmp) 0px 0px repeat-x;
+margin:0;padding:0;
+}
+body,input,textarea,select,button,table{font-family:'µ¸¿ò',Dotum,AppleGothic,sans-serif;font-size:12px}
+img,fieldset{border:0}
+ul,li{list-style:none}
+em,address{font-style:normal}
+a{text-decoration:none}
+a:hover,a:active,a:focus{text-decoration:underline}
+
+
+/* bar */
+
+#header{
+width:797px; 
+margin:0;padding:0;
+margin:0 auto;
+text-align:center;
+}
+
+.wrap{
+overflow:hidden;
+position:absolute; width:797px; height:57px;
+text-align:center;
+margin:0 auto;
+margin:0;padding:0;
+}
+
+#header li{
+display:block; float:left; clear:both;
+margin:0 auto;
+}
+
+
+.menu_1 .first{position:absolute;float:left;top:16px;left:20px;}
+.menu_1 .pre{position:absolute;float:left;top:16px;left:45px;}
+.menu_1 .page{position:absolute;float:left;top:18px;left:70px;}
+.menu_1 select{width:90px;}
+.menu_1 .next{position:absolute;float:left;top:16px;left:168px;}
+.menu_1 .last{position:absolute;float:left;top:16px;left:193px;}
+
+.menu_2 .zoomout{position:absolute;float:left;top:16px;left:248px;}
+.menu_2 .view{position:absolute;float:left;top:18px;left:338px;}
+.menu_2 .zoomin{position:absolute;float:left;top:16px;left:401px;}
+
+.menu_3 .print{position:absolute;float:left;top:16px;left:519px;}
+.menu_3 .pdf{position:absolute;float:left;top:16px;left:587px;}
+.menu_3 .excel{position:absolute;float:left;top:16px;left:652px;}
+.menu_3 .han{position:absolute;float:left;top:16px;left:717px;}
+
+.menu_3:after{display:block; clear:both; content:''}
+
+
+</style>
+
+
+
+ </HEAD>
+
+ <BODY>
+ 
+<div id="header">
+
+  <div id="" class="wrap">
+
+    <ul class="menu_1">
+      <li><a href="#" class="first"><img src="first.bmp" width="16" height="23" border="0" alt="First page"></a></li>
+      <li><a href="#"class="pre"><img src="pre.bmp" width="16" height="23" border="0" alt="Previous Page"></a></li>
+      <li><fieldset class="page">
+		<select>
+			<option>1/4page</option>
+			<option>2/4page</option>
+			<option>3/4page</option>
+			<option>4/4page</option>
+		</select>
+      </li>
+      <li><a href="#" class="next"><img src="next.bmp" width="16" height="23" border="0" alt="Next Page"></a></li>
+      <li><a href="#" class="last"><img src="last.bmp" width="16" height="23" border="0" alt="Last page"></a></li>
+    </ul>
+
+    <ul class="menu_2">
+      <li><a href="#" class="zoomout"><img src="zoomout.bmp" width="81" height="23" border="0" alt="ZoomOut"></a></li>
+      <li><fieldset class="view">
+		<select>
+			<option>100%</option>
+			<option>90%</option>
+			<option>80%</option>
+			<option>70%</option>
+			<option>60%</option>
+			<option>50%</option>
+			<option>40%</option>
+			<option>30%</option>
+			<option>20%</option>
+			<option>10%</option>
+		</select>
+      </li>
+      <li><a href="#" class="zoomin"><img src="zoomin.bmp" width="81" height="23" border="0" alt="ZoomIn"></a></li>
+    </ul>
+
+    <ul class="menu_3">
+      <li><a href="#" class="print"><img src="print.bmp" width="63" height="23" border="0" alt="Print"></a></li>
+      <li><a href="#" class="pdf"><img src="pdf.bmp" width="60" height="23" border="0" alt="PDFSave"></a></li>
+      <li><a href="#" class="excel"><img src="excel.bmp" width="60" height="23" border="0" alt="EXCELSave"></a></li>
+      <li><a href="#" class="han"><img src="han.bmp" width="60" height="23" border="0" alt="HANGULSave"></a></li>
+    </ul>
+
+    <a href="#" class="menubar"><img src="bar.bmp" width="797" height="57" border="0" alt="MenuBar"></a>
+
+  </div>
+
+</div>
+
+
+
+ </BODY>
+</HTML>

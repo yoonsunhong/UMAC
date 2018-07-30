@@ -1,0 +1,253 @@
+<%@ page language="java"   contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@include file="/WEB-INF/jsp/retail/inc_common/inc_common.jsp" %>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<!-- 스프링 메세지 테그사용 :: 다국어 -->
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@page import ="java.util.List" %>
+<%@page import ="java.util.HashMap" %>
+<%@page import ="java.util.ArrayList" %>
+<%@page import ="java.util.List" %>
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title><spring:message code="commonCodeManagement"/></title>
+<link type="text/css" rel="stylesheet" href="/resources/css/jquery-ui.css">
+<link type="text/css" rel="stylesheet" href="/resources/css/common.css">
+<link type="text/css" rel="stylesheet" href="/resources/css/font-awesome.min.css">
+<!--[if lt IE 9]>
+<script src="/resources/js/html5shiv.js"></script>
+<script src="/resources/js/IE9.js"></script>
+<link type="text/css" rel="stylesheet" href="/resources/css/ie8.css">
+<![endif]-->
+<script type="text/javascript" src="/resources/js/jquery-1.7.1.min.js" charset="utf-8"></script>
+<script src="/resources/js/jquery-ui.js"></script>
+<script src="/resources/js/style.js"></script>
+<%--
+	설명: 공통코드관리
+		
+	수정일      	   수정자        수정내용
+	------------------------------------------------------
+	2016-10-31    문희훈       초기작성 
+	------------------------------------------------------
+	version : 1.0
+--%> 
+
+<jsp:include page="/WEB-INF/jsp/retail/inc_common/inc_head.jsp" />	
+
+<!-- rMateGridH5 CSS -->
+<link rel="stylesheet" type="text/css" href="/resources/js/rMateGridH5/Assets/rMateH5.css"/> 
+<!-- rMateGridH5 라이센스 -->
+<script type="text/javascript" src="/resources/js/rMateGridH5/LicenseKey/rMateGridH5License.js" charset="utf-8"></script> 
+<!-- rMateGridH5 라이브러리 -->
+<script type="text/javascript" src="/resources/js/rMateGridH5/JS/rMateGridH5.js"></script>
+<script type="text/javascript" src="/resources/js/rMateStyle.js"></script>
+<script type="text/javascript" src="/resources/js/page/code/code_management.js?var=20170629" charset="utf-8"></script>
+	
+</head>
+ 
+ <body id="in_frame">
+		<div id="iframeCnt">
+			<div class="btn_area clear">
+				<button type="button" class="btn btn_style1 f_l"><img src="resources/img/common/help_ico.png"><spring:message code="btnHelp"/></button>
+				<div class="advice p_a">
+					<h4>information</h4>
+					<pre id="helpText"></pre>
+					<a href="" class="close_btn p_a">도움말 닫기</a>
+				</div>
+				<button id="bookMarkIcon" type="button" class="fav fav_inactive"></button>
+				<div class="f_r">
+					<!-- 권한에 따른 버튼 show/hide -->
+					<c:if test="${sessionScope.AUTH_NEW eq   'Y'}">
+						<button type="button" id="btn_create"  class="btn btn_style2" onclick="btn_create()" ><spring:message code="btnNew"/></button>
+					</c:if>
+					<c:if test="${sessionScope.AUTH_SAVE eq   'Y'}">
+					    <button type="button" id="btn_update"  class="btn btn_style2"  onclick="btn_update()"><spring:message code="btnSave"/></button>
+					</c:if>
+					<%-- <c:if test="${sessionScope.AUTH_DELETE eq   'Y'}">
+						<button type="button" id="btn_delete" class="btn btn_style2" onclick="btn_delete()" ><spring:message code="btnDel"/></button>
+					</c:if> --%>
+					<c:if test="${sessionScope.AUTH_SEARCH eq   'Y'}">
+						<button type="button" id="btn_read" class="btn btn_style3"  onclick="btn_read()"><i class="fa fa-search"></i><spring:message code="btnSearch"/></button>
+					</c:if>
+				</div>
+			</div>
+			
+			<!-- 조회폼 영역 -->
+			<div class="search_area"    id="top_search">
+				<div class="last">
+					<label for=""><spring:message code="commonCodeName"/></label>
+					<input type="text" id="P_CD_NM" name="P_CD_NM"   maxlength="50">
+					<label for=""><spring:message code="useYn"/></label>
+					<select  id="P_DEL_YN" name="P_DEL_YN" >
+						<option value=""><spring:message code="all"/></option>
+						<option value="N"><spring:message code="use"/></option>
+						<option value="Y"><spring:message code="unused"/></option>
+					</select>
+					<%-- <label for=""><spring:message code="useYn"/></label>
+						<input type="text"  id="datepicker1"/> ~ <input type="text"  id="datepicker2"/> --%>			
+				</div>
+				<!-- <div>
+					<label for="">분류명</label>
+					<input type="text" maxlength="50" class="search_txt">
+					<button type="button" class="search_btn">검색 아이콘</button>
+					<label for="">분류명</label>
+					<input type="text" maxlength="50">
+				</div> -->
+			</div>
+			<!-- //조회폼 영역 -->
+			
+			<div class="col2 sub_cnt">
+
+				<div class="box_lft">
+					<h3 class="bul_arr"><spring:message code="commonCode"/></h3>
+					<div class="sec_grid">
+						<div class="content">
+							<div id="gridHolder1" style="width:355px"></div>
+						</div>
+					</div>
+					<table class="tbl_st2">
+						<tbody>
+							<tr>
+								<th scope="row">
+									<em>필수입력항목</em>
+									<label><spring:message code="commonCodeName"/></label>
+								</th>
+								<td><input type="text" id="CD_NM" name="CD_NM" maxlength="50"></td>
+							</tr>     
+							<tr>
+								<th scope="row"><spring:message code="commonCode"/></th>
+								<td>
+									<input type="text" id="CD_ID" name="CD_ID" style="background-image: url('/resources/img/common/icon_no.png');background-repeat: no-repeat;background-position:99% 50%;padding-right: 20px;" onkeyup="btnConfirm();">
+									<input type="hidden" id="codeUseYN" name="codeUseYN" value="N">
+									<!-- <button type="button" class="btn btn_style2"  onclick="btnConfirm();">중복확인</button> -->
+								</td>
+							</tr>
+							<tr>
+								<th scope="row"><spring:message code="explanation"/></th>   
+								<td><textarea id="CD_DESCRIPTION" name="CD_DESCRIPTION"  maxlength="1500" ></textarea></td>
+							</tr>
+							<tr>
+								<th scope="row"><spring:message code="useYn"/></th>
+								<td>
+									<label class="radio">
+										<input type="radio" value="N" id="DEL_YN" name="DEL_YN" >
+										<span><spring:message code="use"/></span>
+									</label>
+									<label class="radio">
+										<input type="radio" value="Y"  name="DEL_YN" >
+										<span><spring:message code="unused"/></span>
+									</label>
+								</td>
+							</tr>
+						</tbody>
+					</table>					
+				</div>
+				
+				<div class="box_rgt">
+					<section class="sec_grid">
+							<h3 class="bul_arr f_l"><spring:message code="commonCodeDetail"/></h3>
+							<button type="button" class="btn btn_style4 f_r" onclick="btn_new_detail();"><spring:message code="commonCodeDetailInsert"/></button>
+							<div class="content">
+								<div id="gridHolder2"></div>
+							</div>
+					</section>
+				</div>
+			
+			</div>
+
+		</div>
+		<!-- //Content : 본문 영역 -->
+	 
+<!-- 	 상세 팝업 영역 시작  -->
+<div id="pop_wrap">
+	<header id="pop_head" class="clear">
+		<h1 class="bul_arr f_l"><spring:message code="commonCodeDetail"/></h1>
+		<div class="f_r">
+			<c:if test="${sessionScope.AUTH_DELETE eq   'Y'}">
+<%-- 				<button type="button" id="pop_btn_del" class="btn btn_style4" onclick="btn_del_detail()"><spring:message code="btnDel"/></button> --%>
+			</c:if>
+			<c:if test="${sessionScope.AUTH_SAVE eq   'Y'}">
+				<button type="button" class="btn btn_style4" onclick="btn_save_detail()"><spring:message code="btnSave"/></button>
+			</c:if>
+			<button type="button" class="btn btn_style4" onclick="btn_close()"><spring:message code="btnClose"/></button>
+		</div>
+	</header>
+ 
+	<form action="">
+		<div id="pop_cnt">
+	
+			<table class="tbl_st2">
+						<input type="hidden"  id="D_ORIGIN_CD_ID" name="D_ORIGIN_CD_ID">
+				<tbody>
+					<tr>
+						<th scope="row"><em>필수항목</em><label><spring:message code="detailCodeId"/></label></th>   
+						<td colspan="3"><input type="text"  id="D_CD_ID" name="D_CD_ID"></td>
+					</tr>
+					<tr>
+						<th scope="row"><em>필수항목</em><label><spring:message code="detailCodeName"/></label></th>
+						<td><input type="text" id="D_CD_NM" name="D_CD_NM"></td>
+						<th scope="row"><spring:message code="shortName"/></th>
+						<td><input type="text" id="D_CD_SHORT_NM" name="D_CD_SHORT_NM"></td>
+					</tr>
+					<tr>
+						<th scope="row"><label><spring:message code="detailCodeExplanation"/></label></th>
+						<td colspan="3"><textarea id="D_CD_DESCRIPTION" name="D_CD_DESCRIPTION"></textarea></td>
+					</tr>
+					<tr>
+						<th scope="row"><spring:message code="managementTopics"/>1</th>
+						<td><input type="text" id="D_MGMT_ENTRY_1" name="D_MGMT_ENTRY_1"></td>
+						<th scope="row"><spring:message code="managementExplanation"/>1</th>
+						<td><input type="text" id="D_MGMT_ENTRY_DESCRIPTION_1" name="D_MGMT_ENTRY_DESCRIPTION_1"></td>
+					</tr>
+					<tr>
+						<th scope="row"><spring:message code="managementTopics"/>2</th>
+						<td><input type="text" id="D_MGMT_ENTRY_2" name="D_MGMT_ENTRY_2"></td>
+						<th scope="row"><spring:message code="managementExplanation"/>2</th>
+						<td><input type="text" id="D_MGMT_ENTRY_DESCRIPTION_2" name="D_MGMT_ENTRY_DESCRIPTION_2"></td>
+					</tr>
+					<tr>
+						<th scope="row"><spring:message code="managementTopics"/>3</th>
+						<td><input type="text" id="D_MGMT_ENTRY_3" name="D_MGMT_ENTRY_3"></td>
+						<th scope="row"><spring:message code="managementExplanation"/>3</th>
+						<td><input type="text" id="D_MGMT_ENTRY_DESCRIPTION_3" name="D_MGMT_ENTRY_DESCRIPTION_3"></td>
+					</tr>
+					<tr>
+						<th scope="row"><spring:message code="managementTopics"/>4</th>
+						<td><input type="text" id="D_MGMT_ENTRY_4" name="D_MGMT_ENTRY_4"></td>
+						<th scope="row"><spring:message code="managementExplanation"/>4</th>
+						<td><input type="text" id="D_MGMT_ENTRY_DESCRIPTION_4" name="D_MGMT_ENTRY_DESCRIPTION_4"></td>
+					</tr>
+					<tr>
+						<th scope="row"><spring:message code="managementTopics"/>5</th>
+						<td><input type="text" id="D_MGMT_ENTRY_5" name="D_MGMT_ENTRY_5"></td>
+						<th scope="row"><spring:message code="managementExplanation"/>5</th>
+						<td><input type="text" id="D_MGMT_ENTRY_DESCRIPTION_5" name="D_MGMT_ENTRY_DESCRIPTION_5"></td>
+					</tr>
+					<%-- <tr>
+						<th scope="row"><spring:message code="managementExplanation"/></th>
+						<td colspan="3"><textarea id="D_MGMT_ENTRY_DESCRIPTION_1" name="D_MGMT_ENTRY_DESCRIPTION_1"></textarea></td>
+					</tr> --%>
+					<tr>
+						<th scope="row"><em>필수항목</em><spring:message code="order"/></th>
+						<td><input type="text" id="D_SORT_ORDER" name="D_SORT_ORDER" maxlength="4" ></td>
+						<th scope="row"><em>필수항목</em><spring:message code="useYn"/></th>
+						<td>
+							<select id="D_DEL_YN" name="D_DEL_YN">
+								<option value="Y"><spring:message code="unused"/></option>
+								<option value="N"><spring:message code="use"/></option>
+							</select>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</form>
+
+</div>
+<!-- 	 상세 팝업 영역 끝  -->
+	
+</body>
+</html>
+	

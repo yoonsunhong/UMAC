@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="productStore">
+ 
+   
+
+	<parameterMap id="productStoreSearchListMap" class="java.util.Map">
+	    <parameter property="CORP_CODE" 	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="STR_CODE" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="ITM_NAME" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="VEN_CODE" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="ITM_STD" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="GRE_GB" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="ITM_FORM" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="LRG_CODE" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="MID_CODE" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CLS_CODE" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="END_IND" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="ORD_UNIT" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="ROUTE_GB" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="POINT_SAVE" 	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="STR_DT_FROM" 	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="STR_DT_TO" 	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    /> 
+		<parameter property="MARGIN_PER_FROM" 	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    /> 
+        <parameter property="MARGIN_PER_TO" 	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    /> 
+		<parameter property="ROWS_PER_PAGE" 	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    /> 
+		<parameter property="PAGE_INDEX" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    /> 
+		<parameter property="ITM_CODE" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    /> 
+		 <parameter property="SCAN_CODE" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    /> 
+		
+		<parameter property="CUR"           javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"   />
+	</parameterMap>
+	 
+	
+  	<procedure id="productStoreSearchList" parameterMap="productStoreSearchListMap"   resultClass="java.util.HashMap"  >
+		{   call PKG_PRODUCT_STORE.PRODUCT_STORE_SEARCH_LIST (?, ?, ?, ?, ?, ?, ?, ?, ?,  ?,?,    ?, ?, ?, ?, ?,   ?, ?, ?, ?, ?,    ?, ?  )  }
+  	</procedure>
+   
+   
+   
+   
+   
+  <!--  점 상품 업데이트  -->
+  <parameterMap id="productStoreUpdateParameterMap" class="java.util.Map">     
+    <parameter property="CORP_CODE"   				javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+    <parameter property="EMP_NO"   					javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />   
+  	<parameter property="GRID_XML_DATA1"   			javaType="java.lang.String"     jdbcType="CLOB"       mode="IN"      /> 
+  	<parameter property="RETURN_CUR"        		javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"   mode="OUT"     /> 
+  </parameterMap>
+    
+  <procedure id="productStoreUpdate"  parameterMap="productStoreUpdateParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_PRODUCT_STORE.PRODUCT_STORE_UPDATE( ? , ? , ? , ?    )  }   
+  </procedure>
+   
+   
+   
+   
+
+	<resultMap id="resultMap1" class="java.util.HashMap"> 
+		<result property="CORP_CODE" 			column="CORP_CODE" 			nullValue=""/>
+		<result property="ITM_CODE" 			column="ITM_CODE" 			nullValue=""/>
+		<result property="SCAN_CODE" 			column="SCAN_CODE" 			nullValue=""/>
+		<result property="ITM_NAME" 			column="ITM_NAME" 			nullValue=""/>
+		<result property="ORD_UNIT" 			column="ORD_UNIT" 			nullValue=""/>
+		<result property="TAX_GB_NM" 			column="TAX_GB_NM" 			nullValue=""/>
+		<result property="WPRC" 				column="WPRC" 				nullValue=""/>
+		<result property="WVAT" 				column="WVAT" 				nullValue=""/>
+		<result property="SPRC" 				column="SPRC" 				nullValue=""/>
+		<result property="MARGIN_PER" 			column="MARGIN_PER" 		nullValue=""/>
+		<result property="IPSU_QTY" 			column="IPSU_QTY" 			nullValue=""/>
+		<result property="GRE_GB_NM" 			column="GRE_GB_NM" 			nullValue=""/>
+		<result property="ROUTE_GB" 			column="ROUTE_GB" 			nullValue=""/>
+		<result property="END_IND" 				column="END_IND" 			nullValue=""/>
+		<result property="TAX_GB" 				column="TAX_GB" 			nullValue=""/>
+		<result property="PRGT_RATE" 			column="PRGT_RATE" 			nullValue=""/>
+		<result property="CLS_CODE" 			column="CLS_CODE" 			nullValue=""/>
+		<result property="CLS_NAME" 			column="CLS_NAME" 			nullValue=""/>
+		<result property="ITM_STD_NM" 			column="ITM_STD_NM" 		nullValue=""/>
+		<result property="ITM_GB_NM" 			column="ITM_GB_NM" 			nullValue=""/>
+		<result property="VEN_CODE" 			column="VEN_CODE" 			nullValue=""/>
+		<result property="ITM_STD" 				column="ITM_STD" 			nullValue=""/>
+		<result property="VEN_NAME" 			column="VEN_NAME" 			nullValue=""/>
+		<result property="UDATE" 				column="UDATE" 			    nullValue=""/>
+		<result property="STR_DT" 				column="STR_DT" 			nullValue=""/>
+		<result property="POINT_SAVE" 			column="POINT_SAVE" 		nullValue=""/>
+		<result property="ITM_FORM" 			column="ITM_FORM" 			nullValue=""/>
+		<result property="GRE_GB" 				column="GRE_GB" 			nullValue=""/>
+		<result property="WPRC_TOT" 			column="WPRC_TOT" 			nullValue=""/>
+		<result property="EVT_NM" 				column="EVT_NM" 			nullValue=""/>
+		
+		<result property="LAST_PUR_DT" 			column="LAST_PUR_DT" 			nullValue=""/>
+		<result property="LAST_SALE_DT" 		column="LAST_SALE_DT" 			nullValue=""/>
+		<result property="CUR_INV_QTY" 			column="CUR_INV_QTY" 			nullValue=""/>
+		<result property="PREV_PRICE" 			column="PREV_PRICE" 			nullValue=""/>
+<result property="EVT_SPRC" 			column="EVT_SPRC" 			nullValue=""/>
+
+                     
+                  
+              
+
+	</resultMap> 
+	<parameterMap id="paramMap2" class="java.util.Map">
+		<parameter property="P_CORP_CODE" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ITM_NAME" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ITM_STD" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_GRE_GB" 				javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ITM_FORM" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_LRG_CODE" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_MID_CODE" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CLS_CODE" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_END_IND" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ORD_UNIT" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ROUTE_GB" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_POINT_SAVE" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_DT_FROM" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_DT_TO" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    /> 
+		<parameter property="P_MARGIN_PER_FROM" 	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    /> 
+        <parameter property="P_MARGIN_PER_TO" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    /> 
+		<parameter property="P_ROWS_PER_PAGE" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    /> 
+		<parameter property="P_PAGE_INDEX" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    /> 
+		<parameter property="P_ITM_CODE" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    /> 
+		 <parameter property="P_SCAN_CODE" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    /> 
+		
+		<parameter property="CUR"               javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  	mode="OUT"  resultMap="resultMap1" />
+	</parameterMap>
+	
+	<!-- 점 상품마스터 엑셀 다운로드   fetchSize="10000"  -->
+	<procedure id="excelProductMasterStore" parameterMap="paramMap2"  resultMap="resultMap1"   >
+		{ call PKG_PRODUCT_STORE.PRODUCT_STORE_SEARCH_EXCEL ( ?,?,?,?,?,  ?,?,?,?,?,  ?,?,?,?,?,  ?,?,?,?,?,  ?,? ,?   )  }
+	</procedure>
+	
+   
+   
+
+</sqlMap>

@@ -1,0 +1,159 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>포인트기준관리</title>
+
+<link type="text/css" rel="stylesheet" href="/resources/css/jquery-ui.css">
+<link type="text/css" rel="stylesheet" href="/resources/css/common.css">
+<link type="text/css" rel="stylesheet" href="/resources/css/font-awesome.min.css">
+
+<!--[if lt IE 9]>
+<script src="/resources/js/html5shiv.js"></script>
+<script src="/resources/js/IE9.js"></script>
+<link type="text/css" rel="stylesheet" href="/resources/css/ie8.css">
+<![endif]-->
+<script type="text/javascript" src="/resources/js/jquery-1.7.1.min.js" charset="utf-8"></script>
+<script src="/resources/js/jquery.ui-1.10.4.datepicker.min.js"></script>
+<script src="/resources/js/style.js"></script>
+<%--
+	설명: 회원정보 > 멤버십관리 > 회원등급변경기준 관리
+		
+	수정일      	   수정자        수정내용
+	------------------------------------------------------
+	2017-01-05         김경진       초기작성 
+	------------------------------------------------------
+	version : 1.0
+--%> 
+
+<jsp:include page="/WEB-INF/jsp/retail/inc_common/inc_head.jsp" />	
+
+<!-- rMateGridH5 CSS -->
+<link rel="stylesheet" type="text/css" href="/resources/js/rMateGridH5/Assets/rMateH5.css"/> 
+<!-- rMateGridH5 라이센스 -->
+<script type="text/javascript" src="/resources/js/rMateGridH5/LicenseKey/rMateGridH5License.js" charset="utf-8"></script> 
+<!-- rMateGridH5 라이브러리 -->
+<script type="text/javascript" src="/resources/js/rMateGridH5/JS/rMateGridH5.js"></script>
+<script type="text/javascript" src="/resources/js/rMateStyle.js"></script>
+<script type="text/javascript" src="/resources/js/page/member/grade/memberGradeStandard.js" charset="utf-8"></script>
+</head>
+
+<body id="in_frame">
+	
+	<div id="iframeCnt">
+		<div class="btn_area clear">
+			<button type="button" class="btn btn_style1 f_l"><img src="resources/img/common/help_ico.png"><spring:message code="btnHelp"/></button>
+			<div class="advice p_a">
+				<h4>information</h4>
+				<pre id="helpText"></pre>
+				<a href="" class="close_btn p_a"><spring:message code="btnHelpClose"/></a>
+			</div>
+			<button id="bookMarkIcon" type="button" class="fav fav_inactive"></button> 
+			<div class="f_r">
+				<!-- 권한에 따른 버튼 show/hide -->
+				<c:if test="${sessionScope.AUTH_NEW eq 'Y'}">
+					<button type="button" id="btn_new" class="btn btn_style2" ><spring:message code="btnNew"/></button>
+				</c:if>
+				<c:if test="${sessionScope.AUTH_SEARCH eq 'Y'}">
+					<button type="button" id="btn_search" class="btn btn_style3" ><i class="fa fa-search"></i><spring:message code="btnSearch"/></button>
+				</c:if>
+			</div>
+		</div>
+		
+		<!-- 조회폼 영역 -->
+		<form name="sertch_frm" id="sertch_frm" >
+			<input type="hidden" name="S_CORP_CODE" id="S_CORP_CODE" value="${sessionScope.CORP_CODE }" />	<!-- 기업코드 -->
+			
+		</form>
+		<!-- //조회폼 영역 -->
+		<br />
+		
+		<!-- 본문 영역 -->
+		<div class="col2 sub_cnt">
+			<h3 class="bul_arr">회원등급변경기준</h3>
+			<div class="sec_grid">
+				<div class="content">
+					<div id="gridHolder1">
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 본문 영역 -->
+		
+	</div>
+	<!-- //Content : 본문 영역 -->
+	
+	
+<!-- 등록 수정 팝업 영역 시작  -->
+<div id="pop_wrap">
+	<header id="pop_head" class="clear">
+		<h1 class="bul_arr f_l">회원등급변경기준 관리</h1>
+		<div class="f_r">
+			<c:if test="${sessionScope.AUTH_SAVE eq 'Y'}">
+				<button type="button" class="btn btn_style4" id="btn_update" ><spring:message code="btnSave"/></button>
+			</c:if>
+			<button type="button" class="btn btn_style4" onclick="btn_close()"><spring:message code="btnClose"/></button>
+		</div>
+	</header>
+	
+	<form name="reg_frm" id="reg_frm">
+		<input type="hidden" name="P_CORP_CODE" id="P_CORP_CODE" value="${sessionScope.CORP_CODE }" />	<!-- 기업코드 -->
+		<input type="hidden" name="P_TYPE" id="P_TYPE" />			<!-- insert, update, delete -->
+		<input type="hidden" name="P_REG_ID" id="P_REG_ID" value="${sessionScope.ID }" />
+		
+		<div id="pop_cnt">
+			<table class="tbl_st2">
+				<tbody>
+					<tr>
+						<th scope="row"><em>필수항목</em><label><spring:message code="category"/></th>
+						<td>
+							<select id="P_UPTAE_FLAG" name="P_UPTAE_FLAG" >
+							</select>
+						</td>
+						<th scope="row"><em>필수항목</em><label><spring:message code="busiFlag"/></th>
+						<td>
+							<select id="P_BUSI_FLAG" name="P_BUSI_FLAG" >
+							</select>
+						</td>
+						<th scope="row"><em>필수항목</em><label><spring:message code="mbrGrade"/></th>
+						<td>
+							<select id="P_MBR_GRADE" name="P_MBR_GRADE" >
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><em>필수항목</em><label><spring:message code="baseMinAmt"/></label></th>
+						<td>
+							<input type="text" id="P_BASE_MIN_AMT" name="P_BASE_MIN_AMT" numberOnly maxlength="16" >
+						</td>
+						<th scope="row"><em>필수항목</em><label><spring:message code="baseMaxAmt"/></label></th>
+						<td colspan="3">
+							<input type="text" id="P_BASE_MAX_AMT" name="P_BASE_MAX_AMT" numberOnly maxlength="16" style="width:103px;" >
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label><spring:message code="inputDate"/></label></th>
+						<td>
+							<input type="text" id="P_IDATE" name="P_IDATE" readonly="readonly" tabindex="-1" onfocus="this.blur()" >
+						</td>
+						<th scope="row"><label><spring:message code="inputName"/></label></th>
+						<td colspan="3">
+							<input type="text" id="P_IEMP_NO" name="P_IEMP_NO" readonly="readonly" style="width:103px;" tabindex="-1" onfocus="this.blur()" >
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</form>
+
+</div>
+<!--  등록 수정 팝업 영역 끝  -->
+
+</body>
+</html>

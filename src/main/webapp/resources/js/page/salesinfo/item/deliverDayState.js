@@ -1,0 +1,412 @@
+/********************************************************
+ * 설명: 협력업체매출현황 매뉴화면
+ * 수정일      	수정자       수정내용
+ * ------------------------------------------------------
+ * ------------------------------------------------------
+ * author	: 추황영
+ * since	: 2017.04.26
+ * version : 1.0
+ ********************************************************/
+$(document).ready(function () {	
+	//최초 도움말 불러오기 
+	setHelpMessage($(location).attr('pathname').replace('/',''));
+	init();
+	
+});
+// ----------------------- 그리드 설정 시작 -------------------------------------
+
+//그리드 데이터활용을 위한 전역변수
+var gridApp1, gridRoot1, dataGrid1, dataRow1;
+var gridApp2, gridRoot2, dataGrid2, dataRow2;
+
+var gridData1 = [];
+//그리드2 데이터 초기화
+
+//rMate그리드 경로정보 셋팅
+rMateGridH5.setAssetsPath("/resources/js/rMateGridH5/Assets/");
+rMateGridH5.setConfig(rMateGridH5.style);
+
+//rMate 그리드 생성 준비가 완료된 상태 시 호출할 함수를 지정합니다.
+var jsVars1 = "rMateOnLoadCallFunction=gridReadyHandler";
+
+//rMateDataGrid 를 생성합니다.
+//파라메터 (순서대로)
+//1. 그리드의 id ( 임의로 지정하십시오. )
+//2. 그리드가 위치할 div 의 id (즉, 그리드의 부모 div 의 id 입니다.)
+//3. 그리드 생성 시 필요한 환경 변수들의 묶음인 jsVars
+//4. 그리드의 가로 사이즈 (생략 가능, 생략 시 100%)
+//5. 그리드의 세로 사이즈 (생략 가능, 생략 시 100%)
+rMateGridH5.create("grid1", "gridHolder1", jsVars1);
+rMateGridH5.create("grid2", "gridHolder2", jsVars1);
+
+//그리드의 속성인 rMateOnLoadCallFunction 으로 설정된 함수.
+//rMate 그리드의 준비가 완료된 경우 이 함수가 호출됩니다.
+//이 함수를 통해 그리드에 레이아웃과 데이터를 삽입합니다.
+//파라메터 : id - rMateGridH5.create() 사용 시 사용자가 지정한 id 입니다.
+
+var gridData1ClickStrCode = "";
+
+//그리드1 레디 핸들러
+function gridReadyHandler(id) {
+	if(id == "grid1"){
+		// rMateGrid 관련 객체
+		gridApp1 = document.getElementById(id); // 그리드를 포함하는 div 객체	
+		gridRoot1 = gridApp1.getRoot(); // 데이터와 그리드를 포함하는 객체
+		//그리드1에 헤더 및 레이아웃 셋팅
+		gridApp1.setLayout(layoutStr1);
+		
+		//최초 로딩시 그리드1 데이터 조회 및 그리드 데이터 셋팅		
+		gridRoot1.addEventListener("layoutComplete", layoutCompleteHandler1);
+	}else if (id == "grid2"){
+		// rMateGrid 관련 객체
+		gridApp2 = document.getElementById(id); // 그리드를 포함하는 div 객체	
+		gridRoot2 = gridApp2.getRoot(); // 데이터와 그리드를 포함하는 객체
+		//그리드1에 헤더 및 레이아웃 셋팅
+		gridApp2.setLayout(layoutStr1);
+		
+		//최초 로딩시 그리드1 데이터 조회 및 그리드 데이터 셋팅		
+		gridRoot2.addEventListener("layoutComplete", layoutCompleteHandler2);
+	}
+}
+
+
+function layoutCompleteHandler1() {
+	dataGrid1 = gridRoot1.getDataGrid();  // 그리드 객체
+}
+
+function layoutCompleteHandler2() {
+	dataGrid2 = gridRoot2.getDataGrid();  // 그리드 객체
+	getHeaderGridData("init");
+}
+
+//----------------------- 그리드 설정 끝 -----------------------
+
+//그리드1 헤더 및 레이아웃 
+var layoutStr1 =
+	'<rMateGrid>\
+		<SpanCellAttribute id="sum2CellAttr" colNo="0" styleName="subTotalStyle" backgroundColor="#FFE048"/>\
+		<SpanRowAttribute id="sumRowAttr" styleName="allTotalStyle" backgroundColor="#FFF19F"/>\
+		<NumberFormatter id="numfmt" useThousandsSeparator="true" />\
+			<DataGrid id="dg1" sortableColumns="false" showDataTips="true"  horizontalScrollPolicy="auto" lockedColumnCount="2" lastColumnWidthPolicy="cut" >\
+				<groupedColumns>\
+					<DataGridColumn dataField="DAY_S" 	headerText="구분" 		width="50"   textAlign="center" styleJsFunction="styleFunction1" labelJsFunction="dayNM"/>\
+					<DataGridColumn dataField="SUM_CNT" headerText="소계" 		width="120"  id="dg1col1"  textAlign="right" formatter="{numfmt}" styleJsFunction="styleFunction1"  />\
+					<DataGridColumn dataField="M1" 		headerText="M1" 		width="100"  id="dg1col2"  textAlign="right" formatter="{numfmt}" styleJsFunction="styleFunction1" />\
+					<DataGridColumn dataField="M2" 		headerText="M2"			width="100"  id="dg1col3"  textAlign="right" formatter="{numfmt}" styleJsFunction="styleFunction1" />\
+					<DataGridColumn dataField="M3" 		headerText="M3" 		width="100"  id="dg1col4"  textAlign="right" formatter="{numfmt}" styleJsFunction="styleFunction1" />\
+					<DataGridColumn dataField="M4" 		headerText="M4" 		width="100"  id="dg1col5"  textAlign="right" formatter="{numfmt}" styleJsFunction="styleFunction1" />\
+					<DataGridColumn dataField="M5" 		headerText="M5" 		width="100"  id="dg1col6"  textAlign="right" formatter="{numfmt}" styleJsFunction="styleFunction1" />\
+					<DataGridColumn dataField="M6" 		headerText="M6" 		width="100"  id="dg1col7"  textAlign="right" formatter="{numfmt}" styleJsFunction="styleFunction1" />\
+					<DataGridColumn dataField="M7" 		headerText="M7" 		width="100"  id="dg1col8"  textAlign="right" formatter="{numfmt}" styleJsFunction="styleFunction1" />\
+					<DataGridColumn dataField="M8" 		headerText="M8" 		width="100"  id="dg1col9"  textAlign="right" formatter="{numfmt}" styleJsFunction="styleFunction1" />\
+					<DataGridColumn dataField="M9" 		headerText="M9" 		width="100"  id="dg1col10" textAlign="right" formatter="{numfmt}" styleJsFunction="styleFunction1" />\
+					<DataGridColumn dataField="M10" 	headerText="M10" 		width="100"  id="dg1col11" textAlign="right" formatter="{numfmt}" styleJsFunction="styleFunction1" />\
+					<DataGridColumn dataField="M11" 	headerText="M11" 		width="100"  id="dg1col12" textAlign="right" formatter="{numfmt}" styleJsFunction="styleFunction1" />\
+					<DataGridColumn dataField="M12" 	headerText="M12" 	resizable="false"	width="100"  id="dg1col13" textAlign="right" formatter="{numfmt}" styleJsFunction="styleFunction1" />\
+				</groupedColumns>\
+				<footers>\
+				<DataGridFooter  height="26" color="#000" backgroundColor="#c5c5c5" borderTopColor="#858585" borderTopWidth="1" borderTopStyle="solid" fontWeight="normal">\
+					<DataGridFooterColumn label="'+sm+'" textAlign="center" width="50" backgroundColor="#acacac" />\
+					<DataGridFooterColumn  summaryOperation="SUM" width="120" dataColumn="{dg1col1}" formatter="{numfmt}" textAlign="right" />\
+					<DataGridFooterColumn  summaryOperation="SUM" width="100" dataColumn="{dg1col2}" formatter="{numfmt}" textAlign="right" />\
+					<DataGridFooterColumn  summaryOperation="SUM" width="100" dataColumn="{dg1col3}" formatter="{numfmt}" textAlign="right" />\
+					<DataGridFooterColumn  summaryOperation="SUM" width="100" dataColumn="{dg1col4}" formatter="{numfmt}" textAlign="right" />\
+					<DataGridFooterColumn  summaryOperation="SUM" width="100" dataColumn="{dg1col5}" formatter="{numfmt}" textAlign="right" />\
+					<DataGridFooterColumn  summaryOperation="SUM" width="100" dataColumn="{dg1col6}" formatter="{numfmt}" textAlign="right" />\
+					<DataGridFooterColumn  summaryOperation="SUM" width="100" dataColumn="{dg1col7}" formatter="{numfmt}" textAlign="right" />\
+					<DataGridFooterColumn  summaryOperation="SUM" width="100" dataColumn="{dg1col8}" formatter="{numfmt}" textAlign="right" />\
+					<DataGridFooterColumn  summaryOperation="SUM" width="100" dataColumn="{dg1col9}" formatter="{numfmt}" textAlign="right" />\
+					<DataGridFooterColumn  summaryOperation="SUM" width="100" dataColumn="{dg1col10}" formatter="{numfmt}" textAlign="right" />\
+					<DataGridFooterColumn  summaryOperation="SUM" width="100" dataColumn="{dg1col11}" formatter="{numfmt}" textAlign="right" />\
+					<DataGridFooterColumn  summaryOperation="SUM" width="100" dataColumn="{dg1col12}" formatter="{numfmt}" textAlign="right" />\
+					<DataGridFooterColumn  summaryOperation="SUM" width="100" resizable="false" dataColumn="{dg1col13}" formatter="{numfmt}" textAlign="right" />\
+				</DataGridFooter>\
+			</footers>\
+			</DataGrid>\
+	</rMateGrid>';
+function dayNM(item, value, column){
+	if(value == "7"){
+		return "일";
+	}else if (value == "1"){
+		return "월";		
+	}else if (value == "2"){
+		return "화";		
+	}else if (value == "3"){
+		return "수";		
+	}else if (value == "4"){
+		return "목";		
+	}else if (value == "5"){
+		return "금";		
+	}else if (value == "6"){
+		return "토";		
+	}else{
+		return value;
+	}
+	
+}
+
+function styleFunction1(item, column) {
+	var value = column.getDataField();
+	if (item["DAY_S"] == "일" || item["DAY_S"] == "7"){
+		return { color:"#FF0000" };
+	}else if (item["DAY_S"] == "토" || item["DAY_S"] == "6"){
+		return { color:"#0000FF" };
+	}else{
+		return { color:"#000000" };
+	}
+}
+
+getHeaderInit = function(){
+	columns1 = dataGrid1.getColumns();
+	columns2 = dataGrid2.getColumns();
+	for(var i = 2 ; i < columns1.length ; i ++){
+		columns1[i].setHeaderText("M"+i);	
+		columns2[i].setHeaderText("M"+i);	
+	}	
+}
+
+function getHeaderGridData(gubn){
+	var strDt = $("#P_START_MM").val().replace(/-/g, "");
+	var endDt = $("#P_END_MM").val().replace(/-/g, "");
+	if(strDt > endDt)
+	{
+		alert(msgDateValidation);
+		$("#P_END_MM").focus();
+		return;
+	}
+	var date1 = new Date(strDt.substr(0,4),strDt.substr(4,2)-1,"01"); 
+	var date2 = new Date(endDt.substr(0,4),endDt.substr(4,2)-1,"01");
+	
+	var interval = date2 - date1;
+	var day = 1000*60*60*24;
+	var month = day*30;
+	
+	var diff =  parseInt(interval/month) ;
+	if(diff > 11){
+		alert("12개월 이상 조회 할 수 없습니다. 기간을 다시 설정하세요.");
+    	gridRoot1.removeLoadingBar();
+		return; 
+	}
+	$("#URL").val("itemSalesState.deliverDayStateHeader");
+	var params = $("#sertch_frm").serializeArray();
+	//데이터 조회후 그리드1에 데이터를 넣을때 itemClickHandler1 실행된다.    
+	//그리드 header를 초기화 한다.
+	getHeaderInit();
+	
+    jQuery.ajax({ 
+	    url:"/deliverDayStateHeader.do",
+	    type:"POST",
+		datatype:"json",
+		async:false,
+		data: params,
+		beforeSend : function(){ 
+			gridRoot1.removeAll();
+			gridRoot2.removeAll();
+	    }, 
+		success:function(data){
+			
+			console.log(data);
+			
+			//debugger;
+			//그리드1 데이터 조회
+			var returnCode = eval(data['code']);
+			var returnValue = "";
+			if(returnCode == "9999"){
+				returnValue = data['Alert'];
+			}
+			else {
+				returnValue = eval(data['result']);
+				columns1 = dataGrid1.getColumns();
+				columns2 = dataGrid2.getColumns();
+				
+				for(var i = 0 ; i < returnValue.length; i++){
+					columns1[i+2].setHeaderText(returnValue[i]['HEADER_MM']);					
+					columns2[i+2].setHeaderText(returnValue[i]['HEADER_MM']);					
+				}
+				for(var i = 2 ; i < columns1.length ; i ++){
+					if(columns1[i].getHeaderText().indexOf('M') >= 0 ){
+						columns1[i].setVisible(false);
+						columns2[i].setVisible(false);
+					}else{
+						columns1[i].setVisible(true);
+						columns2[i].setVisible(true);
+					}
+				}				
+				
+				if(gubn != "init"){
+					getGridData();				
+				}
+			}
+	    },
+	    complete : function(data) {
+	    	gridRoot1.removeLoadingBar();
+	    	gridRoot2.removeLoadingBar();
+	    },
+	    error : function(xhr, status, error) {
+	    	CommonJs.alertErrorStatus(xhr.status, error);
+	    	gridRoot1.removeLoadingBar();
+	    	gridRoot2.removeLoadingBar();
+	    }
+	});
+
+	
+}
+
+//목록 그리드 조회
+function getGridData() {
+	var params	= $("#sertch_frm").serializeAllObject();
+	var strDt 	= $("#P_START_MM").val().replace(/-/g, "");
+	var endDt	= $("#P_END_MM").val().replace(/-/g, "");
+
+	if(strDt > endDt){
+		alert(msgDateValidation);
+		$("#P_END_MM").focus();
+		return;
+	}
+	
+	params.P_STR_CODE = $("#P_STR_CODE").val();
+	
+	$("#URL").val("itemSalesState.deliverDayStateListCount");
+	
+	//데이터 조회후 그리드1에 데이터를 넣을때 itemClickHandler1 실행된다.    
+    jQuery.ajax({ 
+	    url:"/deliverDayStateListCount.do",
+	    type:"POST",
+		datatype:"json",
+		async:false,
+		data: params,
+		beforeSend : function(){ 
+			gridRoot1.removeAll();
+	    }, 
+		success:function(data){
+			//debugger;
+			//그리드1 데이터 조회
+			var returnCode = eval(data['code']);
+			var returnValue = "";
+			if(returnCode == "9999"){
+				returnValue = data['Alert'];
+//				alert(returnValue);
+			}else{
+				returnValue = eval(data['result']);
+				gridApp1.setData(returnValue);
+				getGridData2();
+			}
+	    },
+	    complete : function(data) {
+	    	gridRoot1.removeLoadingBar();
+	    },
+	    error : function(xhr, status, error) {
+	    	CommonJs.alertErrorStatus(xhr.status, error);
+	    	gridRoot1.removeLoadingBar();
+	    }
+	});
+}
+
+//목록 그리드 조회
+function getGridData2() {
+	var params 	= $("#sertch_frm").serializeAllObject();
+	var strDt 	= $("#P_START_MM").val().replace(/-/g, "");
+	var endDt 	= $("#P_END_MM").val().replace(/-/g, "");
+	
+	if(strDt > endDt)
+	{
+		alert(msgDateValidation);
+		$("#P_END_MM").focus();
+		return;
+	}
+	
+	params.P_STR_CODE = $("#P_STR_CODE").val();
+	
+	$("#URL").val("itemSalesState.deliverDayStateListSum");
+	
+	//데이터 조회후 그리드1에 데이터를 넣을때 itemClickHandler1 실행된다.    
+    jQuery.ajax({ 
+	    url:"/deliverDayStateListSum.do",
+	    type:"POST",
+		datatype:"json",
+		async:false,
+		data: params,
+		beforeSend : function(){ 
+			gridRoot2.removeAll();
+	    }, 
+		success:function(data){
+			//debugger;
+			//그리드1 데이터 조회
+			var returnCode = eval(data['code']);
+			var returnValue = "";
+			if(returnCode == "9999"){
+				returnValue = data['Alert'];
+//				alert(returnValue);
+			}else{
+				returnValue = eval(data['result']);
+				gridApp2.setData(returnValue);				
+			}
+	    },
+	    complete : function(data) {
+	    	gridRoot2.removeLoadingBar();
+	    },
+	    error : function(xhr, status, error) {
+	    	CommonJs.alertErrorStatus(xhr.status, error);
+	    	gridRoot2.removeLoadingBar();
+	    }
+	});
+}
+
+
+function excelExport(){    
+	var nowDate = new CommDateManager().getDate("yyyymmdd");
+	var str_name = $("#P_STR_CODE option:selected").text();
+	dataGrid1.exportFileName = "요일별/월별배달집계(배달건수)"+nowDate+"_"+str_name+"_"+".xlsx";
+	gridRoot1.excelExportSave("/gridExcelDown.do", false);
+
+	setTimeout(function (){
+		dataGrid2.exportFileName = "요일별/월별배달집계(배달매출액)"+nowDate+"_"+str_name+"_"+".xlsx";
+		gridRoot2.excelExportSave("/gridExcelDown.do", false);
+	},5000);
+
+}
+
+function init() {
+	// 점포코드 콤보 가져오기
+	getStoreCode("P_STR_CODE");
+//	$("#sertch_frm select[id='P_STR_CODE']").val(SSSC).prop("selected", true);
+	datePickerYearMonth();
+	
+	//그리드 너비 제어
+	$("#gridHolder1").width("100%");
+	$("#gridHolder1").height(250);
+
+	$("#gridHolder2").width("100%");
+	$("#gridHolder2").height(250);
+	//조회
+	$("#btn_search").click(function(){
+	    gridRoot1.addLoadingBar();
+	    setTimeout(function(){getHeaderGridData("search");}, 0);
+	});	
+	$("#btn_excel_down").click(function(){
+		excelExport();
+		
+	});	
+}
+
+
+//리포트출력
+function fnPrint(){
+	
+	var P_CORP_CODE	= $("#P_CORP_CODE").val();
+	var P_STR_CODE	= $("#P_STR_CODE").val();
+	var P_STR_NAME	= $("#P_STR_CODE option:selected").text();
+	var P_START_MM	= $("#P_START_MM").val().replace(/-/gi,"");
+	var P_END_MM	= $("#P_END_MM").val().replace(/-/gi,"");
+
+	var params = "?reportMode=HTML"	+
+				"&P_CORP_CODE="		+P_CORP_CODE+
+				"&P_STR_CODE="		+P_STR_CODE+
+				"&P_STR_NAME="		+P_STR_NAME+
+				"&P_START_MM="		+P_START_MM+
+				"&P_END_MM="		+P_END_MM;
+
+	// AIViewer 파라미터
+	window.open("deliverDayStateReport.do"+params,'AIViewer','width=1180,height=900,top=10,left=10,toolbar=no,menubar=no,lacation=no,scrollbars=no,status=no,resizable=yes');
+	
+}

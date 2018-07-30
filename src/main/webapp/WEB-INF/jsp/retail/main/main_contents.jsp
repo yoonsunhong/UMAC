@@ -1,0 +1,186 @@
+<%@ page language="java"   contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@include file="/WEB-INF/jsp/retail/inc_common/inc_common.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<!-- 스프링 메세지 테그사용 :: 다국어 -->
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@page import ="java.util.List" %>
+<%@page import ="java.util.HashMap" %>
+<%@page import ="java.util.ArrayList" %>
+<%@page import ="java.util.List" %>
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title><spring:message code="selngBreakingNews"/></title>
+
+<link type="text/css" rel="stylesheet" href="/resources/css/jquery-ui.css">
+<link type="text/css" rel="stylesheet" href="/resources/css/common.css">
+<link type="text/css" rel="stylesheet" href="/resources/css/font-awesome.min.css">
+
+<!--[if lt IE 9]>
+<script src="/resources/js/html5shiv.js"></script>
+<script src="/resources/js/IE9.js"></script>
+<link type="text/css" rel="stylesheet" href="/resources/css/ie8.css">
+<![endif]-->
+<script type="text/javascript" src="/resources/js/jquery-1.7.1.min.js" charset="utf-8"></script>
+<script src="/resources/js/jquery.ui-1.10.4.datepicker.min.js"></script>
+<script src="/resources/js/style.js"></script>
+<!--[if IE]><script language="javascript" type="text/javascript" src="/resources/js/rMateGridH5/JS/shim.js"></script><![endif]-->
+<script type="text/javascript" src="/resources/js/rMateGridH5/JS/jszip.min.js"></script>
+<script type="text/javascript" src="/resources/js/rMateGridH5/JS/xlsx.min.js"></script>
+
+<%--
+	설명: 매출속보(시간대별)
+		
+	수정일      	   수정자        수정내용
+	------------------------------------------------------
+	2017-05-31    김창열       초기작성 
+	------------------------------------------------------
+	version : 1.0
+--%> 
+
+<jsp:include page="/WEB-INF/jsp/retail/inc_common/inc_head.jsp" />	
+
+<!-- rMateGridH5 CSS -->
+<link rel="stylesheet" type="text/css" href="/resources/js/rMateGridH5/Assets/rMateH5.css"/> 
+<!-- rMateGridH5 라이센스 -->
+<script type="text/javascript" src="/resources/js/rMateGridH5/LicenseKey/rMateGridH5License.js" charset="utf-8"></script> 
+<!-- rMateGridH5 라이브러리 -->
+<script type="text/javascript" src="/resources/js/rMateGridH5/JS/rMateGridH5.js"></script>
+<script type="text/javascript" src="/resources/js/rMateStyle.js"></script>
+
+<script type="text/javascript" src="/resources/js/page/main/main_contents.js?var=20180219_001" charset="utf-8"></script>
+
+	 
+</head>
+<c:set var="today" value="<%=new java.util.Date()%>" />
+<fmt:formatDate value="${today}" pattern="yyyy-MM-dd" var="today"/> 
+<c:set value="${fn:substring(today,0,7)}-01" var="today2"/>
+
+<body id="in_frame">
+ 	<form name="frm" id="frm">
+ 		<input type="hidden" name="P_STR_CODE" id="P_STR_CODE" value=""/>
+		<div id="iframeCnt">			
+			<!-- 조회폼 영역 -->
+			<div class="search_area" id="top_search">
+				<div class="clear">
+					<div class="f_l">
+						<label for="" class="bul_arr" style="padding-right:70px;"><spring:message code="selngBreakingNews"/></label>
+						<label for="" ><spring:message code="selngDate"/></label>
+						<input type="text" id="P_SALE_DT" name="P_SALE_DT" class="datepicker1" value="<c:out value="${today}"/>" readonly="readonly">	
+					</div>
+					<div class="f_r">
+						<button type="button" class="btn btn_style3"  id="btn_search" name="btn_search"><i class="fa fa-search"></i><spring:message code="btnSearch"/></button>
+					</div>			
+				</div>				
+			</div>
+			<!-- //조회폼 영역 -->
+			
+			<!-- 매출속보 -->
+			<div class="col2 sub_cnt">
+				<div class="sec_grid">
+					<div class="content">
+						<div id="gridHolder1"></div>
+					</div>
+				</div> 		 
+			</div>
+		</div>
+	</form>		
+
+ 	<form name="frm2" id="frm2">
+		<input type="hidden" name="pageIndex" id="pageIndex" value="1" />
+		<input type="hidden" name="pageUnit" id="pageUnit" value="10" />	<!-- 한 페이지당 게시되는 게시물 건 수 -->
+		<input type="hidden" name="pageSize" id="pageSize" value="10" />	<!-- 페이지 리스트에 게시되는 페이지 건수, -->
+		<input type="hidden" name="P_COLUMN_NAME" id="P_COLUMN_NAME" />
+		<input type="hidden" name="P_ORDERBY" id="P_ORDERBY" />
+		<input type="hidden" name="P_REGI_CHNL" id="P_REGI_CHNL" value="1"/>	<!-- 1이면 유맥 2이면 외부업체 -->
+		<input type="hidden" name="P_US" id="P_US" value="1"/>	<!-- 1이면 유맥 에서 사용 2이면 scm에서 사용 -->			
+						 	
+		<div id="iframeCnt">			
+			<!-- 조회폼 영역 -->
+			<div class="search_area" id="top_search">
+				<div class="clear">
+					<div class="f_l">
+						<label for="" class="bul_arr" style="padding-right:128px;"><spring:message code="notice"/></label>
+						<label for=""><spring:message code="noticeDate"/></label>
+						<input type="text" id="P_OPEN_DT" name="P_OPEN_DT" class="datepicker1" readonly="readonly"> ~ 
+						<input type="text" id="P_END_DT" name="P_END_DT" class="datepicker2" value="<c:out value="${today}"/>" readonly="readonly">
+						<label for="">&nbsp;&nbsp;&nbsp;<spring:message code="title"/></label>						
+						<input type="text" id="P_TITLE" name="P_TITLE" style="width:216px;"/>					
+					</div>						
+					<div class="f_r">
+						<button type="button" class="btn btn_style3"  id="btn_search2" name="btn_search2"><i class="fa fa-search"></i><spring:message code="btnSearch"/></button>					
+					</div>				
+				</div>
+
+			</div>
+			<!-- //조회폼 영역 -->
+			
+			<!-- 공지사항 -->
+			<div class="col2 sub_cnt">
+				<div class="sec_grid">
+					<div class="content">
+						<div id="gridHolder2"></div>
+					</div>
+					<div class="gridPaging" id="gridPageNavigationDiv"></div> 		 
+			</div>
+		</div>
+	</form>		
+	<!-- //Content : 본문 영역 -->	 
+	
+	<!-- 등록 수정 팝업 영역 시작  -->
+	<div id="pop_wrap1">
+		<header id="pop_head" class="clear">
+			<h1 class="bul_arr f_l"><spring:message code="notice"/><spring:message code="regist"/></h1>
+		</header>		
+		
+		<form name="pop_frm" id="pop_frm" enctype="multipart/form-data">			
+			<input type="hidden" name="D_SEQ" id="D_SEQ" />
+			<input type="hidden" name="D_UD" id="D_UD" /><!-- 수정 인지 삭제인지 -->		
+			<div id="pop_cnt">
+				<table class="tbl_st2">
+					<tbody>
+						<tr>
+							<th scope="row"><em>필수항목</em><label><spring:message code="se"/></label></th>
+							<td>
+								<input type="text" id="D_PRIORITY" name="D_PRIORITY" class="wid2"/>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><em>필수항목</em><label><spring:message code="title"/></label></th>
+							<td><input type="text" id="D_TITLE" name="D_TITLE"></td>
+						</tr>
+						<tr>
+							<th scope="row"><em>필수항목</em><label><spring:message code="pd"/></label></th>
+							<td>								
+								<input type="text" id="D_OPEN_DT" name="D_OPEN_DT" style="width:100px" readonly="readonly"> ~ 
+								<input type="text" id="D_END_DT" name="D_END_DT" style="width:100px" readonly="readonly">
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><em>필수항목</em><label><spring:message code="contents"/></label></th>
+							<td>
+								<textarea id="D_CONTENTS" name="D_CONTENTS" style="height:200px"></textarea>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><label><spring:message code="atchmnfl"/></label></th>
+							<td>
+								<div id="fn" name="fn"></div>					
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>	
+		</form>
+	</div>	
+	<form id="fileForm" name="fileForm">
+		<input type="hidden" name="P_SEQ" id="P_SEQ">
+	</form>		
+</body>
+</html>
+	

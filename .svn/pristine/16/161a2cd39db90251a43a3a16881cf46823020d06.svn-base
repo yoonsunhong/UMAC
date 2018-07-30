@@ -1,0 +1,1430 @@
+/********************************************************
+	설명: 조직마스터 관리
+		
+	수정일      	   수정자        수정내용
+	------------------------------------------------------
+	2016-12-23    문희훈       초기작성 
+	------------------------------------------------------
+	version : 1.0
+ ********************************************************/
+	
+var crudBit          =   "C";   // 최초 신규로 시작함
+var crudBitDetail    =   "C";   // 최초 신규로 시작함
+
+$(document).ready(function(){
+	
+	init();
+
+	//최초 도움말 불러오기 
+	setHelpMessage($(location).attr('pathname').replace('/',''));
+	//달력설정
+	$(".datepicker").datepicker();
+	
+	//사용유무
+	$("#iframeCnt select[name=USE_YN]").append('<option value="">'+ all +'</option>');
+	getCommonCodeSelectBoxList("iframeCnt select[name=USE_YN]", "USE_YN");
+	$("#USE_YN").val("Y");
+	//조직형태
+	$("#iframeCnt select[name=ORG_TYPE]").append('<option value="">'+ select +'</option>');
+	getOrgTypeSelectBoxList("iframeCnt select[name=ORG_TYPE]", "ORG_TYPE");
+	
+	//전화번호
+	$("#iframeCnt select[name=TEL_NO1]").append('<option value="">'+ select +'</option>');
+	getCommonCodeSelectBoxList("iframeCnt select[name=TEL_NO1]", "AREA_CODE");
+	//업태구분
+	$("#iframeCnt select[name=UPTAE_FLAG]").append('<option value="">'+ select +'</option>');
+	getCommonCodeSelectBoxList("iframeCnt select[name=UPTAE_FLAG]", "UPTAE_FLAG");
+	
+	//터미널ID
+	$("#iframeCnt select[name=TERM_ID_VAN]").append('<option value="">'+ select +'</option>');
+	getCommonCodeSelectBoxList("iframeCnt select[name=TERM_ID_VAN]", "TERM_ID_VAN");
+	//물류센터 리스트 조회
+	$("#iframeCnt select[name=CENTA_CODE]").append('<option value="">'+ select +'</option>');
+	
+	var loadData= {};
+	
+	jQuery.ajax({
+	    type:"POST",
+	    url:"/getWmsStockOrganizationList.do", 	//WmsStockScheduleController.java 호출
+	    dataType:"JSON", // 옵션이므로 JSON으로 받을게 아니면 안써도 됨
+	    data:loadData,
+	    async:false,
+	    success : function(data) {
+			for(var i = 0; i < data.length; i++){
+				 $("#CENTA_CODE").append('<option value="'+ data[i].STR_CODE +'">'+ data[i].STR_NAME+'(' +data[i].STR_CODE+')'+'</option>'); 
+		   	}
+	    },
+	    complete : function(data) {
+	    },
+	    error : function(xhr, status, error) {
+	    	CommonJs.alertErrorStatus(xhr.status, error);
+	    }
+	});
+	
+	
+	/** 
+	 * input 숫자와 콤마만 입력되게 하기. 
+	 * 매우중요 : jquery.number.js 파일 인크루드하기
+	 * include js : jquery.number.js
+	 * input 속성에 numberOnly 추가
+	 * jsp : <input type="text" id="amount" name="amount" numberOnly placeholder="0" />
+	 * $(this).number(true);
+	 * $.number( 5020.2364 );				// Outputs 5,020
+	 * $.number( 5020.2364, 2 );			// Outputs: 5,020.24
+	 * $.number( 135.8729, 3, ',' );		// Outputs: 135,873
+	 * $.number( 5020.2364, 1, ',', ' ' );	// Outputs: 5 020,2 
+	 */
+	$('#SIGN_AMT').number( true, 0 );
+	
+	//숫자만 입력
+	CommonJs.addInputHandler({input:$("#DEPT_CODE"), dataType:"N", maxlength:5});
+	CommonJs.addInputHandler({input:$("#TEL_NO2"), dataType:"N", maxlength:4});
+	CommonJs.addInputHandler({input:$("#TEL_NO3"), dataType:"N", maxlength:4});
+	
+	CommonJs.addInputHandler({input:$("#FAX_NO1"), dataType:"N", maxlength:3});
+	CommonJs.addInputHandler({input:$("#FAX_NO2"), dataType:"N", maxlength:4});
+	CommonJs.addInputHandler({input:$("#FAX_NO3"), dataType:"N", maxlength:4});
+	
+	CommonJs.addInputHandler({input:$("#ACCT_DEPT"), dataType:"N", maxlength:5});
+	CommonJs.addInputHandler({input:$("#ACCT_UPPER_DEPT"), dataType:"N", maxlength:5});
+	CommonJs.addInputHandler({input:$("#SALE_TRM"), dataType:"N", maxlength:3});
+});
+
+
+function init() {
+	
+	//최초 부서코드 디스에이블
+	$("#DEPT_CODE").attr("disabled",true);
+	$("#DEPT_NAME").attr("disabled",true);
+	
+	/** 
+	 * input 숫자와 콤마만 입력되게 하기. 
+	 * 매우중요 : jquery.number.js 파일 인크루드하기
+	 * include js : jquery.number.js
+	 * input 속성에 numberOnly 추가
+	 * jsp : <input type="text" id="amount" name="amount" numberOnly placeholder="0" />
+	 * $(this).number(true);
+	 * $.number( 5020.2364 );				// Outputs 5,020
+	 * $.number( 5020.2364, 2 );			// Outputs: 5,020.24
+	 * $.number( 135.8729, 3, ',' );		// Outputs: 135,873
+	 * $.number( 5020.2364, 1, ',', ' ' );	// Outputs: 5 020,2 
+	 */
+	$('#STR_AREA').number( true, 2 );
+	$('#CAR_AREA').number( true, 2 );
+	
+	$("#tree_menu").html( "" );
+	
+	$.ajax({
+		url:"/getOrganizationList.do" ,
+		type:"POST",
+		datatype:"json",
+		beforeSend : function(xhr) {} ,
+		success:function(data,textStatus){ 
+
+			var menu = treeMenu( data );
+			//console.log(menu);
+			$("#tree_menu").html( "<ul id=tree_menu_ul>"+menu+"</ul>" );
+			
+			/*treeCnt와 str은 트리메뉴를 그려주는 함수에서 사용되는 파라미터이며,
+			   해당 함수 자체가 재귀함수 이기 때문에 전역변수로 선언되었으며, 
+			   이 후 호출을 위해 다시 초기화해주는 작업을 수행해야 다시 그려짐 */
+			treeCnt = 0;
+			str = "";
+			// 메뉴 선택시 메뉴 활성화 효과
+			$('#tree_menu li a').mouseup(function(e) {
+		    	e.preventDefault();
+		    	$('#tree_menu a').removeClass('menuActive');
+		    	$(this).addClass('menuActive');
+
+		   });
+				 
+		},
+		error:function(xhr, error){
+			CommonJs.alertErrorStatus(xhr.status, error);
+		}	 
+	}); 
+	
+	//사업자등록번호 자동 하이픈
+	$( "#BUSI_NO" ).keyup(function(event) {
+		event = event || window.event;
+		var _val = this.value.trim();
+		this.value = autoHypenBizNo(_val) ;
+	});
+
+	
+	//전화번호 자동 포커스 이동
+	 $("#TEL_NO1").change (function () {
+		 if($("#TEL_NO1").val() != ""){
+			 $("#TEL_NO2").focus(); 
+		 }else if($("#TEL_NO1").val() == ""){
+			 $("#TEL_NO2").val("");
+			 $("#TEL_NO3").val("");
+		 }
+		 return false;
+	});
+	$("#TEL_NO2").keyup (function () {
+	        var charLimit = $(this).attr("maxlength");
+	        if (this.value.length >= charLimit) {
+	        	$("#TEL_NO3").focus();
+	            return false;
+	        }
+	});
+	
+	//팩스번호 자동 포커스 이동
+	$("#FAX_NO1").keyup (function () {
+	        var charLimit = $(this).attr("maxlength");
+	        if (this.value.length >= charLimit) {
+	        	$("#FAX_NO2").focus();
+	            return false;
+	        }
+	});
+	$("#FAX_NO2").keyup (function () {
+        var charLimit = $(this).attr("maxlength");
+        if (this.value.length >= charLimit) {
+        	$("#FAX_NO3").focus();
+            return false;
+        }
+	});
+	
+	//부서코드 입력체크 (영어.숫자만 입력)
+	$("#DEPT_CODE").keyup(function(event){
+		btnConfirm();
+    });
+}
+
+
+/************************************************
+ * 공통코드의 SELECT BOX 리스트를 생성한다
+ * checkBoxId		: 셀렉트 박스 ID
+ * groupCode	    : 공통 코드 Group (ex : CD0005)
+ ************************************************/
+function getOrgTypeSelectBoxList(checkBoxId, groupCode){
+	var postValue ={};	
+	postValue = { "CD_CL"	: groupCode };
+	
+	// 공통코드를 가져온다.
+	jQuery.ajax({
+	    type:"POST",
+	    url:"/getCommonCodeSelectBoxList.do",
+	    dataType:"JSON", // 옵션이므로 JSON으로 받을게 아니면 안써도 됨
+	    data:postValue,
+	    async:false,
+	    success : function(data) {
+			for(var i = 0; i < data.length; i++){
+				var cnt = 1;
+				cnt = cnt+i;
+				 $("#"+checkBoxId).append('<option value="'+ data[i].CD_ID +'" class=disabled'+cnt+'>'+ data[i].CD_NM +'</option>'); 
+		   	}
+	    },
+	    complete : function(data) {
+	    },
+	    error : function(xhr, status, error) {
+	    	CommonJs.alertErrorStatus(xhr.status, error);
+	    }
+	});
+}
+//########################################################
+//###	8. init ( 시작 )   							   ###
+//########################################################
+  
+
+//########################################################
+//###   사용자 정의 함수 ( 시작 )   							   ###
+//########################################################
+
+
+var str = "";
+var treeCnt   = 0;
+function treeMenu( data )
+{
+	var parent;	// 현재 노드
+	var child;	// 다음에 출력할 노드
+	
+	if( treeCnt < data.length )
+	{ 
+		str += "<li>";
+		str += '<a id="' + data[treeCnt].DEPT_CODE + '" href="javascript:setMenuInfo(\''+data[treeCnt].DEPT_CODE+'\'   ,\''+data[treeCnt].DEPT_NAME+'\'  , \''+data[treeCnt].GRADE+'\'  , \''+data[treeCnt].ORG_TYPE+'\' , \''+data[treeCnt].USE_YN+'\'  )" >'+data[treeCnt].DEPT_NAME+'</a>';
+		
+		if(treeCnt+1 < data.length ){
+			
+			/* 다음노드가 존재하는경우 */				
+			/* 현재노드와 다음노드 depth비교 */			
+			parent 	= data[treeCnt].GRADE; //1
+			child 	= data[treeCnt+1].GRADE; //3
+			
+			if(parent < child){			// 다음 노드가 본인보다 높은레벨(자식)일경우
+				str += "<ul> ";
+			} else if(parent==child){	// 같은 레벨일경우
+				if(treeCnt == 0){
+					str += "</li></ul>";
+				}else{
+					str += "</li>";
+				}				
+			} else if(parent>child){	// 다음 노드가 본인보다 작은레벨(부모)일경우
+				str += "</li> ";
+				for(var depth=0; depth < parent-child; depth++){	// 부모레벨로 이동
+					str += "</ul> ";
+					str += "</li> ";
+				}
+			}
+			
+			treeCnt++;		// i 증가
+			treeMenu(data);	// 재귀호출 (다음노드 호출)
+			
+		} else {
+				/* 다음노드가 존재하지 않는경우 마무리 */
+				str += "</li> ";
+				for(var depth=1; depth < data[treeCnt].GRADE; depth++){	// 들어갔던 depth만큼 빠져나오기
+					str += "</ul> ";
+					str += "</li> ";
+				}
+				treeCnt++;	// i를 증가하지않는경우  if( i < data.content.length ) 조건문을 계속 타게되어 새로고침할때마다 숫자가 계속출력
+		}
+					  
+	}	
+	 
+	return str;
+	
+}
+
+var crudFlag = "";
+
+//신규
+function btn_create(){
+	
+	if(crudFlag == ""){
+		//지점을 선택하세요.
+		alert(mentOrganization3);
+		return;
+	}
+	
+	if(crudFlag == 'C') {
+
+		//신규 조직을 작성중입니다.
+		alert(mentOrganization4);
+		return;
+
+	}
+
+	if(  $('#GRADE').val() == "3" )
+ 	{
+		//영업지점은 하위 조직을 추가 할 수 없습니다. \n트리에서 조직형태가 본부 또는 관리를 선택해 주세요.
+ 		alert(mentOrganization1+'\n'+mentOrganization2);
+ 		return;
+ 	}
+
+	crudFlag = "C";   //신규
+ 	
+ 	if(  $('#UPPER_DEPT').val() == "" )
+ 	{	
+ 		//신규 입력을 위해 왼쪽 트리에서 조직을 선택하세요.
+ 		alert(mentOrganization5);
+ 		return;
+ 	}
+ 	
+ 	//부서코드 :: 중복체크 필요
+	$("#deptCodeYN").val("N");
+	$("#DEPT_CODE").css("background-image", "url('/resources/img/common/icon_no.png')");
+ 	
+ 	$("#DEPT_CODE").attr("disabled",false);
+	$("#DEPT_NAME").attr("disabled",false);
+ 	
+ 	//최상위루트 하위 조직 생성 
+ 	if($('#GRADE').val() == "0")
+ 	{
+ 		
+ 		$("#UPPER_DEPT").val($("#DEPT_CODE").val());
+		$("#UPPER_DEPT_NAME").val($("#DEPT_NAME").val());
+		$("#DEPT_CODE").val("");
+		$("#DEPT_NAME").val("");
+		
+		//폼데이터 초기화
+		setClearForm($('#GRADE').val());
+		
+ 	}else if($('#GRADE').val() == "1"){
+ 		$("#UPPER_DEPT").val($("#DEPT_CODE").val());
+		$("#UPPER_DEPT_NAME").val($("#DEPT_NAME").val());
+		$("#DEPT_CODE").val("");
+		$("#DEPT_NAME").val("");
+		
+		//폼데이터 초기화
+		setClearForm($('#GRADE').val());
+ 	}else if($('#GRADE').val() == "2"){
+ 		$("#UPPER_DEPT").val($("#DEPT_CODE").val());
+		$("#UPPER_DEPT_NAME").val($("#DEPT_NAME").val());
+		$("#DEPT_CODE").val("");
+		$("#DEPT_NAME").val("");
+		
+		//폼데이터 초기화
+		setClearForm($('#GRADE').val());
+		//필수값 입력을 위한 폼 에이블 처리
+		ableForm();
+ 	}
+	
+ 	$("#DEPT_CODE").focus();
+}
+
+//조회
+function btn_read(){
+	
+	//CRUD플래그 초기화
+	crudFlag = "";
+	
+	//폼데이터 초기화
+	clearForm();
+	//부서코드 :: 중복체크 필요
+	$("#DEPT_CODE").attr("disabled",true);
+	$("#DEPT_NAME").attr("disabled",true);
+	$("#deptCodeYN").val("N");
+	$("#DEPT_CODE").css("background-image", "url('/resources/img/common/icon_no.png')");
+	
+	$("#tree_menu").html( "" );
+	
+	$.ajax({
+		url:"/getOrganizationList.do" ,
+		type:"POST",
+		datatype:"json",
+		beforeSend : function(xhr) {} ,
+		success:function(data,textStatus){ 
+
+			var menu = treeMenu( data );
+			//console.log(menu);
+			$("#tree_menu").html( "<ul id=tree_menu_ul>"+menu+"</ul>" );
+			
+			/*treeCnt와 str은 트리메뉴를 그려주는 함수에서 사용되는 파라미터이며,
+			   해당 함수 자체가 재귀함수 이기 때문에 전역변수로 선언되었으며, 
+			   이 후 호출을 위해 다시 초기화해주는 작업을 수행해야 다시 그려짐 */
+			treeCnt = 0;
+			str = "";
+			// 메뉴 선택시 메뉴 활성화 효과
+			$('#tree_menu li a').mouseup(function(e) {
+		    	e.preventDefault();
+		    	$('#tree_menu a').removeClass('menuActive');
+		    	$(this).addClass('menuActive');
+
+		   });
+				 
+		},
+		error:function(xhr, error){
+			CommonJs.alertErrorStatus(xhr.status, error);
+		}	 
+	}); 
+	
+}
+
+
+/**
+ * 조직정보 상세
+ * param : DEPT_CODE, DEPT_NAME, GRADE, ORG_TYPE, USE_YN 
+ * 
+ **/
+function setMenuInfo(var1,var2,var3,var4,var5){
+	
+	var resultData =[];
+	$.ajax({
+		url:"/getOrganizationDetailInfo.do" ,
+		type:"POST",
+		datatype:"json",
+		//async:"false",
+		data : {"DEPT_CODE": var1},
+		beforeSend : function(xhr) {} ,
+		success:function(data){ 
+			resultData = data[0];
+			
+			setInfo(resultData);
+		},
+		error:function(xhr, error){
+			CommonJs.alertErrorStatus(xhr.status, error);
+		}	 
+	}); 
+	
+	
+}
+
+//지점 트리메뉴 선택시 정보 셋팅
+function setInfo(resultData){
+	
+	crudFlag = "U";
+	
+	//폼데이터 초기화
+	clearForm();
+	//부서코드 :: 중복체크 필요없음
+	$("#deptCodeYN").val("Y");
+	$("#DEPT_CODE").css("background-image", "url('/resources/img/common/icon_yes.png')");
+	
+	
+	$("#DEPT_CODE").attr("disabled",true);
+	$("#DEPT_NAME").attr("disabled",true);
+	
+	//ROOT
+	if(resultData.GRADE == '0'){
+		//폼 디스에이블 처리
+		disableForm();
+		
+		//0레벨 본점 :-> 본부
+		$('#GRADE').val(resultData.GRADE);
+		$("#ORG_TYPE option:eq(0)").attr("disabled",true);
+		$("#ORG_TYPE option:eq(1)").attr("disabled",false);
+		$("#ORG_TYPE option:eq(2)").attr("disabled",true);
+		$("#ORG_TYPE option:eq(3)").attr("disabled",true);
+		$("#UPPER_DEPT").val(resultData.UPPER_DEPT);
+		$("#UPPER_DEPT_NAME").val("ROOT");
+		$("#DEPT_CODE").val(resultData.DEPT_CODE);
+		$("#DEPT_NAME").val(resultData.DEPT_NAME);
+		$("#ORG_TYPE").val(resultData.ORG_TYPE);
+		$("#USE_YN").val(resultData.USE_YN);
+		//사업자 등록번호 포맷팅
+		if(resultData.BUSI_NO !=""){
+			resultData.BUSI_NO = resultData.BUSI_NO.substr(0,2) +'-'+ resultData.BUSI_NO.substr(2,3)+'-'+resultData.BUSI_NO.substr(5,5);
+		}
+		
+		$("#BUSI_NO").val(resultData.BUSI_NO);
+		$("#REP_NAME").val(resultData.REP_NAME);
+		$("#UPTAE").val(resultData.UPTAE);
+		$("#UPJONG").val(resultData.UPJONG);
+		$("#POST_NO").val(resultData.POST_NO);
+		$("#ADDR").val(resultData.ADDR);
+		$("#ADDR_DTL").val(resultData.ADDR_DTL);
+		
+		//전화번호 자르기 : 길이체크&자리수 셋팅
+		resultData.TEL_NO = CommonJs.phoneFomatterArr(resultData.TEL_NO);
+		$("#TEL_NO").val(resultData.TEL_NO);
+		if(resultData.TEL_NO != null){
+			$("#TEL_NO1").val(resultData.TEL_NO[0]);
+			$("#TEL_NO2").val(resultData.TEL_NO[1]);
+			$("#TEL_NO3").val(resultData.TEL_NO[2]);
+		}
+		//팩스 번호 자르기 : 길이체크&자리수 셋팅
+		resultData.FAX_NO = CommonJs.phoneFomatterArr(resultData.FAX_NO);
+		$("#FAX_NO").val(resultData.FAX_NO);
+		if(resultData.FAX_NO != null){
+			$("#FAX_NO1").val(resultData.FAX_NO[0]);
+			$("#FAX_NO2").val(resultData.FAX_NO[1]);
+			$("#FAX_NO3").val(resultData.FAX_NO[2]);
+		}
+		$("#UPTAE_FLAG").val(resultData.UPTAE_FLAG);
+		$("#OPEN_DT").val(resultData.OPEN_DT);
+		$("#STR_AREA").val(resultData.STR_AREA);
+		$("#CAR_AREA").val(resultData.CAR_AREA);
+		$("#ACCT_DEPT").val(resultData.ACCT_DEPT);
+		$("#ACCT_UPPER_DEPT").val(resultData.ACCT_UPPER_DEPT);
+		$('#IEMP_NO').val(resultData.IEMP_NO);
+		$('#IDATE').val(resultData.IDATE);
+		$('#UEMP_NO').val(resultData.UEMP_NO);
+		$('#UDATE').val(resultData.UDATE);
+		
+		if(resultData.UPTAE_FLAG == 1 || resultData.UPTAE_FLAG == 2 ){
+			$("#TERM_ID_VAN").val(resultData.TERM_ID_VAN);
+			$("#CENTA_CODE").val(resultData.CENTA_CODE);
+			$("#SALE_TRM").val(resultData.SALE_TRM);
+			$("#SIGN_AMT").val(resultData.SIGN_AMT);
+			$("#TERM_ID_VAN").attr("disabled",false);
+			$("#CENTA_CODE").attr("disabled",false);
+			$("#SALE_TRM").attr("disabled",false);
+			$("#SIGN_AMT").attr("disabled",false);
+		}else{
+			$("#TERM_ID_VAN").val("");
+			$("#CENTA_CODE").val("");
+			$("#SALE_TRM").val("");
+			$("#SIGN_AMT").val("");
+			$("#TERM_ID_VAN").attr("disabled",true);
+			$("#CENTA_CODE").attr("disabled",true);
+			$("#SALE_TRM").attr("disabled",true);
+			$("#SIGN_AMT").attr("disabled",true);
+		}
+		
+		
+	}else if(resultData.GRADE == '1'){
+		
+		//폼 디스에이블 처리
+		disableForm();
+		
+		//1레벨: 본부 : -> 관리
+		$('#GRADE').val(resultData.GRADE);
+		$("#ORG_TYPE option:eq(0)").attr("disabled",true);
+		$("#ORG_TYPE option:eq(1)").attr("disabled",false);
+		$("#ORG_TYPE option:eq(2)").attr("disabled",true);
+		$("#ORG_TYPE option:eq(3)").attr("disabled",true);
+		$("#UPPER_DEPT").val(resultData.UPPER_DEPT);
+		$("#UPPER_DEPT_NAME").val("ROOT");
+		$("#DEPT_CODE").val(resultData.DEPT_CODE);
+		$("#DEPT_NAME").val(resultData.DEPT_NAME);
+		$("#ORG_TYPE").val(resultData.ORG_TYPE);
+		$("#USE_YN").val(resultData.USE_YN);
+		//사업자 등록번호 포맷팅
+		if(resultData.BUSI_NO !=""){
+			resultData.BUSI_NO = resultData.BUSI_NO.substr(0,2) +'-'+ resultData.BUSI_NO.substr(2,3)+'-'+resultData.BUSI_NO.substr(5,5);
+		}
+		$("#BUSI_NO").val(resultData.BUSI_NO);
+		$("#REP_NAME").val(resultData.REP_NAME);
+		$("#UPTAE").val(resultData.UPTAE);
+		$("#UPJONG").val(resultData.UPJONG);
+		$("#POST_NO").val(resultData.POST_NO);
+		$("#ADDR").val(resultData.ADDR);
+		$("#ADDR_DTL").val(resultData.ADDR_DTL);
+		
+		//전화번호 자르기 : 길이체크&자리수 셋팅
+		resultData.TEL_NO = CommonJs.phoneFomatterArr(resultData.TEL_NO);
+		$("#TEL_NO").val(resultData.TEL_NO);
+		if(resultData.TEL_NO != null){
+			$("#TEL_NO1").val(resultData.TEL_NO[0]);
+			$("#TEL_NO2").val(resultData.TEL_NO[1]);
+			$("#TEL_NO3").val(resultData.TEL_NO[2]);
+		}
+		
+		//팩스 번호 자르기 : 길이체크&자리수 셋팅
+		resultData.FAX_NO = CommonJs.phoneFomatterArr(resultData.FAX_NO);
+		$("#FAX_NO").val(resultData.FAX_NO);
+		if(resultData.FAX_NO != null){
+			$("#FAX_NO1").val(resultData.FAX_NO[0]);
+			$("#FAX_NO2").val(resultData.FAX_NO[1]);
+			$("#FAX_NO3").val(resultData.FAX_NO[2]);
+		}
+		$("#UPTAE_FLAG").val(resultData.UPTAE_FLAG);
+		
+		$("#OPEN_DT").val(resultData.OPEN_DT);
+		$("#STR_AREA").val(resultData.STR_AREA);
+		$("#CAR_AREA").val(resultData.CAR_AREA);
+		$("#ACCT_DEPT").val(resultData.ACCT_DEPT);
+		$("#ACCT_UPPER_DEPT").val(resultData.ACCT_UPPER_DEPT);
+		
+		$('#IEMP_NO').val(resultData.IEMP_NO);
+		$('#IDATE').val(resultData.IDATE);
+		$('#UEMP_NO').val(resultData.UEMP_NO);
+		$('#UDATE').val(resultData.UDATE);
+		
+		if(resultData.UPTAE_FLAG == 1 || resultData.UPTAE_FLAG == 2 ){
+			$("#TERM_ID_VAN").val(resultData.TERM_ID_VAN);
+			$("#CENTA_CODE").val(resultData.CENTA_CODE);
+			$("#SALE_TRM").val(resultData.SALE_TRM);
+			$("#SIGN_AMT").val(resultData.SIGN_AMT);
+			$("#TERM_ID_VAN").attr("disabled",false);
+			$("#CENTA_CODE").attr("disabled",false);
+			$("#SALE_TRM").attr("disabled",false);
+			$("#SIGN_AMT").attr("disabled",false);
+		}else{
+			$("#TERM_ID_VAN").val("");
+			$("#CENTA_CODE").val("");
+			$("#SALE_TRM").val("");
+			$("#SIGN_AMT").val("");
+			$("#TERM_ID_VAN").attr("disabled",true);
+			$("#CENTA_CODE").attr("disabled",true);
+			$("#SALE_TRM").attr("disabled",true);
+			$("#SIGN_AMT").attr("disabled",true);
+		}
+		
+	}else if(resultData.GRADE == '2'){
+		//폼 디스에이블 처리
+		disableForm();
+		
+		//2레벨 관리 : -> 영업
+		$('#GRADE').val(resultData.GRADE);
+		$("#ORG_TYPE option:eq(0)").attr("disabled",true);
+		$("#ORG_TYPE option:eq(1)").attr("disabled",true);
+		$("#ORG_TYPE option:eq(2)").attr("disabled",false);
+		$("#ORG_TYPE option:eq(3)").attr("disabled",true);
+		$("#UPPER_DEPT").val(resultData.UPPER_DEPT);
+		$("#UPPER_DEPT_NAME").val("ROOT");
+		$("#DEPT_CODE").val(resultData.DEPT_CODE);
+		$("#DEPT_NAME").val(resultData.DEPT_NAME);
+		$("#ORG_TYPE").val(resultData.ORG_TYPE);
+		$("#USE_YN").val(resultData.USE_YN);
+		//사업자 등록번호 포맷팅
+		if(resultData.BUSI_NO !=""){
+			resultData.BUSI_NO = resultData.BUSI_NO.substr(0,2) +'-'+ resultData.BUSI_NO.substr(2,3)+'-'+resultData.BUSI_NO.substr(5,5);
+		}
+		$("#BUSI_NO").val(resultData.BUSI_NO);
+		$("#REP_NAME").val(resultData.REP_NAME);
+		$("#UPTAE").val(resultData.UPTAE);
+		$("#UPJONG").val(resultData.UPJONG);
+		$("#POST_NO").val(resultData.POST_NO);
+		$("#ADDR").val(resultData.ADDR);
+		$("#ADDR_DTL").val(resultData.ADDR_DTL);
+		$("#TEL_NO").val(resultData.TEL_NO);
+		
+		//전화번호 자르기 : 길이체크&자리수 셋팅
+		resultData.TEL_NO = CommonJs.phoneFomatterArr(resultData.TEL_NO);
+		$("#TEL_NO").val(resultData.TEL_NO);
+		if(resultData.TEL_NO != null){
+			$("#TEL_NO1").val(resultData.TEL_NO[0]);
+			$("#TEL_NO2").val(resultData.TEL_NO[1]);
+			$("#TEL_NO3").val(resultData.TEL_NO[2]);
+		}
+		
+		//팩스 번호 자르기 : 길이체크&자리수 셋팅
+		resultData.FAX_NO = CommonJs.phoneFomatterArr(resultData.FAX_NO);
+		$("#FAX_NO").val(resultData.FAX_NO);
+		if(resultData.FAX_NO != null){
+			$("#FAX_NO1").val(resultData.FAX_NO[0]);
+			$("#FAX_NO2").val(resultData.FAX_NO[1]);
+			$("#FAX_NO3").val(resultData.FAX_NO[2]);
+		}
+		
+		$("#UPTAE_FLAG").val(resultData.UPTAE_FLAG);
+		
+		$("#OPEN_DT").val(resultData.OPEN_DT);
+		$("#STR_AREA").val(resultData.STR_AREA);
+		$("#CAR_AREA").val(resultData.CAR_AREA);
+		$("#ACCT_DEPT").val(resultData.ACCT_DEPT);
+		$("#ACCT_UPPER_DEPT").val(resultData.ACCT_UPPER_DEPT);
+		$('#IEMP_NO').val(resultData.IEMP_NO);
+		$('#IDATE').val(resultData.IDATE);
+		$('#UEMP_NO').val(resultData.UEMP_NO);
+		$('#UDATE').val(resultData.UDATE);
+		
+		if(resultData.UPTAE_FLAG == 1 || resultData.UPTAE_FLAG == 2 ){
+			$("#TERM_ID_VAN").val(resultData.TERM_ID_VAN);
+			$("#CENTA_CODE").val(resultData.CENTA_CODE);
+			$("#SALE_TRM").val(resultData.SALE_TRM);
+			$("#SIGN_AMT").val(resultData.SIGN_AMT);
+			$("#TERM_ID_VAN").attr("disabled",false);
+			$("#CENTA_CODE").attr("disabled",false);
+			$("#SALE_TRM").attr("disabled",false);
+			$("#SIGN_AMT").attr("disabled",false);
+		}else{
+			$("#TERM_ID_VAN").val("");
+			$("#CENTA_CODE").val("");
+			$("#SALE_TRM").val("");
+			$("#SIGN_AMT").val("");
+			$("#TERM_ID_VAN").attr("disabled",true);
+			$("#CENTA_CODE").attr("disabled",true);
+			$("#SALE_TRM").attr("disabled",true);
+			$("#SIGN_AMT").attr("disabled",true);
+		}
+		$("#SIGN_AMT").val(resultData.SIGN_AMT);
+		
+	}else{
+		//폼 에이블 처리
+		ableForm();
+		
+		//3레벨 지점 : -> 관리/영업
+		$('#GRADE').val(resultData.GRADE);
+		$("#ORG_TYPE option:eq(0)").attr("disabled",true);
+		$("#ORG_TYPE option:eq(1)").attr("disabled",true);
+		$("#ORG_TYPE option:eq(2)").attr("disabled",false);
+		$("#ORG_TYPE option:eq(3)").attr("disabled",false);
+		
+		$("#UPPER_DEPT").val(resultData.UPPER_DEPT);
+		$("#UPPER_DEPT_NAME").val("ROOT");
+		$("#DEPT_CODE").val(resultData.DEPT_CODE);
+		$("#DEPT_NAME").val(resultData.DEPT_NAME);
+		
+		$("#ORG_TYPE").val(resultData.ORG_TYPE);
+		$("#USE_YN").val(resultData.USE_YN);
+		//사업자 등록번호 포맷팅
+		if(resultData.BUSI_NO !=""){
+			resultData.BUSI_NO = resultData.BUSI_NO.substr(0,2) +'-'+ resultData.BUSI_NO.substr(2,3)+'-'+resultData.BUSI_NO.substr(5,5);
+		}
+		$("#BUSI_NO").val(resultData.BUSI_NO);
+		$("#REP_NAME").val(resultData.REP_NAME);
+		$("#UPTAE").val(resultData.UPTAE);
+		$("#UPJONG").val(resultData.UPJONG);
+		$("#POST_NO").val(resultData.POST_NO);
+		$("#ADDR").val(resultData.ADDR);
+		$("#ADDR_DTL").val(resultData.ADDR_DTL);
+		
+		//전화번호 자르기 : 길이체크&자리수 셋팅
+		resultData.TEL_NO = CommonJs.phoneFomatterArr(resultData.TEL_NO);
+		$("#TEL_NO").val(resultData.TEL_NO);
+		if(resultData.TEL_NO != null){
+			$("#TEL_NO1").val(resultData.TEL_NO[0]);
+			$("#TEL_NO2").val(resultData.TEL_NO[1]);
+			$("#TEL_NO3").val(resultData.TEL_NO[2]);
+		}
+		
+		//팩스 번호 자르기 : 길이체크&자리수 셋팅
+		resultData.FAX_NO = CommonJs.phoneFomatterArr(resultData.FAX_NO);
+		$("#FAX_NO").val(resultData.FAX_NO);
+		if(resultData.FAX_NO != null){
+			$("#FAX_NO1").val(resultData.FAX_NO[0]);
+			$("#FAX_NO2").val(resultData.FAX_NO[1]);
+			$("#FAX_NO3").val(resultData.FAX_NO[2]);
+		}
+		$("#UPTAE_FLAG").val(resultData.UPTAE_FLAG);
+		
+		$("#OPEN_DT").val(resultData.OPEN_DT);
+		$("#STR_AREA").val(resultData.STR_AREA);
+		$("#CAR_AREA").val(resultData.CAR_AREA);
+		$("#ACCT_DEPT").val(resultData.ACCT_DEPT);
+		$("#ACCT_UPPER_DEPT").val(resultData.ACCT_UPPER_DEPT);
+		
+		$('#IEMP_NO').val(resultData.IEMP_NO);
+		$('#IDATE').val(resultData.IDATE);
+		$('#UEMP_NO').val(resultData.UEMP_NO);
+		$('#UDATE').val(resultData.UDATE);
+		
+		if(resultData.UPTAE_FLAG == 1 || resultData.UPTAE_FLAG == 2 ){
+			$("#TERM_ID_VAN").val(resultData.TERM_ID_VAN);
+			$("#CENTA_CODE").val(resultData.CENTA_CODE);
+			$("#SALE_TRM").val(resultData.SALE_TRM);
+			$("#SIGN_AMT").val(resultData.SIGN_AMT);
+			$("#TERM_ID_VAN").attr("disabled",false);
+			$("#CENTA_CODE").attr("disabled",false);
+			$("#SALE_TRM").attr("disabled",false);
+			$("#SIGN_AMT").attr("disabled",false);
+		}else{
+			$("#TERM_ID_VAN").val("");
+			$("#CENTA_CODE").val("");
+			$("#SALE_TRM").val("");
+			$("#SIGN_AMT").val("");
+			$("#TERM_ID_VAN").attr("disabled",true);
+			$("#CENTA_CODE").attr("disabled",true);
+			$("#SALE_TRM").attr("disabled",true);
+			$("#SIGN_AMT").attr("disabled",true);
+		}
+		
+		
+	}
+}
+
+
+//저장
+function btn_update(){
+	
+	var loadData =  $("#form1").serializeAllObject();
+	
+	if($('#UPPER_DEPT').val() == "")
+ 	{
+		//트리메뉴에서 상위조직을 선택하세요.
+ 		alert(mentOrganization6);
+ 		return;
+ 	}
+	
+	if($('#GRADE').val() == "0")
+ 	{
+		//최상위 본부는 수정 할 수 없습니다.
+ 		alert(mentOrganization7);
+ 		return;
+ 	}
+	
+	//영업인경우 필수 체크
+	if($('#GRADE').val() == "3"){
+		
+		
+		if($("#DEPT_CODE").val() ==""){
+			//부서코드는 필수입력 입니다.
+			alert(mentOrganization8);
+			$("#DEPT_CODE").focus();
+			return;
+		}
+		if($("#DEPT_CODE").val().length <= 3 ){
+			//부서코드는 최소4자리 입니다.
+			alert(mentOrganization9);
+			$("#DEPT_CODE").focus();
+			return;
+		}
+		if($("#deptCodeYN").val() =="N"){
+			//중복된 부서코드가 있습니다.
+			alert(mentOrganization10);
+			$("#DEPT_CODE").focus();
+			return;
+		}
+		if($("#DEPT_NAME").val() ==""){
+			//부서명은 필수입력 입니다.
+			alert(mentOrganization11);
+			$("#DEPT_NAME").focus();
+			return;
+		}
+		if($("#DEPT_NAME").val().length < 2){
+			//부서명은 최소 2자입니다.
+			alert(mentOrganization12);
+			$("#DEPT_NAME").focus();
+			return;
+		}
+		if($("#ORG_TYPE").val()==""){
+			//조직형태는 필수입력 입니다.
+			alert(mentOrganization13);
+			$("#ORG_TYPE").focus();
+			return;
+		}
+		if($("#USE_YN").val()==""){
+			//사용유무는 필수입력 입니다.
+			alert(mentOrganization14);
+			$("#USE_YN").focus();
+			return;
+		}
+		//사업자등록번호 체크
+		if(!checkBizRegNo()){
+			return;
+		}
+		
+		if($("#REP_NAME").val()==""){
+			//대표자성명은 필수입력 입니다.
+			alert(mentOrganization15);
+			$("#REP_NAME").focus();
+			return;
+		}
+		if($("#UPTAE").val()==""){
+			//업태는 필수입력 입니다.
+			alert(mentOrganization16);
+			$("#UPTAE").focus();
+			return;
+		}
+		if($("#UPJONG").val()==""){
+			//종목은 필수입력 입니다.
+			alert(mentOrganization17);
+			$("#UPJONG").focus();
+			return;
+		}
+		if($("#POST_NO").val()=="" ||$("#ADDR").val()=="" ||$("#ADDR_DTL").val()=="" ){
+			//주소는 필수입력 입니다.
+			alert(mentOrganization18);
+			$("#ADDR_DTL").focus();
+			return;
+		}
+		if($("#UPTAE_FLAG").val()==""){
+			//업태구분은 필수입력 입니다.
+			alert(mentOrganization19);
+			$("#UPTAE_FLAG").focus();
+			return;
+		}
+		if($("#OPEN_DT").val()==""){
+			//시작일자는 필수입력 입니다.
+			alert(mentOrganization20);
+			$("#OPEN_DT").focus();
+			return;
+		}
+		if($("#ACCT_DEPT").val()==""){
+			//회계코드는 필수입력 입니다.
+			alert(mentOrganization21);
+			$("#ACCT_DEPT").focus();
+			return;
+		}
+		if($("#ACCT_DEPT").val().length <= 3){
+			//회계코드는 최소 4자리입니다.
+			alert(mentOrganization22);
+			$("#ACCT_DEPT").focus();
+			return;
+		}
+		if($("#ACCT_UPPER_DEPT").val()==""){
+			//회계부서코드는 필수입력 입니다.
+			alert(mentOrganization25);
+			$("#ACCT_UPPER_DEPT").focus();
+			return;
+		}
+		if($("#ACCT_UPPER_DEPT").val().length <= 2){
+			//회계부서코드는 최소 4자리입니다.
+			alert("회계부서코드는 최소 3자리입니다.");
+			$("#ACCT_UPPER_DEPT").focus();
+			return;
+		}
+		if($("#UPTAE_FLAG").val() == 1 || $("#UPTAE_FLAG").val() == 2 ){
+			/*if($("#TERM_ID_VAN").val()==""){
+				//터미널ID는 필수입력입니다.
+				alert(mentOrganization27);
+				$("#TERM_ID_VAN").focus();
+				return;
+			}*/
+			if($("#CENTA_CODE").val()==""){
+				//센터코드는 필수입력입니다.
+				alert(mentOrganization28);
+				$("#CENTA_CODE").focus();
+				return;
+			}
+			
+			if($("#SALE_TRM").val()==""){
+				//매출일수는 필수입력입니다.
+				alert(mentOrganization29);
+				$("#SALE_TRM").focus();
+				return;
+			}
+			
+			if($("#SIGN_AMT").val()==""){
+				//사인금액은 필수입력입니다.
+				alert(mentOrganization30);
+				$("#SIGN_AMT").focus();
+				return;
+			}
+			
+		}
+		
+	}else{
+		//본부, 관리경우 필수 체크
+		if($("#DEPT_CODE").val() ==""){
+			//부서코드는 필수입력 입니다.
+			alert(mentOrganization8);
+			$("#DEPT_CODE").focus();
+			return;
+		}
+		if($("#DEPT_CODE").val().length <= 3 ){
+			//부서코드는 최소4자리 입니다.
+			alert(mentOrganization9);
+			$("#DEPT_CODE").focus();
+			return;
+		}
+		if($("#deptCodeYN").val() =="N"){
+			//중복된 부서코드가 있습니다.
+			alert(mentOrganization10);
+			$("#DEPT_CODE").focus();
+			return;
+		}
+		if($("#DEPT_NAME").val() ==""){
+			//부서명은 필수입력 입니다.
+			alert(mentOrganization11);
+			$("#DEPT_NAME").focus();
+			return;
+		}
+		if($("#DEPT_NAME").val().length < 2){
+			//부서명은 최소 2자입니다.
+			alert(mentOrganization12);
+			$("#DEPT_NAME").focus();
+			return;
+		}
+		if($("#ORG_TYPE").val()==""){
+			//조직형태는 필수입력 입니다.
+			alert(mentOrganization13);
+			$("#ORG_TYPE").focus();
+			return;
+		}
+		if($("#USE_YN").val()==""){
+			//사용유무는 필수입력 입니다.
+			alert(mentOrganization14);
+			$("#USE_YN").focus();
+			return;
+		}
+		if($("#OPEN_DT").val()==""){
+			//시작일자는 필수입력 입니다.
+			alert(mentOrganization20);
+			$("#OPEN_DT").focus();
+			return;
+		}
+		if($("#ACCT_DEPT").val()==""){
+			//회계코드는 필수입력 입니다.
+			alert(mentOrganization21);
+			$("#ACCT_DEPT").focus();
+			return;
+		}
+		if($("#ACCT_DEPT").val().length <= 3){
+			//회계코드는 최소 4자리입니다.
+			alert(mentOrganization22);
+			$("#ACCT_DEPT").focus();
+			return;
+		}
+		if($("#ACCT_UPPER_DEPT").val()==""){
+			//회계부서코드는 필수입력 입니다.
+			alert(mentOrganization25);
+			$("#ACCT_UPPER_DEPT").focus();
+			return;
+		}
+		if($("#ACCT_UPPER_DEPT").val().length <= 3){
+			//회계부서코드는 최소 4자리입니다.
+			alert(mentOrganization26);
+			$("#ACCT_UPPER_DEPT").focus();
+			return;
+		}
+	}
+	
+	
+	//신규.수정 파라미터 셋팅
+	//조직형태가 영업일 경우에만 세일구분 Y
+	if(loadData.GRADE =="3"){
+		loadData.SALE_YN ="Y";
+	}else{
+		loadData.SALE_YN ="N";
+	}
+	if(loadData.TEL_NO1 != "" && loadData.TEL_NO2 != "" && loadData.TEL_NO3 != "" ){
+		loadData.TEL_NO = loadData.TEL_NO1+loadData.TEL_NO2+loadData.TEL_NO3;
+	}else{
+		loadData.TEL_NO = "";
+	}
+	if(loadData.FAX_NO1 != "" &&  loadData.FAX_NO2 != "" &&  loadData.FAX_NO3 != ""){
+		loadData.FAX_NO = loadData.FAX_NO1+loadData.FAX_NO2+loadData.FAX_NO3; 
+	}else{
+		loadData.FAX_NO = "";
+	}
+	
+	loadData.BUSI_NO = loadData.BUSI_NO.replace(/-/gi, "");
+	
+	loadData.OPEN_DT = loadData.OPEN_DT.replace(/-/gi, "");
+	
+	if($("#DEPT_CODE").prop('disabled')== true){
+		//수정
+		loadData.CRUD_FLAG = "U";
+	}else{
+		//신규
+		loadData.CRUD_FLAG = "N";
+	}
+	
+	//alert(loadData.SIGN_AMT);
+	
+	if(confirm(msgSaveConfirm) == false) return;
+	
+	//조직정보 INSERT/UPDATE
+	jQuery.ajax({ 
+	    url:"/setDeptInfo.do",         
+	    type:"POST",
+		datatype:"json",
+		async:false,
+		data: loadData,
+		success:function(data){  
+			//결과리턴
+			var obj = jQuery.parseJSON(data.CUR);
+			if(obj[0].RETURN_CODE == '0000'){
+				
+				if(crudFlag =='C'){
+					//저장되었습니다.
+					alert(msgSave);
+				}else{
+					//수정되었습니다.
+					alert(msgModify);
+				}
+				
+				//검색초기화
+				btn_read();
+				
+			}else{
+				//요청중 문제가 발생했습니다.관리자에게 문의하세요.
+				alert(msgErrorDefault);
+				return;
+			}
+			
+	    },
+	    complete : function(data) {
+	    },
+	    error : function(xhr, status, error) {
+	    	CommonJs.alertErrorStatus(xhr.status, error);
+	    }
+	});
+	
+}
+
+
+//폼데이터 초기화
+function clearForm(){
+	$('#GRADE').val("");
+	$("#ORG_TYPE option:eq(0)").attr("disabled",false);
+	$("#ORG_TYPE option:eq(1)").attr("disabled",false);
+	$("#ORG_TYPE option:eq(2)").attr("disabled",false);
+	$("#ORG_TYPE option:eq(3)").attr("disabled",false);
+	$("#UPPER_DEPT").val("");
+	$("#UPPER_DEPT_NAME").val("");
+	$("#DEPT_CODE").val("");
+	$("#DEPT_NAME").val("");
+	$("#ORG_TYPE").val("");
+	$("#USE_YN").val("");
+	$("#BUSI_NO").val("");
+	$("#REP_NAME").val("");
+	$("#UPTAE").val("");
+	$("#UPJONG").val("");
+	$("#POST_NO").val("");
+	$("#ADDR").val("");
+	$("#ADDR_DTL").val("");
+	$("#TEL_NO").val("");
+	$("#TEL_NO1").val("");
+	$("#TEL_NO2").val("");
+	$("#TEL_NO3").val("");
+	$("#FAX_NO").val("");
+	$("#FAX_NO1").val("");
+	$("#FAX_NO2").val("");
+	$("#FAX_NO3").val("");
+	$("#UPTAE_FLAG").val("");
+	$("#OPEN_DT").val("");
+	$("#STR_AREA").val("");
+	$("#CAR_AREA").val("");
+	$("#ACCT_DEPT").val("");
+	$("#ACCT_UPPER_DEPT").val("");
+	$('#IEMP_NO').val("");
+	$('#IDATE').val("");
+	$('#UEMP_NO').val("");
+	$('#UDATE').val("");
+}
+
+
+//지점 신규등록을 위한 폼데이터 초기화
+function setClearForm(grade){
+	
+	if(grade == 0){
+		//1레벨: 본부
+		$('#GRADE').val(1);
+		$("#ORG_TYPE option:eq(0)").attr("disabled",false);
+		$("#ORG_TYPE option:eq(1)").attr("disabled",false);
+		$("#ORG_TYPE option:eq(2)").attr("disabled",true);
+		$("#ORG_TYPE option:eq(3)").attr("disabled",true);
+		$("#ORG_TYPE").val(1);
+	}else if(grade==1){
+		//1레벨: 본부-> 관리 신규생성
+		$('#GRADE').val(2);
+		$("#ORG_TYPE option:eq(0)").attr("disabled",false);
+		$("#ORG_TYPE option:eq(1)").attr("disabled",true);
+		$("#ORG_TYPE option:eq(2)").attr("disabled",false);
+		$("#ORG_TYPE option:eq(3)").attr("disabled",true);
+		$("#ORG_TYPE").val(2);
+	}else if(grade==2){
+		//2레벨 관리 -> 관리/영업
+		$('#GRADE').val(3);
+		$("#ORG_TYPE option:eq(0)").attr("disabled",false);
+		$("#ORG_TYPE option:eq(1)").attr("disabled",true);
+		$("#ORG_TYPE option:eq(2)").attr("disabled",false);
+		$("#ORG_TYPE option:eq(3)").attr("disabled",false);
+		$("#ORG_TYPE").val(3);
+	}
+	/*$("#UPPER_DEPT").val("");
+	$("#UPPER_DEPT_NAME").val("");
+	$("#DEPT_CODE").val("");
+	$("#DEPT_NAME").val("");
+	$("#ORG_TYPE").val("");*/
+	$("#USE_YN").val("Y");
+	$("#BUSI_NO").val("");
+	$("#REP_NAME").val("");
+	$("#UPTAE").val("");
+	$("#UPJONG").val("");
+	$("#POST_NO").val("");
+	$("#ADDR").val("");
+	$("#ADDR_DTL").val("");
+	$("#TEL_NO").val("");
+	$("#TEL_NO1").val("");
+	$("#TEL_NO2").val("");
+	$("#TEL_NO3").val("");
+	$("#FAX_NO").val("");
+	$("#FAX_NO1").val("");
+	$("#FAX_NO2").val("");
+	$("#FAX_NO3").val("");
+	$("#UPTAE_FLAG").val("");
+	$("#OPEN_DT").val("");
+	$("#STR_AREA").val("");
+	$("#CAR_AREA").val("");
+	$("#ACCT_DEPT").val("");
+	$("#ACCT_UPPER_DEPT").val("");
+	$('#IEMP_NO').val("");
+	$('#IDATE').val("");
+	$('#UEMP_NO').val("");
+	$('#UDATE').val("");
+	
+	$("#TERM_ID_VAN").val("");
+	$("#CENTA_CODE").val("");
+	$("#SALE_TRM").val("");
+	$("#SIGN_AMT").val("");
+}
+
+//입력폼 디스에이블
+function disableForm(){
+	
+	$("#BUSI_NO").attr("disabled",true);
+	$("#REP_NAME").attr("disabled",true);
+	$("#UPTAE").attr("disabled",true);
+	$("#UPJONG").attr("disabled",true);
+	$("#POST_NO").attr("disabled",true);
+	$("#ADDR").attr("disabled",true);
+	$("#ADDR_DTL").attr("disabled",true);
+	$("#TEL_NO1").attr("disabled",true);
+	$("#TEL_NO2").attr("disabled",true);
+	$("#TEL_NO3").attr("disabled",true);
+	$("#FAX_NO1").attr("disabled",true);
+	$("#FAX_NO2").attr("disabled",true);
+	$("#FAX_NO3").attr("disabled",true);
+	$("#UPTAE_FLAG").attr("disabled",true);
+	$("#STR_AREA").attr("disabled",true);
+	$("#CAR_AREA").attr("disabled",true);
+	$("#ZIP_BUTTON").hide();
+	
+	$("#TERM_ID_VAN").attr("disabled",true);
+	$("#CENTA_CODE").attr("disabled",true);
+	$("#SALE_TRM").attr("disabled",true);
+	$("#SIGN_AMT").attr("disabled",true);
+	
+}
+//입력폼 에이블
+function ableForm(){
+	
+	$("#BUSI_NO").attr("disabled",false);
+	$("#REP_NAME").attr("disabled",false);
+	$("#UPTAE").attr("disabled",false);
+	$("#UPJONG").attr("disabled",false);
+	$("#POST_NO").attr("disabled",false);
+	$("#ADDR").attr("disabled",false);
+	$("#ADDR_DTL").attr("disabled",false);
+	$("#TEL_NO1").attr("disabled",false);
+	$("#TEL_NO2").attr("disabled",false);
+	$("#TEL_NO3").attr("disabled",false);
+	$("#FAX_NO1").attr("disabled",false);
+	$("#FAX_NO2").attr("disabled",false);
+	$("#FAX_NO3").attr("disabled",false);
+	$("#UPTAE_FLAG").attr("disabled",false);
+	$("#STR_AREA").attr("disabled",false);
+	$("#CAR_AREA").attr("disabled",false);
+	$("#ZIP_BUTTON").show();
+	
+	$("#TERM_ID_VAN").attr("disabled",false);
+	$("#CENTA_CODE").attr("disabled",false);
+	$("#SALE_TRM").attr("disabled",false);
+	$("#SIGN_AMT").attr("disabled",false);
+}
+
+/**
+ * 업태구분 변경 이벤트
+* (식자제마트, 마트앤마트일경우에만 터미널id, 센터코드, 매출일수, 사인금액 필수처리)
+*/
+function fnUptaeFkag(){
+	//업태가 식자제마트, 마트앤마트일경우
+	if($("#UPTAE_FLAG").val()==1 ||$("#UPTAE_FLAG").val()==2 ){
+		$("#TERM_ID_VAN").attr("disabled",false);
+		$("#CENTA_CODE").attr("disabled",false);
+		$("#SALE_TRM").attr("disabled",false);
+		$("#SIGN_AMT").attr("disabled",false);
+	}else{
+		$("#TERM_ID_VAN").val("");
+		$("#CENTA_CODE").val("");
+		$("#SALE_TRM").val("");
+		$("#SIGN_AMT").val("");
+		$("#TERM_ID_VAN").attr("disabled",true);
+		$("#CENTA_CODE").attr("disabled",true);
+		$("#SALE_TRM").attr("disabled",true);
+		$("#SIGN_AMT").attr("disabled",true);
+	}
+}
+
+
+
+//부서코드 중복체크
+function btnConfirm(){
+	
+	if($("#DEPT_CODE").val().trim() == "" ||$("#DEPT_CODE").val().trim() == null || $("#DEPT_CODE").val().trim() == "undefined"){
+		$("#deptCodeYN").val("N");
+		$("#DEPT_CODE").css("background-image", "url('/resources/img/common/icon_no.png')");
+		
+	}
+	
+	//부서코드 최소길이 4자
+	if($("#DEPT_CODE").val().length != 5){
+		$("#deptCodeYN").val("N");
+		$("#DEPT_CODE").css("background-image", "url('/resources/img/common/icon_no.png')");
+		return;
+	}
+	
+	
+	var loadData = {};
+	loadData.DEPT_CODE = "";
+	loadData.DEPT_CODE = $("#DEPT_CODE").val();
+	
+	//최초 로딩시 그리드1 데이터 조회 및 그리드 데이터 셋팅
+	jQuery.ajax({ 
+	    url:"/selectCountDeptCode.do",         
+	    type:"POST",
+		datatype:"json",
+		async:false,
+		data: loadData,
+		success:function(data){
+			
+			var obj = jQuery.parseJSON(data.CUR);
+			
+			//결과가 1일 경우 중복되는 CD_ID가 있음 0일 경우 없음
+			if(obj[0].CNT == "0"){
+				$("#deptCodeYN").val("Y");
+				$("#DEPT_CODE").css("background-image", "url('/resources/img/common/icon_yes.png')");
+			}else{
+				$("#deptCodeYN").val("N");
+				$("#DEPT_CODE").css("background-image", "url('/resources/img/common/icon_no.png')");
+			}
+	    },
+	    complete : function(data) {
+	    },
+	    error : function(xhr, status, error) {
+	    	CommonJs.alertErrorStatus(xhr.status, error);
+	    }
+	});
+}
+
+/**
+ * 사업자 등록번호 유효성 체크 함수 시작
+ **/	
+//사업자 등록번호 체크
+function checkBizID(bizID){ 
+	
+    // bizID는 숫자만 10자리로 해서 문자열로 넘긴다. 
+	var checkID = new Array(1, 3, 7, 1, 3, 7, 1, 3, 5, 1);
+	var i, chkSum=0, c2, remander;
+	bizID = bizID.replace(/-/gi,'');
+	 
+	for (i=0; i<=7; i++) chkSum += checkID[i] * bizID.charAt(i);
+	c2 = "0" + (checkID[8] * bizID.charAt(8));
+	c2 = c2.substring(c2.length - 2, c2.length);
+	chkSum += Math.floor(c2.charAt(0)) + Math.floor(c2.charAt(1));
+	remander = (10 - (chkSum % 10)) % 10 ;
+	 
+	if (Math.floor(bizID.charAt(9)) == remander) return true ; // OK!
+	return false;
+} 
+
+
+function checkBizRegNo(){
+
+	var bizID = $("#BUSI_NO");
+	var flag = false;
+	
+	if( !bizID.val() ){
+		//사업자등록번호를 입력 해 주세요.
+       alert(mentOrganization23);
+       bizID.focus();
+       return false;
+   }else if(bizID.val().length!=12){
+	   //잘못된 사업자등록번호 입니다.
+	   alert(mentOrganization24);
+	   bizID.focus();
+	   return;
+   }else{
+	   if(! checkBizID(bizID.val())){
+		   //잘못된 사업자등록번호 입니다.
+		   alert(mentOrganization24);
+		   bizID.focus();
+		   return;
+	   }else{
+		   flag = true;
+	   }
+   }
+	
+	
+	return flag;
+}
+/**
+ * 사업자 등록번호 유효성 체크 함수 끝
+ **/	
+
+
+/* 사업자 등록번호 등록 시 자동 하이픈"-" 추가 함수 시작*/
+function autoHypenBizNo(str){
+    str = str.replace(/[^0-9]/g, '');
+    var tmp = '';
+    
+    if( str.length < 4){
+        return str;
+    }else if(str.length < 5){
+        tmp += str.substr(0, 3);
+        tmp += '-';
+        tmp += str.substr(3);
+        return tmp;
+    }else if(str.length < 6){
+        tmp += str.substr(0, 3);
+        tmp += '-';
+        tmp += str.substr(3, 2);
+        tmp += '-';
+        tmp += str.substr(6);
+        return tmp;
+    }else{       
+        tmp += str.substr(0, 3);
+        tmp += '-';
+        tmp += str.substr(3,2);
+        tmp += '-';
+        tmp += str.substr(5);
+        return tmp;
+    }
+    return str;
+}
+/* 사업자 등록번호 등록 시 자동 하이픈"-" 추가 함수 끝*/
+
+
+
+/* 추가 js */
+//그리드 너비 제어
+$(document).ready(function (){
+	$('.organization').height($(window).height()-47);
+	$(".tbl_st2 tr .store_area").height( $(window).height()-505);
+	
+	$(window).resize(function() {
+		$('.organization').height($(window).height()-47);
+		$(".tbl_st2 tr .store_area").height( $(window).height()-505);
+	});
+});
+
+//########################################################
+//###   상단 버튼 구현 ( 끝 )   							   ###
+//########################################################

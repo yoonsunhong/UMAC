@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="posClosedCash">
+	
+	<parameterMap id="posClosedCashMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_STR_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_SALE_DT"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_POS_NO"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_EMP_NO"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="posClosedCashResultMap" />
+	</parameterMap>
+	
+	<resultMap id="posClosedCashResultMap" class="java.util.HashMap">
+		<result property="CORP_CODE" column="CORP_CODE" />
+		<result property="SALE_DT" column="SALE_DT" />
+		<result property="STR_CODE" column="STR_CODE" />
+		<result property="POS_NO" column="POS_NO" />
+		<result property="POS_NAME" column="POS_NAME" />
+		<result property="EMP_NO" column="EMP_NO" />
+		<result property="EMP_NAME" column="EMP_NAME" />
+		<result property="CHECK_10" column="CHECK_10" />
+		<result property="CHECK_30" column="CHECK_30" />
+		<result property="CHECK_50" column="CHECK_50" />
+		<result property="CHECK_100" column="CHECK_100" />
+		<result property="CHECK_QTY_ETC" column="CHECK_QTY_ETC" />
+		<result property="CHECK_AMT_ETC" column="CHECK_AMT_ETC" />
+		<result property="CASH_50000" column="CASH_50000" />
+		<result property="CASH_10000" column="CASH_10000" />
+		<result property="CASH_5000" column="CASH_5000" />
+		<result property="CASH_1000" column="CASH_1000" />
+		<result property="CASH_500" column="CASH_500" />
+		<result property="CASH_100" column="CASH_100" />
+		<result property="CASH_50" column="CASH_50" />
+		<result property="CASH_10" column="CASH_10" />
+		<result property="GIFT_QTY1" column="GIFT_QTY1" />
+		<result property="GIFT_AMT1" column="GIFT_AMT1" />
+		<result property="GIFT_QTY2" column="GIFT_QTY2" />
+		<result property="GIFT_AMT2" column="GIFT_AMT2" />
+		<result property="GIFT_QTY_ETC" column="GIFT_QTY_ETC" />
+		<result property="GIFT_AMT_ETC" column="GIFT_AMT_ETC" />
+		<result property="SUM_CHECK" column="SUM_CHECK" />
+		<result property="SUM_CASH" column="SUM_CASH" />
+		<result property="SUM_GIFT" column="SUM_GIFT" />
+		<result property="CREDIT_AMT" column="CREDIT_AMT" />
+		<result property="CASH_SUM_AMT" column="CASH_SUM_AMT" />
+		<result property="P_TYPE" column="P_TYPE" />
+		<result property="DPOT_AMT" column="DPOT_AMT" />
+		<result property="CASH_SHORT_OVER" column="CASH_SHORT_OVER" />
+	</resultMap>
+	
+	<procedure id="getPosClosedCash" parameterMap="posClosedCashMap" >
+		{ call PKG_POS_CLOSED.POS_CLOSED_CASH_SELECT ( ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="posClosedCash2Map" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALE_DT"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_POS_NO"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_EMP_NO"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="posClosedCash2ResultMap" />
+	</parameterMap>
+	
+	<resultMap id="posClosedCash2ResultMap" class="java.util.HashMap">
+		<result property="CASH_SALE_AMT" column="CASH_SALE_AMT" />
+		<result property="CASH_RET_AMT" column="CASH_RET_AMT" />
+		<result property="CASH_AMT" column="CASH_AMT" />
+		<result property="SALE_BOT_AMT" column="SALE_BOT_AMT" />
+		<result property="SALE_BOT_CNT" column="SALE_BOT_CNT" />
+		<result property="RES_FUND_AMT" column="RES_FUND_AMT" />
+		<result property="CASH_SUM_AMT" column="CASH_SUM_AMT" />
+		<result property="MID_CASH_AMT" column="MID_CASH_AMT" />
+		<result property="CREDIT_CNT" column="CREDIT_CNT" />
+		<result property="CREDIT_AMT" column="CREDIT_AMT" />
+	</resultMap>
+	
+	<procedure id="getPosClosedCash2" parameterMap="posClosedCash2Map" >
+		{ call PKG_POS_CLOSED.POS_CLOSED_CASH_SELECT2 ( ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="updatePosClosedCashMap" class="java.util.Map">
+		<parameter property="P_TYPE"              javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CORP_CODE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_REG_ID"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALE_DT"           javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_POS_NO"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_EMP_NO"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CHECK_10"          javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_CHECK_30"          javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_CHECK_50"          javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_CHECK_100"         javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_CHECK_QTY_ETC"     javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_CHECK_AMT_ETC"     javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_GIFT_QTY1"         javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_GIFT_AMT1"         javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_GIFT_AMT_ETC"      javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_CASH_50000"        javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_CASH_10000"        javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_CASH_5000"         javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_CASH_1000"         javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_CASH_500"          javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_CASH_100"          javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_CASH_50"           javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_CASH_10"           javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_CASH_SHORT_OVER"   javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="RETURN_CODE"         javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	<procedure id="updatePosClosedCash" parameterMap="updatePosClosedCashMap" >
+		{ call PKG_POS_CLOSED.POS_CLOSED_CASH_UPDATE ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+</sqlMap>

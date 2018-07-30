@@ -1,0 +1,420 @@
+<%@ page language="java"   contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@include file="/WEB-INF/jsp/retail/inc_common/inc_common.jsp" %>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<!-- 스프링 메세지 테그사용 :: 다국어 -->
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@page import ="java.util.List" %>
+<%@page import ="java.util.HashMap" %>
+<%@page import ="java.util.ArrayList" %>
+<%@page import ="java.util.List" %>
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title><spring:message code="commonCodeManagement"/></title>
+<link type="text/css" rel="stylesheet" href="/resources/css/jquery-ui.css">
+<link type="text/css" rel="stylesheet" href="/resources/css/common.css">
+<link type="text/css" rel="stylesheet" href="/resources/css/font-awesome.min.css">
+<!--[if lt IE 9]>
+<script src="/resources/js/html5shiv.js"></script>
+<script src="/resources/js/IE9.js"></script>
+<link type="text/css" rel="stylesheet" href="/resources/css/ie8.css">
+<![endif]-->
+<script type="text/javascript" src="/resources/js/jquery-1.7.1.min.js" charset="utf-8"></script>
+<script src="/resources/js/jquery-ui.js"></script>
+<script src="/resources/js/style.js"></script>
+<%--
+	설명: 공통코드관리
+		
+	수정일      	수정자        수정내용
+	------------------------------------------------------
+	2017-03-06      이성진        초기작성 
+	------------------------------------------------------
+	version : 1.0
+--%> 
+
+<jsp:include page="/WEB-INF/jsp/retail/inc_common/inc_head.jsp" />	
+
+<!-- rMateGridH5 CSS -->
+<link rel="stylesheet" type="text/css" href="/resources/js/rMateGridH5/Assets/rMateH5.css"/> 
+<!-- rMateGridH5 라이센스 -->
+<script type="text/javascript" src="/resources/js/rMateGridH5/LicenseKey/rMateGridH5License.js" charset="utf-8"></script> 
+<!-- rMateGridH5 라이브러리 -->
+<script type="text/javascript" src="/resources/js/rMateGridH5/JS/rMateGridH5.js"></script>
+<script type="text/javascript" src="/resources/js/rMateStyle.js"></script>
+<script type="text/javascript" src="/resources/js/page/business/promotionreg/promotionRegistManage.js?ver=20170511_1" charset="utf-8"></script>
+<!-- 공통 팝업을 쓸 때 반드시 추가해야 한다. -->
+<jsp:include page="/WEB-INF/jsp/retail/commonPopup/commPop.jsp" />
+	
+</head>
+<script type="text/javascript">
+
+$(document).ready(function(){
+	//사용자의 버튼 권한 조회	
+	//PKG_COMMON.GET_AUTH_BUTTON_LIST 쿼리 수정해야함
+	var loadData =  $("#in_frame").serializeAllObject();
+    
+	//필수 파라메터 셋팅 (url, 사용자아이디, 점포코드)
+	loadData.URL = $(location).attr('pathname').replace(/\//gi, ""); 
+	loadData.USER_ID = '${sessionScope.ID}';
+	loadData.STR_CODE = '${sessionScope.STR_CODE}';
+	
+	//alert(loadData.URL+loadData.USER_ID+loadData.CORP_CODE+loadData.STR_CODE);
+	
+	jQuery.ajax({
+	    type:"POST",
+	    url:"/getAuthButtonList.do",
+	    data:loadData,
+	    dataType:"JSON", // 옵션이므로 JSON으로 받을게 아니면 안써도 됨
+	    async:false,
+	    success : function(data) {
+	    	//alert(data);
+	    	
+	    	//사용자 기능별 권한관리 데이터가 없으면 모든 버튼 숨김
+	    	if(data == ""){
+	    		$("#btn_pop_new").hide();
+	    		$("#btn_create").hide();
+	    		$("#addRow").hide();
+	    		$("#delRow").hide();
+	    		$("#btn_update").hide();
+	    		$("#btn_pop_add").hide();
+	    		$("#btn_pop_apply").hide();
+	    		$("#btn_read").hide();
+	    		return;
+	    	}
+	    	
+	    	//사용유무가 N이면 모든 버튼 숨김
+	    	if(data[0].USE_YN=='N'){
+	    		$("#btn_pop_new").hide();
+	    		$("#btn_create").hide();
+	    		$("#addRow").hide();
+	    		$("#delRow").hide();
+	    		$("#btn_update").hide();
+	    		$("#btn_pop_add").hide();
+	    		$("#btn_pop_apply").hide();
+	    		$("#btn_read").hide();
+	    	}else{
+	    		//조회버튼 제어
+		    	if(data[0].AUTH_SEARCH == 'Y'){
+		    		$("#btn_read").show();
+		    	}else{
+		    		$("#btn_read").hide();
+		    	}
+		    	
+		    	//신규버튼 제어
+		    	if(data[0].AUTH_NEW == 'Y'){
+		    		$("#addRow").show();
+		    		$("#btn_pop_new").show();
+		    		$("#btn_create").show();
+		    	}else{
+		    		$("#addRow").hide();
+		    		$("#btn_pop_new").hide();
+		    		$("#btn_create").hide();
+		    	}
+		    	
+		    	//저장버튼 제어
+		    	if(data[0].AUTH_SAVE == 'Y'){
+		    		$("#btn_update").show();
+		    		$("#btn_pop_add").show();
+		    		$("#btn_pop_apply").show();
+		    	}else{
+		    		$("#btn_update").hide();
+		    		$("#btn_pop_add").hide();
+		    		$("#btn_pop_apply").hide();
+		    	}
+		    	
+		    	//삭제버튼 제어
+		    	if(data[0].AUTH_DELETE == 'Y'){
+		    		$("#delRow").show();
+		    	}else{
+		    		$("#delRow").hide();
+		    	}
+		    	
+		    	//엑셀다운버튼 제어
+		    	if(data[0].AUTH_EXCEL_DOWN == 'Y'){
+		    		
+		    	}else{
+		    		
+		    	}
+		    	
+		    	//엑셀업로드버튼 제어
+		    	if(data[0].AUTH_EXCEL_UPLOAD == 'Y'){
+		    		
+		    	}else{
+		    		
+		    	}
+		    	
+		    	//프린트, 출력 버튼 제어
+		    	if(data[0].AUTH_PRINT == 'Y'){
+		    		
+		    	}else{
+		    		
+		    	}
+		    	
+		    	//승인 버튼 제어
+		    	if(data[0].AUTH_SUBMIT == 'Y'){
+		    		
+		    	}else{
+		    		
+		    	}
+		    	
+		    	//생성 버튼 제어
+		    	if(data[0].AUTH_CREATE == 'Y'){
+		    		
+		    	}else{
+		    		
+		    	}
+	    	}
+	    	
+	    	
+	    },
+	    complete : function(data) {
+	    },
+	    error : function(xhr, status, error) {
+	    	CommonJs.alertErrorStatus(xhr.status, error);
+	    }
+	});
+	
+});
+
+</script>
+ <body id="in_frame">
+		<div id="iframeCnt">
+			<div class="btn_area clear">
+				<button type="button" class="btn btn_style1 f_l"><img src="resources/img/common/help_ico.png"><spring:message code="btnHelp"/></button>
+				<div class="advice p_a">
+					<h4>information</h4>
+					<pre id="helpText"></pre>
+					<a href="" class="close_btn p_a">도움말 닫기</a>
+				</div>
+				<button id="bookMarkIcon" type="button" class="fav fav_inactive"></button>
+				<div class="f_r">
+					<!-- 권한에 따른 버튼 show/hide -->
+					<button type="button" id="btn_create"  class="btn btn_style2" onclick="btnNew()" ><spring:message code="btnNew"/></button>
+				    <button type="button" id="btn_update"  class="btn btn_style2"  onclick="btn_saveCheck()"><spring:message code="btnSave"/></button>
+					<button type="button" id="btn_read" class="btn btn_style3"  onclick="btnSearch()"><i class="fa fa-search"></i><spring:message code="btnSearch"/></button>
+				</div>
+			</div>
+			
+			<!-- 조회폼 영역 -->
+			<div class="search_area"    id="top_search">
+				<div class="last">
+					<label for=""><spring:message code="promKinds"/></label>
+							<select id="S_EVT_TP" name="S_EVT_TP" class="wid2"></select>							
+					<label for=""><spring:message code="eventStartDate"/></label>
+							<input type="text" class="datepicker wid2" id="S_EVT_STR_DT" name="EVT_STR_DT">
+				</div>
+			</div>
+			<!-- //조회폼 영역 -->
+			
+			<h3 class="bul_arr f_l"><spring:message code="promMstReg"/></h3>
+			<table class="tbl_st2 tbl_st4">
+				<colgroup>
+					<col style="width:13%">
+					<col style="width:20%">
+					<col style="width:13%">
+					<col style="width:20%">
+					<col style="width:13%">
+					<col style="width:20%">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th scope="row"><em>필수입력항목</em><label><spring:message code="promCode"/></label></th>
+						<td>
+							<input type="text" id="PMT_CODE" name="PMT_CODE" class="search_txt wid2" disabled>
+						</td>
+
+						<th scope="row"><em>필수입력항목</em><label><spring:message code="promName"/></label></th>
+						<td>
+							<input type="text" class="wid1" style="width:250px" id="PMT_NAME" name="PMT_NAME">
+						</td>
+						<th scope="row"><em>필수입력항목</em><label><spring:message code="eventDate"/></label></th>
+						<td>
+							<input type="text" class="datepicker1 datepicker" onChange="dateCheck_onChange('EVT_STR_DT', this)" id="EVT_STR_DT" name="EVT_STR_DT"> ~ 
+							<input type="text" class="datepicker2 datepicker" onChange="dateCheck_onChange('EVT_END_DT')" id="EVT_END_DT" name="EVT_END_DT">
+						</td>									
+					</tr>
+					<tr>
+						<th scope="row"><em>필수입력항목</em><label><spring:message code="cstmrType"/></label></th>
+						<td>
+							<select id="TGET_CUST" name="TGET_CUST" class="wid2"></select>
+						</td>
+
+						<th scope="row"><em>필수입력항목</em><label><spring:message code="eventKinds"/></label></th>
+						<td>
+							<select id="EVT_TP" name="EVT_TP" class="wid2" onchange="evtKind_onchange()"></select>
+						</td>
+						<th scope="row"><em>필수입력항목</em><label><spring:message code="orderDay"/></label></th>
+						<td>
+							<input type="text" class="datepicker1 datepicker" onChange="dateCheck_onChange('ORD_STR_DT')" id="ORD_STR_DT" name="ORD_STR_DT"> ~ 
+							<input type="text" class="datepicker2 datepicker" onChange="dateCheck_onChange('ORD_END_DT')" id="ORD_END_DT" name="ORD_END_DT">
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><em>필수입력항목</em><label><spring:message code="buyref"/></label></th>
+						<td>
+							<select id="PUR_COND" name="PUR_COND" onchange="purCond_onchange()" class="wid2"></select>
+						</td>
+						<th scope="row"><em>필수입력항목</em><label><spring:message code="dcRef"/></label></th>
+						<td>
+							<select id="DC_FLAG" name="DC_FLAG" onchange="dcFlag_onchange()" class="wid2"></select>
+						</td>
+						<th scope="row"></th>
+						<td>
+						</td>
+					</tr>	
+					<tr>
+						<%-- <th scope="row"><label><spring:message code="AmtDc1"/></label></th> --%>
+						<th scope="row"><label id="AMT1"><spring:message code="AmtDc1"/></label></th>
+						<td  >
+							 
+							 <input type="text" id="BASE_AMT1" name="BASE_AMT1" class="wid3"  style="text-align: right; padding-right:5px; width:120px;" maxlength="13" numberonly="true" />  
+							 <input type="text" id="DC_AMT1" name="DC_AMT1" class="wid3"  style="text-align: right; padding-right:5px; width:120px;"   maxlength="13" /> 
+							 
+						</td>
+						<th scope="row"><label id="AMT2"><spring:message code="AmtDc2"/></label></th>
+						<td>
+							<input type="text" id="BASE_AMT2" name="BASE_AMT2" class="wid3"  style="text-align: right; padding-right:5px; width:120px;"  maxlength="13" />
+							 <input type="text" id="DC_AMT2" name="DC_AMT2" class="wid3"  style="text-align: right; padding-right:5px; width:120px; "  maxlength="13" />
+						</td>
+						<th scope="row"><label id="AMT3"><spring:message code="AmtDc3"/></label></th>
+						<td>
+							<input type="text" id="BASE_AMT3" name="BASE_AMT3" class="wid3"  style="text-align: right; padding-right:5px; width:120px;" maxlength="13" />
+							 <input type="text" id="DC_AMT3" name="DC_AMT3" class="wid3"  style="text-align: right; padding-right:5px; width:120px;" maxlength="13" />
+						</td>
+
+					</tr>
+
+					<tr>
+						<th scope="row"><label><spring:message code="remarks"/></label></th>
+						<td colspan="6"><input type="text" class="wid100" id="REMARK" name="REMARK"></td>
+					</tr>					
+				</tbody>
+			</table>
+
+			
+			<div class="sec_grid">
+				<div class="content">
+					<div class="tit_top clear">
+						<h3 class="bul_arr f_l"><spring:message code="promMstList"/></h3>
+					</div>
+					<div id="gridHolder1"></div>
+				</div>
+			</div>
+			
+			<div class="sec_grid">
+				<div class="content">
+					<div class="tit_top clear">
+						<h3 class="bul_arr f_l"><spring:message code="promItmApply"/></h3>
+						<div class="f_r">
+							<button type="button" id="addRow" class="btn btn_style4" onclick="openItemAddPop()"><spring:message code="eventProduct"/></button>
+							<button type="button" id="delRow" class="btn btn_style4" onclick="deleteRow()"><spring:message code="delRow"/></button>
+						</div>	
+					</div>		
+					<div id="gridHolder2"></div>
+				</div>
+			</div>						
+
+		</div>
+		<!-- //Content : 본문 영역 -->
+		
+<div id="pop_wrap1">
+	<header id="pop_head" class="clear">
+		<!-- <h1 class="bul_arr f_l">프로모션 점 상품 등록</h1> -->
+		<div class="f_r">
+			<button type="button" class="btn btn_style4" id="btn_pop_new" onclick="btn_pop_new()"><spring:message code="btnNew"/></button>
+			<button type="button" class="btn btn_style4" id="btn_pop_add" onclick="btn_pop_add()"><spring:message code="add"/></button>
+			<button type="button" class="btn btn_style4" id="btn_pop_apply" onclick="btn_pop_apply()"><spring:message code="apply"/></button>
+			<button type="button" class="btn btn_style4" id="btn_pop_cancel" onclick="btn_pop_cancel()"><spring:message code="btnCancle"/></button>
+		</div>
+	</header>
+	<div id="pop_cnt">
+		<div class="clear">
+			<div class="f_l">
+				<h3 class="bul_arr"><spring:message code="promStrItmReg"/></h3>
+				<table class="tbl_st2">
+					<colgroup>
+						<col style="width:22%" />
+						<col style="width:28%" />
+						<col style="width:22%" />
+						<col style="width:28%" />
+					</colgroup>
+					<tr>
+						<th scope="row"><label><spring:message code="eventCode"/></label></th>
+						<td>
+							<input type="text" id="POP_PMT_CODE" name="POP_PMT_CODE" class="search_txt wid2" disabled>
+						</td>
+						<th scope="row"><label><spring:message code="eventName"/></label></th>
+						<td>
+							<input type="text" id="POP_PMT_NAME" name="POP_PMT_NAME" style="width:90%" disabled>
+						</td>						
+					</tr>
+					<tr>
+						<th scope="row"><label><spring:message code="itmName"/>(주)</label></th>
+						<td>
+							<input type="text" id="POP_SCAN_NAME1" name="POP_SCAN_NAME1" class="search_txt" style="width:80%">
+							<button type="button" class="search_btn"onclick="btn_comm_product_search1()" >검색 아이콘</button>
+						</td>
+						<th scope="row"><em>필수항목</em><label><spring:message code="prdCode1"/></label></th>
+						<td>
+							<input type="text" id="POP_SCAN_CODE1" name="POP_SCAN_CODE1" class="search_txt wid2" disabled>
+						</td>						
+					</tr>
+					<tr>
+						<th scope="row"><label><spring:message code="itmName"/>(부)</label></th>
+						<td>
+							<input type="text" id="POP_SCAN_NAME2" name="POP_SCAN_NAME2" class="search_txt" style="width:80%">
+							<button type="button" class="search_btn" onclick="btn_comm_product_search2()" >검색 아이콘</button>
+						</td>
+						<th scope="row"><em>필수항목</em><label><spring:message code="prdCode2"/></label></th>
+						<td>
+							<input type="text" id="POP_SCAN_CODE2" name="POP_SCAN_CODE2" class="search_txt wid2" disabled>
+						</td>	
+					</tr>
+					<tr>	
+						<th scope="row"><label><spring:message code="busiFlag"/></label></th>
+						<td>
+							<select id="POP_TGET_CUST" name="POP_TGET_CUST" class="wid2" disabled></select>
+						</td>
+						<th scope="row"><label><spring:message code="eventKinds"/></label></th>
+						<td>
+							<select id="POP_EVT_TP" name="POP_EVT_TP" class="wid2" disabled></select>
+						</td>										
+					</tr>
+					<tr>
+						<th scope="row"><em>필수항목</em><label id="POP_AMT1"><spring:message code="AmtDc1"/></label></th>
+						<td>
+							<input type="text" id="POP_BASE_AMT1" name="POP_BASE_AMT1" class="wid3"  style="text-align: right; padding-right:5px; width:80px;" maxlength="13" />
+							<input type="text" id="POP_DC_AMT1" name="POP_DC_AMT1" class="wid3"  style="text-align: right; padding-right:5px; width:80px;"  maxlength="13" />
+						</td>
+						<th scope="row"><label id="POP_AMT2"><spring:message code="AmtDc2"/></label></th>
+						<td>
+							<input type="text" id="POP_BASE_AMT2" name="POP_BASE_AMT2" class="wid3"  style="text-align: right; padding-right:5px; width:80px;"  maxlength="13" />
+							<input type="text" id="POP_DC_AMT2" name="POP_DC_AMT2" class="wid3"  style="text-align: right; padding-right:5px; width:80px;"  maxlength="13" />
+						</td>	
+					</tr>
+					<tr>
+						<th scope="row"><label id="POP_AMT3"><spring:message code="AmtDc3"/></label></th>
+						<td>
+							<input type="text" id="POP_BASE_AMT3" name="POP_BASE_AMT3" class="wid3"  style="text-align: right; padding-right:5px; width:80px;"  maxlength="13" />
+							<input type="text" id="POP_DC_AMT3" name="POP_DC_AMT3" class="wid3"  style="text-align: right; padding-right:5px; width:80px;" maxlength="13" />
+						</td>
+					</tr>
+				</table>		
+			</div>
+			<div class="f_r">
+				<h3 class="bul_arr"><spring:message code="promStrReg"/></h3>
+				<div id="gridHolder3" ></div>
+			</div>		
+		</div>
+		<div>
+			<h3 class="bul_arr"><spring:message code="promStrRegDtl"/></h3>
+			<div id="gridHolder4" ></div>
+		</div>
+	</div>
+</div>		
+	
+</body>
+</html>
+	

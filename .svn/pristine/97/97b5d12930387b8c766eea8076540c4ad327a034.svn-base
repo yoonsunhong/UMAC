@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="paymentLimit">
+
+	<parameterMap id="paymentLimitMap" class="java.util.Map">
+		<parameter property="P_SEARCH_DT" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"   		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CORP_CODE"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="paymentLimitResultMap" />
+	</parameterMap>
+	
+	<resultMap id="paymentLimitResultMap" class="java.util.HashMap">
+		<result property="VEN_CODE" 			column="VEN_CODE" />
+		<result property="VEN_NAME" 			column="VEN_NAME" />
+		<result property="PAY_SEQ" 				column="PAY_SEQ" />
+		<result property="CREDIT_LIMIT" 		column="CREDIT_LIMIT" />
+		<result property="NEXT_CREDIT_LIMIT" 	column="NEXT_CREDIT_LIMIT" />
+		<result property="PUR_AMT" 				column="PUR_AMT" />
+		<result property="PAY_AMT" 				column="PAY_AMT" />
+		<result property="ADJUST_AMT" 			column="ADJUST_AMT" />
+		<result property="AVAIL_AMT" 			column="AVAIL_AMT" />
+	</resultMap>
+	
+	<parameterMap id="paymentLimitUpdateMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_YM"     		javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_SEQ"     	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PUR_AMT"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_AMT"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ADJUST_AMT"      javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_IEMP_NO"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"     	javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+  	<procedure id="selectPaymentLimit" parameterMap="paymentLimitMap" >
+		{   call PKG_PAYMENT.PAYMENT_LIMIT_SELECT ( ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	<procedure id="updatePaymentLimit" parameterMap="paymentLimitUpdateMap" >
+		{   call PKG_PAYMENT.PAYMENT_LIMIT_UPDATE ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+</sqlMap>

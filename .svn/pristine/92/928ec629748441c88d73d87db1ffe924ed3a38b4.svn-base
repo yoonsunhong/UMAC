@@ -1,0 +1,343 @@
+<%@ page language="java"   contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@include file="/WEB-INF/jsp/retail/inc_common/inc_common.jsp" %>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<!-- 스프링 메세지 테그사용 :: 다국어 -->
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@page import ="java.util.List" %>
+<%@page import ="java.util.HashMap" %>
+<%@page import ="java.util.ArrayList" %>
+<%@page import ="java.util.List" %>
+<!DOCTYPE HTML>
+<html lang="ko">    
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>상품 마스터 관리</title>
+
+<link type="text/css" rel="stylesheet" href="/resources/css/jquery-ui.css">
+<link type="text/css" rel="stylesheet" href="/resources/css/common.css">
+<link type="text/css" rel="stylesheet" href="/resources/css/font-awesome.min.css">
+<!--[if lt IE 9]>
+<script src="/resources/js/html5shiv.js"></script>
+<script src="/resources/js/IE9.js"></script>
+<link type="text/css" rel="stylesheet" href="/resources/css/ie8.css">
+<![endif]-->
+<script type="text/javascript" src="/resources/js/jquery-1.12.4.min.js" charset="utf-8"></script>
+ 
+<script src="/resources/js/jquery-ui.js"></script>
+<script src="/resources/js/style.js"></script>
+
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+
+
+
+<%--
+	설명: 점포 별 상품  관리
+	version : 1.0
+--%> 
+
+<jsp:include page="/WEB-INF/jsp/retail/inc_common/inc_head.jsp" />	
+
+<!-- rMateGridH5 CSS -->
+<link rel="stylesheet" type="text/css" href="/resources/js/rMateGridH5/Assets/rMateH5.css"/> 
+<!-- rMateGridH5 라이센스 -->
+<script type="text/javascript" src="/resources/js/rMateGridH5/LicenseKey/rMateGridH5License.js" charset="utf-8"></script> 
+<!-- rMateGridH5 라이브러리 -->
+<script type="text/javascript" src="/resources/js/rMateGridH5/JS/rMateGridH5.js"></script>
+<script type="text/javascript" src="/resources/js/rMateStyle.js"></script>
+
+  
+
+<script type="text/javascript" src="/resources/js/page/purch/mng/purchMng.js?ver=20171208_001" charset="utf-8"></script>
+
+
+<jsp:include page="/WEB-INF/jsp/retail/commonPopup/commPop.jsp" />
+
+</head>
+
+ <body id="in_frame">
+	<div id="iframeCnt">
+		<div class="btn_area clear">
+			<button type="button" class="btn btn_style1 f_l"><img src="resources/img/common/help_ico.png">도움말</button>
+			<div class="advice p_a">
+				<h4>information</h4>
+				<pre id="helpText"></pre>
+				<a href="" class="close_btn p_a">도움말 닫기</a>
+			</div>
+			<button id="bookMarkIcon" type="button" class="fav fav_inactive"></button> 
+			<div class="f_r"> 
+<!-- 				<button type="button" id="btn_purch_creat"      name="btn_purch_creat"      class="btn btn_style2"  onclick="btn_purch_creat()">매입데이터 생성</button> -->
+			
+		    	<button type="button" id="btn_clear"      name="btn_clear"      class="btn btn_style2"  onclick="btn_clear()">초기화</button>
+				<!--  일단 확정은 막아둔다  -->
+<!-- 				<button type="button" id="btn_confirm"    name="btn_confirm"    class="btn btn_style1"  style="cursor:Default" onclick="btn_confirm()"  disabled >확정</button>   -->
+		        <button type="button" id="btn_confirm"    name="btn_confirm"    class="btn btn_style2"  onclick="btn_confirm()"    >매입마감</button>   
+		    	<button type="button" id="btn_report"     name="btn_report"     class="btn btn_style2"  onclick="btn_report('purchMngPrint.do')"   title="CTRL 키를 누른채 마우스로 매입전표를 클릭하시면 다중선택이 됩니다."  >출력</button>
+		    	<button type="button" id="btn_save"       name="btn_save"       class="btn btn_style2"  onclick="btn_save()">저장</button> <!-- PUR_CFM_DT 업데이트 -->
+				<button type="button" id="btn_search"     name="btn_search"     class="btn btn_style3"  onclick="btn_search()"><i class="fa fa-search"></i>조회</button>
+			</div>
+		</div>
+		
+		<!-- 조회폼 영역 시작 -->
+		<form id="frmSearch" name="frmSearch">
+		<div class="search_area"     id="top_search"  name="top_search"   style="height:50px">
+				<input type="hidden"       id="selectedPrintRow"  name="selectedPrintRow"/>
+				<input type="hidden"       id="P_PRINT_CORP_CODE"  name="P_PRINT_CORP_CODE" value="" />
+				<input type="hidden"       id="P_PRINT_PUR_DT"  name="P_PRINT_PUR_DT"/>
+				<input type="hidden"       id="P_PRINT_STR_CODE"  name="P_PRINT_STR_CODE"/>
+				<input type="hidden"       id="CORP_CODE"  name="CORP_CODE" value="${sessionScope.CORP_CODE}" />
+<!-- 				<div class="last"> -->
+				
+				
+				<table>
+				<tr>
+						<th><label for=""><em>필수입력사항</em>점포</label></th>
+						<td>
+								<input type="hidden" id="SESSION_STR_CODE" name="SESSION_STR_CODE" value="${sessionScope.STR_CODE }"> 
+								<input type="hidden" id="SESSION_ROLE_ID"  name="SESSION_ROLE_ID"  value="${sessionScope.ROLE_ID}"   > 
+								<select id="STR_CODE" name="STR_CODE" class="wid2">
+									<option value="">선택</option> 
+								</select>
+						</td>
+				 
+				 		<th><label for="">매입처</label></th>
+				 		<td>
+						 		<input type="hidden" id="VEN_CODE" name="VEN_CODE" class="wid2"      >
+								<input type="text"   id="VEN_NAME" name="VEN_NAME" class="search_txt"  onBlur="clearVenCode()"  >
+								<button type="button" class="search_btn" onclick="btn_comm_supply_search()">검색 아이콘</button>
+				 		</td>
+				 		
+				 		<th><label for=""><em>필수입력사항</em>발주일자</label></th>
+				 		<td colspan=4>
+						 		  <input type="text" id="PUR_DT_FROM"  name="PUR_DT_FROM" class="datepicker1 datepicker" >
+								~ <input type="text" id="PUR_DT_TO"    name="PUR_DT_TO"   class="datepicker2 datepicker" >		
+				 		</td>
+				 		
+				 		
+				 		
+				 </tr><tr> 
+				 		
+				 		 <th><label for="">확정구분</label></th>
+				 		<td>
+						 		  <select id="CFM_YN" name="CFM_YN" class="wid2"  >
+										<option value="">전체</option> 
+								  </select>
+				 		</td>
+				 
+				 
+				 		<th><label for="">매입구분</label></th>
+				 		<td>
+						 		  <select id="PUR_GB" name="PUR_GB" class="wid2"  >
+										<option value="">전체</option> 
+								  </select>
+				 		</td>
+				 		
+				 		<th><label for="">입고일자 </label></th>
+				 		<td>
+						 		  <input type="text" id="PUR_CFM_DT"    name="PUR_CFM_DT"   class="datepicker2 datepicker" >	
+				 		</td>
+				 		
+				 		<th><label for="">전표번호 </label></th>
+				 		<td>
+						 		  <input type="text"   id="SLIP_NO" name="SLIP_NO" class="search_txt"    >
+				 		</td>
+				 		 
+				 		 <th> </th>
+				 		<td>
+						 		  
+				 		</td>
+				 		
+				 		
+				</tr> 
+				 
+				
+				</table>
+				
+				
+<!-- 					<label for=""><em>필수입력사항</em>점포</label>  -->
+<!-- 					&nbsp;&nbsp; -->
+<%-- 					 	<input type="hidden" id="SESSION_STR_CODE" name="SESSION_STR_CODE" value="${sessionScope.STR_CODE }">  --%>
+<%-- 						<input type="hidden" id="SESSION_ROLE_ID"  name="SESSION_ROLE_ID"  value="${sessionScope.ROLE_ID}"   >  --%>
+						
+<!-- 						<select id="STR_CODE" name="STR_CODE" class="wid2"> -->
+<!-- 							<option value="">선택</option>  -->
+<!-- 						</select>	 -->
+						 
+<!-- 					&nbsp;&nbsp;&nbsp; &nbsp; -->
+<!-- 					<label for="">매입처</label> -->
+<!-- 						<input type="hidden" id="VEN_CODE" name="VEN_CODE" class="wid2"      > -->
+<!-- 						<input type="text"   id="VEN_NAME" name="VEN_NAME" class="search_txt"  onBlur="clearVenCode()"  > -->
+<!-- 						<button type="button" class="search_btn" onclick="btn_comm_supply_search()">검색 아이콘</button> -->
+
+					
+					
+<!-- 					<label for=""><em>필수입력사항</em>발주일자</label> -->
+<!-- 					  <input type="text" id="PUR_DT_FROM"  name="PUR_DT_FROM" class="datepicker1 datepicker" > -->
+<!-- 					~ <input type="text" id="PUR_DT_TO"    name="PUR_DT_TO"   class="datepicker2 datepicker" >					 -->
+					
+<!-- 					<label for="">확정구분</label> -->
+<!-- 					<select id="CFM_YN" name="CFM_YN" class="wid2"  > -->
+<!-- 							<option value="">전체</option>  -->
+<!-- 					</select> -->
+					
+<!-- 					<label for="">매입구분</label>  -->
+<!-- 					<select id="PUR_GB" name="PUR_GB" class="wid2"  > -->
+<!-- 							<option value="">전체</option>  -->
+<!-- 					</select>	 -->
+					
+						
+<!-- 					<br> -->
+<!-- 					<label for="">입고일자 </label>   -->
+<!-- 							<input type="text" id="PUR_CFM_DT"    name="PUR_CFM_DT"   class="datepicker2 datepicker" >	 -->
+					 		
+<!-- 					<label for="">전표번호</label>  -->
+<!-- 						<input type="text"   id="SLIP_NO" name="SLIP_NO" class="search_txt"    > -->
+						 		 	
+<!-- 				</div> -->
+			
+			
+			
+			
+		</div>				
+		
+		
+		
+		 
+		</form>
+		
+		
+		<!-- //조회폼 영역 끝 -->
+		
+		<!-- 그리드 영역 -->
+<!-- 		<h3 class="bul_arr">상품발주관리</h3> -->
+<!-- 		<p class="t_r">* 원가단가: 세액포함</p> --> 
+		<div class="clear">
+			<div class="f_l tit_top">
+				<div class="clear">
+					<h3 class="bul_arr f_l">매입전표    &nbsp;&nbsp; * "매입(입고)일"이 존재 해야 확정(체크박스) 가능합니다.</h3>
+					<dlv class="f_r">
+<!-- 					[매입삭제]박부장님 요청으로 주석으로 막아놓음 -->
+<!-- 						<button type="button" id="" name="" class="btn btn_style4" onclick="purchDel()">매입삭제</button> -->
+ 
+					</dlv>
+				</div>
+				<div id="gridHolder2"><!-- 그리드2 영역, 스타일 삭제 --></div>
+			</div>
+			<table class="tbl_st2 f_r" style="width:312px;margin-top:32px;margin-left:10px">
+				<colgroup>
+					<col width="50%" />
+					<col width="50%" />
+				</colgroup>				
+				<tbody>
+					<tr>
+						<th scope="row">면세원가 금액합계</th>
+						<td><input type="text" id="TOT_WSPRC_TAX_FREE" name="TOT_WSPRC_TAX_FREE" class="wid100"  style="text-align:right;" readonly></td>
+					</tr>
+					<tr>
+						<th scope="row">과세원가 금액합계</th>
+						<td><input type="text" id="TOT_WSPRC_TAX_ADD" name="TOT_WSPRC_TAX_ADD" class="wid100" style="text-align:right;" readonly></td>
+					</tr>						
+					<tr>
+						<th scope="row">부가세 금액합계</th>
+						<td><input type="text" id="TOT_WVAT" name="TOT_WVAT" class="wid100" style="text-align:right;" readonly></td>
+					</tr>						
+					<tr>
+						<th scope="row">구입 금액합계</th>
+						<td><input type="text" id="TOT_PRICE" name="TOT_PRICE" class="wid100" style="text-align:right;" readonly></td>
+					</tr>						
+					<tr>
+						<th scope="row">매가 금액합계</th>
+						<td><input type="text" id="TOT_SPRC" name="TOT_SPRC" class="wid100" style="text-align:right;" readonly></td>
+					</tr>						
+					<tr>
+						<th scope="row">공병 금액합계</th>
+						<td><input type="text" id="BOT_SPRC_TOT" name="BOT_SPRC_TOT" class="wid100" style="text-align:right;" readonly></td>
+					</tr>		
+				</tbody>
+			</table>			
+		</div> 
+		
+		<div>
+			<div class="tit_top clear">
+				<h3 class="bul_arr f_l">매입전표 상세 (매입확정)</h3>	 
+				<div class="f_r">  
+					 * 원가단가: 부가세포함 &nbsp;&nbsp;&nbsp;&nbsp;
+					<button type="button" id="btn_save_amt" name="btn_save_amt" class="btn btn_style4" onclick="btnSaveAmt()">
+					<font color=red> [ 매입금액수정  ] </font>
+					</button>
+
+<!-- 			 <button type="button" id="btn_del" name="btn_del" class="btn btn_style4" onclick="gridHolder1DelRow()">행삭제</button> -->
+				</div>	
+			</div>
+			<div class="sec_grid">
+				<div class="content">
+					<div id="gridHolder1"></div>
+				</div>
+			</div>
+		</div>		
+		<!-- //그리드 영역 끝-->
+		
+		
+		
+		
+	</div>
+	<!-- //Content : 본문 영역 -->
+</body>
+
+<script type="text/javascript"> 
+
+$(document).ready(function (){
+
+// 	$("#show_product_pop").dialog({
+// 	    autoOpen : false,
+// 	    modal : true,
+// 	    width : 980,
+// 	    height : 480,
+// 	    resizable : false
+// // 	    , open: function (event, ui) { 
+// //             $('.ui-dialog').css('z-index',950);
+// //             $('.ui-widget-overlay').css('z-index',949);
+// //         },
+// 	});
+	 
+});
+
+
+
+// function showProductPop(){ 
+    
+// 	 $( "#show_product_pop" ).dialog( 'open' );		   
+// 	 gridApp6.resize();  // 이걸해줘야지 레이어 팝업에 그리드가 제대로 나타난다.
+	 
+// } 	
+</script>
+  
+	
+
+<!-- 	 상품정보 리스트 팝업 영역 시작  -->
+<!-- <div id="show_product_pop"  > -->
+<!-- 	<header id="pop_head" class="clear"> -->
+<!-- 		<div class="f_r">   -->
+<!-- 			 <button type="button" id="btn_update"  class="btn btn_style2" onclick="btn_pop_close()" >닫기</button> -->
+<!-- 		</div> -->
+<!-- 	</header>  -->
+<!-- 	<form action=""> -->
+<!-- 		<div id="pop_cnt">   -->
+<!-- 				<div class="clear"> -->
+<!-- 					<h3 class="bul_arr f_l">취급 상품 리스트</h3>  -->
+<!-- 				</div> -->
+<!-- 				<div class="content"> -->
+<!-- 					<div id="gridHolder6"></div> -->
+<!-- 				</div>  -->
+<!-- 		</div> -->
+<!-- 	</form> -->
+
+<!-- </div> -->
+<!-- 	  상품정보 리스트 팝업 영역  끝  -->
+ 
+ 
+<!-- <script src="/resources/js/daumZip.js"></script> -->
+ 
+
+</html>
+

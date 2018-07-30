@@ -1,0 +1,125 @@
+<%@ page language="java"   contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@include file="/WEB-INF/jsp/retail/inc_common/inc_common.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<!-- 스프링 메세지 테그사용 :: 다국어 -->
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@page import ="java.util.Calendar" %>
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title><spring:message code="bestWorst20"/></title>
+
+<link type="text/css" rel="stylesheet" href="/resources/css/common.css">
+<link type="text/css" rel="stylesheet" href="/resources/css/font-awesome.min.css">
+
+<jsp:include page="/WEB-INF/jsp/retail/inc_common/inc_head.jsp" />	
+<script src="/resources/js/style.js"></script>
+
+<!-- rMateGridH5 CSS -->
+<link rel="stylesheet" type="text/css" href="/resources/js/rMateGridH5/Assets/rMateH5.css"/> 
+<!-- rMateGridH5 라이센스 -->
+<script type="text/javascript" src="/resources/js/rMateGridH5/LicenseKey/rMateGridH5License.js" charset="utf-8"></script> 
+<!-- rMateGridH5 라이브러리 -->
+<script type="text/javascript" src="/resources/js/rMateGridH5/JS/rMateGridH5.js"></script>
+<script type="text/javascript" src="/resources/js/rMateStyle.js"></script>
+<!-- 공통 팝업 -->
+
+
+<!--[if lt IE 9]>
+<script src="/resources/js/html5shiv.js"></script>
+<script src="/resources/js/IE9.js"></script>
+<link type="text/css" rel="stylesheet" href="/resources/css/ie8.css">
+<![endif]-->
+<!--[if IE]><script language="javascript" type="text/javascript" src="/resources/js/rMateGridH5/JS/shim.js"></script><![endif]-->
+<script type="text/javascript" src="/resources/js/rMateGridH5/JS/jszip.min.js"></script>
+<script type="text/javascript" src="/resources/js/rMateGridH5/JS/xlsx.min.js"></script>	 
+<jsp:include page="/WEB-INF/jsp/retail/commonPopup/commPop.jsp" />	
+
+<script type="text/javascript" src="/resources/js/page/salesinfo/item/deliverDayState.js" charset="utf-8"></script>
+</head>
+<style>  
+ 	.DATE_YM table.ui-datepicker-calendar { display:none; }
+</style>
+<%
+	//전달구하기
+	Calendar mon = Calendar.getInstance();
+	String nowMonth = new java.text.SimpleDateFormat("yyyy-MM").format(mon.getTime());
+	String beforeMonth = nowMonth.substring(0,4).concat("-01");	
+%>
+
+ <body id="in_frame">
+		<div id="iframeCnt">
+			<div class="btn_area clear">
+				<button type="button" class="btn btn_style1 f_l"><img src="resources/img/common/help_ico.png"><spring:message code="btnHelp"/></button>
+				<div class="advice p_a">
+					<h4>information</h4>
+					<pre id="helpText"></pre>
+					<a href="" class="close_btn p_a"><spring:message code="btnHelpClose"/></a>
+				</div>
+				<button id="bookMarkIcon" type="button" class="fav fav_inactive"></button> 
+				<div class="f_r">
+				    <c:if test="${sessionScope.AUTH_EXCEL_DOWN eq   'Y'}">
+						<button type="button" class="btn btn_style2"  id="btn_excel_down" name="btn_excel_down"><i class="fa fa-file-excel-o"></i> <spring:message code="btnExcelDown"/></button>
+					</c:if>			
+					<c:if test="${sessionScope.AUTH_SEARCH eq   'Y'}">
+						<button type="button" class="btn btn_style3"  id="btn_search" name="btn_search"><i class="fa fa-search"></i> <spring:message code="btnSearch"/></button>
+					</c:if>					
+				</div>
+			</div>
+			
+			<!-- 조회폼 영역 -->
+			<form name="sertch_frm" id="sertch_frm">			
+				<div class="search_area" id="top_search">
+					<div class="last">
+						<input type="hidden" name="P_CORP_CODE" id="P_CORP_CODE" value="${sessionScope.CORP_CODE }" >
+						<input type="hidden" name="P_EMP_NO" id="P_EMP_NO" value="<%=getEnv().getUserId()%>" >
+						<input type="hidden" name="URL" id="URL" value="" >
+								
+						<label for="" class=""><em>필수입력항목</em><spring:message code="storNm"/></label> &nbsp;&nbsp;
+						<select id="P_STR_CODE" name="P_STR_CODE" class="wid2"></select>		
+						
+						<label for=""><em>필수입력항목</em><spring:message code="inqireYear"/></label>					
+						<input type="text" id="P_START_MM" name="P_START_MM" class="datepicker1 datepickerYm3" value="<%=beforeMonth%>" readonly="readonly"> ~ 
+						<input type="text" id="P_END_MM" name="P_END_MM" class="datepicker2 datepickerYm4" value="<%=nowMonth%>" readonly="readonly">
+						
+					</div>
+					
+				</div>
+			</form>		
+			<!-- //조회폼 영역 -->
+			
+			<!-- >요일별/월별배달집계(배달건수) -->
+			<div class="col2 sub_cnt">
+				<div class="clear">
+					<h3 class="bul_arr f_l">요일별/월별배달집계(배달건수)</h3>
+				</div>	 		
+				<div class="sec_grid">
+					<div class="content">
+						<div id="gridHolder1"></div>
+					</div>
+				</div> 		 
+			</div>
+			<br>
+			<!-- >요일별/월별배달집계(배달매출액) -->
+			<div class="col2 sub_cnt">
+				<div class="clear">
+					<h3 class="bul_arr f_l">요일별/월별배달집계(배달매출액)</h3>
+				</div>	 		
+				<div class="sec_grid">
+					<div class="content">
+						<div id="gridHolder2"></div>
+					</div>
+				</div> 		 
+			</div>
+			
+		</div>
+	<!-- //Content : 본문 영역 -->	 
+		
+</body>
+</html>
+	

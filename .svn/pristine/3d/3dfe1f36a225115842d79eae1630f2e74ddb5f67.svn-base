@@ -1,0 +1,25 @@
+package retail.purch.mng.service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+ 
+
+public interface PurchMngDeleteService {
+
+  
+	List<Map<String, Object>> purchHeadSearchDelete(Map<String, Object> param) throws Exception;
+	
+
+	List<Map<String, Object>> purchDetailInfoDelete(Map<String, Object> param) throws Exception;
+	
+	List<Map<String, Object>>  purchDeleteAll(  Map<String, Object> param) throws Exception;
+	
+	
+	List<Map<String, Object>>  purchChangeDate(  Map<String, Object> param) throws Exception;
+	 
+ 
+	 
+
+
+}

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="menurole">
+		
+	<typeAlias alias="MenuRoleVO" type="retail.menurole.service.MenuRoleVO" />
+	
+	
+	<!-- 사용자 목록 조회 파라미터 맵 -->
+	<parameterMap id="parmaMap1" class="java.util.HashMap">
+	     <parameter property="P_USER_NM" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_POSITION" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_DEPT_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap1" />
+	</parameterMap>
+	<!-- 사용자 목록 조회 리절트 맵 -->
+	<resultMap id="resultMap1" class="java.util.HashMap">
+	    <result property="USER_ID"  column="USER_ID" nullValue="" />  
+	    <result property="USER_NM"  column="USER_NM"  nullValue="" />
+	    <result property="POSITION"  column="POSITION"  nullValue="" />
+	    <result property="DEPT_NAME"  column="DEPT_NAME"  nullValue="" />
+	    <result property="DEPT_CODE"  column="DEPT_CODE"  nullValue="" />
+	</resultMap>
+
+	
+	<!-- 사용자 목록 조회 -->
+	<procedure id="getUserRoleList" parameterMap="parmaMap1" resultMap="resultMap1">
+        { call PKG_MENU_ROLE.PR_GET_USER_ROLE_LIST( ? , ? , ?, ?, ?) }   
+  	</procedure>
+  	
+  	
+  	<!-- 부서코드 조회 리절트 맵 -->
+	 <parameterMap id="paramMap0" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap0" />
+	</parameterMap>
+	
+	<!-- 부서코드 조회 리절트 맵 -->
+	<resultMap id="resultMap0" class="java.util.HashMap">
+	    <result property="STR_CODE"  column="STR_CODE"  nullValue="" />  
+	    <result property="STR_NAME"  column="STR_NAME"  nullValue="" />
+	</resultMap>
+  	
+	
+	 <!-- 부서코드 조회 -->
+	<procedure id="getDeptCodeList" parameterMap="paramMap0"  resultMap="resultMap0">
+		{ call PKG_MENU_ROLE.GET_DEPT_CODE_LIST ( ?, ? )  }
+	</procedure>
+	
+	<!-- 사용자 기능별 권한 리스트 조회 파라메터 맵 -->
+	<parameterMap id="paramMap2" class="java.util.Map">
+		<parameter property="P_CORP_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_USER_ID"    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"          javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT" />
+	</parameterMap>
+
+	 <!--사용자 기능별 권한 리스트 조회 -->
+	<procedure id="getUserMenuRoleList" parameterMap="paramMap2" resultClass="java.util.HashMap">
+		{ call PKG_MENU_ROLE.GET_USER_MENU_ROLE_LIST ( ?, ?, ?)  }
+	</procedure>
+	
+	
+	
+	<!-- 메뉴별 권한 복사 등록 실행 파라메터맵 -->
+	<parameterMap id="paramMap3" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     			javaType="java.lang.String"     jdbcType="VARCHAR"	 mode="IN"      />
+	  	<parameter property="P_USER_ID"   				javaType="java.lang.String"     jdbcType="VARCHAR"   mode="IN"      />
+	  	<parameter property="P_ORI_IEMP_NO"   			javaType="java.lang.String"     jdbcType="VARCHAR"   mode="IN"      />
+	  	<parameter property="P_TO_IEMP_NO"   			javaType="java.lang.String"     jdbcType="VARCHAR"   mode="IN"      />
+	  	<parameter property="CUR"        					javaType="java.sql.ResultSet"  jdbcType="ORACLECURSOR"   mode="OUT"   resultMap="resultMap3"   /> 
+	</parameterMap>
+	
+	<!-- 메뉴별 권한 복사 등록 실행 리절트맵 -->
+	<resultMap id="resultMap3" class="java.util.HashMap">
+		<result property="RETURN_CODE"      column="RETURN_CODE"  />
+    	<result property="RETURN_MESSAGE" column="RETURN_MESSAGE" /> 
+	</resultMap>
+	
+	<!-- 메뉴별 권한 복사 등록 실행 DELETE/SELECT/INSERT -->
+	<procedure id="copyUserRoleList" parameterMap="paramMap3" resultMap="resultMap3">
+		{ call PKG_MENU_ROLE.COPY_USER_ROLE_LIST ( ?, ?, ?,  ?, ?)  }
+	</procedure>
+	
+	
+	<!--  사용자 메뉴별 권한 저장 파라메터맵  -->
+  	<parameterMap id="paramMap4" class="java.util.Map">     
+	    <parameter property="P_CORP_CODE"  	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+	    <parameter property="P_UEMP_NO"   		javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />   
+	  	<parameter property="P_GRIDXMLDATA" 	javaType="java.lang.String"     jdbcType="CLOB"       mode="IN"      /> 
+	  	<parameter property="CUR"           			javaType="java.sql.ResultSet"  jdbcType="ORACLECURSOR"   mode="OUT"   resultMap="resultMap4"   /> 
+  	</parameterMap>
+  
+  	<!-- 사용자 메뉴별 권한 저장 리절트맵 -->
+	<resultMap id="resultMap4" class="java.util.HashMap">
+		<result property="RETURN_CODE"      	column="RETURN_CODE"  />
+    	<result property="RETURN_MESSAGE" 	column="RETURN_MESSAGE" /> 
+	</resultMap>
+    
+  <!-- 사용자 메뉴별 권한 저장 -->
+  <procedure id="userMenuRoleUpdate"  parameterMap="paramMap4"   resultMap="resultMap4" > 
+    {   call PKG_MENU_ROLE.USER_MENU_ROLE_UPDATE( ? , ? , ? , ?)  }   
+  </procedure>
+	
+</sqlMap>

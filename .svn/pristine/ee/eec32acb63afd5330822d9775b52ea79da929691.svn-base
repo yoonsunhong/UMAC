@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PSS">
+	
+	<!-- 프로모션 점 상품 내역조회 -->	
+	<parameterMap id="paramMap1" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"      	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_EVT_TP"     		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_EVT_STR_DT"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_FIRST_INDEX"   	javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_RECORD_COUNT"  	javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_COLUMN_NAME"   	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ORDERBY"       	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="resultMap1" />
+	</parameterMap>
+	
+	<resultMap id="resultMap1" class="java.util.HashMap">
+		<result property="PMT_CODE" 	column="PMT_CODE"  		nullValue="" />
+		<result property="STR_NAME" 	column="STR_NAME" 		nullValue="" />
+		<result property="PMT_NAME" 	column="PMT_NAME" 		nullValue="" />
+		<result property="SCAN_CODE" 	column="SCAN_CODE"  	nullValue="" />
+		<result property="ITM_NAME" 	column="ITM_NAME"   	nullValue="" />
+		<result property="EVT_ITM_TYPE"	column="EVT_ITM_TYPE"   nullValue="" />		
+		<result property="BASE_AMT1" 	column="BASE_AMT1" 		nullValue="" />
+		<result property="BASE_AMT2" 	column="BASE_AMT2"  	nullValue="" />
+		<result property="BASE_AMT3" 	column="BASE_AMT3"  	nullValue="" />
+		<result property="EVT_STR_DT" 	column="EVT_STR_DT"  	nullValue="" />
+		<result property="EVT_END_DT" 	column="EVT_END_DT"  	nullValue="" />
+		<result property="DC_AMT1" 		column="DC_AMT1"  		nullValue="" />
+		<result property="DC_AMT2" 		column="DC_AMT2"  		nullValue="" />
+		<result property="DC_AMT3" 		column="DC_AMT3"  		nullValue="" />
+	</resultMap>
+	
+	
+	<!--  -->
+	<procedure id="promotionStoreItemSearch" parameterMap="paramMap1"  resultMap="resultMap1">
+		{ call PKG_PROMOTION.CALL_PROMOTION_STR_ITEM_SEARCH ( ?, ?, ?, ?, ?, ?, ?, ?, ?) }
+	</procedure>
+	
+
+</sqlMap>

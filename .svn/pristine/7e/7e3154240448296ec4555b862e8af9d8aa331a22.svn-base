@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="memberPoint">
+
+	<parameterMap id="memberPointMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"   	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CUST_NO"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_START_DT" javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_END_DT"   javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="memberPointOneMap" />
+		<parameter property="CUR2"         	  	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="memberPointRegMap" />
+	</parameterMap>
+	
+	<parameterMap id="memberPointStrNameMap" class="java.util.Map">
+	  	<parameter property="CUR"         	javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="memberPointStrNameListMap" /> 
+	</parameterMap>
+	
+	<parameterMap id="memberPointInsertMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CUST_NO"     	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_APP_DT"     		javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_MNUL_POINT"      javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_MNUL_REASON"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_REMARK"        	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_IEMP_NO"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"     	javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	<resultMap id="memberPointStrNameListMap" class="java.util.HashMap">
+		<result property="STR_CODE" column="STR_CODE" />
+		<result property="STR_NAME" column="STR_NAME" />
+	</resultMap>
+	
+	<resultMap id="memberPointOneMap" class="java.util.HashMap">
+		<result property="SAL_AMT" column="SAL_AMT" />
+		<result property="MINUS_POINT" column="MINUS_POINT" />
+		<result property="SAL_UPOINT" column="SAL_UPOINT" />
+	</resultMap>
+	
+	<resultMap id="memberPointRegMap" class="java.util.HashMap">
+		<result property="APP_DT" column="APP_DT" />
+		<result property="STR_CODE" column="STR_CODE" />
+		<result property="MNUL_POINT" column="MNUL_POINT" />
+		<result property="MNUL_REASON" column="MNUL_REASON" />
+		<result property="REMARK" column="REMARK" />
+		<result property="IDATE" column="IDATE" />
+		<result property="IEMP_NO" column="IEMP_NO" />
+		<result property="STR_NAME" column="STR_NAME" />
+	</resultMap>
+	
+  	<procedure id="selectMemberPoint" parameterMap="memberPointMap" >
+		{   call PKG_MEMBER.MEMBER_POINT_OPTION_SELECT ( ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	<procedure id="getStrNameSelectBoxList" parameterMap="memberPointStrNameMap" resultClass="java.util.HashMap">
+		{   call PKG_MEMBER.MEMBER_POINT_STR_NAME_SELECT ( ? )  }
+  	</procedure>
+  	
+  	<procedure id="memberPointOptionInsert" parameterMap="memberPointInsertMap">
+		{   call PKG_MEMBER.MEMBER_POINT_OPTION_INSERT ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	<parameterMap id="getMemberPointListMap" class="java.util.Map">
+		<parameter property="S_CORP_CODE" javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"         javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"   />
+	</parameterMap>
+	
+	<procedure id="getMemberPointList" parameterMap="getMemberPointListMap" resultClass="java.util.HashMap" >
+		{ call PKG_MEMBER.MEMBER_POINT_SELECT ( ?, ? )  }
+	</procedure>
+  	
+  	<parameterMap id="updateMemberPointMap" class="java.util.Map">
+		<parameter property="P_TYPE"              javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CORP_CODE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_UPTAE_FLAG"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_BUSI_FLAG"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_MBR_GRADE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_DC_RATE"           javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_BASE_AMT"          javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_MIN_USE_POINT"     javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_CASH_RATE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CARD_RATE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_POINT_RATE"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CREDIT_RATE"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ETC_RATE"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_REG_ID"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"         javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+		<!-- 15개 -->
+	</parameterMap>
+	
+	<procedure id="updateMemberPoint" parameterMap="updateMemberPointMap" >
+		{ call PKG_MEMBER.MEMBER_POINT_UPDATE ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+  	<parameterMap id="memberPointStatusListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"         javaType="java.lang.String"     	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_STR_CODE"           javaType="java.lang.String"     	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_OPEN_DT"             javaType="java.lang.String"     	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_END_DT"               javaType="java.lang.String"     	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_CUST_NAME"         javaType="java.lang.String"    	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_FIRST_INDEX"   		javaType="java.lang.Integer"    	jdbcType="INTEGER"       		mode="IN"    />
+		<parameter property="P_RECORD_COUNT"  	javaType="java.lang.Integer"   	jdbcType="INTEGER"       		mode="IN"    />
+		<parameter property="P_COLUMN_NAME"   	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_ORDERBY"       		javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="CUR"             			javaType="java.sql.ResultSet"  	jdbcType="ORACLECURSOR"  	mode="OUT"  resultMap="resultMap1"  />
+		<parameter property="TOT_CNT"         		javaType="java.lang.Integer"    	jdbcType="INTEGER"       		mode="OUT"  />
+	</parameterMap>		
+	
+	<resultMap id="resultMap1" 	class="java.util.HashMap">
+		<result property="RNUM" 					column="RNUM" nullValue=""  />
+		<result property="CORP_CODE" 			column="CORP_CODE" nullValue=""  />
+		<result property="CUST_NO" 				column="CUST_NO" nullValue=""  />
+		<result property="SALE_DT" 				column="SALE_DT" nullValue=""  />
+		<result property="STR_CODE" 			column="STR_CODE" nullValue=""  />
+		<result property="POS_NO" 				column="POS_NO" nullValue=""  />
+		<result property="TRXN_NO" 				column="TRXN_NO"  nullValue="" />
+		<result property="CANC_FLAG_NM" 		column="CANC_FLAG_NM" nullValue=""  />
+		<result property="SDSM"   					column="SDSM" nullValue=""  />
+		<result property="SALE_UPOINT" 		column="SALE_UPOINT" nullValue=""  />
+		<result property="SALE_POINT"  			column="SALE_POINT" nullValue=""  />
+		<result property="PAY_AMT_01"   		column="PAY_AMT_01" nullValue=""  />
+		<result property="PAY_AMT_03"   		column="PAY_AMT_03" nullValue=""  />
+		<result property="PAY_AMT_18"   		column="PAY_AMT_18" nullValue=""  />
+		<result property="CASH_AMOUNT"   	column="CASH_AMOUNT" nullValue=""  />
+		<result property="CUST_NAME"   		column="CUST_NAME" nullValue=""  />
+	</resultMap>
+	
+	
+	<parameterMap id="paramMap2" class="java.util.Map">
+		<parameter property="P_CORP_CODE"         javaType="java.lang.String"     	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_STR_CODE"           javaType="java.lang.String"     	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_OPEN_DT"             javaType="java.lang.String"     	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_END_DT"               javaType="java.lang.String"     	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_CUST_NAME"         javaType="java.lang.String"    	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_COLUMN_NAME"   	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_ORDERBY"       		javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="CUR"             			javaType="java.sql.ResultSet"  	jdbcType="ORACLECURSOR"  	mode="OUT"  resultMap="resultMap1"  />
+	</parameterMap>		
+	
+	<resultMap id="resultMap2" 	class="java.util.HashMap">
+		<result property="CUST_NO" 				column="CUST_NO" nullValue=""  />
+		<result property="CUST_NAME"   		column="CUST_NAME" nullValue=""  />
+		<result property="SALE_UPOINT" 		column="SALE_UPOINT" nullValue=""  />
+		<result property="SALE_DT" 				column="SALE_DT" nullValue=""  />
+		<result property="POS_NO" 				column="POS_NO" nullValue=""  />
+		<result property="TRXN_NO" 				column="TRXN_NO"  nullValue="" />
+		<result property="CANC_FLAG_NM" 		column="CANC_FLAG_NM" nullValue=""  />
+		<result property="SDSM"   					column="SDSM" nullValue=""  />
+		<result property="SALE_POINT"  			column="SALE_POINT" nullValue=""  />
+		<result property="PAY_AMT_01"   		column="PAY_AMT_01" nullValue=""  />
+		<result property="PAY_AMT_03"   		column="PAY_AMT_03" nullValue=""  />
+		<result property="PAY_AMT_18"   		column="PAY_AMT_18" nullValue=""  />
+		<result property="CASH_AMOUNT"   	column="CASH_AMOUNT" nullValue=""  />
+	</resultMap>
+	
+	<procedure id="memberPointStatusList" parameterMap="memberPointStatusListMap" resultMap="resultMap1" >
+		{ call PKG_MEMBER.MEMBER_POINT_STATUS_LIST ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>	
+	
+	<procedure id="memberPointStatusListExcelDown" parameterMap="paramMap2" resultMap="resultMap2" >
+		{ call PKG_MEMBER.MEMBER_POINT_STATUS_EXCEL_LIST ( ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>	
+	
+	
+</sqlMap>

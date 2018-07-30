@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="purchR3State">
+
+	<parameterMap id="purchR3StateCase1ListMap" class="java.util.Map">
+		<parameter property="S_CORP_CODE" javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_STR_DT"    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_END_DT"    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_STR_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_VEN_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_ITM_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"         javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"   />
+	</parameterMap>
+
+	<parameterMap id="purchR3StateCase2ListMap" class="java.util.Map">
+		<parameter property="S_CORP_CODE" javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_STR_DT"    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_END_DT"    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_STR_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_PUR_GB"    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_VEN_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_ITM_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"         javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"   />
+	</parameterMap>
+
+	<parameterMap id="purchR3StateCase3ListMap" class="java.util.Map">
+		<parameter property="S_CORP_CODE" javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_STR_DT"    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_END_DT"    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_STR_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_PUR_GB"    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_VEN_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_ITM_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_CLS_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"         javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"   />
+	</parameterMap>
+
+	<procedure id="purchStateList" parameterMap="purchR3StateCase2ListMap" resultClass="java.util.HashMap">
+		{ call PKG_PURCH_R3.PURCH_STATE_BY_DAYPRODUCT_LIST ( ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>  
+
+	<procedure id="salePriceStateList" parameterMap="purchR3StateCase2ListMap" resultClass="java.util.HashMap">
+		{ call PKG_PURCH_R3.SALEPRICE_STATE_BY_ITEM_LIST ( ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>  
+
+	<procedure id="r3PurchStateList" parameterMap="purchR3StateCase3ListMap" resultClass="java.util.HashMap">
+		{ call PKG_PURCH_R3.R3PURCH_STATE_LIST ( ?, ?, ?, ?, ?, ?, ?, ? ,? )  }
+	</procedure>  
+
+	<procedure id="unitPriceStateList" parameterMap="purchR3StateCase1ListMap" resultClass="java.util.HashMap">
+		{ call PKG_PURCH_R3.UNITPRICE_BY_PRODUCT_LIST ( ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>  
+
+</sqlMap>

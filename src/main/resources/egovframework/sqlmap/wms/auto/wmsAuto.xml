@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="wmsAuto">
+
+	<parameterMap id="paramMap1" class="java.util.Map">
+		<parameter property="P_CORP_CODE"                    javaType="java.lang.String"      jdbcType="VARCHAR"              mode="IN"    />
+		<parameter property="P_STR_CODE_WMS"             javaType="java.lang.String"      jdbcType="VARCHAR"              mode="IN"    />
+		<parameter property="P_DOUT_DT"                        javaType="java.lang.String"      jdbcType="VARCHAR"              mode="IN"    />
+		<parameter property="P_STR_CODE_STORE"          javaType="java.lang.String"      jdbcType="VARCHAR"              mode="IN"    />
+		<parameter property="P_PAGE_INDEX"                   javaType="java.lang.String"      jdbcType="VARCHAR"              mode="IN"   />
+		<parameter property="P_PAGE_DISPLAY_TOTAL"    javaType="java.lang.String"      jdbcType="VARCHAR"              mode="IN"   />
+		
+		<parameter property="CUR"		                            javaType="java.sql.ResultSet"	 jdbcType="ORACLECURSOR"	mode="OUT"   /> 
+	</parameterMap>
+	
+	<parameterMap id="paramMap2" class="java.util.Map">
+		<parameter property="P_CORP_CODE"               javaType="java.lang.String"       jdbcType="VARCHAR"         mode="IN"    />
+		<parameter property="P_STR_CODE_WMS"        javaType="java.lang.String"       jdbcType="VARCHAR"         mode="IN"    />
+		<parameter property="P_SLIP_NO"                    javaType="java.lang.String"        jdbcType="VARCHAR"         mode="IN"    />
+		
+		<parameter property="CUR"		                      javaType="java.sql.ResultSet"	 jdbcType="ORACLECURSOR"	mode="OUT"   /> 
+	</parameterMap>
+	
+	<parameterMap id="paramMap3" class="java.util.Map">
+		<parameter property="P_CORP_CODE"               javaType="java.lang.String"       jdbcType="VARCHAR"         mode="IN"    />
+		<parameter property="P_STR_CODE_WMS"        javaType="java.lang.String"       jdbcType="VARCHAR"         mode="IN"    />
+		<parameter property="P_SLIP_NO"                    javaType="java.lang.String"        jdbcType="VARCHAR"         mode="IN"    />
+		
+		<parameter property="RETURN_CODE"           	javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"      	   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+		 
+	</parameterMap>
+	
+	<parameterMap id="paramMap4" class="java.util.Map">
+		<parameter property="P_CORP_CODE"                    javaType="java.lang.String"      jdbcType="VARCHAR"              mode="IN"    />
+		<parameter property="P_STR_CODE_WMS"             javaType="java.lang.String"      jdbcType="VARCHAR"              mode="IN"    />
+		<parameter property="P_STR_CODE_STORE"          javaType="java.lang.String"      jdbcType="VARCHAR"              mode="IN"    />
+		<parameter property="P_DOUT_DT"                        javaType="java.lang.String"      jdbcType="VARCHAR"              mode="IN"    />
+		
+		
+		<!--  
+		<parameter property="P_PAGE_INDEX"                   javaType="java.lang.String"      jdbcType="VARCHAR"              mode="IN"   />
+		<parameter property="P_PAGE_DISPLAY_TOTAL"    javaType="java.lang.String"      jdbcType="VARCHAR"              mode="IN"   />
+		 -->
+		
+		<parameter property="CUR"		                            javaType="java.sql.ResultSet"	 jdbcType="ORACLECURSOR"	mode="OUT"   /> 
+	</parameterMap>
+	
+	<parameterMap id="paramMap5" class="java.util.Map">
+		<parameter property="P_CORP_CODE"                    javaType="java.lang.String"      jdbcType="VARCHAR"              mode="IN"    />
+		<parameter property="P_STR_CODE_WMS"             javaType="java.lang.String"      jdbcType="VARCHAR"              mode="IN"    />
+		<parameter property="P_STR_CODE_STORE"          javaType="java.lang.String"      jdbcType="VARCHAR"              mode="IN"    />
+		<parameter property="P_DOUT_DT"                        javaType="java.lang.String"      jdbcType="VARCHAR"              mode="IN"    />
+		<parameter property="P_SLIP_NO"                        javaType="java.lang.String"      jdbcType="VARCHAR"              mode="IN"    />
+		
+		<!--  
+		<parameter property="P_PAGE_INDEX"                   javaType="java.lang.String"      jdbcType="VARCHAR"              mode="IN"   />
+		<parameter property="P_PAGE_DISPLAY_TOTAL"    javaType="java.lang.String"      jdbcType="VARCHAR"              mode="IN"   />
+		 -->
+		
+		<parameter property="CUR"		                            javaType="java.sql.ResultSet"	 jdbcType="ORACLECURSOR"	mode="OUT"   /> 
+	</parameterMap>
+	
+	<parameterMap id="paramMap6" class="java.util.Map">
+		<parameter property="P_CORP_CODE"                    javaType="java.lang.String"      jdbcType="VARCHAR"              mode="IN"    />
+		<parameter property="P_STR_CODE_WMS"             javaType="java.lang.String"      jdbcType="VARCHAR"              mode="IN"    />
+		<parameter property="P_STR_CODE_STORE"          javaType="java.lang.String"      jdbcType="VARCHAR"              mode="IN"    />
+		<parameter property="P_DOUT_DT"                        javaType="java.lang.String"      jdbcType="VARCHAR"              mode="IN"    />
+		<parameter property="P_SLIP_NO"                         javaType="java.lang.String"      jdbcType="VARCHAR"              mode="IN"    />
+		
+		<parameter property="RETURN_CODE"           	javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"      	   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	
+	<!-- 출고현황 List -->
+	<procedure id="selectWmsAutoAssignList" parameterMap="paramMap1" resultClass="java.util.HashMap" >
+		{ call PKG_WMS_AUTO.WMS_AUTO_ASSIGN_LIST ( ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<!-- 재고현황 List -->
+	<procedure id="selectWmsAutoStockList" parameterMap="paramMap2" resultClass="java.util.HashMap" >
+		{ call PKG_WMS_AUTO.WMS_AUTO_STOCK_LIST ( ?, ?, ?, ? )  }
+	</procedure>
+	
+	<!-- 자동할당 생성 -->
+	<procedure id="selectWmsAutoAssignSave" parameterMap="paramMap3" resultClass="java.util.HashMap" >
+		{ call PKG_WMS_AUTO.WMS_AUTO_ASSIGN_SAVE ( ?, ?, ?, ?, ?)  }
+	</procedure>
+	
+	<!-- 자동할당 목록 -->
+	<procedure id="selectWmsAutoAssignCancelList" parameterMap="paramMap4" resultClass="java.util.HashMap" >
+		{ call PKG_WMS_AUTO.WMS_AUTO_ASSIGN_CANCEL_LIST ( ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	
+	<!-- 자동할당 목록 상세 -->
+	<procedure id="selectWmsAutoAssignCancelDetail" parameterMap="paramMap5" resultClass="java.util.HashMap" >
+		{ call PKG_WMS_AUTO.WMS_AUTO_ASSIGN_CANCEL_DETAIL ( ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	
+	<!-- 자동할당 목록 삭제 -->
+	<procedure id="deleteWmsAutoAssign" parameterMap="paramMap6" resultClass="java.util.HashMap" >
+		{ call PKG_WMS_AUTO.WMS_AUTO_ASSIGN_DELETE ( ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+
+</sqlMap>

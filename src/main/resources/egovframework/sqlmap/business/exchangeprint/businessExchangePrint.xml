@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="businessExchangePrint">
+	
+	<parameterMap id="businessExchangePrintMap" class="java.util.Map">
+		<parameter property="S_CORP_CODE"			javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="S_STR_CODE"      		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="S_SALE_DT"       		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="S_SALE_DT_E"     		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="S_EMP_NO"        		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_EVT_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="CUR"             		javaType="java.sql.ResultSet"		jdbcType="ORACLECURSOR"		mode="OUT"	resultMap="businessExchangePrintResultMap" />
+	</parameterMap>
+	
+	<parameterMap id="businessExchangePrintListExcelMap" class="java.util.Map">
+		<parameter property="S_CORP_CODE"      		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="S_STR_CODE"      		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="S_SALE_DT"       		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="S_SALE_DT_E"     		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="S_EMP_NO"        		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_EVT_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="CUR"             		javaType="java.sql.ResultSet"		jdbcType="ORACLECURSOR"  	mode="OUT" />
+	</parameterMap>
+	
+	<parameterMap id="BusinessExchangePrintPopupListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"   		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_STR_CODE"    		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_EVT_NAME"    		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_SALES_SD"  			javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="P_SALES_ED"  			javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN" />
+		<parameter property="CUR"           		javaType="java.sql.ResultSet"   	jdbcType="ORACLECURSOR"  	mode="OUT"	resultMap="resultMap3" />
+	</parameterMap>
+	
+	<resultMap id="businessExchangePrintResultMap" class="java.util.HashMap">
+		<result property="CORP_CODE" 			column="CORP_CODE" />
+		<result property="STR_NAME" 			column="STR_NAME" />
+		<result property="SALE_DT" 				column="SALE_DT" />
+		<result property="POS_NO" 				column="POS_NO" />
+		<result property="TRXN_NO" 				column="TRXN_NO" />
+		<result property="CUST_NO" 				column="CUST_NO" />
+		<result property="CUST_NAME" 			column="CUST_NAME" />
+		<result property="CARD_NO" 				column="CARD_NO" />
+		<result property="MBR_DSNT" 			column="MBR_DSNT" />
+		<result property="EXCHG_ISSUED_CNT" 	column="EXCHG_ISSUED_CNT" />
+		<result property="SALE_AMT" 			column="SALE_AMT" />
+		<result property="CANC_FLAG" 			column="CANC_FLAG" />
+	</resultMap>
+	
+	<resultMap id="resultMap3" class="java.util.HashMap">
+		<result property="CORP_CODE" 			column="CORP_CODE" />
+		<result property="EVT_NAME" 			column="EVT_NAME" />
+		<result property="EVT_CODE" 			column="EVT_CODE" />
+		<result property="STR_CODE" 			column="STR_CODE" />
+		<result property="EVT_STR_DT" 			column="EVT_STR_DT" />
+		<result property="EVT_END_DT" 			column="EVT_END_DT" />
+		<result property="EVT_FLAG_NM" 			column="EVT_FLAG_NM" />
+		<result property="EVT_FLAG" 			column="EVT_FLAG" />
+	</resultMap>
+	
+	
+	<procedure id="businessExchangePrintList" parameterMap="businessExchangePrintMap">
+		{ call PKG_BUSINESS_EXCH_PRINT.BUSINESS_EXCH_P_SELECT ( ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<procedure id="businessExchangePrintListExcel" parameterMap="businessExchangePrintListExcelMap" resultClass="java.util.HashMap" >
+		{ call PKG_BUSINESS_EXCH_PRINT.BUSINESS_EXCH_P_SELECT ( ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<procedure id="BusinessExchangePrintPopupList" parameterMap="BusinessExchangePrintPopupListMap" resultMap="resultMap3" >
+		{ call PKG_BUSINESS_EXCH_PRINT.ITEMSALESEVENT_POPUP_LIST ( ?, ?, ?, ?, ?, ? )  }
+	</procedure> 
+
+
+</sqlMap>

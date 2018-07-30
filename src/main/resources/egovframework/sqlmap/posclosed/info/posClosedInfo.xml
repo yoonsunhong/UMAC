@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="posClosedInfo">
+	
+	<parameterMap id="posClosedInfoMap" class="java.util.Map">
+		<parameter property="S_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_STR_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_SALE_DT"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_SALE_DT_E"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="posClosedInfoResultMap" />
+	</parameterMap>
+	
+	<resultMap id="posClosedInfoResultMap" class="java.util.HashMap">
+		<result property="CORP_CODE" column="CORP_CODE" />
+		<result property="STR_CODE" column="STR_CODE" />
+		<result property="STR_NAME" column="STR_NAME" />
+		<result property="POS_NO" column="POS_NO" />
+		<result property="POS_NAME" column="POS_NAME" />
+		<result property="EMP_NO" column="EMP_NO" />
+		<result property="EMP_NAME" column="EMP_NAME" />
+		<result property="ERR_CNT" column="ERR_CNT" />
+		<result property="LOS_CNT" column="LOS_CNT" />
+		<result property="PRO_CNT" column="PRO_CNT" />
+		<result property="START_TIME" column="START_TIME" />
+		<result property="START_TIME2" column="START_TIME2" />
+		<result property="END_TIME" column="END_TIME" />
+		<result property="END_TIME2" column="END_TIME2" />
+		<result property="SALE_DT" column="SALE_DT" />
+	</resultMap>
+	
+	<procedure id="getPosClosedInfo" parameterMap="posClosedInfoMap" >
+		{ call PKG_POS_CLOSED.POS_CLOSED_INFO_SELECT ( ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	
+</sqlMap>

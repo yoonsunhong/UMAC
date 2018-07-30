@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="memberGradeStandard">
+	
+	<parameterMap id="getMemberGradeStandardListMap" class="java.util.Map">
+		<parameter property="S_CORP_CODE" javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"         javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"   />
+	</parameterMap>
+	
+	<procedure id="getMemberGradeStandardList" parameterMap="getMemberGradeStandardListMap" resultClass="java.util.HashMap" >
+		{ call PKG_MEMBER.MEMBER_GRADE_STANDARD_SELECT ( ?, ? )  }
+	</procedure>
+  	
+  	<parameterMap id="updateMemberGradeStandardMap" class="java.util.Map">
+		<parameter property="P_TYPE"              javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CORP_CODE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_UPTAE_FLAG"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_BUSI_FLAG"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_MBR_GRADE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_BASE_MIN_AMT"      javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_BASE_MAX_AMT"      javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_REG_ID"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"         javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+		<!-- 15개 -->
+	</parameterMap>
+	
+	<procedure id="updateMemberGradeStandard" parameterMap="updateMemberGradeStandardMap" >
+		{ call PKG_MEMBER.MEMBER_GRADE_STANDARD_UPDATE ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+</sqlMap>

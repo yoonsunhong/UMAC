@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="supplySalesState">
+
+	<parameterMap id="salesInfoReportPromptListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALES_SD"      			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALES_ED"      			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_NAME"      		    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"      		    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"        		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+				
+		<parameter property="P_FIRST_INDEX"          javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_RECORD_COUNT"      javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_COLUMN_NAME"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ORDERBY"      	        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             				javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="resultMap4" />
+		<parameter property="CUR2"             				javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="resultMap3" />	
+	</parameterMap>
+
+	<resultMap id="resultMap4" class="java.util.HashMap">
+		<result property="RNUM" column="RNUM"/>
+		<result property="STR_CODE" 			column="STR_CODE"  	nullValue="" />
+		<result property="VEN_CODE" 			column="VEN_CODE"  	nullValue="" />
+		<result property="VEN_NAME" 			column="VEN_NAME"  	nullValue="" />
+		<result property="WPRC" 					column="WPRC"  			nullValue="" />
+		<result property="SALE_WPRC" 	     	column="SALE_WPRC"  	nullValue="" />
+		<result property="SPRC" 					column="SPRC"  			nullValue="" />
+		<result property="SALE_SPRC" 			column="SALE_SPRC"  	nullValue="" />
+		<result property="SALE_SAMT" 			column="SALE_SAMT"  	nullValue="" />
+		<result property="PROPIT_AMT" 		    column="PROPIT_AMT"  	nullValue="" />
+		<result property="DC_AMT" 				column="DC_AMT"  		nullValue="" />
+		<result property="MBR_DC_AMT" 		column="MBR_DC_AMT" nullValue="" />
+		<result property="PROPIT_RT" 			column="PROPIT_RT"  	nullValue="" />
+		<result property="BOT_AMT" 		     	column="BOT_AMT"  		nullValue="" />
+	</resultMap>
+	
+	<resultMap id="resultMap3" class="java.util.HashMap">
+		<result property="TOT_CNT" 			column="TOT_CNT"  		 nullValue="" />
+		<result property="SALE_QTY" 			column="SALE_QTY"  		 nullValue="" />
+		<result property="SALE_WPRC" 		column="SALE_WPRC"  	         nullValue="" />
+		<result property="SALE_SAMT" 		column="SALE_SAMT"  	 nullValue="" />
+		<result property="BOT_AMT" 			column="BOT_AMT"  		 nullValue="" />
+		<result property="DC_AMT" 			column="DC_AMT"  		 nullValue="" />
+		<result property="MBR_DC_AMT" 	column="MBR_DC_AMT"  nullValue="" />
+		<result property="SALE_SPRC" 		column="SALE_SPRC"  	 nullValue="" />
+		<result property="PROPIT_AMT" 		column="PROPIT_AMT"  	 nullValue="" />
+		<result property="PROPIT_RT" 		column="PROPIT_RT"  	 nullValue="" />
+	</resultMap>
+	
+	<parameterMap id="salesInfoReportPromptDetailListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALES_SD"      			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALES_ED"      			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"      		    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"        		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             				javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="resultMap1" />
+		<parameter property="CUR2"             				javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="resultMap3" />
+	</parameterMap>
+	
+	<resultMap id="resultMap1" class="java.util.HashMap">
+		<result property="VEN_CODE" 			column="VEN_CODE"  	 nullValue="" />
+		<result property="VEN_NAME" 			column="VEN_NAME"  	 nullValue="" />
+		<result property="SCAN_CODE" 		    column="SCAN_CODE"  	 nullValue="" />
+		<result property="ITM_NAME" 			column="ITM_NAME"  	 nullValue="" />
+		<result property="SALE_QTY" 			    column="SALE_QTY"  		 nullValue="" />
+		<result property="WPRC" 					column="WPRC"  			 nullValue="" />
+		<result property="SALE_WPRC" 		    column="SALE_WPRC"  	 nullValue="" />
+		<result property="SPRC" 					column="SPRC"  			 nullValue="" />
+		<result property="SALE_SPRC" 			column="SALE_SPRC"  	 nullValue="" />
+		<result property="SALE_SAMT" 			column="SALE_SAMT"  	 nullValue="" />
+		<result property="PROPIT_AMT" 		    column="PROPIT_AMT"  	 nullValue="" />
+		<result property="DC_AMT" 				column="DC_AMT"  		 nullValue="" />
+		<result property="MBR_DC_AMT" 		column="MBR_DC_AMT"  nullValue="" />
+		<result property="PROPIT_RT" 			column="PROPIT_RT"  	 nullValue="" />
+		<result property="BOT_AMT" 			    column="BOT_AMT"  		 nullValue="" />
+	</resultMap>
+	
+	
+	<parameterMap id="supplySalesStateListDownloadMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALES_SD"      			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALES_ED"      			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_NAME"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"        		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             				javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="resultMap2" />			
+	</parameterMap>
+	
+	<resultMap id="resultMap2" class="java.util.HashMap">
+		<result property="VEN_CODE" 			column="VEN_CODE"  		nullValue="" />
+		<result property="VEN_NAME" 			column="VEN_NAME"  		nullValue="" />
+		<result property="SCAN_CODE" 		column="SCAN_CODE"  	nullValue="" />
+		<result property="ITM_NAME" 			column="ITM_NAME"  		nullValue="" />
+		<result property="SALE_QTY" 			column="SALE_QTY"  		nullValue="" />
+		<result property="WPRC" 					column="WPRC"  			nullValue="" />
+		<result property="SALE_WPRC" 		column="SALE_WPRC"  	nullValue="" />
+		<result property="SPRC" 					column="SPRC"  				nullValue="" />
+		<result property="SALE_SPRC" 			column="SALE_SPRC"  		nullValue="" />
+		<result property="SALE_SAMT" 			column="SALE_SAMT"  	nullValue="" />
+		<result property="PROPIT_AMT" 		column="PROPIT_AMT"  	nullValue="" />
+		<result property="DC_AMT" 				column="DC_AMT"  			nullValue="" />
+		<result property="MBR_DC_AMT" 		column="MBR_DC_AMT"  	nullValue="" />
+		<result property="PROPIT_RT" 			column="PROPIT_RT"  	nullValue="" />
+		<result property="BOT_AMT" 			column="BOT_AMT"  		nullValue="" />
+	</resultMap>	
+	
+	
+	<procedure id="supplySalesStateList" parameterMap="salesInfoReportPromptListMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_SUPPLY.SUPPLY_SALES_HEDER_LIST ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<procedure id="supplySalesStateDetailList" parameterMap="salesInfoReportPromptDetailListMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_SUPPLY.SUPPLY_SALES_DETAIL_LIST ( ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+
+	<procedure id="supplySalesStateListDownload" parameterMap="supplySalesStateListDownloadMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_SUPPLY.SUPPLY_SALES_EXCEL ( ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>  
+			
+</sqlMap>				
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

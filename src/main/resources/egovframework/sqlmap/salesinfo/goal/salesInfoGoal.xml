@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="salesInfoGoal">
+
+	<parameterMap id="salesInfoGoalListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_YYYY"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SELNG"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT" />
+	</parameterMap>
+	
+	<parameterMap id="salesInfoGoalGoodsListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_YYYY"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SELNG"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT" />
+	</parameterMap>
+	
+	<parameterMap id="salesInfoGoalPopBeforeMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_YYYYMM"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT" />
+	</parameterMap>		
+
+	<parameterMap id="salesInfoGoalPopInsertMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"      			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_YYYYMM"      			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_MID_CODE"      			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_GOAL_AMT"      			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALE_PROFIT"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CFM_YN"      			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_IEMP_NO"      			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+	</parameterMap>		
+	
+	<parameterMap id="salesInfoGoalPopSearchMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CREAT_YYYY"	        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             		javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT" />
+	</parameterMap>	
+	
+	<parameterMap id="salesInfoGoalPopDeleteMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_YYYYMM"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"	        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+	</parameterMap>	
+	
+	<parameterMap id="salesInfoGoalDcsnUpdateMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_YYYY"	      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"	        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+	</parameterMap>	
+
+	<parameterMap id="salesInfoGoalDcsnDeleteMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_YYYY"	      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"	        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+	</parameterMap>	
+
+	<parameterMap id="salesInfoGoalDcsnYnMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_YYYY"	      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"	        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             		javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT" />
+	</parameterMap>		
+	
+	
+	
+	
+	
+	
+	
+	<procedure id="salesInfoGoalList" parameterMap="salesInfoGoalListMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_GOAL_LIST ( ?, ?, ?, ?, ? )  }
+	</procedure>  
+	
+	<procedure id="salesInfoGoalGoodsList" parameterMap="salesInfoGoalGoodsListMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_GOAL_GOODS_LIST ( ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<procedure id="salesInfoGoalPopBefore" parameterMap="salesInfoGoalPopBeforeMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_GOAL_POP_LIST ( ?, ?, ?, ? )  }
+	</procedure>	
+	
+	<procedure id="salesInfoGoalPopInsert" parameterMap="salesInfoGoalPopInsertMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_GOAL_POP_INSERT ( ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>	
+	
+	<procedure id="salesInfoGoalPopSearch" parameterMap="salesInfoGoalPopSearchMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_GOAL_POP_SEARCH ( ?, ?, ?, ? )  }
+	</procedure>		
+
+	<procedure id="salesInfoGoalPopDelete" parameterMap="salesInfoGoalPopDeleteMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_GOAL_POP_DELETE ( ?, ?, ? )  }
+	</procedure>
+			
+	<procedure id="salesInfoGoalDcsnUpdate" parameterMap="salesInfoGoalDcsnUpdateMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_GOAL_DCSN_UPDATE ( ?, ?, ? )  }
+	</procedure>		
+
+	<procedure id="salesInfoGoalDcsnDelete" parameterMap="salesInfoGoalDcsnDeleteMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_GOAL_DCSN_DELETE ( ?, ?, ? )  }
+	</procedure>		
+	
+	<procedure id="salesInfoGoalDcsnYn" parameterMap="salesInfoGoalDcsnYnMap" resultClass="java.util.HashMap">
+		{ call PKG_SALES_INFO.SALES_INFO_GOAL_DCSN_YN ( ?, ?, ?, ? )  }
+	</procedure>			
+	
+	
+	
+	
+	
+	
+		
+</sqlMap>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PRM">
+
+
+
+   	<!-- 프로모션 상품마스터 조회 파라미터맵 -->
+	<parameterMap id="paramMap1" class="java.util.Map">
+	     <parameter property="P_CORP_CODE" 	javaType="java.lang.String" 	jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EVT_TP" 	javaType="java.lang.String" 	jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="P_EVT_STR_DT" javaType="java.lang.String" 	jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  		javaType="java.sql.ResultSet" 	jdbcType="ORACLECURSOR" mode="OUT"  />
+	</parameterMap>
+ 	<procedure id="promotionMasterSearch" 	parameterMap="paramMap1"  		resultClass="java.util.HashMap"  >
+ 		{ call PKG_PROMOTION.CALL_PROMOTION_MST_SEARCH ( ?, ?, ?, ?) }
+	</procedure>
+	
+	
+   	<!-- 프로모션 적용상품 조회 파라미터맵 -->
+	<parameterMap id="paramMap2" class="java.util.Map">
+	     <parameter property="P_CORP_CODE" 	javaType="java.lang.String" 	jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_PMT_CODE" 	javaType="java.lang.String" 	jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  		javaType="java.sql.ResultSet" 	jdbcType="ORACLECURSOR" mode="OUT" resultMap="resultMap2" />
+	</parameterMap>
+
+	<resultMap id="resultMap2" class="java.util.HashMap">
+		<result property="PMT_CODE" 		column="PMT_CODE"  			nullValue="" />
+		<result property="STR_NAME" 		column="STR_NAME" 			nullValue=""  />
+		<result property="PMT_NAME" 		column="PMT_NAME" 			nullValue=""  />
+		<result property="SCAN_CODE" 		column="SCAN_CODE" 			nullValue=""  />
+		<result property="ITM_NAME" 		column="ITM_NAME" 			nullValue=""  />
+		<result property="PACK_CODE" 		column="PACK_CODE" 			nullValue=""  />
+		<result property="EVT_ITM_TYPE" 	column="EVT_ITM_TYPE" 		nullValue=""  />
+		<result property="BASE_AMT1" 		column="BASE_AMT1" 			nullValue=""  />
+		<result property="BASE_AMT2" 		column="BASE_AMT2" 			nullValue=""  />
+		<result property="BASE_AMT3" 		column="BASE_AMT3" 			nullValue=""  />
+		<result property="DC_AMT1" 			column="DC_AMT1" 			nullValue=""  />
+		<result property="DC_AMT2" 			column="DC_AMT2" 			nullValue=""  />
+		<result property="DC_AMT3" 			column="DC_AMT3" 			nullValue=""  />
+		<result property="EVT_STR_DT" 		column="EVT_STR_DT" 		nullValue=""  />
+		<result property="EVT_END_DT" 		column="EVT_END_DT" 		nullValue=""  />
+		<result property="EVT_ITM_TYPE_NM" 	column="EVT_ITM_TYPE_NM" 	nullValue=""  />
+		<result property="STR_CODE" 		column="STR_CODE" 			nullValue=""  />
+	</resultMap>
+	
+ 	<procedure id="promotionItemSearch" 	parameterMap="paramMap2" 		resultClass="java.util.HashMap"  >
+ 		{ call PKG_PROMOTION.CALL_PROMOTION_ITEM_SEARCH ( ?, ?, ?) }
+	</procedure>	
+	
+  <!--  프로모션 마스터 등록  -->
+  <parameterMap id="paramMap3" class="java.util.Map">   
+    <parameter property="P_CORP_CODE"   	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="GRID_XML_DATA" 	javaType="java.lang.String" 	jdbcType="CLOB" 	  mode="IN"      />
+    <parameter property="P_PMT_CODE"   		javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_PMT_NAME"   		javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_EVT_STR_DT"  	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_EVT_END_DT"  	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_TGET_CUST"   	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_EVT_TP"   		javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_ORD_STR_DT"  	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_ORD_END_DT"  	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_PUR_COND"  		javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_DC_FLAG"  		javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_BASE_AMT1"  		javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_BASE_AMT2"  		javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_BASE_AMT3"  		javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_DC_AMT1"  		javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_DC_AMT2"  		javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_DC_AMT3"  		javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_RMK"   			javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_EMP_NO"   		javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+  	<parameter property="RETURN_CUR"		javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"   mode="OUT" resultMap="RETURN_CUR_ResultMap"  /> 
+  </parameterMap>
+  
+  <resultMap id="RETURN_CUR_ResultMap" class="retail.business.promotionreg.service.PromotionRegistManageVO">
+    <result property="RETURN_CODE"    column="RETURN_CODE"  />
+    <result property="RETURN_MESSAGE" column="RETURN_MESSAGE" /> 
+  </resultMap> 
+    
+  <procedure id="promotionMasterRegister"  parameterMap="paramMap3"    > 
+    {   call PKG_PROMOTION.CALL_PROMOTION_MASTER_REGIST( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ? )  }   
+  </procedure>	
+  
+  
+   	<!-- 프로모션 Store 조회 파라미터맵 -->
+	<parameterMap id="paramMap4" class="java.util.Map">
+	     <parameter property="P_CORP_CODE" 	javaType="java.lang.String" 	jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"			javaType="java.sql.ResultSet" 	jdbcType="ORACLECURSOR" mode="OUT" />
+	</parameterMap>
+  
+ 	<procedure id="promotionStoreSearch" 	parameterMap="paramMap4"  		resultClass="java.util.HashMap"  >
+ 		{ call PKG_PROMOTION.CALL_PROMOTION_STR_SEARCH ( ?, ?) }
+	</procedure>
+
+
+	<!--  프로모션 중복아이템 검정  -->
+  <parameterMap id="paramMap5" class="java.util.Map">   
+    <parameter property="P_CORP_CODE"   	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_PMT_CODE"   		javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_EVT_STR_DT"  	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_EVT_END_DT"  	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="GRID_XML_DATA" 	javaType="java.lang.String" 	jdbcType="CLOB" 	  mode="IN"      />
+  	<parameter property="CUR"		javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"   mode="OUT" resultMap="resultMap5"  /> 
+  </parameterMap>
+  
+  <resultMap id="resultMap5" class="retail.business.promotionreg.service.PromotionRegistManageVO">
+    <result property="RETURN_CODE"    column="RETURN_CODE"  />
+    <result property="RETURN_MESSAGE" column="RETURN_MESSAGE" /> 
+  </resultMap> 
+    
+  <procedure id="promotionMasterValidation"  parameterMap="paramMap5"    > 
+    {   call PKG_PROMOTION.CALL_PROMOTION_ITEM_VALIDATION( ?, ?, ?, ?, ?, ? )  }   
+  </procedure>	
+
+
+</sqlMap>

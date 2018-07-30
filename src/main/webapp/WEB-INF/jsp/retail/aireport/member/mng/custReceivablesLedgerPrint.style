@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="euc-kr"?>
+
+<StyleMappingTable>
+<FontFaceList>
+<FontFace id="0" name="굴림"/>
+<FontFace id="1" name="맑은 고딕"/>
+</FontFaceList>
+<CharShapeList>
+<CharShape id="0" fontFace="0" height="11" fontColor="0" useHeight="y"/>
+<CharShape id="1" fontFace="1" height="20" fontColor="0" useHeight="y" bold="y"/>
+<CharShape id="2" fontFace="1" height="9" fontColor="0" useHeight="y"/>
+<CharShape id="3" fontFace="1" height="11" fontColor="0" useHeight="y"/>
+<CharShape id="4" fontFace="1" height="10" fontColor="0" useHeight="y" bold="y"/>
+<CharShape id="5" fontFace="1" height="8" fontColor="0" useHeight="y"/>
+<CharShape id="6" fontFace="1" height="8" fontColor="13408767" useHeight="y" bold="y"/>
+<CharShape id="7" fontFace="1" height="8" fontColor="16747287" useHeight="y" bold="y"/>
+<CharShape id="8" fontFace="1" height="8" fontColor="0" useHeight="y" bold="y"/>
+</CharShapeList>
+<ParaShapeList>
+<ParaShape id="0"/>
+<ParaShape id="1" margin="0,0,0,1" align="center"/>
+<ParaShape id="2" align="center"/>
+<ParaShape id="3" margin="3,2,2,2" wordWrap="tr"/>
+<ParaShape id="4" align="right"/>
+</ParaShapeList>
+<BorderShapeList>
+<BorderShape id="0"/>
+<BorderShape id="1" type="solid"/>
+<BorderShape id="2" type="solid" color="8355711"/>
+</BorderShapeList>
+<BandList>
+<AIReport>
+<AISubReport name="sheet1" form="relative">
+<AIFrame name="frame0">
+<AIBand name="h1" type="header" object="AI_STRING_OBJ2|AI_STRING_OBJ3"/>
+<AIBand name="V1" type="void" object="sheet10_A1"/>
+<AIBand name="VoidBand100" type="void"/>
+</AIFrame>
+<AIFrame name="frame1">
+<AIBand name="v2" type="void" object="sheet20_A2|sheet20_K2|AI_HLINE_OBJ6"/>
+<AIBand name="VoidBand200" type="void"/>
+</AIFrame>
+<AIFrame name="frame2">
+<AIBand name="fv1" type="repeat" object="sheet30_A2|sheet30_B2|sheet30_C2|sheet30_D2|sheet30_E2|sheet30_F2|sheet30_G2|sheet30_H2|sheet30_I2"/>
+<AIBand name="fv1_h" type="repeat_header" parent="fv1" object="sheet30_A1|sheet30_B1|sheet30_C1|sheet30_D1|sheet30_E1|sheet30_F1|sheet30_G1|sheet30_H1|sheet30_I1"/>
+<AIBand name="fv_1" type="condition" parent="fv1" object="sheet30_A3|sheet30_D3|sheet30_E3|sheet30_F3|sheet30_G3|sheet30_H3|sheet30_I3"/>
+<AIBand name="VoidBand300" type="void"/>
+</AIFrame>
+</AISubReport>
+</AIReport>
+</BandList>
+<StyleList>
+<CellObjectStyle name="cell_style_0" charShape="1" paraShape="1"/>
+<CellObjectStyle name="cell_style_1" charShape="3"/>
+<CellObjectStyle name="cell_style_2" charShape="4" paraShape="2" fillColor="12632256" leftBorder="2" topBorder="2" rightBorder="2" bottomBorder="2"/>
+<CellObjectStyle name="cell_style_3" charShape="5" paraShape="2" leftBorder="2" topBorder="2" rightBorder="2" bottomBorder="2"/>
+<CellObjectStyle name="cell_style_4" charShape="5" paraShape="3" leftBorder="2" topBorder="2" rightBorder="2" bottomBorder="2"/>
+<CellObjectStyle name="cell_style_5" charShape="5" paraShape="4" displayFormat="1/1/0" leftBorder="2" topBorder="2" rightBorder="2" bottomBorder="2"/>
+<CellObjectStyle name="cell_style_6" charShape="6" paraShape="2" leftBorder="2" topBorder="2" rightBorder="2" bottomBorder="2"/>
+<CellObjectStyle name="cell_style_7" charShape="7" paraShape="2" leftBorder="2" topBorder="2" rightBorder="2" bottomBorder="2"/>
+<CellObjectStyle name="cell_style_8" charShape="8" paraShape="4" displayFormat="1/1/0" leftBorder="2" topBorder="2" rightBorder="2" bottomBorder="2"/>
+<CellObjectStyle name="cell_style_9" charShape="4" paraShape="2" fillColor="11124732" leftBorder="2" topBorder="2" rightBorder="2" bottomBorder="2"/>
+<CellObjectStyle name="cell_style_10" charShape="5" paraShape="4" displayFormat="1/1/0" fillColor="11124732" leftBorder="2" topBorder="2" rightBorder="2" bottomBorder="2"/>
+<CellObjectStyle name="cell_style_11" fillColor="11124732" leftBorder="2" topBorder="2" rightBorder="2" bottomBorder="2"/>
+<DrawObjectStyle name="draw_style_0" charShape="2" type="1"/>
+<DrawObjectStyle name="draw_style_1" borderShape="1" type="4"/>
+<DrawObjectStyle name="image_style_0" type="5" binData="stream"/>
+</StyleList>
+
+<BinDataList>
+</BinDataList>
+</StyleMappingTable>

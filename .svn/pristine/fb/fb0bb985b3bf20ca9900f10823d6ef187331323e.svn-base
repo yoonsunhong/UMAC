@@ -1,0 +1,19 @@
+package retail.member.delivery.service.impl;
+
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import retail.member.delivery.service.MemberDeliveryService;
+
+@Service("MemberDeliveryService")
+public class MemberDeliveryServiceImpl implements MemberDeliveryService {
+	@Autowired
+	private MemberDeliveryDao memberDeliveryDao;
+
+	@Override
+	public Map<String, Object> memberDeliveryList(Map<String, Object> param) throws Exception {
+		return memberDeliveryDao.memberDeliveryList(param);
+	}
+}

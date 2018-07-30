@@ -1,0 +1,225 @@
+<%@ page language="java"   contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@include file="/WEB-INF/jsp/retail/inc_common/inc_common.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>공지사항(유맥)등록</title>
+
+<link type="text/css" rel="stylesheet" href="/resources/css/jquery-ui.css">
+<link type="text/css" rel="stylesheet" href="/resources/css/common.css">
+<link type="text/css" rel="stylesheet" href="/resources/css/font-awesome.min.css">
+
+<!--[if lt IE 9]>
+<script src="/resources/js/html5shiv.js"></script>
+<script src="/resources/js/IE9.js"></script>
+<link type="text/css" rel="stylesheet" href="/resources/css/ie8.css">
+<![endif]-->
+<script type="text/javascript" src="/resources/js/jquery-1.7.1.min.js" charset="utf-8"></script>
+<script src="/resources/js/jquery.ui-1.10.4.datepicker.min.js"></script>
+<script src="/resources/js/style.js"></script>
+
+
+<%--
+	설명: 공통코드관리
+		
+	수정일      	   수정자        수정내용
+	------------------------------------------------------
+	2016-12-29    김창열       초기작성 
+	------------------------------------------------------
+	version : 1.0
+--%> 
+<jsp:include page="/WEB-INF/jsp/retail/inc_common/inc_head.jsp" />	
+
+<!-- rMateGridH5 CSS -->
+<link rel="stylesheet" type="text/css" href="/resources/js/rMateGridH5/Assets/rMateH5.css"/> 
+<!-- rMateGridH5 라이센스 -->
+<script type="text/javascript" src="/resources/js/rMateGridH5/LicenseKey/rMateGridH5License.js" charset="utf-8"></script> 
+<!-- rMateGridH5 라이브러리 -->
+<script type="text/javascript" src="/resources/js/rMateGridH5/JS/rMateGridH5.js"></script>
+<script type="text/javascript" src="/resources/js/rMateStyle.js"></script>
+<jsp:include page="/WEB-INF/jsp/retail/commonPopup/commPop.jsp" /> 
+
+ 
+<script type="text/javascript" src="/resources/js/page/business/notice/businessNotice.js" charset="utf-8"></script>
+
+</head>
+ 
+ <body id="in_frame"> 		
+		<div id="iframeCnt">
+			<div class="btn_area clear">
+				<button type="button" class="btn btn_style1 f_l"><img src="resources/img/common/help_ico.png"><spring:message code="btnHelp"/></button>
+				<div class="advice p_a">
+					<h4>information</h4>
+					<pre id="helpText"></pre>
+					<a href="" class="close_btn p_a"><spring:message code="btnHelpClose"/></a>
+				</div>
+				<button id="bookMarkIcon" type="button" class="fav fav_inactive"></button> 
+				<div class="f_r">
+					<c:if test="${sessionScope.AUTH_NEW eq   'Y'}">
+						<button type="button" class="btn btn_style2"  id="btn_new" name="btn_new"><spring:message code="btnNew"/></button>
+					</c:if>
+					<c:if test="${sessionScope.AUTH_SEARCH eq   'Y'}">
+						<button type="button" class="btn btn_style3"  id="btn_search" name="btn_search"><i class="fa fa-search"></i><spring:message code="btnSearch"/></button>
+					</c:if>					
+				</div>
+			</div>
+			
+			<form name="frm" id="frm">
+				<input type="hidden" name="pageIndex" id="pageIndex" value="1" />
+				<input type="hidden" name="pageUnit" id="pageUnit" value="20" />	<!-- 한 페이지당 게시되는 게시물 건 수 -->
+				<input type="hidden" name="pageSize" id="pageSize" value="10" />	<!-- 페이지 리스트에 게시되는 페이지 건수, -->
+				<input type="hidden" name="P_COLUMN_NAME" id="P_COLUMN_NAME" />
+				<input type="hidden" name="P_ORDERBY" id="P_ORDERBY" />
+				<input type="hidden" name="P_REGI_CHNL" id="P_REGI_CHNL" value="1"/>	<!-- 1이면 유맥 2이면 외부업체 -->				
+				<input type="hidden" name="P_US" id="P_US" value="1"/>	<!-- 1이면 유맥 에서 사용 2이면 scm에서 사용 -->				
+								
+				<!-- 조회폼 영역 -->
+				<c:set var="today" value="<%=new java.util.Date()%>" />
+				<fmt:formatDate value="${today}" pattern="yyyy-MM-dd" var="today"/>
+				<c:set value="${fn:substring(today,0,7)}-01" var="today2"/>
+				<div class="search_area" id="top_search">
+					<div class="last">
+						<label for=""><spring:message code="noticeDate"/></label>
+						<input type="text" id="P_OPEN_DT" name="P_OPEN_DT" class="datepicker1" value="<c:out value="${today2}"/>" readonly="readonly"> ~ 
+						<input type="text" id="P_END_DT" name="P_END_DT" class="datepicker2" value="<c:out value="${today}"/>" readonly="readonly">
+						
+						<label for="">&nbsp;&nbsp;&nbsp;<spring:message code="title"/></label>						
+						<input type="text" id="P_TITLE" name="P_TITLE" style="width:216px;"/>
+					</div>
+				</div>
+				<!-- //조회폼 영역 -->
+			</form>
+			
+			<!-- 공지사항 -->
+			<div class="col2 sub_cnt">
+				<div class="clear">
+					<h3 class="bul_arr f_l">UMAC <spring:message code="notice"/></h3>
+					<span class="txt f_l"><spring:message code="msgDoubleClick"/></span>
+				</div>	 		
+				<div class="sec_grid">
+					<div class="content">
+						<div id="gridHolder1"></div>
+					</div>
+					<div class="gridPaging" id="gridPageNavigationDiv"/>
+				</div>				
+			</div>
+		</div>		
+		<!-- //Content : 본문 영역 -->	 
+	<!-- 등록 수정 팝업 영역 시작  -->
+	<div id="pop_wrap1">
+		<header id="pop_head" class="clear">
+			<h1 class="bul_arr f_l"><spring:message code="notice"/><spring:message code="regist"/></h1>
+			<div class="f_r">
+				<c:if test="${sessionScope.AUTH_SAVE eq   'Y'}">
+				    <button type="button" class="btn btn_style4" id="btn_pop_save" name="btn_pop_save"><spring:message code="btnSave"/></button>
+				</c:if>
+				<c:if test="${sessionScope.AUTH_SAVE eq   'Y'}">
+					<button type="button" class="btn btn_style4" id="btn_pop_update" name="btn_pop_update"><spring:message code="updt"/></button>
+				</c:if>				
+				<c:if test="${sessionScope.AUTH_DELETE eq   'Y'}">
+					<button type="button" class="btn btn_style4" id="btn_pop_delete" name="btn_pop_delete"><spring:message code="btnDel"/></button>
+				</c:if>
+			</div>
+		</header>		
+		
+		<form name="pop_frm" id="pop_frm" enctype="multipart/form-data">			
+			<input type="hidden" name="D_SEQ" id="D_SEQ" />
+			<input type="hidden" name="D_UD" id="D_UD" /><!-- 수정 인지 삭제인지 -->		
+			<div id="pop_cnt">
+				<table class="tbl_st2">
+					<tbody>
+						<tr>
+							<th scope="row"><em>필수항목</em><label><spring:message code="se"/></label></th>
+							<td>
+								<select id="D_PRIORITY" name="D_PRIORITY" class="wid2">									
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><em>필수항목</em><label>공개</label></th>
+							<td>
+								<select id="D_OPEN_FLAG" name="D_OPEN_FLAG" class="wid2">									
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><em>필수항목</em><label><spring:message code="title"/></label></th>
+							<td><input type="text" id="D_TITLE" name="D_TITLE"></td>
+						</tr>
+						<tr>
+							<th scope="row"><em>필수항목</em><label><spring:message code="pd"/></label></th>
+							<td>								
+								<input type="text" id="D_OPEN_DT" name="D_OPEN_DT" class="datepicker1" value="" readonly="readonly"> ~ 
+								<input type="text" id="D_END_DT" name="D_END_DT" class="datepicker2" value="" readonly="readonly">
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><em>필수항목</em><label><spring:message code="contents"/></label></th>
+							<td>
+								<textarea id="D_CONTENTS" name="D_CONTENTS" style="height:200px"></textarea>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row"><label><spring:message code="atchmnfl"/></label></th>
+							<td>
+								<!-- 첨부파일명은 D_UPFILE 고정 -->
+								<input type="file" id="D_UPFILE" name="D_UPFILE">
+								<div id="fn" name="fn"></div>					
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>	
+		</form>
+	</div>
+	
+	<%-- <div id="pop_wrap2">
+		<div id="pop_cnt">
+			<table class="tbl_st2">
+				<tbody>
+					<tr>
+						<th scope="row"><em>필수항목</em><label><spring:message code="title"/></label></th>
+						<td colspan="3"><input type="text" id="D_TITLE2" name="D_TITLE2" readonly="readonly"></td>
+					</tr>
+					<tr>
+						<th scope="row"><em>필수항목</em><label><spring:message code="pd"/></label></th>
+						<td>
+							<input type="text" id="D_OPEN_DT2" name="D_OPEN_DT2" class="f_l datepicker1" readonly="readonly" style="width:100px">
+							<span class="f_l" style="padding:4px;">~</span> 
+							<input type="text" id="D_END_DT2" name="D_END_DT2" class="f_l datepicker2" readonly="readonly" style="width:100px">								
+						</td>
+						<th scope="row"><em>필수항목</em><label><spring:message code="supply"/></label></th>
+						<td>
+							<input type="text" id="D_VEN_NAME2" name="D_VEN_NAME2" readonly="readonly" >
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><em>필수항목</em><label><spring:message code="contents"/></label></th>
+						<td colspan="3">
+							<textarea id="D_CONTENTS2" name="D_CONTENTS2" style="height:200px" readonly="readonly"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label><spring:message code="atchmnfl"/></label></th>
+						<td colspan="3"><div id="fn2" name="fn2"></div></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>	
+	</div> --%>
+	
+	
+	<form id="fileForm" name="fileForm">
+		<input type="hidden" name="P_SEQ" id="P_SEQ">
+	</form>
+	<!--  등록 수정 팝업 영역 끝  -->		
+</body>
+</html>
+	

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="productCategory">
+
+	<!-- 상품분류체계 조회(대분류) 파라미터 -->
+	<parameterMap id="paramMap1" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_LRG_NAME" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap1" />
+	</parameterMap>
+	<!-- 상품분류체계 조회(대분류) 리절트 -->
+	<resultMap id="resultMap1" class="retail.product.category.service.ProductCategoryVO">
+	    <result property="RN"  column="RN"  nullValue="" />
+	    <result property="LRG_CODE"  column="LRG_CODE"  nullValue="" />
+	    <result property="LRG_NAME"  column="LRG_NAME"  nullValue="" />
+	    <result property="ITM_GB"  column="ITM_GB"  nullValue="" />
+	    <result property="ITM_GB_NM"  column="ITM_GB_NM"  nullValue="" />
+	</resultMap>
+	
+	<!-- 상품분류체계 조회(중분류) 파라미터 -->
+	<parameterMap id="paramMap2" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_LRG_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap2" />
+	</parameterMap>
+	<!-- 상품분류체계 조회(중분류) 리절트 -->
+	<resultMap id="resultMap2" class="retail.product.category.service.ProductCategoryVO">
+	    <result property="RN"  column="RN"  nullValue="" />
+	    <result property="MID_CODE"  column="MID_CODE"  nullValue="" />
+	    <result property="MID_NAME"  column="MID_NAME"  nullValue="" />
+	    <result property="EMP_NO"  column="EMP_NO"  nullValue="" />
+	    <result property="EMP_NAME"  column="EMP_NAME"  nullValue="" />
+	    <result property="LRG_CODE"  column="LRG_CODE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 상품분류체계 조회(소분류) 파라미터 -->
+	<parameterMap id="paramMap3" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MID_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap3" />
+	</parameterMap>
+	<!-- 상품분류체계 조회(소분류) 리절트 -->
+	<resultMap id="resultMap3" class="retail.product.category.service.ProductCategoryVO">
+	    <result property="RN"  column="RN"  nullValue="" />
+	    <result property="CLS_CODE"  column="CLS_CODE"  nullValue="" />
+	    <result property="CLS_NAME"  column="CLS_NAME"  nullValue="" />
+	    <result property="MID_CODE"  column="MID_CODE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 상품분류체계 저장(대분류) 파라미터 -->
+	<parameterMap id="paramMap4" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_LRG_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_LRG_NAME" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_ITM_GB" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_IEMP_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap4" />
+	</parameterMap>
+	
+	<!-- 상품분류체계 저장(대분류) 리절트 -->
+	<resultMap id="resultMap4" class="retail.product.category.service.ProductCategoryVO">
+	    <result property="RETURN_CODE"  column="RETURN_CODE" nullValue="" />  
+	    <result property="RETURN_MESSAGE"  column="RETURN_MESSAGE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 상품분류체계 저장(중분류) 파라미터 -->
+	<parameterMap id="paramMap5" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MID_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_LRG_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MID_NAME" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EMP_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_IEMP_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap5" />
+	</parameterMap>
+	
+	<!-- 상품분류체계 저장(중분류) 리절트 -->
+	<resultMap id="resultMap5" class="retail.product.category.service.ProductCategoryVO">
+	    <result property="RETURN_CODE"  column="RETURN_CODE" nullValue="" />  
+	    <result property="RETURN_MESSAGE"  column="RETURN_MESSAGE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 상품분류체계 저장(소분류) 파라미터 -->
+	<parameterMap id="paramMap6" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CLS_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="P_MID_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CLS_NAME" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_IEMP_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap6" />
+	</parameterMap>
+	
+	<!-- 상품분류체계 저장(소분류) 리절트 -->
+	<resultMap id="resultMap6" class="retail.product.category.service.ProductCategoryVO">
+	    <result property="RETURN_CODE"  column="RETURN_CODE" nullValue="" />  
+	    <result property="RETURN_MESSAGE"  column="RETURN_MESSAGE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 상품분류체계 삭제(대분류) 파라미터 -->
+	<parameterMap id="paramMap7" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_LRG_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap7" />
+	</parameterMap>
+	
+	<!-- 상품분류체계 삭제(대분류) 리절트 -->
+	<resultMap id="resultMap7" class="retail.product.category.service.ProductCategoryVO">
+	    <result property="RETURN_CODE"  column="RETURN_CODE" nullValue="" />  
+	    <result property="RETURN_MESSAGE"  column="RETURN_MESSAGE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 상품분류체계 삭제(중분류) 파라미터 -->
+	<parameterMap id="paramMap8" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MID_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_LRG_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap8" />
+	</parameterMap>
+	
+	<!-- 상품분류체계 삭제(중분류) 리절트 -->
+	<resultMap id="resultMap8" class="retail.product.category.service.ProductCategoryVO">
+	    <result property="RETURN_CODE"  column="RETURN_CODE" nullValue="" />  
+	    <result property="RETURN_MESSAGE"  column="RETURN_MESSAGE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 상품분류체계 삭제(소분류) 파라미터 -->
+	<parameterMap id="paramMap9" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CLS_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MID_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap9" />
+	</parameterMap>
+	
+	<!-- 상품분류체계 삭제(소분류) 리절트 -->
+	<resultMap id="resultMap9" class="retail.product.category.service.ProductCategoryVO">
+	    <result property="RETURN_CODE"  column="RETURN_CODE" nullValue="" />  
+	    <result property="RETURN_MESSAGE"  column="RETURN_MESSAGE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 상품분류체계 삭제(소분류) 파라미터 -->
+	<parameterMap id="paramMap10" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap10" />
+	</parameterMap>
+	
+	<!-- 상품분류체계 삭제(소분류) 리절트 -->
+	<resultMap id="resultMap10" class="retail.product.category.service.ProductCategoryVO">
+		<result property="LRG_CODE"  column="LRG_CODE" nullValue="" />
+	</resultMap>
+	
+	
+	<!-- 상품분류체계 조회(대분류) -->
+ 	<procedure id="selectLRGCode" parameterMap="paramMap1" >
+ 		{ call PKG_CATEGORY.PRODUCT_CATEGORY_SELECT_LRG (?, ?, ?) }
+	</procedure>
+	
+	<!-- 상품분류체계 최대코드 조회(대분류) -->
+ 	<procedure id="selectLRGMaxCode" parameterMap="paramMap10" >
+ 		{ call PKG_CATEGORY.PRODUCT_CATEGORY_MAX_SELECT (?, ?) }
+	</procedure>
+	
+	<!-- 상품분류체계 조회(중분류) -->
+ 	<procedure id="selectMIDCode" parameterMap="paramMap2" >
+ 		{ call PKG_CATEGORY.PRODUCT_CATEGORY_SELECT_MID (?, ?, ?) }
+	</procedure>
+	
+	<!-- 상품분류체계 조회(소분류) -->
+ 	<procedure id="selectSMLCode" parameterMap="paramMap3" >
+ 		{ call PKG_CATEGORY.PRODUCT_CATEGORY_SELECT_SML (?, ?, ?) }
+	</procedure>
+	
+	<!-- 상품분류체계 저장(대분류) -->
+ 	<procedure id="registerLRGCode" parameterMap="paramMap4" >
+ 		{ call PKG_CATEGORY.PRODUCT_CATEGORY_REGISTER_LRG (?, ?, ?, ?, ?, ?) }
+	</procedure>
+	
+	<!-- 상품분류체계 저장(중분류) -->
+ 	<procedure id="registerMIDCode" parameterMap="paramMap5" >
+ 		{ call PKG_CATEGORY.PRODUCT_CATEGORY_REGISTER_MID (?, ?, ?, ?, ?, ?, ?) }
+	</procedure>
+	
+	<!-- 상품분류체계 저장(소분류) -->
+ 	<procedure id="registerSMLCode" parameterMap="paramMap6" >
+ 		{ call PKG_CATEGORY.PRODUCT_CATEGORY_REGISTER_SML (?, ?, ?, ?, ?, ?) }
+	</procedure>
+	
+	<!-- 상품분류체계 삭제(대분류) -->
+ 	<procedure id="deleteLRGCode" parameterMap="paramMap7" >
+ 		{ call PKG_CATEGORY.PRODUCT_CATEGORY_DELETE_LRG (?, ?, ?) }
+	</procedure>
+	
+	<!-- 상품분류체계 삭제(중분류) -->
+ 	<procedure id="deleteMIDCode" parameterMap="paramMap8" >
+ 		{ call PKG_CATEGORY.PRODUCT_CATEGORY_DELETE_MID (?, ?, ?, ?) }
+	</procedure>
+	
+	<!-- 상품분류체계 삭제(소분류) -->
+ 	<procedure id="deleteSMLCode" parameterMap="paramMap9" >
+ 		{ call PKG_CATEGORY.PRODUCT_CATEGORY_DELETE_SML (?, ?, ?, ?) }
+	</procedure>
+
+</sqlMap>

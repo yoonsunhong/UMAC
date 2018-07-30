@@ -1,0 +1,73 @@
+﻿JAVA개발을 위한 테이블 생성 참고자료
+- 테이블 생성 기준은 실제 프로젝트를 들어갈때 테이블 스페이스명/유저명등은 유동적으로 변경한다.
+- 디비 접속 정보 : 본 개발문서에 기제된 개발 디비 서버는 136번 서버를 사용한다.
+	1. ssh 콘솔접속
+	ip : 175.113.81.136
+	id : admin
+	pw : 1wjddudwn@ (1정영주@)
+
+	2. root권한 접속
+	su - root
+	pw : 1rhksflwk@ (1관리자@)
+
+	3. SQLPLUS접속 (관리자 권한)
+	$ sqlplus / as sysdba
+
+
+Oracle Tablespace 생성/변경/추가 및 사용자 생성/권한부여
+ 
+DBA 권한으로 접속
+sqlplus / as sysdba
+ 
+테이블스페이스 정보 조회
+SELECT * FROM DBA_DATA_FILES;
+ 
+DBA_TABLESPACES 테이블스페이스 목록
+SELECT TABLESPACE_NAME, STATUS, CONTENTS FROM DBA_TABLESPACES;
+ 
+DBA_DATA_FILES 테이블스페이스 파일 목록
+SELECT FILE_NAME, BYTES, STATUS FROM DBA_DATA_FILES;
+ 
+DBA_FREE_SPACE 테이블스페이스 잔여 공간
+SELECT TABLESPACE_NAME, BYTES, BLOCKS FROM DBA_FREE_SPACE;
+ 
+===================테이블 스페이스 생성 시작==========================
+<!-- 테이블스페이스 생성 -->
+CREATE TABLESPACE RETAIL_DB DATAFILE
+'RETAIL_DB' SIZE 100M AUTOEXTEND ON NEXT 4M MAXSIZE UNLIMITED
+LOGGING
+PERMANENT
+EXTENT MANAGEMENT LOCAL AUTOALLOCATE
+BLOCKSIZE 8K
+SEGMENT SPACE MANAGEMENT MANUAL
+FLASHBACK ON;  
+
+/*Tablespace의 이름을 RETAIL_DB 으로 하고, 그 크기를 100M로 설정하며, 100M초과시 자동으로 4M 씩 자동 확장 생성한다.*/	
+ 
+
+<!-- 데이터베이스 사용자 아이디 생성 -->
+CREATE USER RTMASTER IDENTIFIED BY RT1234
+DEFAULT TABLESPACE RETAIL_DB 
+PROFILE DEFAULT
+QUOTA UNLIMITED ON RETAIL_DB;
+/*RTMASTER/RT1234 유저를 RETAIL_DB TABLESPACE에 생성한다.*/
+ 
+
+<!-- 생성한 유저에 권한주고 연결하기 -->
+GRANT "CONNECT" TO RTMASTER WITH ADMIN OPTION;
+GRANT "DBA" TO RTMASTER WITH ADMIN OPTION;
+GRANT "RESOURCE" TO RTMASTER WITH ADMIN OPTION;
+ALTER USER RTMASTER DEFAULT ROLE "CONNECT", "DBA", "RESOURCE";  
+/*생성된 TESTER 유저에 CONNECT, DBA, RESOURCE 권한을 부여한다. */
+
+===================테이블 스페이스 생성 끝==========================
+
+
+테이블스페이스 삭제
+DROP TABLESPACE info_data
+INCLUDING CONTENTS
+CASCADE CONSTRAINTS;
+ 
+테이블스페이스의 물리적 파일까지 삭제하기
+DROP TABLESPACE info_data INCLUDING CONTENTS AND DATAFILES;
+ 

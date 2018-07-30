@@ -1,0 +1,127 @@
+@media screen  {
+
+    html {overflow-y:hidden;}
+
+    #signaturePanel {
+      	 position:fixed;
+      	top:50%; 
+      	left:50%; 
+      	margin-top:-110px; 
+      	margin-left:-142px;
+      	/* bottom:20px; */
+      	/* right:7px; */
+      	background-color: #9999ff;
+      	display:none;
+    }
+	
+	.gwt-Button {
+  		margin: 0;
+  		padding: 3px 5px;
+  		text-decoration: none;
+  		font-size: 11px;
+  		cursor: pointer;
+  		cursor: hand;
+  		background: url("images/chrome/hborder.png") repeat-x 0px -27px;
+  		border: 1px outset #ccc;
+	}
+	
+	.gwt-Button:active {
+  		border: 1px inset #ccc;
+	}
+	
+	.gwt-Button:hover {
+  		border-color: #9cf #69e #69e #7af;
+	}
+	
+	.gwt-Button[disabled] {
+  		cursor: default;
+  		color: #888;
+	}
+	
+	.gwt-Button[disabled]:hover {
+  		border: 1px outset #ccc;
+	}
+
+    body{
+        background:url(bg.bmp) 0px 0px repeat-x;
+        margin:0;padding:0;
+        word-break: break-all;
+    }
+
+    #oldmenu{
+        height: 57px;
+        margin:0;padding:0;
+        margin:0 auto;
+    }
+
+    #menu{
+        height: 57px;
+        margin:0;padding:0;
+        margin:0 auto;
+    }
+
+
+#report
+   {
+   -webkit-text-size-adjust:none;
+    overflow-y:scroll;
+    background-color: #aeaeae;
+    position:relative;
+    z-index: 0;
+    /*
+	border-width:3px 5px;
+	border-color:blue;
+	border-style:solid;
+	*/
+	}
+	
+#ckeditor
+   {
+   -webkit-text-size-adjust:none;
+   	overflow-y:auto;
+	border-width:1px 1px;
+	border-color:blue;
+	border-style:solid;
+	}
+	
+#subreport > div
+	{
+	-webkit-text-size-adjust:none;
+	border-width : 1px 1px;
+    border-color: #000000;
+    border-style: solid;
+    background-color: #ffffff;
+    z-index:1 !important;
+	}
+
+#report table
+   {
+   -webkit-text-size-adjust:none;
+   	margin:0pt;
+   	padding:0pt;
+   	border-collapse:collapse;
+    table-layout: fixed;
+   	/* white-space:nowrap; */
+   }
+   
+#report tr
+   {
+   -webkit-text-size-adjust:none;
+   margin:0pt;
+   padding:0pt;
+ 
+   }
+
+#report td
+   {
+   -webkit-text-size-adjust:none;
+	margin:0pt;
+   	white-space:normal;
+   	/* letter-spacing:1px; */
+   	/* letter-spacing:-0.05mm; */
+   	word-spacing:0px;
+   	/* line-height:normal; */
+  	/* white-space:nowrap; */
+   }
+
+}

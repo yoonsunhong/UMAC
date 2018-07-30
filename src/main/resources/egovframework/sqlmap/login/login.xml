@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="login">
+
+	<typeAlias alias="LoginVO" type="retail.login.service.LoginVO" />
+	
+	
+	<!-- 로그인 파라미터 맵 -->
+	<parameterMap id="loginParmaMap" class="java.util.HashMap">
+	     <parameter property="P_USER_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_PASSWD_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="loginResultMap" />
+	</parameterMap>
+	<!-- 로그인 리절트 맵 -->
+	<resultMap id="loginResultMap" class="retail.login.service.LoginVO">
+	    <result property="USER_ID"  column="USER_ID" nullValue="" />  
+	    <result property="USER_NM"  column="USER_NM"  nullValue="" />
+	    <result property="CORP_CODE"  column="CORP_CODE"  nullValue="" />
+	    <result property="STR_CODE"  column="STR_CODE"  nullValue="" />
+	    <result property="STR_NAME"  column="STR_NAME"  nullValue="" />
+	    <result property="ROLE_ID"  column="ROLE_ID"  nullValue="" />
+	    <result property="AUTH_SEARCH"  column="AUTH_SEARCH"  nullValue="" />
+	    <result property="AUTH_NEW"  column="AUTH_NEW"  nullValue="" />
+	    <result property="AUTH_SAVE"  column="AUTH_SAVE"  nullValue="" />
+	    <result property="AUTH_DELETE"  column="AUTH_DELETE"  nullValue="" />
+	    <result property="AUTH_EXCEL_DOWN"  column="AUTH_EXCEL_DOWN"  nullValue="" />
+	    <result property="AUTH_EXCEL_UPLOAD"  column="AUTH_EXCEL_UPLOAD"  nullValue="" />
+	    <result property="AUTH_PRINT"  column="AUTH_PRINT"  nullValue="" />
+	    <result property="AUTH_SUBMIT"  column="AUTH_SUBMIT"  nullValue="" />
+	    <result property="AUTH_CREATE"  column="AUTH_CREATE"  nullValue="" />
+	</resultMap>
+	
+	
+	<!-- 비밀번호변경 파라미터 맵 -->
+	<parameterMap id="cupParmaMap" class="java.util.HashMap">
+	     <parameter property="P_USER_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_PASSWD_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_NEW_PASSWD_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="cupResultMap" />
+	</parameterMap>
+	<!-- 비밀번호 변경 리절트 맵 -->
+	<resultMap id="cupResultMap" class="LoginVO">
+	    <result property="RETURN_CODE"  column="RETURN_CODE" nullValue="" />  
+	    <result property="RETURN_MESSAGE"  column="RETURN_MESSAGE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 유저 북마크 설정 파라미터 맵 -->
+	<parameterMap id="paramBookMarkMap" class="java.util.HashMap">
+		 <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_USER_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_PROGRAM_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_FLAG" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultBookMarkMap" />
+	</parameterMap>
+	<!-- 유저 북마크 설정 리절트 맵 -->
+	<resultMap id="resultBookMarkMap" class="java.util.HashMap">
+	    <result property="RETURN_CODE"  column="RETURN_CODE" nullValue="" />  
+	    <result property="RETURN_MESSAGE"  column="RETURN_MESSAGE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 유저 북마크 등록여부  파라미터 맵 -->
+	<parameterMap id="paramBookMarkStatMap" class="java.util.HashMap">
+		 <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_USER_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_PROGRAM_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultBookMarkStatMap" />
+	</parameterMap>
+	<!-- 유저 북마크 등록여부  리절트 맵 -->
+	<resultMap id="resultBookMarkStatMap" class="java.util.HashMap">
+	    <result property="PROGRAM_ID"  column="PROGRAM_ID" nullValue="" />  
+	</resultMap>
+
+    <!-- 로그인 -->    
+    <procedure id="login" parameterMap="loginParmaMap" resultMap="loginResultMap">
+        { call PKG_LOGIN.PR_LOGIN( ? , ? , ?) }   
+  	</procedure>
+    
+    <!-- 유저 비밀번호  변경-->    
+    <procedure id="changeUserPassward" parameterMap="cupParmaMap" resultMap="cupResultMap">
+        { call PKG_LOGIN.PR_CHANGE_PASSWORD( ? , ? , ?, ? ) }   
+  	</procedure>
+    
+    <!-- 유저 북마크 설정-->    
+    <procedure id="setMyBookMark" parameterMap="paramBookMarkMap" resultMap="resultBookMarkMap">
+        { call PKG_LOGIN.PR_SET_BOOKMARK( ? , ? , ?, ?, ?) }   
+  	</procedure>
+  	
+  	
+  	<!-- 유저 북마크 등록여부 조회-->    
+    <procedure id="getBookMarkStat" parameterMap="paramBookMarkStatMap" resultMap="resultBookMarkStatMap">
+        { call PKG_LOGIN.PR_GET_BOOKMARK_STAT( ? , ? , ?, ?) }   
+  	</procedure>
+
+</sqlMap>

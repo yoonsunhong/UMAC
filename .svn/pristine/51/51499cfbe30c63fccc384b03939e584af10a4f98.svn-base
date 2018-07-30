@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="productMasterBasic">
+
+	<parameterMap id="paramMap1" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_STR_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_VEN_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_GRE_GB"        		javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_MBR_DC_YN"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_ROUTE_GB"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_LRG_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_MID_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_CLS_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_ITM_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_FIRST_INDEX"   		javaType="java.lang.Integer"     jdbcType="INTEGER"       		mode="IN"    />
+		<parameter property="P_RECORD_COUNT"  	javaType="java.lang.Integer"   	jdbcType="INTEGER"       		mode="IN"    />
+		<parameter property="P_COLUMN_NAME"   	javaType="java.lang.String"     	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_ORDERBY"       		javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="TOT_CNT"         		javaType="java.lang.Integer"    	jdbcType="INTEGER"       		mode="OUT"   />
+		<parameter property="CUR"             			javaType="java.sql.ResultSet"   	jdbcType="ORACLECURSOR"  	mode="OUT"  resultMap="resultMap1" />
+	</parameterMap>
+	
+	<resultMap id="resultMap1" class="java.util.HashMap">
+		<result property="STR_CODE" 				column="STR_CODE" 			nullValue=""/>
+		<result property="STR_NAME" 				column="STR_NAME" 			nullValue=""/>
+		<result property="ITM_CODE" 				column="ITM_CODE" 			nullValue=""/>
+		<result property="REPT_YN" 					column="REPT_YN" 			nullValue=""/>
+		<result property="REPT_YN_NAME" 			column="REPT_YN_NAME" 			nullValue=""/>
+		<result property="SCAN_CODE" 				column="SCAN_CODE" 			nullValue=""/>
+		<result property="ITM_NAME" 				column="ITM_NAME" 			nullValue=""/>
+		<result property="ITM_SHORT_NAME" 		column="ITM_SHORT_NAME" 			nullValue=""/>
+		<result property="VEN_CODE" 				column="VEN_CODE" 			nullValue=""/>
+		<result property="VEN_NAME" 				column="VEN_NAME" 			nullValue=""/>
+		<result property="STR_DT" 					column="STR_DT" 			nullValue=""/>
+		<result property="END_DT" 					column="END_DT" 			nullValue=""/>
+		<result property="CLS_CODE" 				column="CLS_CODE" 			nullValue=""/>
+		<result property="CLS_NAME" 				column="CLS_NAME" 			nullValue=""/>
+		<result property="ITM_GB" 					column="ITM_GB" 			nullValue=""/>
+		<result property="ITM_GB_NAME" 			column="ITM_GB_NAME" 			nullValue=""/>
+		<result property="TAX_GB" 					column="TAX_GB" 			nullValue=""/>
+		<result property="TAX_GB_NAME" 			column="TAX_GB_NAME" 			nullValue=""/>
+		<result property="UNIT" 						column="UNIT" 			nullValue=""/>
+		<result property="IPSU_QTY" 					column="IPSU_QTY" 			nullValue=""/>
+		<result property="IN_CAPACITY" 				column="IN_CAPACITY" 			nullValue=""/>
+		<result property="DP_PRC_UNIT" 			column="DP_PRC_UNIT" 			nullValue=""/>
+		<result property="MAKE_VEN_NAME" 		column="MAKE_VEN_NAME" 			nullValue=""/>
+		<result property="ORG_CODE" 				column="ORG_CODE" 			nullValue=""/>
+		<result property="ORG_NAME" 				column="ORG_NAME" 			nullValue=""/>
+		<result property="ROUTE_GB" 				column="ROUTE_GB" 			nullValue=""/>
+		<result property="ROUTE_GB_NAME" 		column="ROUTE_GB_NAME" 			nullValue=""/>
+		<result property="BASE_WPRC" 				column="BASE_WPRC" 			nullValue=""/>
+		<result property="BASE_SPRC" 				column="BASE_SPRC" 			nullValue=""/>
+		<result property="WPRC" 						column="WPRC" 			nullValue=""/>
+		<result property="SPRC" 						column="SPRC" 			nullValue=""/>
+		<result property="BOT_CODE" 				column="BOT_CODE" 			nullValue=""/>
+		<result property="BOT_SPRC" 				column="BOT_SPRC" 			nullValue=""/>
+		<result property="GRE_GB" 					column="GRE_GB" 			nullValue=""/>
+		<result property="GRE_GB_NAME" 			column="GRE_GB_NAME" 			nullValue=""/>
+		<result property="PRGT_RATE" 				column="PRGT_RATE" 			nullValue=""/>
+		<result property="FTRACE_YN" 				column="FTRACE_YN" 			nullValue=""/>
+		<result property="STRACE_YN" 				column="STRACE_YN" 			nullValue=""/>
+		<result property="MTRACE_YN" 				column="MTRACE_YN" 			nullValue=""/>
+		<result property="INGR_YN" 					column="INGR_YN" 			nullValue=""/>
+		<result property="MBR_DC_YN" 				column="MBR_DC_YN" 			nullValue=""/>
+		<result property="POINT_SAVE" 				column="POINT_SAVE" 			nullValue=""/>
+		<result property="GIFT_APP_YN" 			column="GIFT_APP_YN" 			nullValue=""/>
+		<result property="WEIGHT_YN" 				column="WEIGHT_YN" 			nullValue=""/>
+		<result property="TPER_MTHD" 				column="TPER_MTHD" 			nullValue=""/>
+		<result property="TPER_MTHD_NAME" 		column="TPER_MTHD_NAME" 			nullValue=""/>
+		<result property="VALID_DT_YN" 			column="VALID_DT_YN" 			nullValue=""/>
+		<result property="VALID_DD" 					column="VALID_DD" 			nullValue=""/>
+		<result property="IDATE_CMN" 				column="IDATE_CMN" 			nullValue=""/>
+		<result property="UDATE_CMN" 				column="UDATE_CMN" 			nullValue=""/>
+		<result property="IEMP_NAME_CMN" 		column="IEMP_NAME_CMN" 			nullValue=""/>
+		<result property="UEMP_NAME_CMN" 		column="UEMP_NAME_CMN" 			nullValue=""/>
+		<result property="IDATE_STORE" 			column="IDATE_STORE" 			nullValue=""/>
+		<result property="UDATE_STORE" 			column="UDATE_STORE" 			nullValue=""/>
+		<result property="IEMP_NAME_STORE" 		column="IEMP_NAME_STORE" 			nullValue=""/>
+		<result property="UEMP_NAME_STORE" 	column="UEMP_NAME_STORE" 			nullValue=""/>
+	</resultMap>
+
+	<!-- 기본상품마스터 조회 -->
+	<procedure id="selectProductMasterBasic" parameterMap="paramMap1"  resultMap="resultMap1">
+		{ call PKG_PRODUCT.PRODUCT_MASTER_BASIC_SELECT ( ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?  )  }
+	</procedure>
+	
+	<parameterMap id="paramMap2" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_STR_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_VEN_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_GRE_GB"        		javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_MBR_DC_YN"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_ROUTE_GB"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_LRG_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_MID_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_CLS_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_ITM_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="CUR"             			javaType="java.sql.ResultSet"   	jdbcType="ORACLECURSOR"  	mode="OUT"  resultMap="resultMap1" />
+	</parameterMap>
+	
+	<!-- 기본상품마스터 조회 -->
+	<procedure id="excelProductMasterBasic" parameterMap="paramMap2"  resultMap="resultMap1">
+		{ call PKG_PRODUCT.PRODUCT_MASTER_BASIC_EXCEL ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?   )  }
+	</procedure>
+
+</sqlMap>

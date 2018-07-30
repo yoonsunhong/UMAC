@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="posMasterMember">
+	
+	<parameterMap id="posMasterMemberMap" class="java.util.Map">
+		<parameter property="P_FIRST_INDEX"   javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_RECORD_COUNT"  javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_USE_YN"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_COLUMN_NAME"   javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ORDERBY"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="posMasterMemberResultMap" />
+		<parameter property="TOT_CNT"         javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="OUT"   />
+	</parameterMap>
+	
+	<resultMap id="posMasterMemberResultMap" class="java.util.HashMap">
+		<result property="RNUM" column="RNUM" />
+		<result property="CORP_CODE" column="CORP_CODE" />
+		<result property="STR_CODE" column="STR_CODE" />
+		<result property="STR_NAME" column="STR_NAME" />
+		<result property="EMP_NO" column="EMP_NO" />
+		<result property="EMP_NAME" column="EMP_NAME" />
+		<result property="PWD" column="PWD" />
+		<result property="USE_YN" column="USE_YN" />
+		<result property="USE_NM" column="USE_NM" />
+		
+	</resultMap>
+	
+	<procedure id="getPosMasterMember" parameterMap="posMasterMemberMap" >
+		{ call PKG_POS_MASTER.POS_MASTER_MEMBER_SELECT ( ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="updatePosMasterMemberMap" class="java.util.Map">
+		<parameter property="D_TYPE"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_CORP_CODE"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_STR_CODE"      javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_EMP_NO"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_EMP_NAME"      javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_PWD"           javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_USE_YN"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_USER_ID"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"     javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"      javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	<procedure id="updatePosMasterMember" parameterMap="updatePosMasterMemberMap" >
+		{ call PKG_POS_MASTER.POS_MASTER_MEMBER_POP_UPDATE ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+</sqlMap>

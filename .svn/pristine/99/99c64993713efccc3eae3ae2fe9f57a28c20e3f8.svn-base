@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="commonPopup">
+
+	<parameterMap id="commPopupMap" class="java.util.HashMap">
+		<parameter property="P_TEXT"    	           javaType="java.lang.String"     jdbcType="VARCHAR"           mode="IN"      />
+		<parameter property="P_FLAG"    	           javaType="java.lang.String"     jdbcType="VARCHAR"           mode="IN"      />
+		<parameter property="P_STR_CODE"          javaType="java.lang.String"     jdbcType="VARCHAR"           mode="IN"      />
+		<parameter property="P_CORP_CODE"        javaType="java.lang.String"     jdbcType="VARCHAR"           mode="IN"      />
+		<parameter property="P_ITM_FORM"          javaType="java.lang.String"     jdbcType="VARCHAR"           mode="IN"      />
+		<parameter property="P_SUPPLY_USE_YN"  javaType="java.lang.String"     jdbcType="VARCHAR"            mode="IN"      />
+		<!-- <parameter property="SUPPLY_USE_YN"  javaType="java.lang.String"     jdbcType="VARCHAR"            mode="IN"      /> -->	<!-- 3번팝업 협력업체 검색 [전체],[사용],[미사용] -->
+		<!-- <parameter property="P_ENDIND_FLAG"  javaType="java.lang.String"     jdbcType="VARCHAR"            mode="IN"      /> -->	<!-- 2번팝업 협력업체 검색 [전체],[취급],[미취급],[발주중단] -->
+	  	<parameter property="CUR"         	           javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"   	/> 
+	</parameterMap>
+	
+	<parameterMap id="commStrNameMap" class="java.util.Map">
+		<parameter property="P_STR_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      />
+	  	<parameter property="CUR"         	javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="commStrNameResultMap"/> 
+	</parameterMap>
+	
+	<resultMap id="commStrNameResultMap" class="java.util.HashMap">
+		<result property="STR_NAME" column="STR_NAME" />
+	</resultMap>
+	   
+  	<procedure id="selectcommUserList" parameterMap="commPopupMap" resultClass="java.util.HashMap" remapResults="true">
+		<!-- {   call PKG_COMMON_POPUP.COMMON_USER_POP_SELECT (  ? , ? , ? , ?, ? , ?, ?, ?, ? )  } -->
+		{   call PKG_COMMON_POPUP.COMMON_USER_POP_SELECT (  ? , ? , ? , ?, ? , ?, ? )  }
+  	</procedure>
+  	
+  	<procedure id="getStrName" parameterMap="commStrNameMap" >
+		{   call PKG_COMMON_POPUP.COMMON_STR_NAME_SELECT ( ?, ? )  }
+  	</procedure>	
+  
+  
+  
+  	<parameterMap id="storeRouteGbProductMap" class="java.util.HashMap">
+		<parameter property="P_TEXT"    	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      />
+		<parameter property="P_FLAG"    	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      />
+		<parameter property="P_STR_CODE_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      />
+		<parameter property="P_CORP_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      />
+		<parameter property="P_ROUTE_GB"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      />  
+	  	<parameter property="P_VEN_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      /> 
+	  	<parameter property="P_PUR_GB"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      />  
+	  	<parameter property="CUR"         	javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"   	/> 
+	</parameterMap>
+	<procedure id="storeRouteGbProduct" parameterMap="storeRouteGbProductMap" resultClass="java.util.HashMap" remapResults="true">
+		{   call PKG_COMMON_POPUP.STORE_ROUTE_GB_PRODUCT  (  ? , ? , ? , ?, ? , ? , ?, ? )  }
+  	</procedure>
+  	
+  	<parameterMap id="paramPaymentSelectMap" class="java.util.HashMap">
+		<parameter property="P_TYPE"    	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      />
+		<parameter property="P_VEN_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      />
+		<parameter property="P_PAY_CON"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      />
+		<parameter property="P_CORP_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      />
+	  	<parameter property="CUR"         	javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"   	/> 
+	</parameterMap>
+  	<procedure id="getPaymentSelectBoxList_2" parameterMap="paramPaymentSelectMap" resultClass="java.util.HashMap" remapResults="true">
+		{   call PKG_PAYMENT.PAYMENT_COMBO_SELECT (  ?, ?, ?, ?, ? )  }
+  	</procedure>
+	
+	
+	
+	
+	
+  	<parameterMap id="selectedStoreProductMap" class="java.util.HashMap">
+		<parameter property="P_TEXT"    	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      />
+		<parameter property="P_FLAG"    	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      />
+		<parameter property="P_SELECTED_STR_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      />
+		<parameter property="P_CORP_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      /> 
+	  	<parameter property="P_VEN_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      /> 
+	  	<parameter property="P_PUR_GB"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      />  
+	  	<parameter property="CUR"         	javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"   	/> 
+	</parameterMap>
+	<procedure id="selectedStoreProduct" parameterMap="selectedStoreProductMap" resultClass="java.util.HashMap" remapResults="true">
+		{   call PKG_COMMON_POPUP.SELECTED_STORE_PRODUCT  (  ? , ? , ? , ?, ? , ? , ?  )  }
+  	</procedure>
+	
+	
+	
+	
+	
+	
+</sqlMap>

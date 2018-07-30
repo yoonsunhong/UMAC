@@ -1,0 +1,246 @@
+package retail.commonPopup.web;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import retail.common.CommonUtil;
+import retail.common.SessionModel;
+import retail.commonPopup.service.CommPopupService;
+
+import com.google.gson.Gson;
+
+/**
+ * 
+ * @Class Name : CommPopupController.java
+ * @Description : 
+ * @Modification Information
+ * @
+ * @  수정일      수정자              수정내용
+ * @ ---------   ---------   -------------------------------
+ * @ 2016. 12.16           최초생성
+ *
+ * @author 오동근
+ * @since 2016. 12. 16.
+ * @version 1.0
+ * @see Copyright (C) by Retailtech All right reserved.
+ */
+@Controller
+public class CommPopupController {
+	
+	@Autowired
+	private CommPopupService commPopupService;
+	
+	/**
+	 * 공통popup Test 화면 이동
+	 * @param model
+	 * @return "mav"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/commPopTest.do", method = RequestMethod.GET)
+	public ModelAndView commPopTest(HttpServletRequest request, HttpServletResponse response )throws Exception { 
+		System.out.println("START!!!!");
+		ModelAndView mav = new  ModelAndView("retail/commonPopup/commPopTest");
+		System.out.println("END!!!!");
+		return   mav; 
+	}
+	
+	/**
+	 * 공통popup Test 화면 이동
+	 * @param model
+	 * @return "mav"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/commPopManagement.do", method = RequestMethod.GET) 
+	public ModelAndView commPopManagement(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		String P_FLAG = request.getParameter("P_FLAG");
+		System.out.println("@@@@P_FLAG : " + P_FLAG);
+		ModelAndView mav = new  ModelAndView("retail/commonPopup/commPop"); 
+		return   mav; 
+	}
+	
+	/**
+	 * 공통popup List
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/commPopList.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void commPopList(@RequestParam Map<String, Object> param, HttpServletRequest request, HttpServletResponse response, HttpSession session )throws Exception { 
+		
+		try {
+			SessionModel sessionModel = CommonUtil.getEnv(session);
+			param.put("P_CORP_CODE", sessionModel.getCORP_CODE());
+			System.out.println("PARAM : " + param);
+			
+			List<Map<String, Object>> resultList = commPopupService.selectCommPopList(param);
+			 
+			Gson gson = new Gson(); 
+			String jsonStr = gson.toJson(  resultList );
+			
+			response.setContentType("text/json; charset=utf-8");
+			response.getWriter().print(jsonStr);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		  
+	}
+	
+	/**
+	 * 공통popup List (A:협력업체)
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getPaymentSelectBoxList_2.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void getPaymentSelectBoxList_2(@RequestParam Map<String, Object> param, HttpServletRequest request, HttpServletResponse response, HttpSession session )throws Exception
+	{
+		try {
+			SessionModel sessionModel = CommonUtil.getEnv(session);
+			param.put("P_CORP_CODE", sessionModel.getCORP_CODE());
+			param.put("P_TYPE", "A");
+			param.put("P_VEN_CODE", param.get("P_TEXT"));
+			System.out.println("PARAM : " + param);
+
+			List<Map<String, Object>> resultList = commPopupService.getPaymentSelectBoxList_2(param);
+			 
+			Gson gson = new Gson(); 
+			String jsonStr = gson.toJson(  resultList );
+			
+			response.setContentType("text/json; charset=utf-8");
+			response.getWriter().print(jsonStr);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 점별 배송구분(ROUTE_GB)별 상품검색
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/storeRouteGbProduct.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void storeRouteGbProduct(@RequestParam Map<String, Object> param, HttpServletRequest request, HttpServletResponse response, HttpSession session )throws Exception { 
+		
+		try {
+			/*HashMap<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("P_TEXT", request.getParameter("P_TEXT"));
+			paramMap.put("P_FLAG", request.getParameter("P_FLAG"));
+			paramMap.put("P_STR_CODE", request.getParameter("P_STR_CODE"));*/
+			SessionModel sessionModel = CommonUtil.getEnv(session);
+			param.put("P_CORP_CODE", sessionModel.getCORP_CODE()); 
+			
+//			System.out.println(" P_STR_CODE : " + request.getParameter("P_STR_CODE"));
+//			System.out.println("PARAM :: " + param);
+			  
+			List<Map<String, Object>> resultList = commPopupService.storeRouteGbProduct(param);  
+			 
+			Gson gson = new Gson(); 
+			String jsonStr = gson.toJson(  resultList );
+			
+			response.setContentType("text/json; charset=utf-8");
+			response.getWriter().print(jsonStr);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		  
+	}
+	
+	
+	/**
+	 * 점포명 select
+	 * @param model
+	 * @return "mav"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/getStrName.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> getStrName(@RequestParam Map<String, Object> param, HttpServletResponse response ) throws Exception {
+		Map<String, Object> result = new HashMap<String, Object>();
+		System.out.println("@@PARAM : " + param);
+		
+		try {
+			
+			param = commPopupService.getStrName(param);
+			result.put("result", param.get("CUR"));
+			System.out.println("@@pointMap : " + param.get("CUR"));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	
+	
+	
+	
+	
+	/**
+	 * 부모창에서 선택한 점별  상품검색
+	 * @param param
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectedStoreProduct.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void selectedStoreProduct(@RequestParam Map<String, Object> param, HttpServletRequest request, HttpServletResponse response, HttpSession session )throws Exception { 
+		
+		try {
+			/*HashMap<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("P_TEXT", request.getParameter("P_TEXT"));
+			paramMap.put("P_FLAG", request.getParameter("P_FLAG"));
+			paramMap.put("P_STR_CODE", request.getParameter("P_STR_CODE"));*/
+			SessionModel sessionModel = CommonUtil.getEnv(session);
+			param.put("P_CORP_CODE", sessionModel.getCORP_CODE()); 
+			
+//			System.out.println(" P_STR_CODE : " + request.getParameter("P_STR_CODE"));
+//			System.out.println("PARAM :: " + param);
+			  
+			List<Map<String, Object>> resultList = commPopupService.selectedStoreProduct(param);  
+			 
+			Gson gson = new Gson(); 
+			String jsonStr = gson.toJson(  resultList );
+			
+			response.setContentType("text/json; charset=utf-8");
+			response.getWriter().print(jsonStr);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		  
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}

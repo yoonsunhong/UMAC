@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="orderStoreExcelBuyer">
+ 
+  
+     
+     
+  <!--  점포 조회   -->
+  <parameterMap id="getStoreInfoParameterMap" class="java.util.Map">    
+  	<parameter property="CUR"         javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  	mode="OUT"     /> 
+  </parameterMap> 
+  <procedure id="getStoreInfo"  parameterMap="getStoreInfoParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_ORDER_STORE_EXCEL_BUYER.GET_STORE_INFO(    ?    )  }   
+  </procedure>
+  
+  
+
+  <!--  업로드한 엑셀 조회  -->
+  <parameterMap id="orderUploadSearchBuyerParameterMap" class="java.util.Map">     
+    <parameter property="CORP_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"    	mode="IN"      /> 
+    <parameter property="ORD_DT"      javaType="java.lang.String"     jdbcType="VARCHAR"    	mode="IN"      /> 
+<!--     <parameter property="STR_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"    	mode="IN"      />  -->
+   	<parameter property="REG_PATH"    javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      /> 
+   	<parameter property="ITM_GB"      javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      /> 
+   	<parameter property="LRG_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      /> 
+   	<parameter property="CFM_YN"      javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      /> 
+    <parameter property="VEN_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      /> 
+  	<parameter property="ROUTE_GB"    javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      /> 
+    <parameter property="PUR_GB"      javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      /> 
+  	<parameter property="CUR"         javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  	mode="OUT"     /> 
+  </parameterMap> 
+  <procedure id="orderUploadSearchBuyer"  parameterMap="orderUploadSearchBuyerParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_ORDER_STORE_EXCEL_BUYER.ORDER_UPLOAD_SEARCH_BUYER(   ? , ? ,  ? , ? , ? , ? , ? , ? , ? , ?  )  }   
+  </procedure>
+  
+   
+   
+   
+   
+   <parameterMap id="orderAddItmBuyerParameterMap" class="java.util.Map">
+    <parameter property="CORP_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="SCAN_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+    <parameter property="PUR_GB"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  		
+    <parameter property="CUR"         javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+   </parameterMap>
+   <procedure id="orderAddItmBuyer"  parameterMap="orderAddItmBuyerParameterMap"  resultClass="java.util.HashMap"  > 
+   	 {   call PKG_ORDER_STORE_EXCEL_BUYER.ORDER_ADD_ITM_BUYER(   ? , ? , ?, ?  )       }
+   </procedure>
+    
+    
+
+  <!--  바이어 -  엑셀 업로드에 발주상품 단건 추가  저장  -->
+  <parameterMap id="orderAddItmSaveBuyerParameterMap" class="java.util.Map">     
+    <parameter property="CORP_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"    	mode="IN"      /> 
+    <parameter property="EMP_NO"      javaType="java.lang.String"     jdbcType="VARCHAR"    	mode="IN"      /> 
+    <parameter property="ORD_DT"      javaType="java.lang.String"     jdbcType="VARCHAR"    	mode="IN"      /> 
+   	<parameter property="STR_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      /> 
+   	<parameter property="REG_PATH"    javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      /> 
+   	<parameter property="SCAN_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      />  
+  	<parameter property="ORD_QTY"     javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      />  
+  	<parameter property="ITM_GB"      javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      />  
+  	<parameter property="VEN_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      />  
+  	<parameter property="PUR_WPRC"    javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      />  
+  	<parameter property="PUR_WVAT"    javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      />  
+  	<parameter property="PUR_GB"    javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      />  
+  	
+  	<parameter property="RETURN_CUR"  javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  	mode="OUT"     /> 
+  </parameterMap> 
+  <procedure id="orderAddItmSaveBuyer"  parameterMap="orderAddItmSaveBuyerParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_ORDER_STORE_EXCEL_BUYER.ORDER_ADD_ITM_SAVE_BUYER( ? , ? , ? , ? , ?, ?    ,   ? , ?, ? , ? , ? , ?, ?    )  }   
+  </procedure>
+  
+  
+  
+  
+  
+  
+  <!--   엑셀 업로드 데이터 삭제  -->
+  <parameterMap id="orderUploadDelBuyerParameterMap" class="java.util.Map">     
+    <parameter property="CORP_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"    	mode="IN"      /> 
+    <parameter property="ORD_DT"      javaType="java.lang.String"     jdbcType="VARCHAR"    	mode="IN"      /> 
+    <parameter property="VEN_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"    	mode="IN"      /> 
+   	<parameter property="REG_PATH"    javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      /> 
+   	<parameter property="SEQ"         javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      /> 
+   	<parameter property="SCAN_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      />  
+  	<parameter property="RETURN_CUR"  javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  	mode="OUT"     /> 
+  </parameterMap> 
+  <procedure id="orderUploadDelBuyer"  parameterMap="orderUploadDelBuyerParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_ORDER_STORE_EXCEL_BUYER.ORDER_UPLOAD_DEL_BUYER( ? , ? , ? , ? , ?, ? , ?  )  }   
+  </procedure>
+  
+  
+  
+  
+  <!--   발주수량 및 매입처 수정  -->
+  <parameterMap id="orderUploadUpdateBuyerParameterMap" class="java.util.Map">     
+    <parameter property="CORP_CODE"     javaType="java.lang.String"     jdbcType="VARCHAR"    		mode="IN"      /> 
+    <parameter property="EMP_NO"   		javaType="java.lang.String"     jdbcType="VARCHAR"    		mode="IN"      /> 
+    <parameter property="ORD_DT"        javaType="java.lang.String"     jdbcType="VARCHAR"    		mode="IN"      /> 
+    <parameter property="STR_CODE"      javaType="java.lang.String"     jdbcType="VARCHAR"    		mode="IN"      /> 
+   	<parameter property="REG_PATH"      javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      /> 
+   	<parameter property="SEQ"           javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      /> 
+   	<parameter property="SCAN_CODE"     javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      />  
+  	<parameter property="ORD_QTY"       javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      />     
+  	<parameter property="VEN_CODE"      javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      />  
+  	<parameter property="VEN_CODE_OLD"  javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      />   
+  	<parameter property="PUR_WPRC"  	javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      />   
+  	<parameter property="PUR_WVAT"  	javaType="java.lang.String"     jdbcType="VARCHAR"       	mode="IN"      />   
+  	<parameter property="RETURN_CUR"    javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  	mode="OUT"     /> 
+  </parameterMap> 
+  <procedure id="orderUploadUpdateBuyer"  parameterMap="orderUploadUpdateBuyerParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_ORDER_STORE_EXCEL_BUYER.ORDER_UPLOAD_UPDATE_BUYER( ? ,? ,? ,? , ? , ? , ? , ?, ? , ?, ? , ? , ?   )  }   
+  </procedure>
+  
+  
+  
+
+
+
+
+
+
+	<!--   엑셀 데이터 다운로드  엑셀다운 -->
+	<parameterMap id="paramMap6" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     	javaType="java.lang.String"      jdbcType="VARCHAR"       	mode="IN"    />
+<!-- 		<parameter property="P_STR_CODE"       	javaType="java.lang.String"      jdbcType="VARCHAR"       	mode="IN"    />  -->
+		<parameter property="P_ORD_DT"          javaType="java.lang.String"      jdbcType="VARCHAR"       	mode="IN"    />
+	    <parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  	mode="OUT"  resultMap="resultMap6" />
+ 
+	</parameterMap> 
+	<resultMap id="resultMap6" class="java.util.HashMap">
+		<result property="ORD_DT" 		    column="ORD_DT" 		nullValue=""  	/>   
+		<result property="SCAN_CODE" 		column="SCAN_CODE" 		nullValue=""  	/>
+		<result property="ITM_NAME" 		column="ITM_NAME" 		nullValue=""  	/> 
+		<result property="ITM_GB" 		    column="ITM_GB" 		nullValue=""  	/>   
+		<result property="VEN_CODE" 		column="VEN_CODE" 		nullValue=""  	/> 
+		<result property="VEN_NAME" 		column="VEN_NAME" 		nullValue=""  	/> 
+		<result property="PUR_WPRC" 		column="PUR_WPRC" 		nullValue=""  	/> 
+		<result property="PUR_WVAT" 		column="PUR_WVAT" 		nullValue=""  	/> 
+		
+		<result property="STORENAME1" 	    column="STORENAME1" 	nullValue=""  	/>   
+		<result property="STORENAME2" 	    column="STORENAME2" 	nullValue=""  	/>   
+		<result property="STORENAME3" 	    column="STORENAME3" 	nullValue=""  	/>   
+		<result property="STORENAME4" 	    column="STORENAME4" 	nullValue=""  	/>   
+		<result property="STORENAME5" 	    column="STORENAME5" 	nullValue=""  	/>   
+		<result property="STORENAME6" 	    column="STORENAME6" 	nullValue=""  	/>   
+		<result property="STORENAME7" 	    column="STORENAME7" 	nullValue=""  	/>   
+		<result property="STORENAME8" 	    column="STORENAME8" 	nullValue=""  	/>   
+		<result property="STORENAME9" 	    column="STORENAME9" 	nullValue=""  	/>   
+		<result property="STORENAME10" 	    column="STORENAME10" 	nullValue=""  	/>  
+		<result property="STORENAME11" 	    column="STORENAME11" 	nullValue=""  	/>  
+		<result property="STORENAME12" 	    column="STORENAME12" 	nullValue=""  	/>  
+		<result property="STORENAME13" 	    column="STORENAME13" 	nullValue=""  	/>  
+		<result property="STORENAME14" 	    column="STORENAME14" 	nullValue=""  	/>  
+		<result property="STORENAME15" 	    column="STORENAME15" 	nullValue=""  	/>  
+		<result property="STORENAME16" 	    column="STORENAME16" 	nullValue=""  	/>  
+		<result property="STORENAME17" 	    column="STORENAME17" 	nullValue=""  	/>  
+		<result property="STORENAME18" 	    column="STORENAME18" 	nullValue=""  	/>  
+		<result property="STORENAME19" 	    column="STORENAME19" 	nullValue=""  	/>  
+		<result property="STORENAME20" 	    column="STORENAME20" 	nullValue=""  	/>  
+		 
+	</resultMap> 
+	
+	<procedure id="r2OrderExcelDataBuyer" parameterMap="paramMap6"  resultMap="resultMap6"> 
+		{ call PKG_ORDER_STORE_EXCEL_BUYER.GET_R2_ORDER_EXCEL_BUYER (   ? , ? , ?  )  }
+	</procedure> 
+	
+
+
+
+  
+  <!--  바이어( 생식/비생식 ) 엑셀 업로드 temp 테이블에 등록 -->
+  <parameterMap id="excelDataLoadBuyerAllParameterMap" class="java.util.Map">     
+    <parameter property="CORP_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"    	mode="IN"      /> 
+    <parameter property="ORD_DT"      javaType="java.lang.String"     jdbcType="VARCHAR"    	mode="IN"      />  
+    <parameter property="IEMP_NO"      javaType="java.lang.String"     jdbcType="VARCHAR"    	mode="IN"      />   
+   	<parameter property="EXCEL_DATA"  javaType="java.lang.String"     jdbcType="CLOB"       	mode="IN"      /> 
+  	<parameter property="CUR"         javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  	mode="OUT"     /> 
+  </parameterMap> 
+  <procedure id="excelDataLoadBuyerAll"  parameterMap="excelDataLoadBuyerAllParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_ORDER_STORE_EXCEL_BUYER.EXCEL_DATA_LOAD_BUYER_ALL(   ? , ? , ? , ?, ?  )  }   
+  </procedure>
+  
+
+ 
+  <!--  바이어 엑셀 발주등록  -->
+  <parameterMap id="orderStoreProductExcelRegisterBuyerParameterMap" class="java.util.Map">     
+    <parameter property="CORP_CODE"   				javaType="java.lang.String"     jdbcType="VARCHAR"        mode="IN"      /> 
+    <parameter property="ORD_DT"   					javaType="java.lang.String"     jdbcType="VARCHAR"        mode="IN"      />   
+    <parameter property="EMP_NO"   					javaType="java.lang.String"     jdbcType="VARCHAR"        mode="IN"      />   
+ 	<parameter property="ORDER_STORE_DETAIL"   		javaType="java.lang.String"     jdbcType="CLOB"       	  mode="IN"      /> 
+  	<parameter property="REG_PATH"   				javaType="java.lang.String"     jdbcType="VARCHAR"    	  mode="IN"      /> 
+  	<parameter property="PUR_GB"   				javaType="java.lang.String"     jdbcType="VARCHAR"    	  mode="IN"      /> 
+  	
+  	<parameter property="RETURN_CUR"        		javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"   mode="OUT"     /> 
+  </parameterMap>
+  <procedure id="orderStoreProductExcelRegisterBuyer"  parameterMap="orderStoreProductExcelRegisterBuyerParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_ORDER_STORE_EXCEL_BUYER.ORDER_EXCEL_REGISTER_BUYER(   ? , ? , ? , ? , ? , ? , ?   )  }   
+  </procedure>
+
+
+
+  <!--  바이어 엑셀 발주확정  -->
+  <parameterMap id="jobUploadToOrderBuyerParameterMap" class="java.util.Map">     
+    <parameter property="CORP_CODE"   				javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+    <parameter property="ORD_DT"   					javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />   
+  	<parameter property="REG_PATH"   				javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+  	<parameter property="STR_CODE"   				javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+  	
+  	<parameter property="ITM_GB"   					javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+  	<parameter property="LRG_CODE"   				javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+  	 
+  	<parameter property="RETURN_CUR"        		javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"   mode="OUT"     /> 
+  </parameterMap> 
+  <procedure id="jobUploadToOrderBuyer"  parameterMap="jobUploadToOrderBuyerParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_ORDER_STORE_EXCEL_BUYER.JOB_UPLOAD_TO_ORDER_BUYER( ? , ? , ? , ?, ?, ?, ?  )  }   
+  </procedure>
+  
+	
+	
+	
+  
+
+</sqlMap>

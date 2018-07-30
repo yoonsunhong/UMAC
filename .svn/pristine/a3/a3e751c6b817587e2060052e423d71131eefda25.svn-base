@@ -1,0 +1,304 @@
+package retail.stock.profitAndLoss.web;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import retail.common.CommonUtil;
+import retail.common.service.CommService;
+import retail.stock.profitAndLoss.service.StockprofitAndLossService;
+
+import com.google.gson.Gson;
+
+
+/**
+ * 
+ * @Class Name : StockprofitAndLossController.java
+ * @Description : 영업정보 > 재고정보 > 손익생성 
+ * @Modification Information
+ * @
+ * @  수정일      수정자              수정내용
+ * @ ---------   ---------   -------------------------------
+ * @ 2017. 11.28           최초생성
+ *
+ * @author 윤태희
+ * @since 2017. 11. 28.
+ * @version 1.0
+ * @see Copyright (C) by Retailtech All right reserved.
+ */
+
+@Controller
+public class StockprofitAndLossController {
+	@Autowired
+	private StockprofitAndLossService stockprofitAndLossService;
+
+	/** log */
+	private final Log log = LogFactory.getLog(this.getClass());
+	
+	/** service */
+	@Autowired 
+	private CommService commService;
+	
+	
+	/**
+	 * 손익생성 페이지 
+	 * @param Map
+	 * @return "JSON"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/stockprofitAndLoss.do", method = RequestMethod.GET)
+	public ModelAndView stockprofitAndLoss(HttpServletRequest request, HttpServletResponse response )throws Exception { 
+		ModelAndView mav = new  ModelAndView("retail/stock/profitandloss/stockprofitAndLoss"); 
+		return   mav; 
+	}
+	
+	
+	public String get_Month_Last_day (Map<String,Object> param) throws ParseException{
+		//날짜는 자바에서 컨트롤.. 프로시저는 BATCH와 최대한 씽크를 맞추기위해 건들지 않기 위함
+		
+		//입력받은 월의 마지막 날짜 구하기
+		String strdate = param.get("P_WORK_DT").toString().replaceAll("-", "");
+		SimpleDateFormat transeDate = new SimpleDateFormat("yyyyMMdd");
+		Date tdate = transeDate.parse(strdate);
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(tdate);
+		String endDay = String.valueOf(cal.getActualMaximum(Calendar.DAY_OF_MONTH));	
+		
+		String lastDay = strdate.substring(0,6)+endDay;
+		return lastDay;
+	}
+	
+	/**
+	 * 일재고마감(조정 전, 조정 후 같은 컨트롤러 같은 프로시저 사용)  
+	 * 
+	 * @param  
+	 * @param Map
+	 * @return "JSON"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/batch_iv_dt_item_coll_ver2.do", method = RequestMethod.POST)
+	@ResponseBody
+	public   void batch_iv_dt_item_coll_ver2(@RequestParam Map<String, Object> param ,HttpServletRequest request, HttpServletResponse response )throws Exception { 
+		
+		String Last_date = get_Month_Last_day(param);	//월의 마지막 날 구하기
+		
+		param.put("P_CORP_CODE"		,CommonUtil.getEnv(request.getSession()).getCORP_CODE())  ;
+		param.put("P_WORK_DT",Last_date);
+		System.out.println("손익생성Param : "  + param);
+		List<Map<String, Object>> resultList = stockprofitAndLossService.batch_iv_dt_item_coll_ver2(param);
+ 		 
+ 		 
+		Gson gson = new Gson();  
+		String jsonStr_RETURN_CUR 	= gson.toJson( param );
+		
+		
+		 
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr_RETURN_CUR);
+		 
+		  
+	}
+	
+	/**
+	 * 월재고마감(조정 전, 조정 후 같은 컨트롤러 같은 프로시저 사용)  )  
+	 * 
+	 * @param  
+	 * @param Map
+	 * @return "JSON"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/batch_iv_mt_item_coll_ver2.do",  method = RequestMethod.POST)
+	@ResponseBody
+	public void  batch_iv_mt_item_coll_ver2( @RequestParam Map<String, Object> param , HttpServletRequest request,HttpServletResponse response )throws Exception { 
+   
+		String Last_date = get_Month_Last_day(param);	//월의 마지막 날 구하기
+		
+		param.put("P_CORP_CODE"		,CommonUtil.getEnv(request.getSession()).getCORP_CODE())  ;
+		param.put("P_WORK_DT",Last_date);
+		System.out.println("손익생성Param : "  + param);
+		 
+		List<Map<String, Object>> resultList = stockprofitAndLossService.batch_iv_mt_item_coll_ver2(param);
+		param.put("JOB_FLAG", "JAVA_SUCCES_월재고마감(조정 전)");
+		Gson gson = new Gson(); 
+		String jsonStr 				= gson.toJson(  param  );
+   
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr);
+		 
+	}
+	
+	/**
+	 * 실사확정
+	 * 
+	 * @param  
+	 * @param Map
+	 * @return "JSON"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/stock_excel_upload_finish_ver2.do", method=RequestMethod.POST)
+	@ResponseBody
+	public void stock_excel_upload_finish_ver2 (@RequestParam Map<String, Object> param, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		   
+		String Last_date = get_Month_Last_day(param);	//월의 마지막 날 구하기
+		/*List list_01 = new ArrayList<Object>();
+		List list_02 = new ArrayList<Object>();
+		Map<String, Object> map_01 = new HashMap<String, Object>();*/
+
+
+		
+		param.put("P_CORP_CODE"		,CommonUtil.getEnv(request.getSession()).getCORP_CODE())  ;
+		param.put("P_STR_CODE", param.get("S_STR_CODE"));
+		/*if("".equals(param.get("S_STR_CODE"))){
+			 commService.getStoreCode(param);
+			 list_01 = (List) param.get("CUR");
+			 System.out.println("list_01 : " + list_01);
+			 //map_01 = (Map<String,Object>) list_01.get(0);
+			 //map_01 = (Map<String,Object>) list_01.get(1);
+			 //System.out.println("map_01 : " + map_01);
+			 
+			 //System.out.println("map_01.get(str_code) : " + map_01.get("STR_CODE"));
+			 
+			 for(int i=0; i < list_01.size(); i++){
+				 map_01 = (Map<String,Object>) list_01.get(i);
+				 list_02.add(i, map_01.get("STR_CODE"));
+			 }
+			 System.out.println("list : " + list_02);
+			 param.put("P_STR_CODE", list_02);
+		}else{
+			param.put("P_STR_CODE", param.get("S_STR_CODE"));
+		}*/
+		
+		param.put("P_INV_DT",Last_date);
+		param.put("P_UEMP_NO"		,CommonUtil.getEnv(request.getSession()).getUserId())  ;
+		param.put("JOB_FLAG", "JAVA_SUCCES_실사확정");
+		System.out.println("dddd : " + param);
+		List<Map<String, Object>> resultList = stockprofitAndLossService.stock_excel_upload_finish_ver2(param);
+		
+		Gson gson = new Gson(); 
+		String jsonStr 				= gson.toJson(  param  );
+   
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr);
+				 
+	}
+	
+	
+	/**
+	 * 실사확정 취소
+	 * 
+	 * @param  
+	 * @param Map
+	 * @return "JSON"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/stock_excel_upload_cancel_ver2.do", method=RequestMethod.POST)
+	@ResponseBody
+	public void stock_excel_upload_cancel_ver2 (@RequestParam Map<String, Object> param, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		   
+		String Last_date = get_Month_Last_day(param);	//월의 마지막 날 구하기
+
+
+		
+		param.put("P_CORP_CODE"		,CommonUtil.getEnv(request.getSession()).getCORP_CODE())  ;
+		param.put("P_STR_CODE", param.get("S_STR_CODE"));
+
+		
+		param.put("P_INV_DT",Last_date);
+		param.put("P_UEMP_NO"		,CommonUtil.getEnv(request.getSession()).getUserId())  ;
+		param.put("JOB_FLAG", "JAVA_SUCCES_실사확정취소");
+		System.out.println("dddd : " + param);
+		List<Map<String, Object>> resultList = stockprofitAndLossService.stock_excel_upload_cancel_ver2(param);
+		
+		Gson gson = new Gson(); 
+		String jsonStr 				= gson.toJson(  param  );
+   
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr);
+				 
+	}
+	
+	
+	/**
+	 * 원가율
+	 * 
+	 * @param  
+	 * @param Map
+	 * @return "JSON"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/stock_profit_rate_ver2.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void stock_profit_rate_ver2(@RequestParam Map<String, Object> param, HttpServletRequest request, HttpServletResponse response)throws Exception{
+		try{
+			String Last_date = get_Month_Last_day(param);	//월의 마지막 날 구하기
+			param.put("P_CORP_CODE"		,CommonUtil.getEnv(request.getSession()).getCORP_CODE())  ;
+			param.put("P_STR_CODE", param.get("S_STR_CODE"));
+			param.put("P_INV_DT",Last_date);
+			param.put("P_UEMP_NO"		,CommonUtil.getEnv(request.getSession()).getUserId())  ;
+			param.put("JOB_FLAG", "JAVA_SUCCES_원가율");
+			
+			List<Map<String, Object>> resultList = stockprofitAndLossService.stock_profit_rate_ver2(param);
+			
+			Gson gson = new Gson(); 
+			String jsonStr 				= gson.toJson(  param  );
+	
+			response.setContentType("text/json; charset=utf-8");
+			response.getWriter().print(jsonStr);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+				 		
+	}
+	
+	/**
+	 * 손익생성
+	 * 
+	 * @param  
+	 * @param Map
+	 * @return "JSON"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/batch_iv_mt_item_coll_profit_ver2.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void batch_iv_mt_item_coll_profit_ver2 (@RequestParam Map<String, Object> param, HttpServletRequest request, HttpServletResponse response)throws Exception{
+		   
+		String Last_date = get_Month_Last_day(param);	//월의 마지막 날 구하기
+		
+		param.put("P_CORP_CODE"		,CommonUtil.getEnv(request.getSession()).getCORP_CODE())  ;
+		param.put("P_WORK_DT",Last_date);
+		
+		param.put("P_EMP_NO", CommonUtil.getEnv(request.getSession()).getUserId());
+		
+		List<Map<String, Object>> resultList_b = stockprofitAndLossService.batch_iv_mt_item_coll_profit_ver2_b(param);	//비생식
+		List<Map<String, Object>> resultList_s = stockprofitAndLossService.batch_iv_mt_item_coll_profit_ver2_s(param);	//생식
+		
+		param.put("JOB_FLAG", "JAVA_SUCCES_손익생성");
+		Gson gson = new Gson(); 
+		String jsonStr 				= gson.toJson(  param  );
+
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr);
+				 				
+	}
+	
+	
+	
+}

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="memberGradeBatch">
+	
+	<parameterMap id="memberGradeBatchDetailMap" class="java.util.Map">
+		<parameter property="S_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="memberGradeBatchDetailResultMap" />
+		<parameter property="CUR2"            javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="memberGradeBatchDetailResultMap2" />
+	</parameterMap>
+	
+	<resultMap id="memberGradeBatchDetailResultMap" class="java.util.HashMap">
+		<result property="UPTAE_FLAG" column="UPTAE_FLAG" />
+		<result property="UPTAE_FLAG_NAME" column="UPTAE_FLAG_NAME" />
+		<result property="BUSI_FLAG" column="BUSI_FLAG" />
+		<result property="BUSI_FLAG_NAME" column="BUSI_FLAG_NAME" />
+		<result property="MBR_GRADE" column="MBR_GRADE" />
+		<result property="MBR_GRADE_NAME" column="MBR_GRADE_NAME" />
+		<result property="CUS_CNT" column="CUS_CNT" />
+		<result property="PERC" column="PERC" />
+	</resultMap>
+	
+	<resultMap id="memberGradeBatchDetailResultMap2" class="java.util.HashMap">
+		<result property="UPTAE_FLAG" column="UPTAE_FLAG" />
+		<result property="UPTAE_FLAG_NAME" column="UPTAE_FLAG_NAME" />
+		<result property="BUSI_FLAG" column="BUSI_FLAG" />
+		<result property="BUSI_FLAG_NAME" column="BUSI_FLAG_NAME" />
+		<result property="MBR_GRADE" column="MBR_GRADE" />
+		<result property="MBR_GRADE_NAME" column="MBR_GRADE_NAME" />
+		<result property="BASE_MIN_AMT" column="BASE_MIN_AMT" />
+		<result property="BASE_MAX_AMT" column="BASE_MAX_AMT" />
+	</resultMap>
+	
+	<procedure id="getMemberGradeBatchDetail" parameterMap="memberGradeBatchDetailMap" >
+		{ call PKG_MEMBER.MEMBER_GRADE_BATCH_SELECT ( ?, ?, ? )  }
+	</procedure>
+	
+	
+	<parameterMap id="memberGradeBatchPreviewMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_GONG_DT"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_END_DT"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="memberGradeBatchPreviewResultMap" />
+	</parameterMap>
+	
+	<resultMap id="memberGradeBatchPreviewResultMap" class="java.util.HashMap">
+		<result property="UPTAE_FLAG" column="UPTAE_FLAG" />
+		<result property="UPTAE_FLAG_NAME" column="UPTAE_FLAG_NAME" />
+		<result property="BUSI_FLAG" column="BUSI_FLAG" />
+		<result property="BUSI_FLAG_NAME" column="BUSI_FLAG_NAME" />
+		<result property="MBR_GRADE" column="MBR_GRADE" />
+		<result property="MBR_GRADE_NAME" column="MBR_GRADE_NAME" />
+		<result property="CUS_CNT" column="CUS_CNT" />
+		<result property="PERC" column="PERC" />
+	</resultMap>
+	
+	<procedure id="memberGradeBatchPreview" parameterMap="memberGradeBatchPreviewMap" >
+		{ call PKG_MEMBER.MEMBER_GRADE_BATCH_VIEW ( ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="updateMemberGradeBatchMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_GONG_DT"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_END_DT"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_REG_ID"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"     javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	<procedure id="updateMemberGradeBatch" parameterMap="updateMemberGradeBatchMap" >
+		{ call PKG_MEMBER.MEMBER_GRADE_BATCH_UPDATE ( ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+</sqlMap>

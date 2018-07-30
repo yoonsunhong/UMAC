@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="memberDeal">
+	
+	<parameterMap id="memberDealMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CUST_NAME"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_MBR_GRADE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_BUSI_FLAG"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_GONG_DT"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_END_DT"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_FIRST_INDEX"   javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_RECORD_COUNT"  javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_COLUMN_NAME"   javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ORDERBY"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="memberDealResultMap" />
+		<parameter property="TOT_CNT"         javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="OUT"   />
+	</parameterMap>
+	
+	<resultMap id="memberDealResultMap" class="java.util.HashMap">
+		<result property="RNUM" column="RNUM" />
+		<result property="CORP_CODE" column="CORP_CODE" />
+		<result property="CUST_NO" column="CUST_NO" />
+		<result property="CUST_NAME" column="CUST_NAME" />
+		<result property="TEL_NO" column="TEL_NO" />
+		<result property="MOBIL_NO" column="MOBIL_NO" />
+		<result property="ADDR" column="ADDR" />
+		<result property="ADDR_DTL" column="ADDR_DTL" />
+		<result property="SEND_EMAIL" column="SEND_EMAIL" />
+		<result property="BIR_DATE" column="BIR_DATE" />
+		<result property="BUSI_NO" column="BUSI_NO" />
+		<result property="BUSI_NAME" column="BUSI_NAME" />
+		<result property="MBR_GRADE" column="MBR_GRADE" />
+		<result property="BUSI_FLAG" column="BUSI_FLAG" />
+		<result property="SEX" column="SEX" />
+		<result property="MBR_GRADE_NAME" column="MBR_GRADE_NAME" />
+		<result property="BUSI_FLAG_NAME" column="BUSI_FLAG_NAME" />
+		<result property="SEX_NAME" column="SEX_NAME" />
+		<result property="STR_CODE" column="STR_CODE" />
+		<result property="STR_NAME" column="STR_NAME" />
+		<result property="IDATE_DT" column="IDATE_DT" />
+	</resultMap>
+	
+	<procedure id="getMemberDeal" parameterMap="memberDealMap" >
+		{ call PKG_MEMBER.MEMBER_DEAR_SELECT ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	
+	<parameterMap id="memberDealStatusMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CUST_NO"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="memberDealStatusResultMap" />
+	</parameterMap>
+	
+	<resultMap id="memberDealStatusResultMap" class="java.util.HashMap">
+		<result property="CORP_CODE" column="CORP_CODE" />
+		<result property="CUST_NO" column="CUST_NO" />
+		<result property="SALE_DT" column="SALE_DT" />
+		<result property="STR_CODE" column="STR_CODE" />
+		<result property="STR_NAME" column="STR_NAME" />
+		<result property="POS_NO" column="POS_NO" />
+		<result property="POS_NAME" column="POS_NAME" />
+		<result property="TRXN_NO" column="TRXN_NO" />
+		<result property="TRXN_NO_OLD" column="TRXN_NO_OLD" />
+		<result property="CANC_FLAG" column="CANC_FLAG" />
+		<result property="CANC_FLAG_NAME" column="CANC_FLAG_NAME" />
+		<result property="MBR_CARD_NO" column="MBR_CARD_NO" />
+		<result property="SALE_POINT" column="SALE_POINT" />
+		<result property="USE_POINT" column="USE_POINT" />
+	</resultMap>
+	
+	<procedure id="getMemberDealStatus" parameterMap="memberDealStatusMap" >
+		{ call PKG_MEMBER.MEMBER_DEAR_STATUS_SELECT ( ?, ?, ? )  }
+	</procedure>
+	
+</sqlMap>

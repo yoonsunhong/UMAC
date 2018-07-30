@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="posMasterShortcuts">
+	
+	<parameterMap id="posMasterShortcutsMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_POS_NO"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_KEY_POSITION"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_COLUMN_NAME"   javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ORDERBY"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="posMasterShortcutsResultMap" />
+		<parameter property="USE_POS_KEY_NO"  javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="OUT"   />
+	</parameterMap>
+	
+	<resultMap id="posMasterShortcutsResultMap" class="java.util.HashMap">
+		<result property="CORP_CODE" column="CORP_CODE" />
+		<result property="STR_CODE" column="STR_CODE" />
+		<result property="POS_NO" column="POS_NO" />
+		<result property="KEY_POSITION" column="KEY_POSITION" />
+		<result property="KEY_POSITION_NAME" column="KEY_POSITION_NAME" />
+		<result property="POS_KEY_NO" column="POS_KEY_NO" />
+		<result property="POS_KEY_NAME" column="POS_KEY_NAME" />
+		<result property="SEQ" column="SEQ" />
+		<result property="SCAN_CODE" column="SCAN_CODE" />
+		<result property="USE_YN" column="USE_YN" />
+		<result property="USE_NM" column="USE_NM" />
+		<result property="ITM_CODE" column="ITM_CODE" />
+		<result property="ITM_NAME" column="ITM_NAME" />
+		<result property="RNUM" column="RNUM" />
+	</resultMap>
+	
+	<procedure id="getPosMasterShortcuts" parameterMap="posMasterShortcutsMap" >
+		{ call PKG_POS_MASTER.POS_MASTER_SHORTCUTS_SELECT ( ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="posMasterShortcuts2Map" class="java.util.Map">
+		<parameter property="PD_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="PD_STR_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="PD_POS_NO"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="PD_KEY_POSITION"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="PD_POS_KEY_NO"    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"              javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="posMasterShortcuts2ResultMap" />
+	</parameterMap>
+	
+	<resultMap id="posMasterShortcuts2ResultMap" class="java.util.HashMap">
+		<result property="CORP_CODE" column="CORP_CODE" />
+		<result property="STR_CODE" column="STR_CODE" />
+		<result property="POS_NO" column="POS_NO" />
+		<result property="KEY_POSITION" column="KEY_POSITION" />
+		<result property="KEY_POSITION_NAME" column="KEY_POSITION_NAME" />
+		<result property="POS_KEY_NO" column="POS_KEY_NO" />
+		<result property="POS_KEY_NAME" column="POS_KEY_NAME" />
+		<result property="SEQ" column="SEQ" />
+		<result property="SCAN_CODE" column="SCAN_CODE" />
+		<result property="USE_YN" column="USE_YN" />
+		<result property="USE_NM" column="USE_NM" />
+		<result property="ITM_CODE" column="ITM_CODE" />
+		<result property="ITM_NAME" column="ITM_NAME" />
+		<result property="RNUM" column="RNUM" />
+	</resultMap>
+	
+	<procedure id="getPosMasterShortcuts2" parameterMap="posMasterShortcuts2Map" >
+		{ call PKG_POS_MASTER.POS_MASTER_SHORTCUTS_SELECT2 ( ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="updatePosMasterShortcutsMap" class="java.util.Map">
+		<parameter property="D_TYPE"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_CORP_CODE"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_STR_CODE"      javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_POS_NO"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_ALL_POS_CODE"  javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_KEY_POSITION"  javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_POS_KEY_NO"    javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="D_SEQ"           javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="D_POS_KEY_NAME"  javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_SCAN_CODE"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_USE_YN"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_USER_ID"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"     javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"      javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	<procedure id="updatePosMasterShortcuts" parameterMap="updatePosMasterShortcutsMap" >
+		{ call PKG_POS_MASTER.POS_MASTER_SHORTCUTS_POP_U ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+</sqlMap>

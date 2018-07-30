@@ -1,0 +1,133 @@
+#AIReport Properties
+#TIME : 2017.03.03 12:58:40
+
+#################################################
+# >>>>> System Infomation
+#################################################
+#OS-NAME : Windows 7
+#OS-ARCH/VERSION : x86 / 6.1
+#HOST-NAME : solbitech-PC
+#IP-ADDRESS : [192.168.0.64, 192.168.0.56, 192.168.174.1, 192.168.26.1]
+#JVM-VENDOR : Oracle Corporation
+#JVM-VENDOR_URL : http://java.oracle.com/
+#JVM-VERSION : 1.8.0_51-b16
+#JAVA-HOME : c:\AIReport\jdk1.8\jre
+#SYSTEM-VERSION : 2016_04-S11/2016.12.02
+#MANGER-VERSION : 5.6.0.08/20160901
+
+#################################################
+# >>>>> Server Infomation
+#################################################
+ServerWas = tomcat
+#serverControl
+#convertServer
+#convertServerPt
+#convertServerUrl
+convertServerLink = 127.0.0.1
+#convertServerLinkUser
+#protocolSSL
+#protocolLevel
+#domainName
+
+#################################################
+# >>>>> Admin infomation
+#################################################
+managerId = testadmin
+managerPw = testadmin
+
+#################################################
+# >>>>> Module Infomation
+#################################################
+# HTML Config
+installPath = /resources/js/AIViewer56/
+
+# HTML Convert
+#convertControl
+printCallTag = /resources/js/AIViewer56/common/AIprint.jsp
+flashCallTag = /resources/js/AIViewer56/common/AIflashprint.jsp
+partViewTag = /resources/js/AIViewer56/common/AIPartView.jsp
+chainPringCallTag = /resources/js/AIViewer56/common/AIChainPrint.jsp
+chainConvertPdfCallTag = /resources/js/AIViewer56/common/AIChainConvertPdf.jsp
+chainConvertExcelCallTag = /resources/js/AIViewer56/common/AIChainConvertExcel.jsp
+chainConvertAR5Tag = /resources/js/AIViewer56/common/AR5toAI.jsp
+signatureCallTag = /resources/js/AIViewer56/common/aiSignatureService.jsp
+
+#\uac1c\uc778\ub85c\uceec
+#imagePath = C:/UMAC/workspace/UMAC/src/main/webapp/resources/js/AIViewer56/temp/
+#pdfPath = C:/UMAC/workspace/UMAC/src/main/webapp/resources/js/AIViewer56/temp/
+#\ud14c\uc2a4\ud2b8\uac1c\ubc1c\uc11c\ubc84
+imagePath = C:/Tomcat 8.0/webapps/ROOT/resources/js/AIViewer56/temp/
+pdfPath = C:/Tomcat 8.0/webapps/ROOT/resources/js/AIViewer56/temp/
+#\uc6b4\uc601\uc11c\ubc84
+#imagePath = D:/apache-tomcat-8.5.14-windows-x64/admin/webapps/ROOT/resources/js/AIViewer56/temp/
+#pdfPath = D:/apache-tomcat-8.5.14-windows-x64/admin/webapps/ROOT/resources/js/AIViewer56/temp/
+
+tempPath = 
+stylePath = 
+#chartPath
+
+# HTML Logger
+managerLogPath = 
+managerLogName = managerWeb.log
+managerLogLevel = OFF
+
+# HTML JS/CSS
+#externalControl
+#externalJs
+#externalCss
+
+# HTML Fonts
+fontPath = c:/windows/fonts
+defaultFont = AWT Fonts : {Arial Unicode MS=Y, Gulim=Y}, System Fonts : {Arial Unicode MS=Y, Gulim=Y}
+
+# HTML License
+AIConfigStr = hOCI1L+lhse3nAo+Ng4SGvr1hOCI1L+lHzZDCkxYW11WU2JcVxlcWFr69YnQhpSH2gqPjIaowrCKhcGZiNT69YnPidkKNDgt+vUzTVZeWx+O3Y+cH4eHkN6/uAoNDw4HDxMMD/r1j4yGqB+O3Y+cH4eHkN6/uAoNDw4HDxMMD/r1vLG+iYbXwdC/uAoNDw4QDxIMD/r1heOJ2Y6Hha8KTFNeWWNeTWP69YXjidmG0b/LCvr1QGJZhtG/ywr69TxXXk1TH4TgiNSIloW5CjMtMkL69T1eTVxYY2IfhOCI1IiWhbkKQT47LEL69YbXwdDAy8K9Ci0yOfr1PFJMU1haH4iWhbkKQT47LEL69TNNVl5bH4iWhbkKMy0yQvr1LEItMUItKDYvDwr69SxCLTFCLSg2Lw4K+vUsQi0xQi0oNi8NCvr1LEItMUItKDYvDAr69SxCLTFCLSg2LxMK+vUsQi0xQi0oNi8SCvr1
+#ChartDirectorKey
+
+#################################################
+# >>>>> Module Options
+#################################################
+# HTML function
+#urlImageToLocalFileImage
+WYSIWYG = true
+#imageAbsoluteURL
+#AES128parameter
+parameterTranferMethod = get
+charSetEncoding=utf-8
+#parameterDecoder.useRequest
+#ContentCompress
+#TemporaryFileDeleteListenerTime
+#nexacroScheduleTimeZone
+
+# HTML Toolbar
+showMenuBar = true
+showPrint = true
+showPdf = true
+showExcel = true
+showHwp = true
+showMsWord = false
+showPowerPoint = false
+showZoom = true
+showZoomIn = true
+showZoomOut = true
+showZoomPers = true
+
+#################################################
+# >>>>> Manager Options
+#################################################
+# DataBase Mapper
+dbManager = 
+dbLinkCount = 1
+
+# WarterMark Mapper
+markManager = []
+waterMarkAttribute = attributeName
+
+# Report Backup
+backupPath = 
+backupLibPath = 
+
+#propertiesbackup
+
+propertyFileName = AIReport.properties
+eclipseFlag = true

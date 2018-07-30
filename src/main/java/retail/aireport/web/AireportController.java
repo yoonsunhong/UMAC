@@ -1,0 +1,333 @@
+package retail.aireport.web;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+/**
+ * @Class Name 	: AireportController.java
+ * @Description : 권한그룹 관리
+ * @Modification Information 
+ * @author 추황영
+ * @since 2017.04.10
+ * @version 1.0
+ * @see Copyright (C) by Retailtech All right reserved.
+ */
+
+@Controller
+public class AireportController {
+
+	
+	//	대출입전표
+	@RequestMapping(value = "/aireportInoutCenterMngPrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportInoutCenterMngPrint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		String inOut_gb = request.getParameter("P_INOUT_GB");
+		String path	="";
+		if(inOut_gb.equals("OUT")){
+			path ="retail/aireport/inoutcenter/mng/outCenterMngPrint";
+		}else{
+			path ="retail/aireport/inoutcenter/mng/inCenterMngPrint";
+		}
+		ModelAndView mav = new  ModelAndView(path);  
+		return   mav;  
+	}
+	//	대출입전표aireportWmsInoutCenterMngPrint
+	@RequestMapping(value = "/aireportWmsInoutCenterMngPrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportWmsInoutCenterMngPrint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/inoutcenter/mng/wmsOutCenterMngPrint");  
+		return   mav;  
+	}
+	
+	//	견적서 report
+	@RequestMapping(value = "/aireportEstimatePrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportEstimatePrint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		String emate_flag = request.getParameter("P_EMATE_FLAG");
+		String path	="";
+		if(emate_flag.equals("20")){
+			path ="retail/aireport/estimate/mng/estimatePrint";
+		}else{
+			path ="retail/aireport/estimate/mng/estimateVatPrint";
+		}
+		ModelAndView mav = new  ModelAndView(path);  
+		return   mav;  
+	}
+	
+	//	대금지불 의뢰서 report
+	@RequestMapping(value = "/aireportPaymentRequestInfoPrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aiPaymentRequestInfoPrint(HttpServletRequest request, HttpServletResponse response )throws Exception { 
+		String bank_gb = request.getParameter("P_BANK_GB");
+		String path	="";
+		if(bank_gb.equals("B")){
+			path ="retail/aireport/payment/mng/paymentRequestInfoBankPrint";
+		}else{
+			path ="retail/aireport/payment/mng/paymentRequestInfoPrint";
+		}
+		
+		ModelAndView mav = new  ModelAndView(path);  
+		return   mav;  
+	}
+	
+	//	wms출고조회 report(피킹리스트)
+	@RequestMapping(value = "/aireportWmsOutPrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportWmsOutPrint(HttpServletRequest request, HttpServletResponse response )throws Exception { 
+		ModelAndView mav = new  ModelAndView("retail/aireport/wms/mng/wmsOutPrint");  
+		return   mav;  
+	}
+	
+	//	wms자동할당 report(피킹리스트)
+	@RequestMapping(value = "/aireportWmsAutoPrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportWmsAutoPrint(HttpServletRequest request, HttpServletResponse response )throws Exception { 
+		ModelAndView mav = new  ModelAndView("retail/aireport/wms/mng/wmsAutoPrint");  
+		return   mav;  
+	}
+	
+	//	wms출고현황레포트조회 report(피킹리스트)
+	@RequestMapping(value = "/aireportWmsOutInfoPrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportWmsOutInfoPrint(HttpServletRequest request, HttpServletResponse response )throws Exception { 
+		ModelAndView mav = new  ModelAndView("retail/aireport/wms/mng/wmsOutInfoPrint");  
+		return   mav;  
+	}
+	
+	//	주문서관리 report
+	@RequestMapping(value = "/aireportBusinessCallOrderPrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportBusinessCallOrder(HttpServletRequest request, HttpServletResponse response )throws Exception { 
+		ModelAndView mav = new  ModelAndView("retail/aireport/business/mng/businessCallOrderPrint");  
+		return   mav;  
+	}
+	
+	// 회원별미수원장 report
+	@RequestMapping(value = "/aireportBusinessDocMemberPrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportBusinessDocMemberPrint(HttpServletRequest request, HttpServletResponse response )throws Exception { 
+		ModelAndView mav = new  ModelAndView("retail/aireport/business/mng/businessDocMemberPrint");  
+		return   mav;  
+	}
+	
+	// 회원별미수원장 report
+	@RequestMapping(value = "/aireportCreditReceivablesPrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportCreditReceivablesPrint(HttpServletRequest request, HttpServletResponse response )throws Exception { 
+		ModelAndView mav = new  ModelAndView("retail/aireport/business/mng/creditReceivablesPrint");  
+		return   mav;  
+	}
+	
+	//	회원매출상세내역 report
+	@RequestMapping(value = "/aireportMemberSalesStateprint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportMemberSalesStateprint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/member/mng/memberSalesStateprint");
+		return   mav;  
+	}
+	
+	//	세금계산서 전송
+	@RequestMapping(value = "/aireportMemberBillPdfPrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportMemberBillPdfPrint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		String tax_gb = request.getParameter("P_TAX_GB");
+		String path	="";
+		if(tax_gb.equals("1")){
+			path ="retail/aireport/member/mng/memberBillTaxPrint";
+		}else{
+			path ="retail/aireport/member/mng/memberBillPrint";
+		}
+		
+			
+			
+			ModelAndView mav = new  ModelAndView(path);
+		return   mav;  
+	}
+	
+	//	포스영수증 report
+	@RequestMapping(value = "/aireportPosClosedReceiptPrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportPosClosedReceiptPrint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/posclosed/mng/posClosedReceiptPrint");
+		return   mav;  
+	}
+	
+	//	협력업체매출현황 report
+	@RequestMapping(value = "/aireportSupplySalesStatePrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportSupplySalesStatePrint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/salesinfo/mng/supplySalesStatePrint");
+		return   mav;  
+	}
+	
+	//	일매출정산집계표 report
+	@RequestMapping(value = "/aireportDaySalesSettlementPrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportDaySalesSettlementPrint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/business/mng/daySalesSettlementPrint");
+		return   mav;  
+	}
+	
+	//	고객미수금원장 report
+	@RequestMapping(value = "/aireportCustReceivablesLedgerPrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportCustReceivablesLedgerPrint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/member/mng/custReceivablesLedgerPrint");
+		return   mav;  
+	}
+	
+	//	회원미수금원장 report
+	@RequestMapping(value = "/aireportMemberReceivablesLedgerPrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportMemberReceivablesLedgerPrint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/member/mng/memberReceivablesLedgerPrint");
+		return   mav;  
+	}
+	
+	//	매출TR조회 report
+	@RequestMapping(value = "/aireportSalesAnalReportTrPrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportSalesAnalReportTrPrint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/salesinfo/mng/salesAnalReportTrPrint");
+		return   mav;  
+	}
+	//	단품별매입판매가현황 report
+	@RequestMapping(value = "/aireportSalePriceStateByItemPrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportSalePriceStateByItemPrint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/purch/mng/salePriceStateByItemPrint");
+		return   mav;  
+	}
+	//	직매입현황 report
+	@RequestMapping(value = "/aireportR3PurchaseStatePrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportR3PurchaseStatePrint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/purch/mng/r3PurchaseStatePrint");
+		return   mav;  
+	}
+	
+	//	점간대입확정관리,점간대출등록/확정 report
+	@RequestMapping(value = "/aireportProductCheckOutInPrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportProductCheckOutInPrint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/purch/mng/productCheckOutInPrint");
+		return   mav;  
+	}
+	//	포스마감
+	@RequestMapping(value = "/aireportPosClosedDouzoneDayPrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportPosClosedDouzoneDayPrint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/posclosed/mng/posClosedDouzoneDayPrint");
+		return   mav;  
+	}
+	
+	//	외상입금상세내역조회
+	@RequestMapping(value = "/aireportCreditDpotDtlStatePrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportCreditDpotDtlStatePrint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/posclosed/mng/creditDpotDtlStatePrint");
+		return   mav;  
+	}
+	
+	//	영업일보출력조회
+	@RequestMapping(value = "/aireportDaylySalesStatePrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportDaylySalesStatePrint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/posclosed/mng/daylySalesStatePrint");
+		return   mav;  
+	}
+	
+	//	일매출 외상 입금 팝업 조회
+	@RequestMapping(value = "/aireportDaySalesSettlementCreditPrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportDaySalesSettlementCreditPrint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/posclosed/mng/daySalesSettlementCreditPrint");
+		return   mav;  
+	}
+	
+	//	일매출 외상 매출 팝업 조회
+	@RequestMapping(value = "/aireportDaySalesSettlementPayPrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportDaySalesSettlementPayPrint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/posclosed/mng/daySalesSettlementPayPrint");
+		return   mav;  
+	}
+	
+	//	협력업체 일별 매입 집계표 임대을
+	@RequestMapping(value = "/aireportSupplyPurchStateDayPrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportSupplyPurchStateDayPrint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/purch/mng/supplyPurchStateDayPrint");
+		return   mav;  
+	}
+	
+	//	협력업체 월별 매입 집계표 임대을
+	@RequestMapping(value = "/aireportSupplyPurchStateMonthPrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportSupplyPurchStateMonthPrint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/purch/mng/supplyPurchStateMonthPrint");
+		return   mav;  
+	}
+	
+	//	협력업체 일별 매입 집계표 직매입
+	@RequestMapping(value = "/aireportSupplyPurchStateDayV1Print.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportSupplyPurchStateDayV1Print(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/purch/mng/supplyPurchStateDayV1Print");
+		return   mav;  
+	}
+	
+	//	협력업체 월별 매입 집계표 직매입
+	@RequestMapping(value = "/aireportSupplyPurchStateMonthV1Print.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportSupplyPurchStateMonthV1Print(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/purch/mng/supplyPurchStateMonthV1Print");
+		return   mav;  
+	}
+	
+	//	협력업체점포별 월별 매입 집계표
+	@RequestMapping(value = "/aireportSupplyStorePurchStateMonthPrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportSupplyStorePurchStateMonthPrint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/purch/mng/supplyStorePurchStateMonthPrint");
+		return   mav;  
+	}
+	
+	//	대출입 총합계 
+	@RequestMapping(value = "/aireportInoutSumPrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportInoutSumPrint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/inoutcenter/mng/inoutSumPrint");
+		return   mav;  
+	}
+	
+	//	대출입 점포별 총합계 
+	@RequestMapping(value = "/aireportInoutSumStorePrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportInoutSumStorePrint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/inoutcenter/mng/inoutSumStorePrint");
+		return   mav;  
+	}
+	
+	//	대출입 점포별 총합계_NEW 
+	@RequestMapping(value = "/aireportInoutSumStorePrint2.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportInoutSumStorePrint2(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/inoutcenter/mng/inoutSumStorePrint2");
+		return   mav;  
+	}
+	
+	//협력업체매입집계표 > 점별출력_직매입
+	@RequestMapping(value = "/aireportSupplyPurchStateStrNamePrint_1.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportSupplyPurchStateStrNamePrint_1(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/purch/mng/supplyStr_1");
+		return   mav;  
+	}
+	
+	//협력업체매입집계표 > 점별출력_임대을
+	@RequestMapping(value = "/aireportSupplyPurchStateStrNamePrint_2.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportSupplyPurchStateStrNamePrint_2(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/purch/mng/supplyStr_2");
+		return   mav;  
+	}
+	
+	//협력업체매입집계표 > 점별출력_전체
+	@RequestMapping(value = "/aireportSupplyPurchStateStrNamePrint.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportSupplyPurchStateStrNamePrint(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/purch/mng/supplyStr");
+		return   mav;  
+	}
+	
+	//영업정보 > 매입관리 > 매입집계표(대출입포함)
+	@RequestMapping(value = "/aireportSupplyPurchStateInout.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportSupplyPurchStateInout(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new ModelAndView("retail/aireport/inoutcenter/mng/supplyStorePurchStateMonthPrint");
+		return   mav;  
+	}	
+	
+	//매출추이분석 report
+	@RequestMapping(value = "/aireportSalesInfoReport.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView aireportSalesInfoReport(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/salesinfo/mng/salesInfoReport");
+		return   mav;  
+	}
+	
+	//요일별_월별 배달집계 report
+	@RequestMapping(value = "/deliverDayStateReport.do", method =  {RequestMethod.GET, RequestMethod.HEAD} )
+	public ModelAndView deliverDayStateReport(HttpServletRequest request, HttpServletResponse response )throws Exception {
+		ModelAndView mav = new  ModelAndView("retail/aireport/salesinfo/mng/deliverDayStateListSum");
+		return   mav;  
+	}
+	
+}

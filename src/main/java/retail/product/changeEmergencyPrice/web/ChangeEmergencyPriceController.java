@@ -1,0 +1,258 @@
+/*
+ * Copyright 2008-2009 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package retail.product.changeEmergencyPrice.web;
+
+ 
+import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+
+
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.tika.Tika;
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
+
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+import retail.common.BaseEnv;
+import retail.common.CommonUtil;
+import retail.common.EgovStringUtil;
+import retail.common.EgovWebUtil;
+import retail.common.ExcelRead;
+import retail.common.ExcelReadOption;
+import retail.common.JqGridResult;
+import retail.product.changeEmergencyPrice.service.ChangeEmergencyPriceService;
+
+
+
+/**
+ * 긴급매가변경
+ * @author 문희훈
+ * @since 2017. 04.27
+ * @version 1.0
+ * @see Copyright (C) by Retailtech All right reserved.
+ */
+
+@Controller
+public class ChangeEmergencyPriceController {
+
+	@Autowired
+	private ChangeEmergencyPriceService changeEmergencyPriceService;
+
+	/** log */
+	private final Log log = LogFactory.getLog(this.getClass());
+	
+	 // 글로벌 파일 경로    
+    @Value("#{props['Globals.FileUrl']}")
+    private String globalsFileUrl;     	
+
+	/**
+	 * 긴급매가변경
+	 * @param model
+	 * @return "mav"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/changeEmergencyPrice.do", method = RequestMethod.GET)
+	public ModelAndView changeEmergencyPrice(HttpServletRequest request, HttpServletResponse response )throws Exception { 
+		ModelAndView mav = new  ModelAndView("retail/product/changeEmergencyPrice/changeEmergencyPrice"); 
+		return   mav; 
+	}
+	
+	
+	/**
+	 * 긴급매가변경 조회
+	 * @param param
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getChangePriceInfo.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void getChangePriceInfo(@RequestParam Map<String, Object> param, HttpServletRequest request, HttpServletResponse response ) throws Exception {
+		
+		ArrayList<Object> CUR = new ArrayList<Object>();
+		
+		param.put("P_CORP_CODE", CommonUtil.getEnv(request.getSession()).getCORP_CODE());
+		param.put("CUR", CUR);
+		
+		changeEmergencyPriceService.getChangePriceInfo(param);
+		
+		Gson gson = new Gson(); 
+		String jsonStr = gson.toJson(param.get("CUR"));
+		
+		System.out.println(jsonStr);
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr);
+		
+	}
+	
+	/**
+	 * 긴급매가변경중복 등록 체크
+	 * @param param
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/checkChangePriceInfo.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void checkChangePriceInfo(@RequestParam Map<String, Object> param, HttpServletRequest request, HttpServletResponse response ) throws Exception {
+		
+		ArrayList<Object> CUR = new ArrayList<Object>();
+		
+		param.put("P_CORP_CODE", CommonUtil.getEnv(request.getSession()).getCORP_CODE());
+		param.put("CUR", CUR);
+		
+		changeEmergencyPriceService.checkChangePriceInfo(param);
+		
+		Gson gson = new Gson(); 
+		String jsonStr = gson.toJson(param.get("CUR"));
+		
+		System.out.println(jsonStr);
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr);
+		
+	}
+	
+	
+	/**
+	 * 긴급매가변경 등록
+	 * @param param
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/insertChangePriceInfo.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void insertChangePriceInfo(@RequestParam Map<String, Object> param, HttpServletRequest request, HttpServletResponse response ) throws Exception {
+		
+		ArrayList<Object> CUR = new ArrayList<Object>();
+		
+		param.put("P_CORP_CODE", CommonUtil.getEnv(request.getSession()).getCORP_CODE());
+		param.put("P_IEMP_NO" 	    	, CommonUtil.getEnv(request.getSession()).getUserId());
+		param.put("CUR", CUR);
+		
+		changeEmergencyPriceService.insertChangePriceInfo(param);
+		
+		Gson gson = new Gson(); 
+		String jsonStr = gson.toJson(param.get("CUR"));
+		
+		System.out.println(jsonStr);
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr);
+		
+	}
+	
+	/**
+	 * 긴급매가변경 수정
+	 * @param param
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/updateChangePriceInfo.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void updateChangePriceInfo(@RequestParam Map<String, Object> param, HttpServletRequest request, HttpServletResponse response ) throws Exception {
+		
+		ArrayList<Object> CUR = new ArrayList<Object>();
+		
+		param.put("P_CORP_CODE", CommonUtil.getEnv(request.getSession()).getCORP_CODE());
+		param.put("P_UEMP_NO" 	    	, CommonUtil.getEnv(request.getSession()).getUserId());
+		param.put("CUR", CUR);
+		
+		changeEmergencyPriceService.updateChangePriceInfo(param);
+		
+		Gson gson = new Gson(); 
+		String jsonStr = gson.toJson(param.get("CUR"));
+		
+		System.out.println(jsonStr);
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr);
+		
+	}
+	
+	
+	/**
+	 * POS데이터 생성
+	 * @param param
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	
+	@RequestMapping( value = "/posMasterSend.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void posMasterSend(@RequestParam Map<String, Object> param, HttpServletRequest request, HttpServletResponse response ) throws Exception {
+		
+		ArrayList<Object> CUR = new ArrayList<Object>();
+		
+		/*param.put("P_CORP_CODE", CommonUtil.getEnv(request.getSession()).getCORP_CODE());
+		param.put("CUR", CUR);*/
+		
+		changeEmergencyPriceService.posMasterSend(param);		//POS데이터 생성
+		System.out.println("POS데이터 성공 서비스로직 통과");
+		changeEmergencyPriceService.changeEmergency_Re(param);//POS데이터 생성 이전 당일 긴급매가 복원
+		System.out.println("긴급매가 복원 서비스로직 통과");
+		/*Gson gson = new Gson(); 
+		String jsonStr = gson.toJson(param.get("CUR"));
+		
+		System.out.println(jsonStr);
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr);*/
+		
+	}
+	
+}

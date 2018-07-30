@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="businessEstimate">
+	
+	<parameterMap id="businessEstimateListMap" class="java.util.Map">
+		<parameter property="S_CORP_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_GONG_DT"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_END_DT"         javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_CUST_NAME"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="SS_EMATE_NO"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_FIRST_INDEX"    javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="S_RECORD_COUNT"   javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="S_COLUMN_NAME"    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_ORDERBY"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"              javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="businessEstimateListResultMap" />
+		<parameter property="TOT_CNT"          javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="OUT"   />
+	</parameterMap>
+	
+	<resultMap id="businessEstimateListResultMap" class="java.util.HashMap">
+		<result property="CORP_CODE" column="CORP_CODE" />
+		<result property="EMATE_DT" column="EMATE_DT" />
+		<result property="EMATE_NO" column="EMATE_NO" />
+		<result property="INDUST_FLAG" column="INDUST_FLAG" />
+		<result property="CUST_NO" column="CUST_NO" />
+		<result property="CUST_NAME" column="CUST_NAME" />
+		<result property="BUSI_NO" column="BUSI_NO" />
+		<result property="REP_NAME" column="REP_NAME" />
+		<result property="UPTAE" column="UPTAE" />
+		<result property="UPJONG" column="UPJONG" />
+		<result property="POST_NO" column="POST_NO" />
+		<result property="ADDR" column="ADDR" />
+		<result property="ADDR_DTL" column="ADDR_DTL" />
+		<result property="MEMO" column="MEMO" />
+		<result property="TEL_NO" column="TEL_NO" />
+		<result property="EMAIL" column="EMAIL" />
+		<result property="VALID_DT" column="VALID_DT" />
+		<result property="EMATE_NM" column="EMATE_NM" />
+		<result property="EMP_NO" column="EMP_NO" />
+		<result property="SEND_TEL_NO" column="SEND_TEL_NO" />
+		<result property="SEND_EMAIL" column="SEND_EMAIL" />
+		<result property="PAY_TYPE" column="PAY_TYPE" />
+		<result property="DLIVRY_TYPE" column="DLIVRY_TYPE" />
+		<result property="EMATE_USAGE" column="EMATE_USAGE" />
+		<result property="REMARK" column="REMARK" />
+		<result property="SUM_SPRC" column="SUM_SPRC" />
+		<result property="SUM_DC_AMT" column="SUM_DC_AMT" />
+		<result property="EMATE_AMT" column="EMATE_AMT" />
+		<result property="USER_NM" column="USER_NM" />
+	</resultMap>
+	
+	<procedure id="getBusinessEstimateList" parameterMap="businessEstimateListMap" >
+		{ call PKG_BUSINESS_ESTIMATE.BUSINESS_ESTIMATE_SELECT ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="businessEstimateProListMap" class="java.util.Map">
+		<parameter property="S_CORP_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_EMATE_DT"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_EMATE_NO"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"              javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="businessEstimateProListResultMap" />
+	</parameterMap>
+	
+	<resultMap id="businessEstimateProListResultMap" class="java.util.HashMap">
+		<result property="CORP_CODE" column="CORP_CODE" />
+		<result property="EMATE_DT" column="EMATE_DT" />
+		<result property="EMATE_NO" column="EMATE_NO" />
+		<result property="SEQ" column="SEQ" />
+		<result property="SCAN_CODE" column="SCAN_CODE" />
+		<result property="UNIT" column="UNIT" />
+		<result property="IPSU_QTY" column="IPSU_QTY" />
+		<result property="ORD_QTY" column="ORD_QTY" />
+		<result property="TAX_GB" column="TAX_GB" />
+		<result property="DC_AMT" column="DC_AMT" />
+		<result property="EMATE_SPRC" column="EMATE_SPRC" />
+		<result property="WPRC" column="WPRC" />
+		<result property="EMATE_AMT" column="EMATE_AMT" />
+		<result property="EMATE_VAT" column="EMATE_VAT" />
+		<result property="EMATE_AMT2" column="EMATE_AMT2" />
+		<result property="PROFIT_RT" column="PROFIT_RT" />
+		<result property="TPER_MTHD" column="TPER_MTHD" />
+		<result property="ITM_NAME" column="ITM_NAME" />
+		<result property="ITM_CODE" column="ITM_CODE" />
+		<result property="BASE_WPRC" column="BASE_WPRC" />
+		<result property="BASE_SPRC" column="BASE_SPRC" />
+	</resultMap>
+	
+	<procedure id="getBusinessEstimateProList" parameterMap="businessEstimateProListMap" >
+		{ call PKG_BUSINESS_ESTIMATE.BUSINESS_ESTIMATE_SELECT_DTL ( ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="updateBusinessEstimateMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_TYPE"              javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_REG_ID"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CUST_NO"           javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_EMP_NO"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_EMATE_AMT"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PRO_LIST"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CUST_NAME"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_BUSI_NO"           javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_REP_NAME"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_UPTAE"             javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_UPJONG"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_POST_NO"           javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ADDR"              javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ADDR_DTL"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_MEMO"              javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_TEL_NO_1"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_TEL_NO_2"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_TEL_NO_3"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_EMAIL"             javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_EMATE_DT"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VALID_DT"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_EMATE_NM"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_INDUST_FLAG"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_EMATE_NO"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_EMP_NAME"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEND_TEL_NO_1"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEND_TEL_NO_2"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEND_TEL_NO_3"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEND_EMAIL"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_TYPE"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_DLIVRY_TYPE"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_EMATE_USAGE"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_REMARK"            javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"         javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+		<!-- 30개 -->
+	</parameterMap>
+	
+	<procedure id="updateBusinessEstimate" parameterMap="updateBusinessEstimateMap" >
+		{ call PKG_BUSINESS_ESTIMATE.BUSINESS_ESTIMATE_UPDATE ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+</sqlMap>

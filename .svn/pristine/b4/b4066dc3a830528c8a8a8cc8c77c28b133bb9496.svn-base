@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="memberGrade">
+	
+	<parameterMap id="memberGradeDetailMap" class="java.util.Map">
+		<parameter property="S_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_CUST_NO"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="memberGradeDetailResultMap" />
+		<parameter property="CUR2"            javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="memberGradeDetailResultMap2" />
+	</parameterMap>
+	
+	<resultMap id="memberGradeDetailResultMap" class="java.util.HashMap">
+		<result property="SALE_AMT" column="SALE_AMT" />
+		<result property="MINUS_POINT" column="MINUS_POINT" />
+		<result property="SALE_UPOINT" column="SALE_UPOINT" />
+		<result property="SALE_TPOINT" column="SALE_TPOINT" />
+	</resultMap>
+	
+	<resultMap id="memberGradeDetailResultMap2" class="java.util.HashMap">
+		<result property="PRIOR_YEAR_SALE_AMT" column="PRIOR_YEAR_SALE_AMT" />
+		<result property="THE_YEAR_SALE_AMT" column="THE_YEAR_SALE_AMT" />
+		<result property="ADD_AMT" column="ADD_AMT" />
+	</resultMap>
+	
+	<procedure id="getMemberGradeDetail" parameterMap="memberGradeDetailMap" >
+		{ call PKG_MEMBER.MEMBER_GRADE_SELECT ( ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="updateMemberGradeMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CUST_NO"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_BUSI_FLAG"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_MBR_GRADE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_REG_ID"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"     javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	<procedure id="updateMemberGrade" parameterMap="updateMemberGradeMap" >
+		{ call PKG_MEMBER.MEMBER_GRADE_UPDATE ( ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+</sqlMap>

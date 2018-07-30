@@ -1,0 +1,527 @@
+/********************************************************
+ * 설명: 협력업체매출현황 매뉴화면
+ * 수정일      	수정자       수정내용
+ * ------------------------------------------------------
+ * ------------------------------------------------------
+ * author	: 추황영
+ * since	: 2017.04.26
+ * version : 1.0
+ ********************************************************/
+$(document).ready(function () {	
+	//최초 도움말 불러오기 
+	setHelpMessage($(location).attr('pathname').replace('/',''));
+	init();
+	
+});
+// ----------------------- 그리드 설정 시작 -------------------------------------
+
+//그리드 데이터활용을 위한 전역변수
+var gridApp1, gridRoot1, dataGrid1, dataRow1,clickData1,selectorColumn1, collection1;
+var gridPopupApp, gridPopupRoot, dataPopupGrid, dataPopupRow, clickPopupData;
+
+var gridData1 = [];
+//그리드2 데이터 초기화
+var gridPopupData = [];
+
+//rMate그리드 경로정보 셋팅
+rMateGridH5.setAssetsPath("/resources/js/rMateGridH5/Assets/");
+rMateGridH5.setConfig(rMateGridH5.style);
+
+//rMate 그리드 생성 준비가 완료된 상태 시 호출할 함수를 지정합니다.
+var jsVars1 = "rMateOnLoadCallFunction=gridReadyHandler";
+
+//rMateDataGrid 를 생성합니다.
+//파라메터 (순서대로)
+//1. 그리드의 id ( 임의로 지정하십시오. )
+//2. 그리드가 위치할 div 의 id (즉, 그리드의 부모 div 의 id 입니다.)
+//3. 그리드 생성 시 필요한 환경 변수들의 묶음인 jsVars
+//4. 그리드의 가로 사이즈 (생략 가능, 생략 시 100%)
+//5. 그리드의 세로 사이즈 (생략 가능, 생략 시 100%)
+rMateGridH5.create("grid1", "gridHolder1", jsVars1);
+
+rMateGridH5.create("gridPopup", "gridUser_Holder26", jsVars1, "100%", "250px");
+
+//그리드의 속성인 rMateOnLoadCallFunction 으로 설정된 함수.
+//rMate 그리드의 준비가 완료된 경우 이 함수가 호출됩니다.
+//이 함수를 통해 그리드에 레이아웃과 데이터를 삽입합니다.
+//파라메터 : id - rMateGridH5.create() 사용 시 사용자가 지정한 id 입니다.
+
+var gridData1ClickStrCode = "";
+
+//그리드1 레디 핸들러
+function gridReadyHandler(id) {
+	if(id == "grid1"){
+		// rMateGrid 관련 객체
+		gridApp1 = document.getElementById(id); // 그리드를 포함하는 div 객체	
+		gridRoot1 = gridApp1.getRoot(); // 데이터와 그리드를 포함하는 객체
+		//그리드1에 헤더 및 레이아웃 셋팅
+		gridApp1.setLayout(layoutStr1);
+		
+		//최초 로딩시 그리드1 데이터 조회 및 그리드 데이터 셋팅
+		
+		gridRoot1.addEventListener("layoutComplete", layoutCompleteHandler1);
+	}else if(id == "gridPopup"){
+		// rMateGrid 관련 객체
+		gridPopupApp = document.getElementById(id); // 그리드를 포함하는 div 객체	
+		gridPopupRoot = gridPopupApp.getRoot(); // 데이터와 그리드를 포함하는 객체
+		//그리드1에 헤더 및 레이아웃 셋팅
+		gridPopupApp.setLayout(layoutStrPopup);
+		var itemClickHandler = function(event) {
+			var rowIndex = event.rowIndex;
+			var columnIndex = event.columnIndex;
+			dataPopupRow = gridPopupRoot.getItemAt(rowIndex);
+			// 컬럼중 숨겨진 컬럼(visible false인 컬럼)이 있으면 getDisplayableColumns()를 사용하여 컬럼을 가져옵니다.
+			var column = dataPopupGrid.getDisplayableColumns()[columnIndex];
+			var dataField = column.getDataField();
+			clickPopupData = dataPopupRow[dataField];
+			
+			// 한 화면에서 여러개의 같은 공통함수를 띄울 경우 P_CALLBACK_NM1에 정의한 callback 함수를 만들어준다.
+			var callbackName = $("#U_CALLBACK_NM1").val();
+			if(callbackName != null && callbackName != ""){
+				eval(callbackName);
+			}else{
+				fn_event_callback(dataPopupRow);
+			}
+			btn_user_close();
+		};
+		
+		var enterClickHandler = function(event) {
+			if(event.keyCode != "13") return;
+			
+			var rowIndex = dataPopupGrid.getSelectedIndex();
+			dataPopupRow = gridPopupRoot.getItemAt(rowIndex);
+			
+			// 한 화면에서 여러개의 같은 공통함수를 띄울 경우 P_CALLBACK_NM1에 정의한 callback 함수를 만들어준다.    
+			var callbackName = $("#U_CALLBACK_NM1").val();
+			if(callbackName != null && callbackName != ""){
+				eval(callbackName);
+			}else{
+				fn_event_callback(dataPopupRow);
+			}			
+			btn_user_close();
+		};
+
+		var layoutCompleteHandlerPopup = function(event){
+			dataPopupGrid = gridPopupRoot.getDataGrid();  // 그리드 객체
+			dataPopupGrid.setDoubleClickEnabled(true);
+			//그리드1 셀선택 이벤트
+			dataPopupGrid.addEventListener("itemDoubleClick", itemClickHandler);
+			dataPopupGrid.addEvent("keydown", enterClickHandler);
+
+		};
+		//최초 로딩시 그리드1 데이터 조회 및 그리드 데이터 셋팅		
+		gridPopupRoot.addEventListener("layoutComplete", layoutCompleteHandlerPopup);
+
+		//조회 완료 후 포커스 
+		var dataCompleteHandlerPopup = function(event) { 
+			dataPopupGrid = gridPopupRoot.getDataGrid();    // 그리드 객체
+			dataPopupGrid.setSelectedIndices([0]);
+			dataPopupGrid.setVerticalScrollPosition(0);  
+			dataPopupGrid.focus(); 
+		 };
+		 gridPopupRoot.addEventListener("dataComplete", dataCompleteHandlerPopup);
+	}
+}
+
+function layoutCompleteHandler1() {
+	dataGrid1 = gridRoot1.getDataGrid();  // 그리드 객체
+}
+
+//----------------------- 그리드 설정 끝 -----------------------
+
+//그리드1 헤더 및 레이아웃 
+var layoutStr1 =
+	'<rMateGrid>\
+		<SpanCellAttribute id="sum2CellAttr" colNo="0" styleName="subTotalStyle" backgroundColor="#FFE048" />\
+		<SpanRowAttribute id="sumRowAttr" styleName="allTotalStyle" backgroundColor="#FFF19F" />\
+		<NumberFormatter id="numfmt" useThousandsSeparator="true" />\
+			<DataGrid id="dg1" sortableColumns="false" showDataTips="true"  horizontalScrollPolicy="auto" lockedColumnCount="4" lastColumnWidthPolicy="balance">\
+				<groupedColumns>\
+					<DataGridColumn dataField="STR_CODE"	headerText="점포코드"	width="65"		textAlign="center"	resizable="false" />\
+					<DataGridColumn dataField="STR_NAME"	headerText="점포명"		width="80"		textAlign="center"	resizable="false" />\
+					<DataGridColumn dataField="SCAN_CODE"	headerText="스캔코드"	width="100"		textAlign="center"	resizable="false" />\
+					<DataGridColumn dataField="ITM_NAME" 	headerText="상품명"		width="280"		textAlign="left" />\
+					<DataGridColumnGroup headerText="행사기간">\
+						<DataGridColumn dataField="EVT_STR_DT"	headerText="시작일자"  	width="80"	textAlign="center" />\
+						<DataGridColumn dataField="EVT_END_DT" 	headerText="종료일자"	width="80"	textAlign="center" />\
+					</DataGridColumnGroup>\
+					<DataGridColumnGroup headerText="상품마스터">\
+						<DataGridColumn dataField="WPRC" 	 headerText="원가단가" id="dg1col1" width="80"	textAlign="right" formatter="{numfmt}"/>\
+						<DataGridColumn dataField="SPRC" 	 headerText="매가단가" id="dg1col2" width="80"	textAlign="right" formatter="{numfmt}"/>\
+					</DataGridColumnGroup>\
+					<DataGridColumn dataField="SALE_DT" 	headerText="매출일자" 		width="80" 	textAlign="left"/>\
+					<DataGridColumn dataField="ITM_CNT" 	headerText="수량" 	id="dg1col3"	width="50" 	textAlign="right"  formatter="{numfmt}" styleJsFunction="styleFunction1" />\
+					<DataGridColumnGroup headerText="정상가기준">\
+						<DataGridColumn dataField="WPRC_CNT" 	 width="80" headerText="원가금액" id="dg1col4" 	textAlign="right" formatter="{numfmt}"/>\
+						<DataGridColumn dataField="SPRC_CNT"     width="80" headerText="매출금액" id="dg1col5" 	textAlign="right" formatter="{numfmt}"/>\
+					</DataGridColumnGroup>\
+					<DataGridColumnGroup headerText="행사매출">\
+						<DataGridColumn dataField="EVT_WPRC_CNT" width="80" headerText="원가금액"  id="dg1col6"	textAlign="right" formatter="{numfmt}"/>\
+						<DataGridColumn dataField="EVT_SALE" 	 width="80" headerText="매출금액"  id="dg1col7"	textAlign="right" formatter="{numfmt}"/>\
+					</DataGridColumnGroup>\
+					<DataGridColumnGroup headerText="차이금액">\
+						<DataGridColumn dataField="DIFF_WPRC"  width="80" headerText="원가금액"  	id="dg1col8" textAlign="right" formatter="{numfmt}"/>\
+						<DataGridColumn dataField="DIFF_SPRC"  width="80" headerText="매출금액"  	id="dg1col9" textAlign="right" formatter="{numfmt}"/>\
+					</DataGridColumnGroup>\
+				</groupedColumns>\
+				<dataProvider>\
+					<SpanSummaryCollection source="{$gridData}">\
+						<mergingFields>\
+							<SpanMergingField name="SCAN_CODE" >\
+								<SpanSummaryRow label="소계"  labelDataField="STR_CODE"  rowAttribute="{sumRowAttr}" cellAttribute="{sum2CellAttr}" >\
+									<SpanSummaryField dataField="ITM_CNT"		summaryOperation="SUM" />\
+									<SpanSummaryField dataField="WPRC_CNT" 		summaryOperation="SUM" />\
+									<SpanSummaryField dataField="SPRC_CNT" 		summaryOperation="SUM" />\
+									<SpanSummaryField dataField="EVT_WPRC_CNT" 	summaryOperation="SUM" />\
+									<SpanSummaryField dataField="EVT_SALE" 		summaryOperation="SUM" />\
+									<SpanSummaryField dataField="DIFF_WPRC" 	summaryOperation="SUM" />\
+									<SpanSummaryField dataField="DIFF_SPRC" 	summaryOperation="SUM" />\
+								</SpanSummaryRow>\
+							</SpanMergingField>\
+							<SpanMergingField name="ITM_NAME"/>\
+						</mergingFields>\
+					</SpanSummaryCollection>\
+				</dataProvider>\
+				<footers>\
+					<DataGridFooter  height="26" color="#000" backgroundColor="#c5c5c5" borderTopColor="#858585" borderTopWidth="1" borderTopStyle="solid" fontWeight="normal">\
+						<DataGridFooterColumn label="'+sm+'" textAlign="center" backgroundColor="#acacac" />\
+						<DataGridFooterColumn/>\
+						<DataGridFooterColumn/>\
+						<DataGridFooterColumn/>\
+						<DataGridFooterColumn/>\
+						<DataGridFooterColumn/>\
+						<DataGridFooterColumn/>\
+						<DataGridFooterColumn/>\
+						<DataGridFooterColumn/>\
+						<DataGridFooterColumn  summaryOperation="SUM" dataColumn="{dg1col3}" formatter="{numfmt}" textAlign="right" />\
+						<DataGridFooterColumn  summaryOperation="SUM" dataColumn="{dg1col4}" formatter="{numfmt}" textAlign="right" />\
+						<DataGridFooterColumn  summaryOperation="SUM" dataColumn="{dg1col5}" formatter="{numfmt}" textAlign="right" />\
+						<DataGridFooterColumn  summaryOperation="SUM" dataColumn="{dg1col6}" formatter="{numfmt}" textAlign="right" />\
+						<DataGridFooterColumn  summaryOperation="SUM" dataColumn="{dg1col7}" formatter="{numfmt}" textAlign="right" />\
+						<DataGridFooterColumn  summaryOperation="SUM" dataColumn="{dg1col8}" formatter="{numfmt}" textAlign="right" />\
+						<DataGridFooterColumn  summaryOperation="SUM" dataColumn="{dg1col9}" formatter="{numfmt}" textAlign="right" />\
+					</DataGridFooter>\
+				</footers>\
+			</DataGrid>\
+	</rMateGrid>';
+
+var layoutStrPopup =
+	'<rMateGrid>\
+			<DateFormatter id="datefmt" formatString="YYYY-MM-DD"/>\
+			<DataGrid id="dg1" sortableColumns="false" showDataTips="true" horizontalScrollPolicy="auto" lastColumnWidthPolicy="balance" >\
+				<groupedColumns>\
+					<DataGridColumn dataField="CORP_CODE" 	headerText="법인코드" 	width="100" textAlign="center"	visible="false" />\
+					<DataGridColumn dataField="STR_CODE" 	headerText="점포코드" 	width="65" 	textAlign="center" />\
+					<DataGridColumn dataField="STR_NAME" 	headerText="점포명" 	width="80" 	textAlign="center" />\
+					<DataGridColumn dataField="EVT_CODE" 	headerText="행사코드" 	width="80" 	textAlign="center" />\
+					<DataGridColumn dataField="EVT_NAME" 	headerText="행사명" 	width="180" textAlign="left" />\
+					<DataGridColumn dataField="EVT_FLAG_NM" headerText="행사구분" 	width="70"	textAlign="center" />\
+					<DataGridColumn dataField="EVT_STR_DT" 	headerText="시작일" 	width="80" 	textAlign="center" 	formatter="{datefmt}" />\
+					<DataGridColumn dataField="EVT_END_DT"	headerText="종료일" 	width="80" 	textAlign="center" 	formatter="{datefmt}" />\
+				</groupedColumns>\
+			</DataGrid>\
+	</rMateGrid>';
+
+function SALE_AVGSummary(item, value, column){
+	//평균단가
+    if(item["ITM_NAME"] == "소계" || item["ITM_NAME"] == "합계")
+        return item["SALE_QTY"]=="0"?0:(item["SALE_AMT"] / item["SALE_QTY"]).toFixed(2);
+    else
+        return value;
+}
+
+function CNT_PRICESummary(item, value, column){
+	//객단가
+    if(item["ITM_NAME"] == "소계" || item["ITM_NAME"] == "합계")
+        return item["CNT"]=="0"?0:(item["SALE_TOTAL"] / item["CNT"]).toFixed(-1);
+    else
+        return value;
+}
+
+function styleFunction1(item, column) {
+	return { color:"#000000" };
+
+}
+
+//목록 그리드 조회
+function getGridData() {
+	var params 			= $("#sertch_frm").serializeAllObject();
+
+
+	params.P_STR_CODE = $("#P_STR_CODE").val();
+	
+	if($.trim($("#P_VEN_NAME").val() ) == null || $.trim($("#P_VEN_NAME").val() ) == "") $("#P_VEN_CODE").val("");
+	if($.trim($("#ITM_NAME").val() ) == null || $.trim($("#ITM_NAME").val() ) == "") $("#ITM_CODE").val("");
+	
+	//데이터 조회후 그리드1에 데이터를 넣을때 itemClickHandler1 실행된다.    
+    jQuery.ajax({ 
+	    url:"/itemSalesStateList.do",
+	    type:"POST",
+		datatype:"json",
+		async:false,
+		data: params,
+		beforeSend : function(){ 
+			gridRoot1.removeAll();
+	    }, 
+		success:function(data){
+			//debugger;
+			//그리드1 데이터 조회
+			var returnCode = eval(data['code']);
+			var returnValue = "";
+			if(returnCode == "9999"){
+				returnValue = data['Alert'];
+//				alert(returnValue);
+			}else{
+				returnValue = eval(data['list']);
+				gridApp1.setData(returnValue);				
+			}
+	       //	gridRoot1.removeLoadingBar();
+	    },
+	    complete : function(data) {
+	    	gridRoot1.removeLoadingBar();
+	    },
+	    error : function(xhr, status, error) {
+	    	CommonJs.alertErrorStatus(xhr.status, error);
+	    	gridRoot1.removeLoadingBar();
+	    }
+	});
+}
+
+function chgStore(){
+	$("#P_EVT_CODE").val("");
+	$("#P_EVT_NAME_V").val("");
+	$("#P_SALES_SD2").val("");
+	$("#P_SALES_ED2").val("");
+}
+
+function chgCate1(){ 
+	$("select[name='P_CLS_CODE'] option").remove();
+	$("#P_CLS_CODE").prepend("<option value=''>"+select+"</option>");
+	   
+	getCateCodeSelectBoxList("P_MID_CODE","2",$('#P_LRG_CODE' ).val());	 
+}
+function chgCate2(){	
+	var num1 = $('#P_MID_CODE' ).val().substr(0,2);
+	$("#P_LRG_CODE").val(num1).prop("selected", true);
+		
+	getCateCodeSelectBoxList("P_CLS_CODE","3",$('#P_MID_CODE' ).val());
+}
+function chgCate3(){	
+	var num1 = $('#P_CLS_CODE' ).val().substr(0,2);
+	var num2 = $('#P_CLS_CODE' ).val().substr(0,4);
+	$("#P_LRG_CODE").val(num1).prop("selected", true);
+	$("#P_MID_CODE").val(num2).prop("selected", true);		
+}
+
+
+//(협력업체검색) 팝업 호출 function
+function btn_comm_supply_search(){
+	$('#comm_pop_wrap3' ).dialog( 'open' );
+	gridApp12.resize();
+	
+	if($("#P_VEN_NAME").val() != null && $("#P_VEN_NAME").val() != ""){
+		$("#P_TEXT3").val($("#P_VEN_NAME").val());
+		btn_comm_search('3');
+	}
+}
+//(협력업체검색) 팝업 callback function
+function fn_comm_supply_callback(dataRow){
+		$('#P_VEN_NAME' ).val(dataRow.VEN_NAME);		// 협력업체명	
+		$('#P_VEN_CODE' ).val(dataRow.VEN_CODE);		// 협력업체CODE	
+}
+
+function excelExport(){    
+	var nowDate = new CommDateManager().getDate("yyyymmdd");
+	var str_name = $("#P_STR_CODE option:selected").text();
+	dataGrid1.exportFileName = "기간별행사상품매출현황"+nowDate+"_"+str_name+"_"+".xlsx";
+	gridRoot1.excelExportSave("/gridExcelDown.do", false);
+}
+
+function clearVenCode()
+{ 	
+	if(  $('#P_VEN_NAME').val()  == "" )
+	{
+		 $('#P_VEN_CODE').val("");
+	}
+}
+
+
+//(점별상품검색) 팝업 호출 function
+function btn_comm_store_search(){
+	$('#comm_pop_wrap6' ).dialog( 'open' );
+	gridApp15.resize();
+	fnGetStrName();
+	// $("#P_CALLBACK_NM6").val('fn_comm_store_callback1(dataRow15)');
+	$("#SET_VEN_CODE").val( $("#P_VEN_CODE").val() ); 
+	if($("#ITM_NAME").val() != null && $("#ITM_NAME").val() != ""){
+		$("#P_TEXT6").val($("#ITM_NAME").val());
+		btn_comm_search('6');
+	}
+}
+
+
+function fn_comm_store_callback(dataRow)
+{ 
+	$("#ITM_NAME").val( dataRow.ITM_NAME ) ;
+	$("#ITM_CODE").val( dataRow.ITM_CODE ) ;
+}
+
+function fn_event_callback(dataRow){
+	$("#P_EVT_CODE").val( dataRow.EVT_CODE ) ;
+	$("#P_EVT_NAME_V").val( dataRow.EVT_NAME ) ;
+	$("#P_SALES_SD2").val( dataRow.EVT_STR_DT ) ;
+	$("#P_SALES_ED2").val( dataRow.EVT_END_DT ) ;
+}
+
+function init() {
+	// 점포코드 콤보 가져오기
+	getStoreCode("P_STR_CODE");
+	
+	getCateCodeSelectBoxList("P_LRG_CODE"   , "1" ,  ""   );    // 대 분류
+	getCateCodeSelectBoxList("P_MID_CODE"   , "2" ,  ""   );    // 중 분류
+	getCateCodeSelectBoxList("P_CLS_CODE"   , "3" ,  ""   );    // 소 분류
+
+	//그리드 너비 제어
+	$("#gridHolder1").width("100%");
+	$("#gridHolder1").height( $(window).height() - 137 );
+	
+	$(window).on('resize',function (){			
+		$("#gridHolder1").width("100%");	
+		$("#gridHolder1").height( $(window).height() - 137 );		
+	});	
+	
+	//조회
+	$("#btn_search").click(function(){
+		if($('#P_EVT_CODE').val() == ""){
+			alert("조회할 행사를 선택하세요.");
+			return;
+		}
+	    gridRoot1.addLoadingBar();
+	    setTimeout(getGridData, 0);
+	});	
+	$("#btn_excel_down").click(function(){
+		if($('#P_EVT_CODE').val() == ""){
+			alert("조회할 행사를 선택하세요.");
+			return;
+		}
+		excelExport();
+		
+	});
+	
+	//협력업체 검색
+	$("#P_VEN_NAME_SEARCH").click(function(){
+		btn_comm_supply_search();
+	});
+	// 협력업체에서 엔터시 검색되게....
+	$("input[name=P_VEN_NAME]").keydown(function (key) { 
+        if(key.keyCode == 13){//키가 13이면 실행 (엔터는 13)
+        	btn_comm_supply_search();
+        } 
+	});
+	
+	//상품명 검색 엔터시 검색되게....
+	$("input[id=ITM_NAME]").keydown(function (key) { 
+        if(key.keyCode == 13){//키가 13이면 실행 (엔터는 13)
+        	btn_comm_store_search();
+        } 
+	});
+	
+	
+	
+	$(function() {
+		$("#user_pop_wrap1").dialog({
+		    autoOpen : false,
+		    modal : true,
+		    width : 700,
+		    height : 483,
+		    resizable : false,
+		    open: function(){
+		    	$("body").css("overflow-y", "hidden");
+		        },
+		        close: function(){
+		    	$("body").css("overflow-y", "scroll");
+		        }
+		});	
+	});
+	
+	var EVT_STR_DT =new CommDateManager().getDate("yyyy-mm-01"); // 일주일전 before(년,월,일)
+	var EVT_END_DT = new CommDateManager().getDate("yyyy-mm-dd");
+	
+	$('#P_EVT_STR_DT').val(EVT_STR_DT);
+	$('#P_EVT_END_DT').val(EVT_END_DT);
+	
+	$(".datepicker").datepicker({
+		onSelect: function(dateText) {
+			var startDate = parseInt($("#top_search input[name=P_EVT_STR_DT]").val().replace(/-/g, ""));
+			var endDate = parseInt($("#top_search input[name=P_EVT_END_DT]").val().replace(/-/g, ""));
+			if(startDate > endDate)
+			{
+				alert(msgDateValidation);
+				
+				if(this.id == "P_EVT_STR_DT")
+					$("#top_search input[name=P_EVT_STR_DT]").val(EVT_STR_DT);
+				else if(this.id == "P_EVT_END_DT")
+					$("#top_search input[name=P_EVT_END_DT]").val(EVT_END_DT);
+				
+				return;
+			}
+		},showMonthAfterYear:true
+	});
+	
+	// 행사명 입력후 엔터 시 검색
+	$("input[id=P_U_TEXT17]").keydown(function (key) { 
+        if(key.keyCode == 13){//키가 13이면 실행 (엔터는 13)
+        	btn_pop_search();
+        } 
+	});	
+	
+}
+
+
+btn_evt_search = function(){
+	// 행사 popup
+	$("#user_pop_wrap1").dialog("open");	
+	gridPopupApp.resize();
+	btn_pop_search();
+};
+
+btn_user_close=function(){
+	$("#user_pop_wrap1").dialog("close");
+};
+
+btn_pop_search = function(){
+	gridPopupRoot.addLoadingBar();
+	jQuery.ajax({ 
+	    url:"/commonSearch.do",         
+	    type:"POST",
+		datatype:"json",
+		data: {
+					'P_STR_CODE' : $("#P_STR_CODE").val()
+					,'P_EVT_NAME' : $("#P_U_TEXT17").val()
+					,'P_SALES_SD' : $("#P_EVT_STR_DT").val()
+					,'P_SALES_ED' : $("#P_EVT_END_DT").val()
+					,'URL' :'itemSalesState.itemSalesEventPopupList'
+				},
+		success:function(data){
+			var returnCode = eval(data['code']);
+			var returnValue = "";
+			if(returnCode == "9999"){
+				returnValue = data['Alert'];
+			}else{
+				returnValue = eval(data['list']);
+				gridPopupApp.setData(returnValue);				
+			}
+			
+	    },
+	    complete : function(data) {
+	    	//로딩바 숨기기
+	    	gridPopupRoot.removeLoadingBar();
+	    },
+	    error : function(xhr, status, error) {
+	    	//로딩바 숨기기
+	    	gridPopupRoot.removeLoadingBar();
+	    	CommonJs.alertErrorStatus(xhr.status, error);
+	    }
+	});
+	
+};

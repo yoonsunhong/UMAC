@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="paymentRequest">
+
+	<parameterMap id="paymentRequestMap" class="java.util.Map">
+		<parameter property="P_SEARCH_DT" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_GRE_GB"   		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"   		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_CON"   		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_SEQ"   		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CORP_CODE"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="paymentRequestResultMap" />
+	</parameterMap>
+	
+	<resultMap id="paymentRequestResultMap" class="java.util.HashMap">
+		<result property="VEN_CODE" 	column="VEN_CODE" />
+		<result property="VEN_NAME" 	column="VEN_NAME" />
+		<result property="STR_NAME" 	column="STR_NAME" />
+		<result property="STR_DT" 		column="STR_DT" />
+		<result property="END_DT" 		column="END_DT" />
+		<result property="DT" 		column="DT" />
+		<result property="PAY_CON" 		column="PAY_CON" />
+		<result property="PAY_SEQ" 		column="PAY_SEQ" />
+		<result property="BEF_HOLD_AMT" column="BEF_HOLD_AMT" />
+		<result property="PUR_AMT" 		column="PUR_AMT" />
+		<result property="TOT_PUR_AMT" 		column="TOT_PUR_AMT" />
+		<result property="JANG_AMT" 	column="JANG_AMT" />
+		<result property="DUCT_AMT" 	column="DUCT_AMT" />
+		<result property="PAY_TGT_AMT" 	column="PAY_TGT_AMT" />
+		<result property="TOT_DUCT_AMT" 	column="TOT_DUCT_AMT" />
+		<result property="HOLD_AMT" 	column="HOLD_AMT" />
+		<result property="RELE_AMT" 	column="RELE_AMT" />
+		<result property="PAY_NET_AMT" 	column="PAY_NET_AMT" />
+		<result property="PAY_ABLE" 	column="PAY_ABLE" />
+		<result property="REP_NAME" 	column="REP_NAME" />
+		<result property="BANK_ACOWN" 	column="BANK_ACOWN" />
+		<result property="BANK_CODE" 	column="BANK_CODE" />
+		<result property="BANK_ACC_NO" 	column="BANK_ACC_NO" />
+		<result property="RES_PAY_DT" 	column="RES_PAY_DT" />
+	</resultMap>
+	
+  	<procedure id="selectPaymentRequest" parameterMap="paymentRequestMap" >
+		{   call PKG_PAYMENT.PAYMENT_REQUEST_SELECT ( ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+</sqlMap>

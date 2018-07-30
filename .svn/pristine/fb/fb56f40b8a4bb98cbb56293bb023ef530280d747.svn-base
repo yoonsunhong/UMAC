@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="inOutCenterMng">
+ 
+   
+
+   <!--  대출입 헤더 조회  검색  -->
+   <parameterMap id="inOutCenterHeadSearchParameterMap" class="java.util.Map">
+  	<parameter property="CORP_CODE"    	 	 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="INOUT_GB"    	 	 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="STR_CODE"    	 	 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	
+  	<parameter property="VEN_CODE"           javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	
+  	<parameter property="DIN_OUT_DT_FROM"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="DIN_OUT_DT_TO"      javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="CFM_YN"    		 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="CUR"         	 	 javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+   </parameterMap>
+   <procedure id="inOutCenterHeadSearch"  parameterMap="inOutCenterHeadSearchParameterMap"  resultClass="java.util.HashMap"  > 
+   	 {   call PKG_IN_OUT_CENTER.IN_OUT_CENTER_HEAD_LIST( ? ,? , ? , ? , ?    , ? , ? , ?   )       }
+   </procedure>
+  
+  
+  
+  
+  
+
+   <!--  대출입 상품 리스트 정보 보여주기  -->
+   <parameterMap id="inOutCenterDetailInfoParameterMap" class="java.util.Map">
+    <parameter property="CORP_CODE"   		 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     /> 
+     
+    <parameter property="INOUT_GB"     		 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     /> 
+  	<parameter property="STR_CODE"     		 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     /> 
+  	<parameter property="SLIP_NO"     		 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     /> 
+  	<parameter property="CUR"        		 javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+   </parameterMap>
+   <procedure id="inOutCenterDetailInfo"  parameterMap="inOutCenterDetailInfoParameterMap"  resultClass="java.util.HashMap"  > 
+   	 {   call PKG_IN_OUT_CENTER.IN_OUT_CENTER_DETAIL_INFO( ? , ? , ? , ? , ?  )       }
+   </procedure>
+   
+  
+  
+  
+  
+  <!--  대출입 확정  -->
+  <parameterMap id="inOutCenterConfirmParameterMap" class="java.util.Map">     
+    <parameter property="CORP_CODE"   				javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+    <parameter property="INOUT_GB"   		    	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+    <parameter property="SLIP_NO"   		    	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+  	<parameter property="RETURN_CUR"        		javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"   mode="OUT"     /> 
+  </parameterMap> 
+  <procedure id="inOutCenterConfirm"  parameterMap="inOutCenterConfirmParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_IN_OUT_CENTER.IN_OUT_CENTER_CONFIRM( ? ,? , ? , ?   )  }   
+  </procedure>
+  
+  
+
+  <!--  대출입  -->
+  <parameterMap id="inOutRegisterParameterMap" class="java.util.Map">     
+    <parameter property="CORP_CODE"   			javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+    <parameter property="EMP_NO"   				javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />   
+  	<parameter property="SLIP_NO"   			javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />   
+  	<parameter property="PURCH_DETAIL"   		javaType="java.lang.String"     jdbcType="CLOB"       mode="IN"      /> 
+  	<parameter property="INOUT_GB"   			javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />   
+  	
+  	
+  	<parameter property="RETURN_CUR"        	javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"   mode="OUT"     /> 
+  </parameterMap> 
+  <procedure id="inOutRegister"  parameterMap="inOutRegisterParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_IN_OUT_CENTER.IN_OUT_CENTER_REGISTER( ? , ? , ? , ?, ? , ?   )  }   
+  </procedure>
+  
+  
+</sqlMap>

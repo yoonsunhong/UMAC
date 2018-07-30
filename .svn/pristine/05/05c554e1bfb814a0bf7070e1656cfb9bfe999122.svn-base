@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BCO">
+
+	<parameterMap id="paramMap1" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_STR_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_ORD_DT_START"   	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_ORD_DT_END"      	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_ORD_STAT"	      	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_CUST_NO"		      	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="CUR"             			javaType="java.sql.ResultSet"   	jdbcType="ORACLECURSOR"  	mode="OUT"  resultMap="resultMap1" />
+	</parameterMap>
+	
+	<resultMap id="resultMap1" class="java.util.HashMap">
+		<result property="STR_CODE" 			column="STR_CODE" 			nullValue=""/>
+		<result property="STR_NAME" 			column="STR_NAME" 			nullValue=""/>
+		<result property="ORD_DT" 				column="ORD_DT" 				nullValue=""/>
+		<result property="SLIP_NO" 				column="SLIP_NO" 				nullValue=""/>
+		<result property="CUST_NO" 				column="CUST_NO" 				nullValue=""/>
+		<result property="CUST_NAME" 			column="CUST_NAME" 			nullValue=""/>
+		<result property="PAY_METH" 			column="PAY_METH" 			nullValue=""/>
+		<result property="PAY_METH_NAME" 	column="PAY_METH_NAME"	nullValue=""/>
+		<result property="ORD_CNT" 				column="ORD_CNT" 				nullValue=""/>
+		<result property="ORD_TOT" 				column="ORD_TOT" 				nullValue=""/>
+		<result property="ORD_STAT" 			column="ORD_STAT" 			nullValue=""/>
+		<result property="ORD_STAT_NAME"	column="ORD_STAT_NAME" 	nullValue=""/>
+		<result property="SEND_EMP_NO" 		column="SEND_EMP_NO"		nullValue="" />
+		<result property="SEND_EMP_NAME" 	column="SEND_EMP_NAME" 	nullValue=""/>
+		<result property="IEMP_NO" 				column="IEMP_NO"				nullValue="" />
+		<result property="IEMP_NAME" 			column="IEMP_NAME" 			nullValue=""/>
+		<result property="IDATE" 					column="IDATE"					nullValue="" />
+		<result property="RESERVE_DT" 			column="RESERVE_DT"			nullValue="" />
+		<result property="OWN_NAME" 			column="OWN_NAME"			nullValue="" />
+		<result property="REMARK" 				column="REMARK"					nullValue="" />
+	</resultMap>
+	
+	<!-- 주문서관리 조회 -->
+	<procedure id="selectCallOrder" parameterMap="paramMap1"  resultMap="resultMap1">
+		{ call PKG_BUSINESS_CALL.CALL_ORDER_SELECT ( ?, ?, ?, ?, ?, ?, ?  )  }
+	</procedure>
+	
+	<parameterMap id="paramMap2" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_STR_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_ORD_DT_START"   	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_ORD_DT_END"      	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_ORD_STAT"	      	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_CUST_NO"		      	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="CUR"             			javaType="java.sql.ResultSet"   	jdbcType="ORACLECURSOR"  	mode="OUT"  resultMap="resultMap1" />
+	</parameterMap>
+	
+	<!-- 주문서관리 엑셀 -->
+	<procedure id="excelCallOrder" parameterMap="paramMap2"  resultMap="resultMap1">
+		{ call PKG_BUSINESS_CALL.CALL_ORDER_EXCEL ( ?, ?, ?, ?, ?, ?, ?  )  }
+	</procedure>
+
+</sqlMap>

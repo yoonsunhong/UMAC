@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BCP">
+
+	<typeAlias alias="BusinessProductVO" type="retail.business.campaignproduct.service.BusinessCampaignProductVO" />
+
+	<!-- 행사코드마스터 조회 파라미터 -->
+	<parameterMap id="paramMap1" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_ITM_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap1" />
+	</parameterMap>
+	<!-- 행사코드마스터 조회 리절트 -->
+	<resultMap id="resultMap1" class="BusinessProductVO">
+		<result property="ITM_CODE"  column="ITM_CODE"  nullValue="" />
+		<result property="SCAN_CODE"  column="SCAN_CODE"  nullValue="" />
+		<result property="ITM_NAME"  column="ITM_NAME"  nullValue="" />
+		<result property="UNIT"  column="UNIT"  nullValue="" />
+		<result property="TAX_GB"  column="TAX_GB"  nullValue="" />
+		<result property="TAX_GB_NAME"  column="TAX_GB_NAME"  nullValue="" />
+		<result property="WPRC"  column="WPRC"  nullValue="" />
+		<result property="WPRC_WVAT"  column="WPRC_WVAT"  nullValue="" />
+		<result property="WPRC_TOTAL"  column="WPRC_TOTAL"  nullValue="" />
+		<result property="SPRC"  column="SPRC"  nullValue="" />
+		<result property="BOT_CODE"  column="BOT_CODE"  nullValue="" />
+		<result property="BOT_SPRC"  column="BOT_SPRC"  nullValue="" />
+	</resultMap>
+	
+	<!-- 행사상품조회 등록 파라미터 -->
+	<parameterMap id="paramMap2" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="GRID_XML_DATA2" javaType="java.lang.String" jdbcType="CLOB" mode="IN" />
+	     <parameter property="P_EVT_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EVT_STR_DT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EVT_END_DT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_ORD_STR_DT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_ORD_END_DT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EMP_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap2" />
+	</parameterMap>
+	<!-- 행사상품마스터 등록 리절트 -->
+	<resultMap id="resultMap2" class="BusinessProductVO">
+		<result property="RETURN_CODE"    column="RETURN_CODE"  />
+    	<result property="RETURN_MESSAGE" column="RETURN_MESSAGE" /> 
+	</resultMap>
+	
+	<!-- 행사코드마스터 조회 파라미터 -->
+	<parameterMap id="paramMap3" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EVT_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap3" />
+	</parameterMap>
+	<!-- 행사코드마스터 조회 리절트 -->
+	<resultMap id="resultMap3" class="BusinessProductVO">
+		<result property="INPUT_YN"  column="INPUT_YN"  nullValue="" />
+		<result property="RN"  column="RN"  nullValue="" />
+		<result property="EVT_CODE"  column="EVT_CODE"  nullValue="" />
+		<result property="STR_CODE"  column="STR_CODE"  nullValue="" />
+		<result property="STR_NAME"  column="STR_NAME"  nullValue="" />
+		<result property="SCAN_CODE"  column="SCAN_CODE"  nullValue="" />
+		<result property="ITM_CODE"  column="ITM_CODE"  nullValue="" />
+		<result property="ITM_NAME"  column="ITM_NAME"  nullValue="" />
+		<result property="UNIT"  column="UNIT"  nullValue="" />
+		<result property="POINT_SAVE"  column="POINT_SAVE"  nullValue="" />
+		<result property="POINT_SAVE_NM"  column="POINT_SAVE_NM"  nullValue="" />
+		<result property="TAX_GB"  column="TAX_GB"  nullValue="" />
+		<result property="BASE_WPRC"  column="BASE_WPRC"  nullValue="" />
+		<result property="BASE_WVAT"  column="BASE_WVAT"  nullValue="" />
+		<result property="BASE_TOTAL"  column="BASE_TOTAL"  nullValue="" />
+		<result property="EVT_WPRC"  column="EVT_WPRC"  nullValue="" />
+		<result property="EVT_WVAT"  column="EVT_WVAT"  nullValue="" />
+		<result property="EVT_TOTAL"  column="EVT_TOTAL"  nullValue="" />
+		<result property="SPRC"  column="SPRC"  nullValue="" />
+		<result property="EVT_SPRC"  column="EVT_SPRC"  nullValue="" />
+		<result property="MARGIN"  column="MARGIN"  nullValue="" />
+		<result property="MARGIN_EVT"  column="MARGIN_EVT"  nullValue="" />
+		<result property="IMAGE_NUM"  column="IMAGE_NUM"  nullValue="" />
+		<result property="BOT_CODE"  column="BOT_CODE"  nullValue="" />
+		<result property="BOT_SPRC"  column="BOT_SPRC"  nullValue="" />
+		<result property="EVT_STR_DT"  column="EVT_STR_DT"  nullValue="" />
+		<result property="EVT_END_DT"  column="EVT_END_DT"  nullValue="" />
+		<result property="ORD_STR_DT"  column="ORD_STR_DT"  nullValue="" />
+		<result property="ORD_END_DT"  column="ORD_END_DT"  nullValue="" />
+	</resultMap>
+	
+	
+	<!-- 행사코드마스터 일정 체크를 위한 조회 -->
+ 	<procedure id="selectDetailProduct" parameterMap="paramMap1" >
+ 		{ call PKG_BUSINESS.CAMPAIGN_SELECT_PRODUCT ( ?, ?, ?) }
+	</procedure>
+	<procedure id="selectDetailProductCmn" parameterMap="paramMap1" >
+ 		{ call PKG_BUSINESS.CAMPAIGN_SELECT_PRODUCT_CMN ( ?, ?, ?) }
+	</procedure>
+	
+	<!-- 행사코드마스터 일정 체크를 위한 조회 -->
+ 	<procedure id="campaignProductRegist" parameterMap="paramMap2" >
+ 		{ call PKG_BUSINESS.CAMPAIGN_REGIST_PRODUCT ( ?, ?, ?, ?, ?, ?, ?, ?, ? ) }
+	</procedure>
+	
+	<procedure id="selectEVTItem" parameterMap="paramMap3" >
+ 		{ call PKG_BUSINESS.BUSINESS_CAMPAIGN_ITM_SELECT ( ?, ?, ?) }
+	</procedure>
+	
+	<!-- 사용자 권한 조회 -->
+	<parameterMap id="paramMap4" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EMP_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap4" />
+	</parameterMap>
+	<!-- 사용자 권한 조회 -->
+	<resultMap id="resultMap4" class="BusinessProductVO">
+		<result property="STR_CODE"  column="STR_CODE"  nullValue="" />
+		<result property="ORG_TYPE"  column="ORG_TYPE"  nullValue="" />
+		<result property="ORG_NAME"  column="ORG_NAME"  nullValue="" />
+	</resultMap>
+	
+	<procedure id="selectUserOrgType" parameterMap="paramMap4" >
+ 		{ call PKG_BUSINESS.SELECT_USER_ORG_TYPE ( ?, ?, ?) }
+	</procedure>
+	
+	
+	<!-- 행사코드마스터 조회 파라미터 -->
+	<parameterMap id="paramMap5" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="GRID_XML_DATA" javaType="java.lang.String" jdbcType="CLOB" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap5" />
+	</parameterMap>
+	<!-- 행사코드마스터 조회 리절트 -->
+	<resultMap id="resultMap5" class="BusinessProductVO">
+		<result property="INPUT_YN"  column="INPUT_YN"  nullValue="" />
+		<result property="RN"  column="RN"  nullValue="" />
+		<result property="EVT_CODE"  column="EVT_CODE"  nullValue="" />
+		<result property="STR_CODE"  column="STR_CODE"  nullValue="" />
+		<result property="STR_NAME"  column="STR_NAME"  nullValue="" />
+		<result property="SCAN_CODE"  column="SCAN_CODE"  nullValue="" />
+		<result property="ITM_CODE"  column="ITM_CODE"  nullValue="" />
+		<result property="ITM_NAME"  column="ITM_NAME"  nullValue="" />
+		<result property="UNIT"  column="UNIT"  nullValue="" />
+		<result property="POINT_SAVE"  column="POINT_SAVE"  nullValue="" />
+		<result property="POINT_SAVE_NM"  column="POINT_SAVE_NM"  nullValue="" />
+		<result property="TAX_GB"  column="TAX_GB"  nullValue="" />
+		<result property="BASE_WPRC"  column="BASE_WPRC"  nullValue="" />
+		<result property="BASE_WVAT"  column="BASE_WVAT"  nullValue="" />
+		<result property="BASE_TOTAL"  column="BASE_TOTAL"  nullValue="" />
+		<result property="EVT_WPRC"  column="EVT_WPRC"  nullValue="" />
+		<result property="EVT_WVAT"  column="EVT_WVAT"  nullValue="" />
+		<result property="EVT_TOTAL"  column="EVT_TOTAL"  nullValue="" />
+		<result property="SPRC"  column="SPRC"  nullValue="" />
+		<result property="EVT_SPRC"  column="EVT_SPRC"  nullValue="" />
+		<result property="MARGIN"  column="MARGIN"  nullValue="" />
+		<result property="MARGIN_EVT"  column="MARGIN_EVT"  nullValue="" />
+		<result property="IMAGE_NUM"  column="IMAGE_NUM"  nullValue="" />
+		<result property="BOT_CODE"  column="BOT_CODE"  nullValue="" />
+		<result property="BOT_SPRC"  column="BOT_SPRC"  nullValue="" />
+		<result property="EVT_STR_DT"  column="EVT_STR_DT"  nullValue="" />
+		<result property="EVT_END_DT"  column="EVT_END_DT"  nullValue="" />
+		<result property="ORD_STR_DT"  column="ORD_STR_DT"  nullValue="" />
+		<result property="ORD_END_DT"  column="ORD_END_DT"  nullValue="" />
+	</resultMap>
+	
+	<procedure id="campaignProductExcelLoad" parameterMap="paramMap5" >
+ 		{ call PKG_BUSINESS.CAMPAIGN_PRODUCT_EXCEL_LOAD ( ?, ?, ?) }
+	</procedure>
+	
+
+</sqlMap>

@@ -1,0 +1,867 @@
+/********************************************************
+*    설명: WMS - 출고조회/수정
+*		
+*	수정일      	   수정자        수정내용
+*	------------------------------------------------------
+*	2017-01-17    문희훈       초기작성 
+*	------------------------------------------------------
+*	version : 1.0
+ ********************************************************/
+	
+$(document).ready(function(){
+	
+	init();
+	
+	/**검색조건 날짜 체크*/
+	 $(".datepicker1").datepicker({ onSelect: function(dateText){ 	 	 
+			 var CUR_DT = new CommDateManager().after(0, 0, 0).getDate("yyyy-mm-dd"); 
+			 if($("#P_DOUT_SDT").val()  >  $("#P_DOUT_EDT").val()){   
+				//날자 검색조건의 시작일이 종료일보다 클 수 없습니다.
+				alert(msgDateValidation);
+				$("#P_DOUT_SDT").val(CUR_DT);
+				return;
+			}	 
+		}, 	
+		showMonthAfterYear:true 
+	});
+		 
+	$(".datepicker2").datepicker({ onSelect: function(dateText){
+			var CUR_DT = new CommDateManager().after(0, 0, 0).getDate("yyyy-mm-dd"); 
+			if($("#P_DOUT_SDT").val()  >  $("#P_DOUT_EDT").val()){
+				//날자 검색조건의 시작일이 종료일보다 클 수 없습니다.
+				alert(msgDateValidation);
+				$("#P_DOUT_EDT").val(CUR_DT);
+				return;
+			}	 
+		}, 	
+		showMonthAfterYear:true 
+	});
+	
+	$(".datepicker").datepicker();
+	//최초 도움말 불러오기 
+	setHelpMessage($(location).attr('pathname').replace('/',''));
+	
+	var lsToDate = new CommDateManager().getDate("yyyy-mm-dd");
+	var beforeMonthDate = new CommDateManager().before(0, 0).getDate("yyyy-mm"); // 일주일전 before(년,월,일)
+	
+	$("#P_DOUT_EDT").val(lsToDate);
+	$("#P_DOUT_SDT").val(beforeMonthDate+'-01');
+	
+	$("#iframeCnt select[name=P_STR_NAME]").append('<option value="">'+ all +'</option>');
+	getStoreCode("P_STR_NAME");
+	$("#iframeCnt select[id='P_STR_NAME']").val(SSSC).prop("selected", true);
+	
+	$("input[name=P_ITEM_NAME]").keydown(function (key) { 
+		if(key.keyCode == 13){//키가 13이면 실행 (엔터는 13)
+			btn_comm_product_search();
+		} 
+	});
+	
+	//배송구분
+	$("#iframeCnt select[name=P_ROUTE_GB]").append('<option value="">'+ all +'</option>');
+	getCommonCodeSelectBoxList("iframeCnt select[name=P_ROUTE_GB]", "ROUTE_GB");
+	
+});
+
+// ----------------------- 그리드 설정 시작 -------------------------------------
+//rMate그리드 경로정보 셋팅
+rMateGridH5.setAssetsPath("/resources/js/rMateGridH5/Assets/");
+rMateGridH5.setConfig(rMateGridH5.style);
+
+// rMate 그리드 생성 준비가 완료된 상태 시 호출할 함수를 지정합니다.
+var jsVars1 = "rMateOnLoadCallFunction=gridReadyHandler1";
+var jsVars2 = "rMateOnLoadCallFunction=gridReadyHandler2";
+
+// rMateDataGrid 를 생성합니다.
+// 파라메터 (순서대로)
+//  1. 그리드의 id ( 임의로 지정하십시오. )
+//  2. 그리드가 위치할 div 의 id (즉, 그리드의 부모 div 의 id 입니다.)
+//  3. 그리드 생성 시 필요한 환경 변수들의 묶음인 jsVars
+//  4. 그리드의 가로 사이즈 (생략 가능, 생략 시 100%)
+//  5. 그리드의 세로 사이즈 (생략 가능, 생략 시 100%)
+rMateGridH5.create("grid1", "gridHolder1", jsVars1);
+rMateGridH5.create("grid2", "gridHolder2", jsVars2+"&dataType=xml");
+
+//그리드의 데이터 제어를 위한 전역변수 설정
+var gridApp1, gridRoot1, dataGrid1, dataRow1,clickData1,selectorColumn1, collection1;
+var gridApp2, gridRoot2, dataGrid2, dataRow2,clickData2,selectorColumn2, collection2;
+
+//입고 확정 금액
+var doutMoney = 0;
+//대출요청 수량
+var ordQty = 0;
+//그리드1 데이터 초기화
+var gridData1 = [];
+//그리드2 데이터 초기화
+var gridData2 = [];
+//헤더정렬을 위한 FALG
+var searchFlag ="";
+
+var totalCnt="0";	// 전체건수
+var RowsPerPage = 20;// 1페이지에서 보여줄 행 수
+var pageIndex = 1;	// 요청페이지번호
+var orderBy = "";
+var columnName = ""; 
+
+//그리드1 레디 핸들러
+function gridReadyHandler1(id) {
+	// rMateGrid 관련 객체
+	gridApp1 = document.getElementById(id); // 그리드를 포함하는 div 객체
+	gridRoot1 = gridApp1.getRoot(); // 데이터와 그리드를 포함하는 객체
+
+	//그리드1에 헤더 및 레이아웃 셋팅
+	gridApp1.setLayout(layoutStr1);
+	
+	//최초 로딩시 그리드1 데이터 조회 X
+	gridApp1.setData(gridData1);
+
+	gridRoot1.addEventListener("layoutComplete", layoutCompleteHandler1);
+	gridRoot1.addEventListener("dataComplete", dataCompleteHandler1);
+	
+}
+
+//그리드1 layoutCompleteHandler1
+function layoutCompleteHandler1() {
+	dataGrid1 = gridRoot1.getDataGrid();  // 그리드 객체
+	
+	// 헤드 정렬 초기화
+	rMateSortHeadInit(dataGrid1);
+	
+}
+
+
+//그리드1 컴플릿트 핸들러
+function dataCompleteHandler1(event) {
+	
+	// 그리드 객체
+	dataGrid1 = gridRoot1.getDataGrid(); 
+	
+	// 데이터 그리드의 내부의 데이터를 담고있는 객체 입니다.
+	collection1 = gridRoot1.getCollection();
+	
+	
+	//셀렉트박스 선택 이벤트
+	selectorColumn1 = gridRoot1.getObjectById("selector1");
+	
+	//그리드1 셀선택 이벤트
+	dataGrid1.addEventListener("itemClick", itemClickHandler1);
+	
+	//그리드1 헤더 클릭 이벤트
+	dataGrid1.addEventListener("headerRelease", headerRelease1);
+	
+	
+	drawGridPagingNavigation(totalCnt, RowsPerPage, pageIndex, "gridMovePage");
+}
+
+//그리드1 ROW 원클릭 이벤트
+function itemClickHandler1(event){
+	
+	//그리드2에 소팅이 되어있다면 초기화 처리
+	collection2.setSort(null);
+    // collection 정보를 새로고침합니다.
+    collection2.refresh();
+	
+	var rowIndex = event.rowIndex;
+	var columnIndex = event.columnIndex;
+	dataRow1 = gridRoot1.getItemAt(rowIndex);
+	// 컬럼중 숨겨진 컬럼(visible false인 컬럼)이 있으면 getDisplayableColumns()를 사용하여 컬럼을 가져옵니다.
+	var column = dataGrid1.getDisplayableColumns()[columnIndex];
+	var dataField = column.getDataField();
+	clickData1 = dataRow1[dataField];
+	//alert(dataRow1.ROLE_NM);
+	
+	//로딩바 보이기
+	showLoadingBar2();
+	
+	//그리드2 데이터 조회 및 그리드 데이터 셋팅
+	jQuery.ajax({ 
+	    url:"/getWmsOutDtlList.do",         
+	    type:"POST",
+		datatype:"xml",
+		data: dataRow1,
+		success:function(data){  
+			//gridApp2.setData(data);
+			//그리드2 초기화 
+			gridRoot2.removeAll( );
+  
+			for(var i=0 ; i < data.length ; i++ )
+			{ 
+				/*XML 기본 구성 헤더 시작*/
+				var firstTag="<GRIDROW></GRIDROW>";  
+				if (window.DOMParser)
+			    {   parser = new DOMParser();
+			        xmlDoc = parser.parseFromString(firstTag,"text/xml");
+				}
+				else // 인터넷 익스플로러
+				{   xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+				    xmlDoc.async=false;
+			        xmlDoc.loadXML(firstTag); 
+			    }  
+				/*XML 기본 구성 헤더 끝*/
+				var SEQ 				= xmlDoc.createElement('SEQ');
+				var DOUT_DT			= xmlDoc.createElement('DOUT_DT');
+				var SLIP_NO			= xmlDoc.createElement('SLIP_NO');
+				var STR_CODE			= xmlDoc.createElement('STR_CODE');
+				var ITM_CODE 		= xmlDoc.createElement('ITM_CODE'); 
+				var ITM_NAME 		= xmlDoc.createElement('ITM_NAME'); 
+				var UNIT 				= xmlDoc.createElement('UNIT'); 
+				var ITM_FORM  		= xmlDoc.createElement('ITM_FORM'); 
+				var IPSU_QTY 		= xmlDoc.createElement('IPSU_QTY'); 
+				var DOUT_WPRC 		= xmlDoc.createElement('DOUT_WPRC');
+				var DOUT_WVAT 		= xmlDoc.createElement('DOUT_WVAT');
+				var DOUT_WCOST	= xmlDoc.createElement('DOUT_WCOST');
+				var DOUT_QTY 		= xmlDoc.createElement('DOUT_QTY'); 
+				var CUR_INV_QTY 		= xmlDoc.createElement('CUR_INV_QTY'); 
+				var DOUT_CFM_QTY = xmlDoc.createElement('DOUT_CFM_QTY'); 
+				var DOUT_WAMT 	= xmlDoc.createElement('DOUT_WAMT'); 
+				var ITM_GB 	= xmlDoc.createElement('ITM_GB'); 
+				var TAX_GB 	= xmlDoc.createElement('TAX_GB'); 
+				 
+				SEQ.appendChild(  					xmlDoc.createTextNode( 	data[i].SEQ  	)	);
+				DOUT_DT.appendChild(  			xmlDoc.createTextNode( 	data[i].DOUT_DT  	)	);
+				SLIP_NO.appendChild(  				xmlDoc.createTextNode( 	data[i].SLIP_NO  	)	);
+				STR_CODE.appendChild(  			xmlDoc.createTextNode( 	data[i].STR_CODE  	)	);
+				ITM_CODE.appendChild(  			xmlDoc.createTextNode( 	data[i].ITM_CODE  	)	);
+				ITM_NAME.appendChild(  			xmlDoc.createTextNode(	data[i].ITM_NAME 	)	);
+				UNIT.appendChild( 					xmlDoc.createTextNode(	data[i].UNIT 			)	);
+				ITM_FORM.appendChild( 			xmlDoc.createTextNode(	data[i].ITM_FORM 			)	);
+				IPSU_QTY.appendChild( 			xmlDoc.createTextNode(	data[i].IPSU_QTY		) 	);
+				DOUT_WPRC.appendChild( 			xmlDoc.createTextNode(	data[i].DOUT_WPRC	) 	);
+				DOUT_WVAT.appendChild( 		xmlDoc.createTextNode(	data[i].DOUT_WVAT	) 	);
+				DOUT_WCOST.appendChild( 		xmlDoc.createTextNode(	data[i].DOUT_WCOST	) 	);
+				DOUT_QTY.appendChild(			xmlDoc.createTextNode(	data[i].DOUT_QTY		) 	);
+				CUR_INV_QTY.appendChild(			xmlDoc.createTextNode(	data[i].CUR_INV_QTY		) 	);
+				DOUT_CFM_QTY.appendChild( 	xmlDoc.createTextNode(	data[i].DOUT_CFM_QTY   )	); 
+				DOUT_WAMT.appendChild(			xmlDoc.createTextNode(	data[i].DOUT_WAMT	    )	);
+				ITM_GB.appendChild(			xmlDoc.createTextNode(	data[i].ITM_GB	    )	);
+				TAX_GB.appendChild(			xmlDoc.createTextNode(	data[i].TAX_GB 	    )	);
+				  
+				
+				
+				xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(SEQ);   
+				xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(DOUT_DT);   
+				xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(SLIP_NO);
+				xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(STR_CODE);   
+				xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(ITM_CODE);   
+				xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(ITM_NAME);   
+				xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(UNIT);   
+				xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(ITM_FORM);   
+				xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(IPSU_QTY);   
+				xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(DOUT_WPRC);
+				xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(DOUT_WVAT);
+				xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(DOUT_WCOST);
+				xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(DOUT_QTY);   
+				xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(CUR_INV_QTY);   
+				xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(DOUT_CFM_QTY);   
+				xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(DOUT_WAMT);   
+				xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(ITM_GB);   
+				xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(TAX_GB);   
+				
+				gridRoot2.addItemAt(  xmlDoc  , 0 , false);
+				
+				
+  	
+			}
+	    },
+	    complete : function(data) {
+	    	hideLoadingBar2();
+	    },
+	    error : function(xhr, status, error) {
+	    	hideLoadingBar2();
+	    	CommonJs.alertErrorStatus(xhr.status, error);
+	    }
+	});
+	
+}
+
+//그리드2 레디 핸들러
+function gridReadyHandler2(id) {
+	// rMateGrid 관련 객체
+	gridApp2 = document.getElementById(id); // 그리드를 포함하는 div 객체
+	gridApp2.setDataType("xml");
+	gridRoot2 = gridApp2.getRoot(); // 데이터와 그리드를 포함하는 객체
+	
+	//그리드2에 헤더 및 레이아웃 셋팅
+	gridApp2.setLayout(layoutStr2);
+	//최초 로딩시 그리드1 데이터 조회 X
+	gridApp2.setData(gridData2);
+	
+	gridRoot2.addEventListener("itemDataChanged", itemDataChangeHandler2);
+	gridRoot2.addEventListener("dataComplete", dataCompleteHandler2);
+}
+
+
+//그리드2 컴플릿트 핸들러
+function dataCompleteHandler2(event) {
+	dataGrid2 = gridRoot2.getDataGrid(); // 그리드 객체
+	// 데이터 그리드의 내부의 데이터를 담고있는 객체 입니다.
+	collection2 = gridRoot2.getCollection();
+	
+	//그리드2 셀선택 이벤트 :: 엔터입력시 오류로 주석처리 itemDataChangeHandler2 에 기능 ADD
+	//dataGrid2.addEventListener("itemClick", itemClickHandler2);
+}
+
+
+//그리드2 ROW 원클릭 이벤트
+/*function itemClickHandler2(event){
+	
+	var rowIndex = event.rowIndex;
+	var columnIndex = event.columnIndex;
+	//대출요청수량
+	doutQty = gridRoot2.getItemFieldAt( rowIndex , "DOUT_QTY");
+	//대출원가 단가
+	doutMoney = gridRoot2.getItemFieldAt( rowIndex , "DOUT_WPRC");
+	//alert(dataRow1.ROLE_NM);
+	
+	console.log(doutQty);
+}*/
+
+//생식인경우만 출고단가 수정가능
+function itemFunc(rowIndex, columnIndex, item, dataField){
+    //해당 ITM_GB=1 인경우(농,축산)
+	var itmGb = gridRoot2.getItemFieldAt( rowIndex , "ITM_GB");
+	if(itmGb=="1"){
+		if( columnIndex == 9 || columnIndex == 14  ){
+			return true;  //return 값이 true면 editable이 가능하고. false면 editable이 불가능합니다.
+		}else{
+			return false;
+		}
+	}else{
+		if(  columnIndex == 14  ){
+			return true;  //return 값이 true면 editable이 가능하고. false면 editable이 불가능합니다.
+		}else{
+			return false;
+		}
+	}
+}
+
+//그리드2 컬럼데이터 변경 핸들러
+function itemDataChangeHandler2(event){
+	var rowIndex = event.rowIndex;                  // 변경된 행번호
+    var columnIndex = event.columnIndex;        // 변경된 열번호
+    var dataField = event.dataField;                // 변경된 열의 데이터 필드
+    var dataRow = gridRoot2.getItemAt(rowIndex); // 변경된 데이터 레코드
+    var oldValue = event.value;                     // 변경전 값
+    var newValue = event.newValue;                  // 변경후 값
+    
+    doutQty = gridRoot2.getItemFieldAt( rowIndex , "DOUT_QTY");
+    invQty = gridRoot2.getItemFieldAt( rowIndex , "CUR_INV_QTY");
+	//출고원가 
+	doutMoney = gridRoot2.getItemFieldAt( rowIndex , "DOUT_WCOST");
+ 
+   // alert("로우인덱스:"+ rowIndex);
+    //alert("컬럼인덱스:"+ columnIndex);
+	if (dataField == "DOUT_CFM_QTY") {
+		if (newValue == null || newValue == ""){
+			//값을 입력하세요.
+			alert(mentWmsIn1);
+			gridRoot2.setItemFieldAt(0, rowIndex , "DOUT_CFM_QTY");
+			gridRoot2.setItemFieldAt(0, rowIndex , "DOUT_WAMT");
+			saveFlag="N";
+			return;
+		}else if(isNaN(Number(newValue))){
+			//값은 숫자만 가능합니다.
+			alert(mentWmsIn2);
+			gridRoot2.setItemFieldAt(0, rowIndex , "DOUT_CFM_QTY");
+			gridRoot2.setItemFieldAt(0, rowIndex , "DOUT_WAMT");
+			saveFlag="N";
+			return;
+		}
+		/*20170628 조바이어, 박부장님요청으로 주석
+		 * else if(Number(doutQty) < Number(newValue)){
+			//발주수량보다 값이 클 수 없습니다.
+			alert(mentWmsIn3);
+			gridRoot2.setItemFieldAt(0, rowIndex , "DOUT_CFM_QTY");
+			gridRoot2.setItemFieldAt(0, rowIndex , "DOUT_WAMT");
+			saveFlag="N";
+			return;
+		}else if(Number(invQty) < Number(newValue)){
+			//현재고수량보다 값이 클 수 없습니다.
+			alert("현재고수량보다 값이 클 수 없습니다.");
+			gridRoot2.setItemFieldAt(0, rowIndex , "DOUT_CFM_QTY");
+			gridRoot2.setItemFieldAt(0, rowIndex , "DOUT_WAMT");
+			saveFlag="N";
+			return;
+		}*/
+		else{
+			 //최종 확정 입고금액 셋팅
+			 gridRoot2.setItemFieldAt(newValue*doutMoney, rowIndex , "DOUT_WAMT");
+			 saveFlag="Y";
+		 }
+	}
+	
+	if (dataField == "DOUT_WCOST") {
+		if (newValue == null || newValue == ""){
+			//값을 입력하세요.
+			alert(mentWmsIn1);
+			gridRoot2.setItemFieldAt(oldValue, rowIndex , "DOUT_WCOST");
+			saveFlag="N";
+			return;
+		}else if(isNaN(Number(newValue))){
+			//값은 숫자만 가능합니다.
+			alert(mentWmsIn2);
+			gridRoot2.setItemFieldAt(oldValue, rowIndex , "DOUT_WCOST");
+			saveFlag="N";
+			return;
+		}else{
+			 //최종 확정 입고금액 셋팅
+			qty = gridRoot2.getItemFieldAt( rowIndex , "DOUT_CFM_QTY");
+			var taxGb = gridRoot2.getItemFieldAt( rowIndex , "TAX_GB");
+			 if(taxGb == "2"){
+				 gridRoot2.setItemFieldAt(Math.round(newValue), rowIndex , "DOUT_WPRC");
+				 gridRoot2.setItemFieldAt("0", rowIndex , "DOUT_WVAT");
+				 gridRoot2.setItemFieldAt(Math.round(newValue), rowIndex , "DOUT_WCOST");
+				 gridRoot2.setItemFieldAt(parseInt(newValue)*parseInt(qty), rowIndex , "DOUT_WAMT");
+				 saveFlag="Y";
+			 }else{
+				 gridRoot2.setItemFieldAt(Math.round(newValue*10/11), rowIndex , "DOUT_WPRC");
+				 gridRoot2.setItemFieldAt(Math.round(newValue/11), rowIndex , "DOUT_WVAT");
+				 gridRoot2.setItemFieldAt(Math.round(newValue), rowIndex , "DOUT_WCOST");
+				 gridRoot2.setItemFieldAt(parseInt(Math.round(newValue))*parseInt(qty), rowIndex , "DOUT_WAMT");
+				 saveFlag="Y";
+			 }
+		}
+	} 
+}
+
+
+
+//----------------------- 그리드 설정 끝 -----------------------
+
+//그리드1 헤더 설정
+var layoutStr1 =
+'<rMateGrid>\
+	<NumberFormatter id="numfmt" useThousandsSeparator="true"/>\
+	<DataGrid id="dg1" sortableColumns="true" selectionMode="singleCell">\
+		<columns>\
+			<DataGridSelectorColumn id="selector1" width="40" textAlign="center"  headerText="'+select+'"  backgroundColor="#EDEDF0" allowAllSelection="false" secondLabelJsFunction="secondLabelFunc" showDataTips="true" />\
+			<DataGridColumn dataField="RNUM" headerText="No"  textAlign="center" sortable="false" width="60" />\
+			<DataGridColumn dataField="DOUT_DT"  headerText="'+expectedDateOfDelivery+'" textAlign="center"  width="100"/>\
+			<DataGridColumn dataField="SLIP_NO" headerText="'+shippingNumber+'" textAlign="center"  width="150"/>\
+			<DataGridColumn dataField="STR_CODE" headerText="'+storCode+'" textAlign="center" visible="false"/>\
+			<DataGridColumn dataField="DIN_STR_CODE" headerText="'+storCode+'" textAlign="center"   width="100"/>\
+			<DataGridColumn dataField="DIN_STR_NAME" headerText="'+storNm+'" textAlign="center"/>\
+		    <DataGridColumn dataField="OUT_QTY" headerText="'+theNumberOfShipments+'" textAlign="right" formatter="{numfmt}"  width="100"/>\
+			<DataGridColumn dataField="DOUT_WAMT" headerText="'+totalShipmentAmount+'" textAlign="right" formatter="{numfmt}"  width="200"/>\
+			<DataGridColumn dataField="ROUTE_GB" headerText="배송구분" textAlign="center" visible="false" />\
+			<DataGridColumn dataField="ROUTE_GB_NM" headerText="'+routeGb+'" textAlign="center"  width="90"/>\
+			<DataGridColumn dataField="DOUT_CFM_DT" headerText="'+dateConfirmed+'" textAlign="center"  width="120"/>\
+			<DataGridColumn dataField="IS_AUTO" headerText="자동할당" textAlign="center"  width="120" visible="false" />\
+		</columns>\
+	</DataGrid>\
+</rMateGrid>';
+
+//그리드2 헤더 설정
+var layoutStr2 =
+'<rMateGrid>\
+	<NumberFormatter id="numfmt" useThousandsSeparator="true" />\
+	<DataGrid id="dg1" editable="true" doubleClickEnabled="true"  horizontalScrollPolicy="false" itemRenderer="EditableIconItem"  verticalAlign="middle"  textAlign="center" sortableColumns="true" showDataTips="true" selectionMode="singleCell" itemEditBeginningJsFunction="itemFunc" >\
+		<columns>\
+			<DataGridColumn dataField="SEQ" headerText="No" visible="false"/>\
+			<DataGridColumn dataField="DOUT_DT" headerText="No" visible="false"/>\
+			<DataGridColumn dataField="SLIP_NO" headerText="No" visible="false"/>\
+			<DataGridColumn dataField="STR_CODE" headerText="No" visible="false" />\
+			<DataGridColumn dataField="ITM_CODE" headerText="'+itmCode+'" textAlign="center" editable="false" />\
+			<DataGridColumn dataField="ITM_NAME" headerText="'+itmName+'" textAlign="left" editable="false" />\
+			<DataGridColumn dataField="UNIT" headerText="'+unit+'" textAlign="center" editable="false" width="70"/>\
+			<DataGridColumn dataField="ITM_FORM" headerText="'+itmGb+'" textAlign="center" editable="false" width="70"/>\
+			<DataGridColumn dataField="IPSU_QTY" headerText="'+ipsuQty+'" textAlign="right" formatter="{numfmt}" editable="false" width="60"/>\
+			<DataGridColumn dataField="DOUT_WCOST" headerText="출고단가" textAlign="right" formatter="{numfmt}"  showEditableIcon="always"  width="110" />\
+			<DataGridColumn dataField="DOUT_WPRC" headerText="출고원가" textAlign="right" formatter="{numfmt}" editable="false" width="80" />\
+			<DataGridColumn dataField="DOUT_WVAT" headerText="부가세" textAlign="right" formatter="{numfmt}" editable="false" width="80" />\
+			<DataGridColumn dataField="DOUT_QTY" headerText="'+orderQuantity+'" textAlign="right" formatter="{numfmt}" editable="false" width="70"/>\
+			<DataGridColumn dataField="CUR_INV_QTY" headerText="'+realStock+'" textAlign="right" formatter="{numfmt}" editable="false" width="60"/>\
+			<DataGridColumn dataField="DOUT_CFM_QTY" headerText="'+logisticsShipmentQuantity+'" textAlign="right" formatter="{numfmt}" width="70" showEditableIcon="always" id="dg1col11"/>\
+			<DataGridColumn dataField="DOUT_WAMT" headerText="'+totalShipmentAmount+'" textAlign="right" formatter="{numfmt}" editable="false" id="dg1col12" width="90"/>\
+			<DataGridColumn dataField="ITM_GB" headerText="아이템구분" visible="false" />\
+			<DataGridColumn dataField="TAX_GB" headerText="구분" visible="false" />\
+		</columns>\
+		<footers>\
+			<DataGridFooter  height="26" color="#000" backgroundColor="#c5c5c5" borderTopColor="#858585" borderTopWidth="1" borderTopStyle="solid" fontWeight="normal">\
+				<DataGridFooterColumn />\
+				<DataGridFooterColumn />\
+				<DataGridFooterColumn />\
+				<DataGridFooterColumn />\
+				<DataGridFooterColumn label="'+sm+'" textAlign="center" backgroundColor="#acacac" />\
+				<DataGridFooterColumn />\
+				<DataGridFooterColumn />\
+				<DataGridFooterColumn />\
+				<DataGridFooterColumn />\
+				<DataGridFooterColumn />\
+				<DataGridFooterColumn />\
+				<DataGridFooterColumn />\
+				<DataGridFooterColumn />\
+				<DataGridFooterColumn />\
+				<DataGridFooterColumn />\
+				<DataGridFooterColumn  summaryOperation="SUM" dataColumn="{dg1col12}" formatter="{numfmt}" textAlign="right" />\
+				<DataGridFooterColumn />\
+			</DataGridFooter>\
+	</footers>\
+	</DataGrid>\
+</rMateGrid>';
+
+
+/*********************체크박스 disable******************************************
+secondLabelJsFunction 기능을 이용하여 셀럭터 컬럼에 표시되는 체크박스의 enabled를 조작합니다.
+secondLabelJsFunction 함수의 파라메터는 다음과 같습니다.
+function secondLabelJsFunction(item:Object, value:Object, column:Column)
+item : 해당 행의 data 객체
+value : 해당 셀의 라벨(셀렉터이므로 값은 undefined임)
+column : 해당 셀의 열을 정의한 Column 객체
+true를 반환하면 해당 행은 선택가능하고, false를 반환하면 해당 행은 선택할 수 없게 됩니다.
+***************************************************************************/
+function secondLabelFunc(item, value, column) {
+ if (item.DOUT_CFM_DT != "" )
+	 return false;
+ else
+	 return true;
+};
+
+//그리드 헤더 정렬 기능 이벤트
+function headerRelease1(event) {
+	
+	//헤드 정렬 설정
+	rMateSortHeadRelease(dataGrid1, event, "P_COLUMN_NAME", "P_ORDERBY");
+	
+	btn_search(false);
+}
+
+//그리드 페이지 이동
+function gridMovePage(page) {
+	
+	//alert(page);
+	$("#pageIndex").val(page);
+	pageIndex = page;
+	
+	btn_search(false);
+	
+}
+// ----------------------- 그리드 설정 끝 -------------------------------------
+
+
+function init() {
+
+	
+	
+}
+
+
+//########################################################
+//###	8. init ( 시작 )   							   ###
+//########################################################
+  
+
+//########################################################
+//###   사용자 정의 함수 ( 시작 )   							   ###
+//########################################################
+
+//(상품검색) 팝업 호출 function
+function btn_comm_product_search(){
+	$('#comm_pop_wrap2' ).dialog( 'open' );
+	gridApp11.resize();
+	
+	if($("#P_ITEM_NAME").val() != null && $("#P_ITEM_NAME").val() != ""){
+		$("#P_TEXT2").val($("#P_ITEM_NAME").val());
+		btn_comm_search('2');
+	}
+}
+
+//(상품검색) 팝업 callback function
+function fn_comm_product_callback(dataRow){
+	$('#P_ITEM_NAME' ).val(dataRow.ITM_NAME);				// 상품명
+	$('#P_ITEM_CODE' ).val(dataRow.ITM_CODE);				// 상품코드
+	//$('#SCAN_CODE' ).val(SCAN_CODE);			// 스캔코드
+	//$('#ITM_SHORT_NAME' ).val(ITM_SHORT_NAME);	// 단축상품명
+}
+ 
+//조회 (searchFlag -> true : 헤더정렬 기본값으로    false : 헤더정렬 값 유지)
+function btn_search(searchFlag){
+	
+	//조회시 그리드1 선택 데이터 초기화
+	dataRow1 = null;
+	
+	if(searchFlag  ==  true){
+		// 헤더 기본값 셋팅
+		rMateSortHeadSetDefault(dataGrid1, "P_COLUMN_NAME", "P_ORDERBY");
+		//페이지 1페이지로 이동
+		pageIndex = 1;
+		$("#pageIndex").val(pageIndex);
+	}
+	
+	var loadData =  $("#top_search").serializeAllObject();
+	
+	loadData.P_DOUT_SDT = loadData.P_DOUT_SDT.replace(/-/gi, '');
+	loadData.P_DOUT_EDT = loadData.P_DOUT_EDT.replace(/-/gi, '');
+
+	if(loadData.P_DOUT_SDT  >  loadData.P_DOUT_EDT){
+		//날자 검색조건의 시작일이 종료일보다 클 수 없습니다.
+		alert(msgDateValidation);
+		$("#P_DOUT_SDT").focus();
+		return;
+	}
+	
+	if(loadData.P_ITEM_NAME == ""){
+		loadData.P_ITEM_CODE ="";
+	}
+	
+	//로딩바 보이기
+	showLoadingBar1();
+	
+	gridApp1.setData(gridData1);
+	//그리드2 초기화 
+	gridRoot2.removeAll( );
+
+	//그리드1 데이터 조회 및 그리드 데이터 셋팅
+	jQuery.ajax({ 
+	    url:"/getWmsOutList.do",         
+	    type:"POST",
+		datatype:"json",
+		
+		data: loadData,
+		success:function(data){  
+			//alert(data.list);
+			gridApp1.setData(data.list);
+			totalCnt = data.totalCount;
+			
+			drawGridPagingNavigation(totalCnt, RowsPerPage, pageIndex, "gridMovePage");
+	    },
+	    complete : function(data) {
+	    	hideLoadingBar1();
+	    },
+	    error : function(xhr, status, error) {
+	    	hideLoadingBar1();
+	    	CommonJs.alertErrorStatus(xhr.status, error);
+	    }
+	});
+	
+}
+
+
+//저장가능 상태 체크 :: N->저장불가능  Y->저장가능
+var saveFlag="Y";
+var myVar = "";
+function btn_saveCheck() {
+    myVar = setTimeout(btn_update, 500);
+}
+
+//저장
+function btn_update(){
+	
+	if(saveFlag == "N"){
+		saveFlag = "Y";
+		return;
+	}
+
+	
+	if(dataRow1 == null){
+		 //저장할 출고 목록을 선택하세요.
+		 alert(mentWmsOut1);
+		 return;
+	 }else if(dataRow1.DOUT_CFM_DT != "" ){
+		 //확정된 출고정보는 수정 할 수 없습니다.
+		 alert(mentWmsOut2);
+		 return;
+	 }else{
+		 
+		 var gridXmlData2 = "";
+		// 지불조건 XML로 뽑기  - xml
+		var rowCnt  = gridRoot2.getCollection().getSource() ;  
+		for(var i=0 ; i < rowCnt.length ; i++)
+		{    
+			gridXmlData2 = gridXmlData2 + getXmlString(gridRoot2.getItemAt(i));     
+		}
+		
+		gridXmlData2 =  "<GRIDLIST>"+gridXmlData2+"</GRIDLIST>" ;
+		//alert(gridXmlData2);
+		
+		//저장하시겠습니까?
+		if(confirm(msgSaveConfirm) == false) return;
+		
+		//입고수량 저장
+		jQuery.ajax({ 
+		    url:"/saveWmsOutCnt.do",         
+		    type:"POST",
+			datatype:"xml",
+			async:false,
+			data: {"gridXmlData2" : gridXmlData2}, 
+			success:function(data){  
+				//결과리턴
+				var obj = jQuery.parseJSON(data.CUR);
+				if(  obj[0].RETURN_CODE  == "0000")
+				{   
+					//저장되었습니다.
+					alert(msgSave);
+					//조회
+					btn_search(true);
+				}else{
+					//요청중 문제가 발생했습니다.관리자에게 문의하세요.
+					alert(msgErrorDefault);
+					return;
+				}
+		    },
+		    complete : function(data) {
+		    	 
+		    },
+		    error : function(xhr, status, error) {
+		    	CommonJs.alertErrorStatus(xhr.status, error);
+		    }
+		});
+	 }
+}
+
+//확정
+function btn_submit(){
+	 var arryDate = selectorColumn1.getSelectedIndices();
+	 var processFlag = "N";
+	 var checkFlag = "N";
+	 
+	 if(arryDate.length == 0){
+		 //확정할 출고현황을 체크박스로 선택하세요.
+		 alert(mentWmsOut3);
+	 }else{
+		//체크하신 목록을 출고확정 하시겠습니까?
+		if(confirm(mentWmsOut4) == false) return;
+		
+			for(var i =1; i <= arryDate.length; i++){
+				
+				//체크박스 선택된 그리드 ROW데이터
+				dataRow1 = gridRoot1.getItemAt(selectorColumn1.getSelectedIndices()[i-1]);
+				
+				//출고고확정 처리
+				jQuery.ajax({ 
+				    url:"/sumitWmsOut.do",         
+				    type:"POST",
+					datatype:"json",
+					async:false,
+					data: dataRow1, 
+					success:function(data){  
+						//결과리턴
+						var obj = jQuery.parseJSON(data.CUR);
+						if(  obj[0].RETURN_CODE  == "0000")
+						{   
+							checkFlag = "Y";
+							if(i == arryDate.length){
+								processFlag = "Y";
+							}
+							
+						}else{
+							checkFlag = "N";
+						}
+				    },
+				    complete : function(data) {
+				    	 
+				    },
+				    error : function(xhr, status, error) {
+				    	CommonJs.alertErrorStatus(xhr.status, error);
+				    }
+				});
+				 
+			 }
+			
+			//확정 프로세스 후 최종 메세지
+			if(processFlag =="Y" && checkFlag =="Y"){
+				//확정처리 되었습니다.
+				alert(mentWmsIn8);
+				//조회
+				btn_search(true);
+			}else{
+				checkFlag = "N";
+				//요청중 문제가 발생했습니다.관리자에게 문의하세요.
+				alert(msgErrorDefault);
+				return;
+			}
+	 }
+}
+
+
+/*//(점포검색) 팝업 호출 function
+function btn_comm_dept_search(){
+	$('#comm_pop_wrap5' ).dialog( 'open' );
+	gridApp14.resize();
+	
+	// $("#P_CALLBACK_NM5").val('fn_comm_dept_callback1(dataRow14)');
+	if($("#P_STR_NAME").val() != null && $("#P_STR_NAME").val() != ""){
+		$("#P_TEXT5").val($("#P_STR_NAME").val());
+		btn_comm_search('5');
+	}
+}
+//(부서검색) 팝업 callback function
+function fn_comm_dept_callback(dataRow){
+	$('#P_STR_NAME' ).val(dataRow.DEPT_NAME);		// 조직명
+}
+*/
+
+/* 추가 js */
+//그리드 너비 제어
+$(document).ready(function (){
+	$("#gridHolder1, #gridHolder2").width("100%");
+	
+	var hei = ($(window).height() - 157) / 5;
+	
+	$("#gridHolder1").height(hei*2);
+	$("#gridHolder2").height(hei*3);
+
+	$(window).on('resize',function (){	
+		
+		var hei = ($(window).height() - 157) / 5;
+		
+		$("#gridHolder1").height(hei*2);
+		$("#gridHolder2").height(hei*3);	
+		
+	});
+});
+
+//XML스트링 변환
+function getXmlString(xmlElement) {
+	if (window.XMLSerializer)
+		return new XMLSerializer().serializeToString(xmlElement);
+	return   xmlElement.xml  ;
+}
+
+
+//그리드 로딩바  보이기
+function showLoadingBar1() {
+  gridRoot1.addLoadingBar();
+}
+function showLoadingBar2() {
+  gridRoot2.addLoadingBar();
+}
+
+//그리드 로딩바  숨기기
+function hideLoadingBar1() {
+  gridRoot1.removeLoadingBar();
+}
+function hideLoadingBar2() {
+  gridRoot2.removeLoadingBar();
+}
+
+//출력
+function btn_print1(){
+	
+	//출력전표 발리데이션 체크
+	//
+	if(dataRow1 == null){
+		 alert(msgSelectData);
+		 return;
+	}
+	if(dataRow1.ROUTE_GB=="R2"){
+		alert("'R2'인 경우 출력할 수 없다.");
+		return;
+	}
+		var P_CORP_CODE	= $("#CORP_CODE").val();
+		var P_STR_CODE		= dataRow1.STR_CODE;
+		var P_DOUT_DT 		= dataRow1.DOUT_DT.replace(/-/gi,'');
+		var P_SLIP_NO		= dataRow1.SLIP_NO;
+		
+		var params = "?reportMode=HTML"+"&P_CORP_CODE="+P_CORP_CODE+
+							"&P_STR_CODE="+P_STR_CODE+
+							"&P_DOUT_DT="+P_DOUT_DT+
+							"&P_SLIP_NO="+P_SLIP_NO;
+							; // AIViewer 파라미터
+		window.open("aireportWmsOutPrint.do" + params,'AIViewer','width=900,height=800,top=10,left=10,toolbar=no,menubar=no,lacation=no,scrollbars=no,status=no,resizable=yes');
+	
+}
+
+//########################################################
+//###   상단 버튼 구현 ( 끝 )   							   ###
+//########################################################

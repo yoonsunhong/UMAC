@@ -1,0 +1,38 @@
+package retail.order.store.service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+ 
+
+public interface OrderStoreBonusService {
+
+
+	List<Map<String, Object>> orderStoreProductSelectBonus(Map<String, Object> param) throws Exception;
+	
+
+	List<Map<String, Object>> getCommonMgmtEntryBonus(Map<String, Object> param) throws Exception;
+	
+
+	List<Map<String, Object>>  orderStoreProductRegisterBonus(  Map<String, Object> param) throws Exception;
+	
+	 
+	List<Map<String, Object>> orderHeadSearchBonus(Map<String, Object> param) throws Exception;
+
+
+	List<Map<String, Object>> orderHeadInfoBonus(Map<String, Object> param) throws Exception;
+	
+
+	List<Map<String, Object>> orderDetailInfoBonus(Map<String, Object> param) throws Exception;
+	
+
+	List<Map<String, Object>>  orderDelBonus(  Map<String, Object> param) throws Exception;
+
+	
+	List<Map<String, Object>>  purchConfirmBonus(  Map<String, Object> param) throws Exception;
+	
+	
+	List<Map<String, Object>>  orderConfirmCancelBonus(  Map<String, Object> param) throws Exception;
+	
+
+}

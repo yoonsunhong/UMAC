@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="stockSchedule">
+
+	<!-- 조직목록의 트리메뉴 리스트 조회 파라미터 맵 -->
+	<parameterMap id="pramMap0" class="java.util.HashMap">
+		 <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap0" />
+	</parameterMap>
+	<!-- 조직목록의 트리메뉴 리스트 조회 리절트 맵 -->
+	<resultMap id="resultMap0" class="java.util.HashMap">
+	    <result property="DEPT_CODE"  column="DEPT_CODE" nullValue="" />  
+	    <result property="DEPT_NAME"  column="DEPT_NAME"  nullValue="" />
+	    <result property="UPPER_DEPT"  column="UPPER_DEPT"  nullValue="" />
+	    <result property="UPPER_DEPT_NAME"  column="UPPER_DEPT_NAME"  nullValue="" />
+	    <result property="GRADE"  column="GRADE"  nullValue="" />
+	    <result property="ORG_TYPE"  column="ORG_TYPE"  nullValue="" />
+	    <result property="ORG_TYPE_NAME"  column="ORG_TYPE_NAME"  nullValue="" />
+	    <result property="USE_YN"  column="USE_YN"  nullValue="" />
+	</resultMap>
+	
+	
+	<parameterMap id="paramMap1" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     		javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_STR_CODE"   			javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="CUR"            		    javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"   mode="OUT"  resultMap="resultMap1" />
+	</parameterMap>
+	
+	<resultMap id="resultMap1" class="java.util.HashMap">
+		<result property="STR_NAME" 				column="STR_NAME" 				nullValue=""/>
+		<result property="STR_CODE" 				column="STR_CODE" 				nullValue=""/>
+		<result property="INV_INSP_SCHD_ID" 		column="INV_INSP_SCHD_ID" 		nullValue=""/>
+		<result property="INV_INSP_DT" 				column="INV_INSP_DT" 				nullValue=""/>
+		<result property="INV_INSP_GB" 				column="INV_INSP_GB"				nullValue=""/>
+		<result property="INV_INSP_GB_CD" 		column="INV_INSP_GB_CD"			nullValue=""/>
+		<result property="INV_SURL_MTHD" 		column="INV_SURL_MTHD" 		nullValue=""/>
+		<result property="INV_SURL_MTHD_CD" 	column="INV_SURL_MTHD_CD" 	nullValue=""/>
+		<result property="CFM_FLAG" 				column="CFM_FLAG" 				nullValue=""/>
+	</resultMap>
+	
+	<parameterMap id="paramMap2" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      	javaType="java.lang.String"      jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="INV_INSP_SCHD_ID"  	javaType="java.lang.String"  	   jdbcType="VARCHAR"       		mode="OUT"   />
+	</parameterMap>
+	
+	
+	<parameterMap id="paramMap3" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     			javaType="java.lang.String"     jdbcType="VARCHAR"	 mode="IN"      />
+	  	<parameter property="P_STR_CODE"   		    	javaType="java.lang.String"     jdbcType="VARCHAR"   mode="IN"      />
+	  	<parameter property="P_INV_INSP_SCHD_ID"   	javaType="java.lang.String"     jdbcType="VARCHAR"   mode="IN"      />
+	  	<parameter property="P_INV_INSP_DT"   			javaType="java.lang.String"     jdbcType="VARCHAR"   mode="IN"      />
+	  	<parameter property="P_INV_INSP_GB"   			javaType="java.lang.String"     jdbcType="VARCHAR"   mode="IN"      />
+	  	<parameter property="P_INV_SURL_MTHD"   		javaType="java.lang.String"     jdbcType="VARCHAR"   mode="IN"      />
+	  	<parameter property="P_USER_ID"   				javaType="java.lang.String"     jdbcType="VARCHAR"   mode="IN"      />
+	  	<parameter property="P_CRUD_FLAG"   			javaType="java.lang.String"     jdbcType="VARCHAR"   mode="IN"      />
+	  	<parameter property="CUR"        					javaType="java.sql.ResultSet"  jdbcType="ORACLECURSOR"   mode="OUT"   resultMap="resultMap3"   /> 
+	</parameterMap>
+	
+	<resultMap id="resultMap3" class="java.util.HashMap">
+		<result property="RETURN_CODE"      column="RETURN_CODE"  />
+    	<result property="RETURN_MESSAGE" column="RETURN_MESSAGE" /> 
+	</resultMap>
+	
+	
+	<!-- 조직목록의 트리메뉴 리스트 조회-->    
+    <procedure id="getStockOrganizationList" parameterMap="pramMap0" resultMap="resultMap0">
+        { call PKG_STOCK.PR_GET_STOCK_ORGANIZATION_LIST( ? , ?) }   
+  	</procedure>
+	
+	<!-- 재고조사 일정 목록조회 -->
+	<procedure id="getInventorySchedule" parameterMap="paramMap1"  resultMap="resultMap1">
+		{ call PKG_STOCK.GET_INVENTORY_SCHEDULE_LIST ( ?, ?, ?)  }
+	</procedure>
+	
+	<!-- 재고조사일정ID 발번 -->
+	<procedure id="getSchdId" parameterMap="paramMap2">
+		{ call PKG_STOCK.GET_INV_INSP_SCHD_ID ( ?, ?)  }
+	</procedure>
+	
+	<!-- 재고조사일정 INSERT/UPDATE -->
+	<procedure id="setInvInspSchdtInfo" parameterMap="paramMap3" resultMap="resultMap3">
+		{ call PKG_STOCK.SET_INV_INSP_SCHD_INFO ( ?, ?, ?,  ?, ?,  ?, ?,  ?, ?)  }
+	</procedure>
+	
+	
+	
+</sqlMap>

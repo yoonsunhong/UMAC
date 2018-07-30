@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="posClosedDouzoneDayToAccountServerMsSql">
+	   
+	 <update id="insertAccountMsSql" parameterClass="retail.posclosed.douzoneDayMsSql.service.DouzoneDayMsSqlVO">
+	 
+	 		DELETE
+	 		FROM	SAUTODOCUD
+	 		WHERE	IN_DT	= #IN_DT#          
+			AND		IN_SQ	= #IN_SQ#          
+			AND		LN_SQ	= #LN_SQ#          
+			AND		CO_CD	= #CO_CD#
+			;
+	  
+	 		insert INTO SAUTODOCUD
+	 		(             IN_DT          
+					,     IN_SQ          
+					,     LN_SQ          
+					,     CO_CD          
+					,     IN_DIV_CD      
+					,     LOGIC_CD       
+					,     ISU_DT         
+					,     ISU_SQ         
+					,     DIV_CD         
+					,     DEPT_CD        
+					,     EMP_CD         
+					,     ACCT_CD        
+					,     DRCR_FG        
+					,     ACCT_AM        
+					,     RMK_NB         
+					,     RMK_DC         
+					,     ATTR_CD        
+					,     TRCD_TY        
+					,     TRNM_TY        
+					,     DEPTCD_TY      
+					,     PJTCD_TY       
+					,     CTNB_TY        
+					,     FRDT_TY        
+					,     TODT_TY        
+					,     QT_TY          
+					,     AM_TY          
+					,     RT_TY          
+					,     DEAL_TY        
+					,     USER1_TY       
+					,     USER2_TY       
+					,     TR_CD          
+					,     TR_NM          
+					,     CT_DEPT        
+					,     DEPT_NM        
+					,     PJT_CD         
+					,     PJT_NM         
+					,     CT_NB          
+					,     FR_DT          
+					,     TO_DT          
+					,     CT_QT          
+					,     CT_AM          
+					,     CT_RT          
+					,     CT_DEAL        
+					,     DEAL_NM        
+					,     CT_USER1       
+					,     USER1_NM       
+					,     CT_USER2       
+					,     USER2_NM       
+					,     EXCH_TY        
+					,     EXCH_AM        
+					,     PAYMENT        
+					,     ISU_NM         
+					,     ENDORS_NM      
+					,     BILL_FG1       
+					,     BILL_FG2       
+					,     DUMMY1         
+					,     DUMMY2         
+					,     DUMMY3   
+					,  	  ISU_DOC
+           			, 	  JEONJA_YN
+            		, 	  EX_FG 
+					     
+	 		) VALUES (
+	 				      #IN_DT#          
+					,     #IN_SQ#         
+					,     #LN_SQ#          
+					,     #CO_CD#          
+					,     #IN_DIV_CD#      
+					,     #LOGIC_CD#       
+					,     #ISU_DT#         
+					,     #ISU_SQ#         
+					,     #DIV_CD#         
+					,     #DEPT_CD#        
+					,     #EMP_CD#         
+					,     #ACCT_CD#        
+					,     #DRCR_FG#        
+					,     #ACCT_AM#        
+					,     #RMK_NB#         
+					,     #RMK_DC#         
+					,     #ATTR_CD#        
+					,     #TRCD_TY#        
+					,     #TRNM_TY#        
+					,     #DEPTCD_TY#      
+					,     #PJTCD_TY#       
+					,     #CTNB_TY#        
+					,     #FRDT_TY#        
+					,     #TODT_TY#        
+					,     #QT_TY#          
+					,     #AM_TY#          
+					,     #RT_TY#          
+					,     #DEAL_TY#        
+					,     #USER1_TY#       
+					,     #USER2_TY#       
+					,     #TR_CD#          
+					,     #TR_NM#          
+					,     #CT_DEPT#        
+					,     #DEPT_NM#        
+					,     #PJT_CD#         
+					,     #PJT_NM#         
+					,     #CT_NB#          
+					,     #FR_DT#          
+					,     #TO_DT#          
+					,     #CT_QT#          
+					,     #CT_AM#          
+					,     #CT_RT#          
+					,     #CT_DEAL#        
+					,     #DEAL_NM#        
+					,     #CT_USER1#       
+					,     #USER1_NM#       
+					,     #CT_USER2#       
+					,     #USER2_NM#       
+					,     #EXCH_TY#        
+					,     #EXCH_AM#        
+					,     #PAYMENT#        
+					,     #ISU_NM#         
+					,     #ENDORS_NM#      
+					,     #BILL_FG1#       
+					,     #BILL_FG2#       
+					,     #DUMMY1#         
+					,     #DUMMY2#         
+					,     #DUMMY3#         
+					,  	  #ISU_DOC#
+           			, 	  #JEONJA_YN#
+            		, 	  #EX_FG#
+            		  
+	 		);
+	 		
+	 		
+	 		commit;
+        	 
+     </update>
+     
+     <update id="insertAccountMsSqlPurch" parameterClass="retail.posclosed.douzoneDayMsSql.service.DouzoneDayMsSqlVO">
+	 	
+	 		
+	 		DELETE
+	 		FROM	SAUTODOCUD
+	 		WHERE	IN_DT	= #IN_DT#  
+			AND		LN_SQ	= #LN_SQ#          
+			AND		CO_CD	= #CO_CD#
+			AND		TR_CD	= #TR_CD#
+			AND		DEPT_CD	= #DEPT_CD#
+			AND		LOGIC_CD	= '21'
+			;
+	  
+	 		insert INTO SAUTODOCUD
+	 		(             IN_DT          
+					,     IN_SQ       
+					,     LN_SQ          
+					,     CO_CD          
+					,     IN_DIV_CD      
+					,     LOGIC_CD       
+					,     ISU_DT         
+					,     ISU_SQ         
+					,     DIV_CD         
+					,     DEPT_CD        
+					,     EMP_CD         
+					,     ACCT_CD        
+					,     DRCR_FG        
+					,     ACCT_AM        
+					,     RMK_NB         
+					,     RMK_DC         
+					,     ATTR_CD        
+					,     TRCD_TY        
+					,     TRNM_TY        
+					,     DEPTCD_TY      
+					,     PJTCD_TY       
+					,     CTNB_TY        
+					,     FRDT_TY        
+					,     TODT_TY        
+					,     QT_TY          
+					,     AM_TY          
+					,     RT_TY          
+					,     DEAL_TY        
+					,     USER1_TY       
+					,     USER2_TY       
+					,     TR_CD          
+					,     TR_NM          
+					,     CT_DEPT        
+					,     DEPT_NM        
+					,     PJT_CD         
+					,     PJT_NM         
+					,     CT_NB          
+					,     FR_DT          
+					,     TO_DT          
+					,     CT_QT          
+					,     CT_AM          
+					,     CT_RT          
+					,     CT_DEAL        
+					,     DEAL_NM        
+					,     CT_USER1       
+					,     USER1_NM       
+					,     CT_USER2       
+					,     USER2_NM       
+					,     EXCH_TY        
+					,     EXCH_AM        
+					,     PAYMENT        
+					,     ISU_NM         
+					,     ENDORS_NM      
+					,     BILL_FG1       
+					,     BILL_FG2       
+					,     DUMMY1         
+					,     DUMMY2         
+					,     DUMMY3   
+					,  	  ISU_DOC
+           			, 	  JEONJA_YN
+            		, 	  EX_FG 
+					     
+	 		) VALUES (
+	 				      #IN_DT#         
+					,     #IN_SQ#          
+					,     #LN_SQ#          
+					,     #CO_CD#          
+					,     #IN_DIV_CD#      
+					,     #LOGIC_CD#       
+					,     #ISU_DT#         
+					,     #ISU_SQ#         
+					,     #DIV_CD#         
+					,     #DEPT_CD#        
+					,     #EMP_CD#         
+					,     #ACCT_CD#        
+					,     #DRCR_FG#        
+					,     #ACCT_AM#        
+					,     #RMK_NB#         
+					,     #RMK_DC#         
+					,     #ATTR_CD#        
+					,     #TRCD_TY#        
+					,     #TRNM_TY#        
+					,     #DEPTCD_TY#      
+					,     #PJTCD_TY#       
+					,     #CTNB_TY#        
+					,     #FRDT_TY#        
+					,     #TODT_TY#        
+					,     #QT_TY#          
+					,     #AM_TY#          
+					,     #RT_TY#          
+					,     #DEAL_TY#        
+					,     #USER1_TY#       
+					,     #USER2_TY#       
+					,     #TR_CD#          
+					,     #TR_NM#          
+					,     #CT_DEPT#        
+					,     #DEPT_NM#        
+					,     #PJT_CD#         
+					,     #PJT_NM#         
+					,     #CT_NB#          
+					,     #FR_DT#          
+					,     #TO_DT#          
+					,     #CT_QT#          
+					,     #CT_AM#          
+					,     #CT_RT#          
+					,     #CT_DEAL#        
+					,     #DEAL_NM#        
+					,     #CT_USER1#       
+					,     #USER1_NM#       
+					,     #CT_USER2#       
+					,     #USER2_NM#       
+					,     #EXCH_TY#        
+					,     #EXCH_AM#        
+					,     #PAYMENT#        
+					,     #ISU_NM#         
+					,     #ENDORS_NM#      
+					,     #BILL_FG1#       
+					,     #BILL_FG2#       
+					,     #DUMMY1#         
+					,     #DUMMY2#         
+					,     #DUMMY3#         
+					,  	  #ISU_DOC#
+           			, 	  #JEONJA_YN#
+            		, 	  #EX_FG#
+            		  
+	 		);
+	 		
+	 		
+	 		commit;
+        	 
+     </update>
+ 
+ 
+<!--  MSSQL에는 있으나, ORACEL 에는 없는 컬럼 -->
+<!-- 	TR_NMK -->
+<!--    DEPT_NMK -->
+<!--    PJT_NMK -->
+<!--    DEAL_NMK -->
+<!--    USER1_NMK -->
+<!--    USER2_NMK -->
+<!--    RMK_DCK  -->
+<!--    ISU_DOCK -->
+<!--    PRS_FG  -->
+<!--    IY_DEPT_NM -->
+<!--    DEAL_FG -->
+<!--    PAYMENT_PT -->
+<!--    SENDER_EMP_CD -->
+<!--    ISS_NO  -->
+	 
+	 
+	 
+</sqlMap>

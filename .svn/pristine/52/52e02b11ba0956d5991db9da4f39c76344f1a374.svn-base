@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="wmsInLocation">
+
+	<typeAlias alias="WmsInLocationVO" type="retail.wms.in.service.WmsInVO" />	
+	
+	<!-- Location관리 Zone 조회 파라미터 -->
+	<parameterMap id="paramMap1" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_STR_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap1" />
+	</parameterMap>
+	
+	<!-- Location관리 Zone 조회 리절트 -->
+	<resultMap id="resultMap1" class="WmsInLocationVO">
+		<result property="ZONE_CODE"  column="ZONE_CODE"  nullValue="" />
+		<result property="ZONE_NAME"  column="ZONE_NAME"  nullValue="" />
+	</resultMap>
+	
+	<!-- Location관리 Zone 조회 -->
+ 	<procedure id="selectWmsInZone" parameterMap="paramMap1" >
+ 		{ call PKG_WMS_IN.SELECT_LOCATION_ZONE ( ?, ?, ?) }
+	</procedure>
+	
+	
+	<!-- Location관리 Rack 조회 파라미터 -->
+	<parameterMap id="paramMap2" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_STR_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_ZONE_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap2" />
+	</parameterMap>
+	
+	<!-- Location관리 Rack 조회 리절트 -->
+	<resultMap id="resultMap2" class="WmsInLocationVO">
+		<result property="ZONE_CODE"  column="ZONE_CODE"  nullValue="" />
+		<result property="RACK_CODE"  column="RACK_CODE"  nullValue="" />
+		<result property="RACK_NAME"  column="RACK_NAME"  nullValue="" />
+	</resultMap>
+	
+	<!-- Location관리 Rack 조회 -->
+ 	<procedure id="selectWmsInRack" parameterMap="paramMap2" >
+ 		{ call PKG_WMS_IN.SELECT_LOCATION_RACK ( ?, ?, ?, ?) }
+	</procedure>
+	
+	
+	<!-- Location관리 Line 조회 파라미터 -->
+	<parameterMap id="paramMap3" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_STR_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_RACK_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap3" />
+	</parameterMap>
+	
+	<!-- Location관리 Line 조회 리절트 -->
+	<resultMap id="resultMap3" class="WmsInLocationVO">
+		<result property="RACK_CODE"  column="RACK_CODE"  nullValue="" />
+		<result property="LINE_CODE"  column="LINE_CODE"  nullValue="" />
+		<result property="LINE_NAME"  column="LINE_NAME"  nullValue="" />
+		<result property="AVAIL_INV_YN"  column="AVAIL_INV_YN"  nullValue="" />
+		<result property="LOC_BAR_CODE"  column="LOC_BAR_CODE"  nullValue="" />
+	</resultMap>
+	
+	<!-- Location관리 Line 조회 -->
+ 	<procedure id="selectWmsInLine" parameterMap="paramMap3" >
+ 		{ call PKG_WMS_IN.SELECT_LOCATION_LINE ( ?, ?, ?, ?) }
+	</procedure>
+	
+	
+	
+	<!-- Location관리 Category 조회 파라미터 -->
+	<parameterMap id="paramMap4" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_STR_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_LINE_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap4" />
+	</parameterMap>
+	
+	<!-- Location관리 Category 조회 리절트 -->
+	<resultMap id="resultMap4" class="WmsInLocationVO">
+		<result property="LINE_CODE"  column="LINE_CODE"  nullValue="" />
+		<result property="CLS_CODE"  column="CLS_CODE"  nullValue="" />
+		<result property="CLS_NAME"  column="CLS_NAME"  nullValue="" />
+	</resultMap>
+	
+	<!-- Location관리 Category 조회 -->
+ 	<procedure id="selectWmsInCategory" parameterMap="paramMap4" >
+ 		{ call PKG_WMS_IN.SELECT_LOCATION_CLS ( ?, ?, ?, ?) }
+	</procedure>
+	
+	
+	
+	<!-- Location관리 Category 팝업 조회 파라미터 -->
+	<parameterMap id="paramMap5" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_SEARCH_WORD" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap5" />
+	</parameterMap>
+	
+	<!-- Location관리 Category 팝업 조회 리절트 -->
+	<resultMap id="resultMap5" class="WmsInLocationVO">
+		<result property="LRG_NAME"  column="LRG_NAME"  nullValue="" />
+		<result property="MID_NAME"  column="MID_NAME"  nullValue="" />
+		<result property="CLS_CODE"  column="CLS_CODE"  nullValue="" />
+		<result property="CLS_NAME"  column="CLS_NAME"  nullValue="" />
+	</resultMap>
+	
+	<!-- Location관리 Category 팝업 조회 -->
+ 	<procedure id="selectWmsInCategoryPop" parameterMap="paramMap5" >
+ 		{ call PKG_WMS_IN.SELECT_LOCATION_CLS_POP ( ?, ?, ?) }
+	</procedure>
+	
+	
+	
+	<!-- Location관리 등록 파라미터 -->
+	<parameterMap id="paramMap6" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_STR_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EMP_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_GRID_DATA1_YN" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_GRID_DATA2_YN" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_GRID_DATA3_YN" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_GRID_DATA4_YN" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="GRID_XML_DATA1" javaType="java.lang.String" jdbcType="CLOB" mode="IN" />
+	     <parameter property="GRID_XML_DATA2" javaType="java.lang.String" jdbcType="CLOB" mode="IN" />
+	     <parameter property="GRID_XML_DATA3" javaType="java.lang.String" jdbcType="CLOB" mode="IN" />
+	     <parameter property="GRID_XML_DATA4" javaType="java.lang.String" jdbcType="CLOB" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap6" />
+	</parameterMap>
+	
+	<!-- Location관리 등록 리절트 -->
+	<resultMap id="resultMap6" class="WmsInLocationVO">
+		<result property="RETURN_CODE"  column="RETURN_CODE"  nullValue="" />
+		<result property="RETURN_MESSAGE"  column="RETURN_MESSAGE"  nullValue="" />
+	</resultMap>
+	
+	<!-- Location관리 등록 -->
+ 	<procedure id="registWmsInLocation" parameterMap="paramMap6" >
+ 		{ call PKG_WMS_IN.REGIST_LOCATION ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }
+	</procedure>
+	
+</sqlMap>

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="purchMng">
+ 
+    
+  
+  
+
+   <!--  매입 헤더 조회  검색  -->
+   <parameterMap id="purchHeadSearchParameterMap" class="java.util.Map">
+  	<parameter property="CORP_CODE"    	 	 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="STR_CODE"    	 	 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="VEN_CODE"    	 	 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="PUR_DT_FROM"    	 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="PUR_DT_TO"    		 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="PUR_GB"    		 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="CFM_YN"    		 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	
+  	<parameter property="PUR_CFM_DT"    	 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="SLIP_NO"    		 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	 
+  	<parameter property="CUR"         	 	 javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+   </parameterMap>
+   <procedure id="purchHeadSearch"  parameterMap="purchHeadSearchParameterMap"  resultClass="java.util.HashMap"  > 
+   	 {   call PKG_PURCH.PURCH_HEAD_LIST( ? , ? , ? , ?    , ? , ? , ? , ?, ? , ? )       }
+   </procedure>
+  
+  
+   <!--  매입상품 리스트 정보 보여주기  -->
+   <parameterMap id="purchDetailInfoParameterMap" class="java.util.Map">
+    <parameter property="CORP_CODE"   		 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     /> 
+  	<parameter property="PUR_DT"     		 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     /> 
+  	<parameter property="STR_CODE"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     /> 
+  	<parameter property="SLIP_NO"     		 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     /> 
+  	<parameter property="CUR"        		 javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+   </parameterMap>
+   <procedure id="purchDetailInfo"  parameterMap="purchDetailInfoParameterMap"  resultClass="java.util.HashMap"  > 
+   	 {   call PKG_PURCH.PURCH_DETAIL_INFO( ? , ? , ? , ? , ? )       }
+   </procedure>
+   
+	
+	
+
+
+  <!--  매입저장  -->
+  <parameterMap id="purchRegisterParameterMap" class="java.util.Map">     
+    <parameter property="CORP_CODE"   			javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+    <parameter property="EMP_NO"   				javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />   
+  	<parameter property="SLIP_NO"   			javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />   
+  	<parameter property="PURCH_DETAIL"   		javaType="java.lang.String"     jdbcType="CLOB"       mode="IN"      /> 
+  	<parameter property="RETURN_CUR"        	javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"   mode="OUT"     /> 
+  </parameterMap> 
+  <procedure id="purchRegister"  parameterMap="purchRegisterParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_PURCH.PURCH_REGISTER( ? , ? , ? , ?, ?   )  }   
+  </procedure>
+   
+  
+  
+ 
+  <parameterMap id="purchRegisterAmtParameterMap" class="java.util.Map">     
+    <parameter property="CORP_CODE"   			javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+    <parameter property="EMP_NO"   				javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />   
+  	<parameter property="SLIP_NO"   			javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />   
+  	<parameter property="PURCH_DETAIL"   		javaType="java.lang.String"     jdbcType="CLOB"       mode="IN"      /> 
+  	<parameter property="RETURN_CUR"        	javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"   mode="OUT"     /> 
+  </parameterMap> 
+  <procedure id="purchRegisterAmt"  parameterMap="purchRegisterAmtParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_PURCH.PURCH_REGISTER_AMT( ? , ? , ? , ?, ?   )  }   
+  </procedure>
+  
+  
+  
+  <!--  매입 생성  -->
+  <parameterMap id="jobOrderToPurchParameterMap" class="java.util.Map">     
+    <parameter property="CORP_CODE"   				javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+    <parameter property="ORD_DT"   					javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />   
+  	<parameter property="REG_PATH"   				javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+  	<parameter property="STR_CODE"   				javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+  	
+  	<parameter property="ITM_GB"   					javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+  	<parameter property="LRG_CODE"   				javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+  	<parameter property="SLIP_NO"   		    	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+  	<parameter property="ONLY_FRESH_PROCESS_GB"     javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+  	 
+  	<parameter property="RETURN_CUR"        		javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"   mode="OUT"     /> 
+  </parameterMap> 
+  <procedure id="jobOrderToPurch"  parameterMap="jobOrderToPurchParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_PURCH.JOB_ORDER_TO_PURCH( ? , ? , ? , ?, ?, ?, ? , ?, ?  )  }   
+  </procedure>
+  
+  
+  
+  <!--  매입 확정  -->
+  <parameterMap id="purchConfirmParameterMap" class="java.util.Map">     
+    <parameter property="CORP_CODE"   				javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+    <parameter property="SLIP_NO"   		    	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+  	<parameter property="RETURN_CUR"        		javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"   mode="OUT"     /> 
+  </parameterMap> 
+  <procedure id="purchConfirm"  parameterMap="purchConfirmParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_PURCH.PURCH_CONFIRM( ? , ? , ?   )  }   
+  </procedure>
+  
+  <!--  시세정보등록관리  -->
+  <parameterMap id="PurchMarketPriceMap" class="java.util.Map">     
+    <parameter property="P_CORP_CODE" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+	<parameter property="P_STR_CODE"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+	<parameter property="P_SEARCH_START_DT" javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+	<parameter property="P_SEARCH_END_DT"  	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+	<parameter property="P_LRG_NAME"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+	<parameter property="P_DET_STR_CODE"  	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+	<parameter property="P_DET_APPL_DT"  	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+	<parameter property="P_DET_LRG_NAME"  	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+	<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT" 	resultMap="MarketPriceDetailResultMap" />
+	<parameter property="CUR2"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT" 	resultMap="MarketPriceResultMap" /> 
+  </parameterMap>
+  
+  <resultMap id="MarketPriceResultMap" class="java.util.HashMap">
+	<result property="STR_CODE" column="STR_CODE" />
+	<result property="APPL_DT" 	column="APPL_DT" />
+	<result property="LRG_NAME" column="LRG_NAME" />
+	<result property="STR_NAME" column="STR_NAME" />
+  </resultMap>
+	
+  <resultMap id="MarketPriceDetailResultMap" class="java.util.HashMap">
+	<result property="ITM_NAME" column="ITM_NAME" />
+	<result property="ORG_NAME" column="ORG_NAME" />
+	<result property="UNIT" 	column="UNIT" />
+	<result property="PRICE" 	column="PRICE" />
+	<result property="REMARK" 	column="REMARK" />
+  </resultMap> 
+	
+  <procedure id="selectPurchMarketPrice"  parameterMap="PurchMarketPriceMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_PURCH.PURCH_MARKET_PRICE_SELECT( ? , ? , ? , ? , ? , ? , ? , ? , ? , ?  )  }   
+  </procedure>
+  
+  <!--  시세정보등록  -->
+  <parameterMap id="PurchMarketPriceInsertMap" class="java.util.Map">
+	<parameter property="P_DATA_LIST"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+	<parameter property="P_CORP_CODE"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+	<parameter property="P_USER_ID"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+	<parameter property="I_STR_CODE"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+	<parameter property="I_APPL_DT"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+	<parameter property="I_LRG_NAME"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+	<parameter property="RETURN_CODE"     	javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+	<parameter property="RETURN_MSG"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+  </parameterMap>
+	
+  <procedure id="insertPurchMarketPrice" parameterMap="PurchMarketPriceInsertMap" >
+	{   call PKG_PURCH.PURCH_MARKET_PRICE_INSERT ( ?, ?, ?, ?, ?, ?, ?, ? )  }
+  </procedure>
+  
+  <!--  시세정보삭제  -->
+  <parameterMap id="PurchMarketPriceDelMap" class="java.util.Map">
+	<parameter property="P_CORP_CODE"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+	<parameter property="P_STR_CODE"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+	<parameter property="P_APPL_DT"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+	<parameter property="P_LRG_NAME"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+	<parameter property="RETURN_CODE"     	javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+	<parameter property="RETURN_MSG"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+  </parameterMap>
+	
+  <procedure id="deletePurchMarketPrice" parameterMap="PurchMarketPriceDelMap" >
+	{   call PKG_PURCH.PURCH_MARKET_PRICE_DEL ( ?, ?, ?, ?, ?, ? )  }
+  </procedure>
+  
+  
+  <parameterMap id="purchStoreChitStatusMap" class="java.util.Map">
+  	<parameter property="P_CORP_CODE"		javaType="java.lang.String"		jdbcType="VARCHAR"		mode="IN"		/>
+  	<parameter property="P_STR_CODE"		javaType="java.lang.String"		jdbcType="VARCHAR"		mode="IN"		/>
+  	<parameter property="P_OPEN_DT"			javaType="java.lang.String"		jdbcType="VARCHAR"		mode="IN"		/>
+  	<parameter property="P_END_DT"			javaType="java.lang.String"		jdbcType="VARCHAR"		mode="IN"		/>
+  	<parameter property="P_VEN_NAME"		javaType="java.lang.String"		jdbcType="VARCHAR"		mode="IN"		/>
+  	<parameter property="P_PUR_GB"			javaType="java.lang.String"		jdbcType="VARCHAR"		mode="IN"		/>
+  	<parameter property="P_INV_FLAG"		javaType="java.lang.String"		jdbcType="VARCHAR"		mode="IN"		/>
+  	<parameter property="CUR"				javaType="java.sql.ResultSet"	jdbcType="ORACLECURSOR"	mode="OUT"		/>
+  </parameterMap>
+      
+  <procedure id="purchStoreChitStatusList"	parameterMap="purchStoreChitStatusMap" resultClass="java.util.HashMap">
+  	{   call PKG_PURCH.PURCH_STORE_CHIT_STATUS_LIST ( ?, ?, ?, ?, ?, ?, ?, ? )  }
+  </procedure>
+  
+    
+  
+  <parameterMap id="purchStoreChitStatusDetailMap" class="java.util.Map">
+  	<parameter property="P_CORP_CODE"		javaType="java.lang.String"		jdbcType="VARCHAR"		mode="IN"		/>
+  	<parameter property="P_PUR_CFM_DT"			javaType="java.lang.String"		jdbcType="VARCHAR"		mode="IN"		/>
+  	<parameter property="P_STR_CODE"		javaType="java.lang.String"		jdbcType="VARCHAR"		mode="IN"		/>
+  	<parameter property="P_SLIP_NO"			javaType="java.lang.String"		jdbcType="VARCHAR"		mode="IN"		/>
+  	<parameter property="CUR"				javaType="java.sql.ResultSet"		jdbcType="ORACLECURSOR"		mode="OUT"		/>
+  </parameterMap>
+      
+  <procedure id="purchStoreChitStatusDetail"	parameterMap="purchStoreChitStatusDetailMap" resultClass="java.util.HashMap">
+  	{   call PKG_PURCH.PURCH_STORE_CHIT_STATUS_DETAIL ( ?, ?, ?, ?, ?)  }
+  </procedure>  
+
+  
+  
+  
+  <!--  매입 삭제  -->
+  <parameterMap id="purchDelParameterMap" class="java.util.Map">     
+    <parameter property="CORP_CODE"   				javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+   	<parameter property="SLIP_NO_XML"   			javaType="java.lang.String"     jdbcType="CLOB"       mode="IN"      /> 
+  	<parameter property="RETURN_CUR"        		javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"   mode="OUT"     /> 
+  </parameterMap> 
+  <procedure id="purchDel"  parameterMap="purchDelParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_PURCH.PURCH_DEL( ? , ? , ?  )  }   
+  </procedure>
+  
+  
+  
+  
+</sqlMap>
+
+
+
+
+
+
+
+
+
+

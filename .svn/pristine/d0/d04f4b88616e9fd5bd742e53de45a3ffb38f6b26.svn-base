@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="paymentDeduction">
+
+	<parameterMap id="paymentDeductionMap" class="java.util.Map">
+		<parameter property="P_START_SEARCH_DT" javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_END_SEARCH_DT" 	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"   		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CORP_CODE"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_CON_SEARCH"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		
+		<parameter property="P_DUCT_CODE_SEARCH"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		
+		<parameter property="S_PAY_SEQ"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+
+
+		<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="paymentDeductionResultMap" />
+	</parameterMap>
+	
+	<parameterMap id="paymentDeductionHoldMap" class="java.util.Map">
+		<parameter property="P_START_SEARCH_DT" javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_END_SEARCH_DT" 	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"   		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CORP_CODE"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_PAY_CON" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_PAY_SEQ" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="paymentDeductionHoldResultMap" />
+	</parameterMap>
+	
+	<parameterMap id="paymentDeductionComboMap" class="java.util.Map">
+		<parameter property="P_TYPE" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_CON" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CORP_CODE"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+	  	<parameter property="CUR"         		javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="paymentDeductionComboResultMap" /> 
+	</parameterMap>
+	
+	<resultMap id="paymentDeductionComboResultMap" class="java.util.HashMap">
+		<result property="STR_CODE" column="STR_CODE" />
+		<result property="STR_NAME" column="STR_NAME" />
+	</resultMap>
+
+	<parameterMap id="paymentDeductionHoldUpdateMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_HOLD_YM"     	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="I_VEN_CODE"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_CON"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_SEQ"     	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_HOLD_CODE"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_HOLD_AMT"       	javaType="java.lang.String"    	jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_HOLD_DT"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_EMP_NO"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_REMARK"    		javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_USER_ID"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="I_STR_CODE"  		javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"     	javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	<parameterMap id="paymentReleHoldUpdateMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_HOLD_YM"     	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="I_VEN_CODE"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_CON"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_SEQ"     	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_HOLD_CODE"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_USER_ID"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_RELE_HOLD_DT"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_RELE_EMP_NO"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_RELE_HOLD_YM"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_RELE_PAY_CON"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_RELE_PAY_SEQ"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_REMARK2"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="I_STR_CODE"  		javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"     	javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	<resultMap id="paymentDeductionResultMap" class="java.util.HashMap">
+		<result property="DUCT_YM" 		column="DUCT_YM" />
+		<result property="PAY_CON" 		column="PAY_CON" />
+		<result property="PAY_CON_NAME" column="PAY_CON_NAME" />
+		<result property="PAY_SEQ" 		column="PAY_SEQ" />
+		<result property="PAY_SEQ_NAME" column="PAY_SEQ_NAME" />
+		<result property="DUCT_CODE" 	column="DUCT_CODE" />
+		<result property="DUCT_NAME" 	column="DUCT_NAME" />
+		<result property="DUCT_DT" 		column="DUCT_DT" />
+		<result property="DUCT_AMT" 	column="DUCT_AMT" />
+		<result property="EMP_NAME" 	column="EMP_NAME" />
+		<result property="EMP_NO" 		column="EMP_NO" />
+		<result property="IEMP_NO" 		column="IEMP_NO" />
+		<result property="IDATE" 		column="IDATE" />
+		<result property="UEMP_NO" 		column="UEMP_NO" />
+		<result property="UDATE" 		column="UDATE" />
+		<result property="VEN_CODE" 	column="VEN_CODE" />
+		<result property="REMARK" 		column="REMARK" />
+		<result property="STR_CODE" 	column="STR_CODE" />
+		<result property="STR_NAME" 	column="STR_NAME" />
+		<result property="VEN_NAME" 	column="VEN_NAME" />
+		<!-- <result property="PAY_CLOSE" 	column="PAY_CLOSE" /> -->
+		<result property="ORG_CREAT" 	column="ORG_CREAT" />
+		<result property="PUR_CLOSE" 	column="PUR_CLOSE" />
+	</resultMap>
+	
+	<resultMap id="paymentDeductionHoldResultMap" class="java.util.HashMap">
+		<result property="PAY_CON" 		column="PAY_CON" />
+		<result property="PAY_CON_NAME" column="PAY_CON_NAME" />
+		<result property="PAY_SEQ" 		column="PAY_SEQ" />
+		<result property="PAY_SEQ_NAME" column="PAY_SEQ_NAME" />
+		<result property="HOLD_CODE" 	column="HOLD_CODE" />
+		<result property="HOLD_NAME" 	column="HOLD_NAME" />
+		<result property="HOLD_DT" 		column="HOLD_DT" />
+		<result property="HOLD_YM" 		column="HOLD_YM" />
+		<result property="HOLD_AMT" 	column="HOLD_AMT" />
+		<result property="PAY_CFM_YN" 	column="PAY_CFM_YN" />
+		<result property="EMP_NO" 		column="EMP_NO" />
+		<result property="EMP_NAME" 	column="EMP_NAME" />
+		<result property="REMARK" 		column="REMARK" />
+		<result property="RELE_YN" 		column="RELE_YN" />
+		<result property="RELE_HOLD_DT" column="RELE_HOLD_DT" />
+		<result property="RELE_HOLD_YM" column="RELE_HOLD_YM" />
+		<result property="RELE_EMP_NO" 	column="RELE_EMP_NO" />
+		<result property="RELE_EMP_NAME" column="RELE_EMP_NAME" />
+		<result property="RELE_PAY_CON" column="RELE_PAY_CON" />
+		<result property="RELE_PAY_SEQ" column="RELE_PAY_SEQ" />
+		<result property="REMARK2" 		column="REMARK2" />
+		<result property="RELE_CFM_YN" 	column="RELE_CFM_YN" />
+		<result property="IEMP_NO" 		column="IEMP_NO" />
+		<result property="IDATE" 		column="IDATE" />
+		<result property="UEMP_NO" 		column="UEMP_NO" />
+		<result property="UDATE" 		column="UDATE" />
+		<result property="VEN_CODE" 	column="VEN_CODE" />
+		<result property="VEN_NAME" 	column="VEN_NAME" />
+		<result property="STR_CODE" 	column="STR_CODE" />
+		<result property="STR_NAME" 	column="STR_NAME" />
+		<!-- <result property="PAY_CLOSE" 	column="PAY_CLOSE" /> -->
+		<result property="ORG_CREAT" 	column="ORG_CREAT" />
+	</resultMap>
+	
+  	<procedure id="selectPaymentDeduction" parameterMap="paymentDeductionMap" >
+		{   call PKG_PAYMENT.PAYMENT_DEDUCTION_SELECT ( ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	<procedure id="selectPaymentDeductionHold" parameterMap="paymentDeductionHoldMap" >
+		{   call PKG_PAYMENT.PAYMENT_DEDUCTION_HOLD_SELECT ( ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	<procedure id="getPaymentSelectBoxList" parameterMap="paymentDeductionComboMap" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_COMBO_SELECT ( ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	<parameterMap id="paymentDeductionUpdateMap" class="java.util.Map">
+		<parameter property="P_TYPE"       		javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CORP_CODE"     	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_DUCT_YM"     	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="I_VEN_CODE"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_CON"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_SEQ"     	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_DUCT_CODE"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_DUCT_DT"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_DUCT_AMT"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_EMP_NO"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_REMARK"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_USER_ID"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="I_STR_CODE"  		javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"     	javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+  	<procedure id="updatePaymentDeduction" parameterMap="paymentDeductionUpdateMap" >
+		{   call PKG_PAYMENT.PAYMENT_DEDUCTION_UPDATE ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	<procedure id="updatePaymentDeductionHold" parameterMap="paymentDeductionHoldUpdateMap" >
+		{   call PKG_PAYMENT.PAYMENT_DEDUCTION_HOLD_UPDATE ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	<procedure id="updatePaymentReleHold" parameterMap="paymentReleHoldUpdateMap" >
+		{   call PKG_PAYMENT.PAYMENT_RELE_HOLD_UPDATE ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  
+</sqlMap>

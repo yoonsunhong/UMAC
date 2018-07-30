@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="memberSalesMonthState">
+
+	<parameterMap id="hdrMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"			javaType="java.lang.String"		jdbcType="VARCHAR"		mode="IN"/>
+		<parameter property="P_STR_CODE"			javaType="java.lang.String"		jdbcType="VARCHAR"		mode="IN"/>
+		<parameter property="P_SALE_DT"	javaType="java.lang.String"		jdbcType="VARCHAR"		mode="IN"/>
+		<parameter property="P_CUST_NO"		javaType="java.lang.String"		jdbcType="VARCHAR"		mode="IN"/>
+		<parameter property="P_BUSI_FLAG"		javaType="java.lang.String"		jdbcType="VARCHAR"		mode="IN"/>
+		<parameter property="P_INDUST_FLAG"		javaType="java.lang.String"		jdbcType="VARCHAR"		mode="IN"/>
+		<parameter property="P_MBR_GRADE"		javaType="java.lang.String"		jdbcType="VARCHAR"		mode="IN"/>
+		
+		<parameter property="CUR"					javaType="java.sql.ResultSet"	jdbcType="ORACLECURSOR"	mode="OUT"/>
+	</parameterMap>
+
+	<procedure id="memberSalesMonthStateList" parameterMap="hdrMap" resultClass="java.util.HashMap">
+		{ call PKG_MEMBER_REPORT.MEMBER_SALES_MONTH_LIST ( ?, ?, ?, ?, ?, ?, ?,? )  }
+	</procedure>
+
+</sqlMap>

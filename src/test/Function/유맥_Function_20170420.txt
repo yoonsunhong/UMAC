@@ -1,0 +1,321 @@
+﻿DROP FUNCTION RTMASTER.FN_GET_COMMON_CODE_NM;
+
+CREATE OR REPLACE FUNCTION RTMASTER.FN_GET_COMMON_CODE_NM (
+    P_CD_CL         IN VARCHAR2,
+    P_CD_ID         IN VARCHAR2,
+    P_CORP_CODE     IN VARCHAR2
+)
+RETURN VARCHAR2 IS
+
+    V_RETURN VARCHAR2(4000) := '';
+
+BEGIN
+    IF P_CORP_CODE IS NULL THEN
+        RETURN V_RETURN;
+    END IF;
+
+    SELECT
+        A.CD_NM
+    INTO
+        V_RETURN
+    FROM
+        TBL_COMM_CD_INFO A
+       
+    WHERE
+            A.CD_CL = P_CD_CL
+        AND A.CD_ID = P_CD_ID
+        AND A.CORP_CODE = P_CORP_CODE
+        AND A.DEL_YN = 'N'
+        ;
+
+    RETURN V_RETURN;
+
+END FN_GET_COMMON_CODE_NM;
+/
+
+DROP FUNCTION RTMASTER.FN_GET_CUST_NAME;
+
+CREATE OR REPLACE FUNCTION RTMASTER.FN_GET_CUST_NAME (
+    P_CUST_NO   IN  VARCHAR2
+,   P_CORP_CODE IN  VARCHAR2
+)
+RETURN VARCHAR2 IS
+
+    V_RETURN VARCHAR2(4000) := '';
+
+BEGIN
+    IF P_CUST_NO IS NULL THEN
+        RETURN V_RETURN;
+    END IF;
+
+    SELECT  CUST_NAME
+    INTO    V_RETURN
+    FROM    CS_CUST
+    WHERE   CORP_CODE   = P_CORP_CODE
+    AND     CUST_NO     = P_CUST_NO
+    ;
+
+    RETURN V_RETURN;
+
+END FN_GET_CUST_NAME;
+/
+
+DROP FUNCTION RTMASTER.FN_GET_ITEM_NM;
+
+CREATE OR REPLACE FUNCTION RTMASTER.FN_GET_ITEM_NM (
+
+
+    P_ITM_CODE       IN VARCHAR2,
+    P_CORP_CODE     IN VARCHAR2
+)
+RETURN VARCHAR2 IS
+
+    V_RETURN VARCHAR2(4000) := '';
+
+BEGIN
+    IF P_CORP_CODE IS NULL THEN
+        RETURN V_RETURN;
+    END IF;
+
+    SELECT
+        A.ITM_NAME
+    INTO
+        V_RETURN
+    FROM
+        CD_PRODUCT_CMN A
+
+    WHERE
+        A.CORP_CODE = P_CORP_CODE
+        AND A.ITM_CODE = P_ITM_CODE
+        ;
+
+    RETURN V_RETURN;
+
+END FN_GET_ITEM_NM;
+/
+
+DROP FUNCTION RTMASTER.FN_GET_LRG_CODE_NAME;
+
+CREATE OR REPLACE FUNCTION RTMASTER.FN_GET_LRG_CODE_NAME (
+    P_LRG_CODE  IN  VARCHAR2
+,   P_CORP_CODE IN  VARCHAR2
+)
+RETURN VARCHAR2 IS
+
+    V_RETURN VARCHAR2(4000) := '';
+
+BEGIN
+    IF  P_LRG_CODE IS NULL THEN
+        RETURN V_RETURN;
+    END IF;
+    
+    SELECT    LRG_NAME  
+    INTO      V_RETURN
+    FROM      CD_LRG_MST   
+    WHERE     CORP_CODE = P_CORP_CODE
+    AND       LRG_CODE  = P_LRG_CODE
+    ;
+
+    RETURN V_RETURN;
+
+END FN_GET_LRG_CODE_NAME;
+/
+
+DROP FUNCTION RTMASTER.FN_GET_STR_NAME;
+
+CREATE OR REPLACE FUNCTION RTMASTER.FN_GET_STR_NAME (
+    P_STR_CODE  IN  VARCHAR2
+,   P_CORP_CODE IN  VARCHAR2
+)
+RETURN VARCHAR2 IS
+
+    V_RETURN VARCHAR2(4000) := '';
+
+BEGIN
+    IF P_STR_CODE IS NULL THEN
+        RETURN V_RETURN;
+    END IF;
+
+    SELECT  STR_NAME
+    INTO    V_RETURN
+    FROM    CD_STORE
+    WHERE   CORP_CODE   = P_CORP_CODE
+    AND     STR_CODE    = P_STR_CODE
+    ;
+
+    RETURN V_RETURN;
+
+END FN_GET_STR_NAME;
+/
+
+DROP FUNCTION RTMASTER.FN_GET_USER_NAME;
+
+CREATE OR REPLACE FUNCTION RTMASTER.FN_GET_USER_NAME (
+    P_USER_ID   IN  VARCHAR2
+,   P_CORP_CODE IN  VARCHAR2
+)
+RETURN VARCHAR2 IS
+
+    V_RETURN VARCHAR2(4000) := '';
+
+BEGIN
+    IF P_USER_ID IS NULL THEN
+        RETURN V_RETURN;
+    END IF;
+
+    SELECT  USER_NM
+    INTO    V_RETURN
+    FROM    TBL_USER_INFO
+    WHERE   CORP_CODE   = P_CORP_CODE
+    AND     USER_ID     = P_USER_ID
+    ;
+
+    RETURN V_RETURN;
+
+END FN_GET_USER_NAME;
+/
+
+DROP FUNCTION RTMASTER.FN_GET_VEN_NM;
+
+CREATE OR REPLACE FUNCTION RTMASTER.FN_GET_VEN_NM (
+
+    P_VEN_CODE       IN VARCHAR2,
+    P_CORP_CODE     IN VARCHAR2
+)
+RETURN VARCHAR2 IS
+
+    V_RETURN VARCHAR2(4000) := '';
+
+BEGIN
+    IF P_CORP_CODE IS NULL THEN
+        RETURN V_RETURN;
+    END IF;
+
+    SELECT
+        A.VEN_NAME
+    INTO
+        V_RETURN
+    FROM
+        CD_SUPPLY A
+
+    WHERE
+        A.CORP_CODE = P_CORP_CODE
+        AND A.VEN_CODE = P_VEN_CODE
+        ;
+
+    RETURN V_RETURN;
+
+END FN_GET_VEN_NM;
+/
+
+DROP FUNCTION RTMASTER.NUM_TO_HANGUL;
+
+CREATE OR REPLACE FUNCTION RTMASTER.NUM_TO_HANGUL (
+       ARG    NUMBER
+    
+) RETURN VARCHAR2 IS
+/**********************************************************
+ * @author  : MoonHH
+ * @date    : 2017-04-04 
+ * @summary : 숫자를 입력받아 한글로 돌려준다. 
+ **********************************************************/
+
+RETURN_VAL  VARCHAR2(150);
+
+ARG_STR     VARCHAR2(20); -- 현재값을 문자열로 변경
+STR_ONE     VARCHAR2(1) ; -- 한글자로 자른값
+ARG_LENGTH  NUMBER      ; -- 자리수
+CUT_FOUR    NUMBER      ; -- 네자리로 자를경우 몇개 나오는가
+FOUR_MOD    NUMBER      ; -- 처음 자른 자리수(나머지)는 몇개 인가
+FOUR_LEN    NUMBER      ; -- 네자리로 자른 갯수(몫, 자리수)
+ISZERO      VARCHAR2(1) ; -- '0' 인지 체크
+STR_FOUR    VARCHAR2(4) ; -- 네자리로 자른 값
+
+
+BEGIN
+    ARG_STR     := TO_CHAR(ARG)         ;
+    ARG_LENGTH  := LENGTH(ARG_STR)      ;
+    CUT_FOUR    := CEIL(ARG_LENGTH / 4) ;   -- 네자리로 자른 몫
+    FOUR_MOD    := MOD(ARG_LENGTH, 4)   ;   -- 네자리로 자른 나머지
+   
+    -- 몫으로 루프
+    FOR I IN 1..CUT_FOUR LOOP
+        STR_FOUR := '';
+       
+        IF FOUR_MOD != 0 AND I = 1 THEN
+            FOUR_LEN := FOUR_MOD;
+        ELSE
+            FOUR_LEN := 4;
+        END IF;
+
+        -- 나머지값 or 4번씩 루프       
+        FOR J IN 1..FOUR_LEN LOOP
+            IF I = 1 THEN
+                STR_ONE := SUBSTR(ARG_STR, J, 1);
+            ELSIF FOUR_MOD = 0 THEN
+                STR_ONE := SUBSTR(ARG_STR, ((I-2)*4) + (FOUR_MOD+J) + 4, 1);
+            ELSE
+                STR_ONE := SUBSTR(ARG_STR, ((I-2)*4) + (FOUR_MOD+J), 1);
+            END IF;
+           
+            STR_FOUR := STR_FOUR || STR_ONE;
+           
+            IF STR_ONE = '0' THEN  
+                ISZERO := 'Y';
+           
+            ELSE
+                ISZERO := 'N';
+
+                IF STR_ONE = '1' THEN
+                    RETURN_VAL := RETURN_VAL || '일';
+                ELSIF STR_ONE = '2' THEN
+                    RETURN_VAL := RETURN_VAL || '이';
+                ELSIF STR_ONE = '3' THEN
+                    RETURN_VAL := RETURN_VAL || '삼';
+                ELSIF STR_ONE = '4' THEN
+                    RETURN_VAL := RETURN_VAL || '사';
+                ELSIF STR_ONE = '5' THEN
+                    RETURN_VAL := RETURN_VAL || '오';
+                ELSIF STR_ONE = '6' THEN
+                    RETURN_VAL := RETURN_VAL || '육';
+                ELSIF STR_ONE = '7' THEN
+                    RETURN_VAL := RETURN_VAL || '칠';
+                ELSIF STR_ONE = '8' THEN
+                    RETURN_VAL := RETURN_VAL || '팔';
+                ELSIF STR_ONE = '9' THEN
+                    RETURN_VAL := RETURN_VAL || '구';
+                END IF;
+            END IF;
+           
+            -- 0이면 천, 백, 십 단위 안 붙임
+            IF ISZERO = 'N' THEN
+                IF FOUR_LEN-J = 3 THEN
+                    RETURN_VAL := RETURN_VAL || '천';
+                ELSIF FOUR_LEN-J = 2 THEN
+                    RETURN_VAL := RETURN_VAL || '백';
+                ELSIF FOUR_LEN-J = 1 THEN
+                    RETURN_VAL := RETURN_VAL || '십';
+                END IF;
+            END IF;           
+        END LOOP;
+              
+        -- 네자리가 0000이면 만, 억, 조, 경 안 붙임
+        IF STR_FOUR != '0000' THEN
+            IF CUT_FOUR-I = 1 THEN
+                RETURN_VAL := RETURN_VAL || '만 ';
+            ELSIF CUT_FOUR-I = 2 THEN
+                RETURN_VAL := RETURN_VAL || '억 ';
+            ELSIF CUT_FOUR-I = 3 THEN
+                RETURN_VAL := RETURN_VAL || '조 ';
+            ELSIF CUT_FOUR-I = 4 THEN
+                RETURN_VAL := RETURN_VAL || '경 ';
+            END IF;
+        END IF;
+    END LOOP;
+
+    RETURN TRIM(RETURN_VAL) || '원';
+    
+EXCEPTION WHEN OTHERS THEN
+    RETURN NULL;
+END;
+/

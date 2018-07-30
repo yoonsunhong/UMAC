@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="wmsStockSchedule">
+
+	<!-- 조직목록의 트리메뉴 리스트 조회 파라미터 맵 -->
+	<parameterMap id="pramMap0" class="java.util.HashMap">
+		 <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap0" />
+	</parameterMap>
+	<!-- 조직목록의 트리메뉴 리스트 조회 리절트 맵 -->
+	<resultMap id="resultMap0" class="java.util.HashMap">
+	    <result property="STR_CODE"  column="STR_CODE" nullValue="" />  
+	    <result property="STR_NAME"  column="STR_NAME"  nullValue="" />
+	</resultMap>
+	
+	<parameterMap id="paramMap1" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     		javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_STR_CODE"   			javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="CUR"            		    javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"   mode="OUT"  resultMap="resultMap1" />
+	</parameterMap>
+	
+	<resultMap id="resultMap1" class="java.util.HashMap">
+		<result property="STR_NAME" 				column="STR_NAME" 				nullValue=""/>
+		<result property="STR_CODE" 				column="STR_CODE" 				nullValue=""/>
+		<result property="INV_INSP_SCHD_ID" 		column="INV_INSP_SCHD_ID" 		nullValue=""/>
+		<result property="INV_INSP_DT" 				column="INV_INSP_DT" 				nullValue=""/>
+		<result property="INV_INSP_GB" 				column="INV_INSP_GB"				nullValue=""/>
+		<result property="INV_INSP_GB_CD" 		column="INV_INSP_GB_CD"			nullValue=""/>
+		<result property="INV_SURL_MTHD" 		column="INV_SURL_MTHD" 		nullValue=""/>
+		<result property="INV_SURL_MTHD_CD" 	column="INV_SURL_MTHD_CD" 	nullValue=""/>
+		<result property="CFM_FLAG" 				column="CFM_FLAG" 				nullValue=""/>
+	</resultMap>
+
+	<!-- 조직목록의 트리메뉴 리스트 조회-->    
+    <procedure id="getWmsStockOrganizationList" parameterMap="pramMap0" resultMap="resultMap0">
+        { call PKG_WMS_STOCK.PR_GET_WMS_STORE_LIST( ? , ?) }   
+  	</procedure>
+	
+	<!-- 재고조사 일정 목록조회 -->
+	<procedure id="getWmsInventorySchedule" parameterMap="paramMap1"  resultMap="resultMap1">
+		{ call PKG_WMS_STOCK.GET_WMS_STOCK_SCHEDULE_LIST ( ?, ?, ?)  }
+	</procedure>
+	
+	
+</sqlMap>

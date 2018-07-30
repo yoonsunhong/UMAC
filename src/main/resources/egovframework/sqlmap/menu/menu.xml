@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="menu">
+
+	<!-- 사용가능 메뉴 목록 조회 파라미터 맵 -->
+	<parameterMap id="paramMap1" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap1" />
+	</parameterMap>
+	<!-- 사용가능  메뉴 목록 조회 리절트 맵 -->
+	<resultMap id="resultMap1" class="retail.menu.service.MenuVO">
+	    <result property="MENU_ID"  column="MENU_ID"  nullValue="" />
+	    <result property="MENU_NM"  column="MENU_NM" nullValue="" />
+	    <result property="UP_MENU_ID"  column="UP_MENU_ID" nullValue="" />
+	    <result property="SORT_ORDER"  column="SORT_ORDER" nullValue="" />
+	    <result property="MENU_GB"  column="MENU_GB" nullValue="" />
+	    <result property="CLASS_NM"  column="CLASS_NM" nullValue="" />
+	    <result property="BIGO"  column="BIGO"  nullValue="" />
+	    <result property="USE_YN"  column="USE_YN" nullValue="" />
+	    <result property="DEL_YN"  column="DEL_YN" nullValue="" />
+	    <result property="UP_MENU_NM"  column="UP_MENU_NM" nullValue="" />
+	</resultMap>
+	
+	<!-- 메뉴 업데이트 파라미터 맵 -->
+	<parameterMap id="paramMap2" class="java.util.HashMap">
+	     <parameter property="P_MENU_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_USE_YN" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_BIGO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CLASS_NM" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_SORT_ORDER" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_UPD_IP" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_UPD_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MENU_NM" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap2" />
+	</parameterMap>
+	
+	<!-- 메뉴 업데이트 리절트 맵 -->
+	<resultMap id="resultMap2" class="retail.menu.service.MenuVO">
+	    <result property="RETURN_CODE"  column="RETURN_CODE" nullValue="" />  
+	    <result property="RETURN_MESSAGE"  column="RETURN_MESSAGE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 메뉴 신규 등록 파라미터 맵 -->
+	<parameterMap id="paramMap3" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MENU_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MENU_NM" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_UP_MENU_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_SORT_ORDER" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MENU_GB" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CLASS_NM" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_BIGO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_USE_YN" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_REG_IP" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_REG_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap3" />
+	</parameterMap>
+	
+	<!-- 메뉴 신규등록 리절트 맵 -->
+	<resultMap id="resultMap3" class="retail.menu.service.MenuVO">
+	    <result property="RETURN_CODE"  column="RETURN_CODE" nullValue="" />  
+	    <result property="RETURN_MESSAGE"  column="RETURN_MESSAGE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 메뉴 삭제 파라미터 맵 -->
+	<parameterMap id="paramMap4" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MENU_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap4" />
+	</parameterMap>
+	
+	<!-- 메뉴 삭제 리절트 맵 -->
+	<resultMap id="resultMap4" class="retail.menu.service.MenuVO">
+	    <result property="RETURN_CODE"  column="RETURN_CODE" nullValue="" />  
+	    <result property="RETURN_MESSAGE"  column="RETURN_MESSAGE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 비고 조회 파라미터 맵 -->
+	<parameterMap id="paramMap5" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CLASS_NM" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap5" />
+	</parameterMap>
+	
+	<!-- 비고(도움말 조회) 리절트 맵 -->
+	<resultMap id="resultMap5" class="retail.menu.service.MenuVO">
+	    <result property="BIGO"  column="BIGO" nullValue="" />  
+	</resultMap>
+	
+	
+  
+	<!-- 메뉴 조회 -->
+ 	<procedure id="getMenuTree" parameterMap="paramMap1" >
+ 		{ call PKG_SYSTEM.SYSTEM_MENU_SEARCH (?, ?) }
+	</procedure>
+	
+	
+	<!-- 메뉴 수정 -->
+	<procedure id="updateMenuInfo"  parameterMap="paramMap2" >
+		 { call PKG_SYSTEM.SYSTEM_MENU_UPDATE (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) } 
+	</procedure>
+
+	
+	
+	<!-- 메뉴 저장 -->
+	<procedure id="insertMenuInfo"  parameterMap="paramMap3" >
+	 	{ call PKG_SYSTEM.SYSTEM_MENU_INSERT (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }
+	</procedure>
+
+   <!-- 메뉴 삭제 -->
+   <procedure id="deleteMenuInfo"  parameterMap="paramMap4" >
+		{ call PKG_SYSTEM.SYSTEM_MENU_DELETE (?, ?, ?) }
+	</procedure>
+	
+	<!-- 메뉴에 대한 도움말 조회 -->
+	<procedure id="selectMenuBigo" parameterMap="paramMap5" >
+		{ call PKG_SYSTEM.SYSTEM_MENU_SELECT_BIGO (?, ?, ?) } 
+	</procedure>
+
+</sqlMap>

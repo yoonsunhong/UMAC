@@ -1,0 +1,380 @@
+/********************************************************
+ * 설명:  거래선별 매입 집계 조회
+ * 수정일      	수정자       수정내용
+ * ------------------------------------------------------
+ * ------------------------------------------------------
+ * author	: 오동근
+ * since	: 2017.03.22
+ * version : 1.0
+ ********************************************************/
+
+$(document).ready(function(){
+	init();
+	//최초 도움말 불러오기 
+	setHelpMessage($(location).attr('pathname').replace('/',''));
+	datePickerYearMonth();
+	var nowDateYm = new CommDateManager().getDate("yyyy-mm");
+	$("#P_SEARCH_DT").val(nowDateYm);
+	
+});
+
+// ----------------------- 그리드 설정 시작 -------------------------------------
+//rMate그리드 경로정보 셋팅
+rMateGridH5.setAssetsPath("/resources/js/rMateGridH5/Assets/");
+rMateGridH5.setConfig(rMateGridH5.style);
+
+// rMate 그리드 생성 준비가 완료된 상태 시 호출할 함수를 지정합니다.
+var jsVars = "rMateOnLoadCallFunction=gridReadyHandler";
+
+
+// rMateDataGrid 를 생성합니다.
+// 파라메터 (순서대로)
+//  1. 그리드의 id ( 임의로 지정하십시오. )
+//  2. 그리드가 위치할 div 의 id (즉, 그리드의 부모 div 의 id 입니다.)
+//  3. 그리드 생성 시 필요한 환경 변수들의 묶음인 jsVars
+//  4. 그리드의 가로 사이즈 (생략 가능, 생략 시 100%)
+//  5. 그리드의 세로 사이즈 (생략 가능, 생략 시 100%)
+rMateGridH5.create("grid1", "gridHolder1", jsVars, "100%");
+//rMateGridH5.create("grid2", "gridHolder2", jsVars);
+
+// 그리드의 속성인 rMateOnLoadCallFunction 으로 설정된 함수.
+// rMate 그리드의 준비가 완료된 경우 이 함수가 호출됩니다.
+// 이 함수를 통해 그리드에 레이아웃과 데이터를 삽입합니다.
+// 파라메터 : id - rMateGridH5.create() 사용 시 사용자가 지정한 id 입니다.
+function gridReadyHandler(id) {
+	if (id == "grid1") {
+		// rMateGrid 관련 객체
+		gridApp1 = document.getElementById(id);	// 그리드를 포함하는 div 객체
+		gridRoot1 = gridApp1.getRoot();	// 데이터와 그리드를 포함하는 객체
+
+		gridApp1.setLayout(layoutStr1);
+		gridApp1.setData(gridData);
+		
+		gridRoot1.addEventListener("layoutComplete", layoutCompleteHandler1);
+	}  
+}
+
+function layoutCompleteHandler1() {
+	dataGrid1 = gridRoot1.getDataGrid();  // 그리드 객체
+}
+
+//그리드의 데이터 제어를 위한 전역변수 설정
+var gridApp1, gridRoot1, dataGrid1, dataRow1, clickData1, selectorColumn1;
+
+//----------------------- 그리드 설정 끝 -----------------------
+var layoutStr1;
+//그리드1 헤더 설정
+
+layoutStr1 =
+'<rMateGrid>\
+	<SpanRowAttribute id="sumRowAttr_V" styleName="allTotalStyle" backgroundColor="#eeeeee" />\
+	<SpanCellAttribute id="sum1CellAttr" colNo="0" styleName="subTotalStyle" backgroundColor="#dddddd" colSpan="6" />\
+	<SpanRowAttribute id="sumRowAttr_T" styleName="allTotalStyle" backgroundColor="#bbd713" />\
+	<SpanCellAttribute id="sumTotalCellAttr" colNo="0" styleName="allTotalHeaderStyle" backgroundColor="#a8c305" colSpan="6" />\
+	<DateFormatter id="datefmt" formatString="YYYY-MM-DD"/>\
+	<DataGrid id="dg1" horizontalScrollPolicy="auto" sortableColumns="true">\
+		<columns>\
+			<DataGridColumn dataField="STR_NAME"  		headerText="' + storNm + '"  		textAlign="center" width="100" />\
+			<DataGridColumn dataField="VEN_CODE"  		headerText="' + venCode + '"  		textAlign="center" width="100" />\
+			<DataGridColumn dataField="VEN_NAME" 		headerText="' + venName + '" 		textAlign="left"   width="160"	/>\
+			<DataGridColumn dataField="GRE_GB"  		headerText="' + greGb + '"			textAlign="center" width="80" />\
+			<DataGridColumn dataField="PAY_CON"			headerText="' + payCon + '" 		textAlign="center" width="135"	/>\
+			<DataGridColumn dataField="PAY_SEQ"  		headerText="' + paySeq + '" 		textAlign="center" width="120" />\
+			<DataGridColumn dataField="BEF_HOLD_AMT"	headerText="' + releAmt + '" 		textAlign="right" labelJsFunction="labelFunc" />\
+			<DataGridColumn dataField="PUR_AMT"			headerText="' + puchasAmount + '" 	textAlign="right" labelJsFunction="labelFunc" />\
+			<DataGridColumn dataField="SALE_AMT"		headerText="' + selngAmount + '" 	textAlign="right" labelJsFunction="labelFunc" />\
+			<DataGridColumn dataField="JANG_AMT"		headerText="' + pyCfmJangAmt + '" 	textAlign="right" labelJsFunction="labelFunc" />\
+			<DataGridColumn dataField="DUCT_AMT"		headerText="' + ductAmt + '" 		textAlign="right" labelJsFunction="labelFunc" />\
+			<DataGridColumn dataField="PAY_TGT_AMT"		headerText="' + payable + '" 		textAlign="right" labelJsFunction="labelFunc" />\
+			<DataGridColumn dataField="HOLD_AMT"		headerText="' + holdAmt + '" 		textAlign="right" labelJsFunction="labelFunc" />\
+			<DataGridColumn dataField="RELE_AMT"		headerText="' + holdCancleAmt + '" 	textAlign="right" labelJsFunction="labelFunc" />\
+			<DataGridColumn dataField="PAY_NET_AMT"		headerText="' + payNetAmt + '" 		textAlign="right" labelJsFunction="labelFunc" />\
+			<DataGridColumn dataField="PAY_ABLE"			headerText="' + accountsPayable + '" textAlign="right" labelJsFunction="labelFunc" />\
+			<DataGridColumn dataField="BANK_CODE"		headerText="' + /*bankCodeCode*/ bankNm + '" 	textAlign="center" width="80"  />\
+			<DataGridColumn dataField="BANK_ACC_NO"		headerText="' + bankAccNo + '" 		textAlign="left" width="135" />\
+			<DataGridColumn dataField="BANK_ACOWN"		headerText="' + bankAcown + '" 		textAlign="left" width="125" />\
+			<DataGridColumn dataField="RES_PAY_DT"		headerText="' + resPayDt + '" 		textAlign="center" width="100" formatter="{datefmt}" />\
+			<DataGridColumn dataField="CFM_FLAG"		headerText="' + dateConfirmed + '" 	textAlign="center" width="100" />\
+		</columns>\
+		<dataProvider>\
+			<SpanSummaryCollection source="{$gridData}">\
+				<mergingFields>\
+			        <SpanMergingField name="STR_NAME">\
+			            <SpanSummaryRow label="소계" labelDataField="STR_NAME" rowAttribute="{sumRowAttr_V}" cellAttribute="{sum1CellAttr}">\
+			                <SpanSummaryField dataField="BEF_HOLD_AMT"	summaryOperation="SUM" />\
+			                <SpanSummaryField dataField="PUR_AMT"		summaryOperation="SUM" />\
+			                <SpanSummaryField dataField="SALE_AMT"		summaryOperation="SUM" />\
+			                <SpanSummaryField dataField="JANG_AMT"		summaryOperation="SUM" />\
+			                <SpanSummaryField dataField="DUCT_AMT"		summaryOperation="SUM" />\
+			                <SpanSummaryField dataField="PAY_TGT_AMT"	summaryOperation="SUM" />\
+			                <SpanSummaryField dataField="HOLD_AMT"		summaryOperation="SUM" />\
+			                <SpanSummaryField dataField="RELE_AMT"		summaryOperation="SUM" />\
+			                <SpanSummaryField dataField="PAY_NET_AMT"	summaryOperation="SUM" />\
+			                <SpanSummaryField dataField="PAY_ABLE"		summaryOperation="SUM" />\
+			            </SpanSummaryRow>\
+			        </SpanMergingField>\
+			    </mergingFields>\
+				<summaries>\
+			        <SpanSummaryRow summaryPlacement="last" label="' + sm + '" labelDataField="STR_NAME" rowAttribute="{sumRowAttr_T}" cellAttribute="{sumTotalCellAttr}" >\
+			            <SpanSummaryField dataField="BEF_HOLD_AMT"	summaryOperation="SUM" />\
+			            <SpanSummaryField dataField="PUR_AMT"		summaryOperation="SUM" />\
+			            <SpanSummaryField dataField="SALE_AMT"		summaryOperation="SUM" />\
+			            <SpanSummaryField dataField="JANG_AMT"		summaryOperation="SUM" />\
+			            <SpanSummaryField dataField="DUCT_AMT"		summaryOperation="SUM" />\
+			            <SpanSummaryField dataField="PAY_TGT_AMT"	summaryOperation="SUM" />\
+			            <SpanSummaryField dataField="HOLD_AMT"		summaryOperation="SUM" />\
+			            <SpanSummaryField dataField="RELE_AMT"		summaryOperation="SUM" />\
+			            <SpanSummaryField dataField="PAY_NET_AMT"	summaryOperation="SUM" />\
+			            <SpanSummaryField dataField="PAY_ABLE"		summaryOperation="SUM" />\
+			        </SpanSummaryRow>\
+			    </summaries>\
+		    </SpanSummaryCollection>\
+	    </dataProvider>\
+	</DataGrid>\
+</rMateGrid>';
+//그리드1 데이터 초기화
+var gridData = [];
+
+// ----------------------- 그리드 설정 끝 -------------------------------------
+
+//########################################################
+//###   사용자 정의 함수 ( 시작 )   							   ###
+//########################################################
+
+function secondFunc(item, value, column){
+	if(item["No"])
+		return item["No"];
+	else 
+		return value;
+}
+
+function labelFunc(item, value, column){
+	var str = value;
+	return moneyComma(String(str));
+	  
+}
+
+//(협력업체검색) 팝업 호출 function
+function btn_comm_supply_search(){
+	$('#comm_pop_wrap3' ).dialog( 'open' );
+	gridApp12.resize();
+	
+	if($("#P_VEN_NAME").val() != null && $("#P_VEN_NAME").val() != ""){
+		$("#P_TEXT3").val($("#P_VEN_NAME").val());
+		btn_comm_search('3');
+	}
+}
+
+//(협력업체검색) 팝업 callback function
+function fn_comm_supply_callback(dataRow){
+	$('#P_VEN_NAME' ).val(dataRow.VEN_NAME);		// 협력업체명
+	$('#P_VEN_CODE' ).val(dataRow.VEN_CODE);		// 협력업체코드
+	
+	//협력업체의 지불주기/지불차수 선택
+	getPayNum(dataRow.VEN_CODE, 'P_PAY_CON','P_PAY_SEQ');
+}
+
+//엑셀 export
+function fnExcelExport(){
+	var nowDate = new CommDateManager().getDate("yyyymmdd");
+	
+	dataGrid1.exportFileName = "export_"+nowDate+".xlsx";
+	gridRoot1.excelExportSave("/gridExcelDown.do", false);
+}
+
+function fnSearch(){
+	var loadData = $("#top_search").serializeAllObject(); 
+	
+
+	if($.trim($("#P_SEARCH_DT").val() ) == null || $.trim($("#P_SEARCH_DT").val() ) == "")
+	{
+		alert(payYm + msgConfirm);
+		$("#P_SEARCH_DT").focus();
+		return false;
+	}
+	
+	if($.trim($("#P_VEN_NAME").val() ) == null || $.trim($("#P_VEN_NAME").val() ) == "") $("#P_VEN_CODE").val("");
+	
+	loadData.P_STR_CODE = $("#P_STR_CODE").val();
+	
+	jQuery.ajax({ 
+	    url:"/paymentLedgerSearchList.do",         
+	    type:"POST",
+		datatype:"json",
+		data: loadData,
+		beforeSend : function(){ 	    	
+            gridRoot1.addLoadingBar();
+	    },
+		success:function(data){  
+			gridApp1.setData(data.list);
+	    },
+	    complete : function(data) {
+	    	dataGrid1.setEnabled(true);
+	       	gridRoot1.removeLoadingBar();
+	    },
+	    error : function(xhr, status, error) {
+	    	CommonJs.alertErrorStatus(xhr.status, error);
+	    	dataGrid1.setEnabled(true);
+	       	gridRoot1.removeLoadingBar();
+	    }
+	});
+}
+
+// 지불주기 선택 > 지불차수 출력.
+function chgPay( PAY_GB ) { 
+	if( PAY_GB == "PAY_CON")
+	{
+		if( $('#P_PAY_CON').val() == "" )
+		{    
+			$('#PAY_CON_MGMT_ENTRY_1').val( "" );
+
+			$("#P_PAY_CON").empty();
+			$("#P_PAY_CON option").remove();
+			$("#P_PAY_CON" ).append('<option value="">' + all + '</option>');
+			getCommonCodeSelectBoxList("P_PAY_CON",   "PAY_CON"); // 지불주기  조회조건
+			
+			$("#P_PAY_SEQ").empty();
+			$("#P_PAY_SEQ option").remove();
+			$("#P_PAY_SEQ" ).append('<option value="">' + all + '</option>');
+			getCommonCodeSelectBoxList("P_PAY_SEQ",   "PAY_SEQ"); // 지불차수
+			
+			return;
+		}
+		
+		var MGMT_ENTRY_VAL = "";
+		jQuery.ajax({ 
+		    url:"/getPayMgmtEntry.do",         
+		    type:"POST",
+			datatype:"json",
+			async:false,
+		 	data: {   "CD_CL"  : "PAY_CON"
+		 	,         "CD_ID"  : $('#P_PAY_CON').val()
+		    },
+			success:function(data){ 
+				MGMT_ENTRY_VAL  =  data[0].MGMT_ENTRY_1  ;
+				$('#PAY_CON_MGMT_ENTRY_1').val(   data[0].MGMT_ENTRY_1   ); 
+		    },
+		    complete : function(data) { 
+		    },
+		    error : function(xhr, status, error) {
+		    	CommonJs.alertErrorStatus(xhr.status, error);
+		    }
+		});
+	
+		 
+		var postValue ={};	
+		postValue = { 
+				  "MGMT_ENTRY"	: MGMT_ENTRY_VAL  
+		}; 
+		jQuery.ajax({
+		    type:"POST",
+		    url:"/getPaySeqCodeSelectBoxList.do",    // getCateCodeSelectBoxList
+		    dataType:"JSON",  
+		    data:postValue,
+		    async:false,
+		    success : function(data) {
+		    	$("#P_PAY_SEQ").empty();
+		    	$("select[name=P_PAY_SEQ   ] option").remove();
+		    	$("#P_PAY_SEQ" ).append('<option value="">' + all + '</option>'); 
+				for(var i = 0; i < data.length; i++){
+					 $("#P_PAY_SEQ"  ).append('<option value="'+ data[i].CD_ID +'">'+ data[i].CD_NM +'</option>'); 
+			   	}
+		    },
+		    complete : function(data) {
+		    },
+		    error : function(xhr, status, error) {
+		    	CommonJs.alertErrorStatus(xhr.status, error);
+		    }
+		});
+	}
+
+}
+
+//협력업체의 지불주기/지불차수 선택
+//getPayNum(dataRow.VEN_CODE, 'P_PAY_CON_SEARCH','S_PAY_SEQ');
+function getPayNum(venCode, pPayCon,pPaySeq){
+	var postValue ={};	
+	postValue = { 
+			  "P_VEN_CODE"	: venCode
+	};
+
+	jQuery.ajax({
+	    type:"POST",
+	    url:"/getPayNum.do",
+	    dataType:"JSON",
+	    data:postValue,
+	    async:false,
+	    success : function(data) {
+	    	//alert('PAY_CON: '+data[0].PAY_CON + ', PAY_SEQ:' + data[0].PAY_SEQ);
+	    	
+	    	$("#"+pPayCon).empty();
+	    	$("select[name="+pPayCon+"   ] option").remove();
+    		$("#"+pPayCon).append('<option value="">' + all + '</option>');
+    		
+    		$("#"+pPaySeq).empty();
+    		$("select[name="+pPaySeq+"   ] option").remove();
+    		$("#"+pPaySeq).append('<option value="">' + all + '</option>');
+    		
+	    	for(var i = 0; i < data.length; i++){
+//	    		$("#"+pPayCon+"").val(data[i].PAY_CON).attr("selected","selected");
+//	    		chgPay('PAY_CON');
+//	    		
+//			    $("#"+pPaySeq+"").val(data[i].PAY_SEQ).attr("selected","selected");
+	    		
+	    		$("#"+pPayCon).append('<option value="'+ data[i].PAY_CON +'">'+ data[i].PAY_CON_NM +'</option>');
+	    		$("#"+pPayCon).val(data[i].PAY_CON).attr("selected","selected");
+	    		
+	    		$("#"+pPaySeq).append('<option value="'+ data[i].PAY_SEQ +'">'+ data[i].PAY_SEQ_NM +'</option>');
+		    	$("#"+pPaySeq).val(data[i].PAY_SEQ).attr("selected","selected");
+		   	}
+	    	
+	    },
+	    complete : function(data) {
+	    },
+	    error : function(xhr, status, error) {
+	    	CommonJs.alertErrorStatus(xhr.status, error);
+	    }
+	});
+}
+
+function init() {
+	getCommonCodeSelectBoxList("P_GRE_GB",   "GRE_GB");
+	getCommonCodeSelectBoxList("P_PAY_SEQ",   "PAY_SEQ");
+	getCommonCodeSelectBoxList("P_PAY_CON",   "PAY_CON");
+	
+	$("#P_STR_CODE").append('<option value="">'+ all +'</option>');
+	getStoreCode("P_STR_CODE");
+	$("select[id='P_STR_CODE']").val(SSSC).prop("selected", true); // 회원의 점포 선택
+	
+	// 협력(매입)업체에서 엔터시 검색되게....
+	$("input[name=P_VEN_NAME]").keydown(function (key) { 
+        if(key.keyCode == 13){//키가 13이면 실행 (엔터는 13)
+        	btn_comm_supply_search();
+        }
+        
+        //협력업체 없으면 지불주기/지불차수 전체
+        var venName = $('#P_VEN_NAME' ).val();
+    	if(venName == null || venName == ''){
+    		$("#P_PAY_CON").empty();
+    		$("#P_PAY_CON" ).append('<option value="">' + all + '</option>');
+    		getCommonCodeSelectBoxList("P_PAY_CON",   "PAY_CON"); // 지불주기  조회조건
+    		
+    		$("#P_PAY_SEQ").empty();
+    		$("#P_PAY_SEQ" ).append('<option value="">' + all + '</option>');
+			getCommonCodeSelectBoxList("P_PAY_SEQ",   "PAY_SEQ"); // 지불차수
+    	}
+	});
+}
+
+//########################################################
+//###   상단 버튼 구현 ( 끝 )   							   ###
+//########################################################
+/* 추가 js */
+//그리드 너비 제어
+$(document).ready(function (){
+	$("#gridHolder1").height($(window).height()-128);
+
+	$(window).on('resize',function (){	
+		$("#gridHolder1").height($(window).height()-128);
+	});
+});

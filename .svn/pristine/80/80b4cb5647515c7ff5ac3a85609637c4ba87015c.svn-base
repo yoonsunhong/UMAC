@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BOD">
+
+	<parameterMap id="paramMap1" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_STR_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_ORD_DT"			   	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_ORD_STAT"	      	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_SLIP_NO"		      	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_FIRST_INDEX"   		javaType="java.lang.Integer"     jdbcType="INTEGER"       		mode="IN"    />
+		<parameter property="P_RECORD_COUNT"  	javaType="java.lang.Integer"   	jdbcType="INTEGER"       		mode="IN"    />
+		<parameter property="P_COLUMN_NAME"   	javaType="java.lang.String"     	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_ORDERBY"       		javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="TOT_CNT"         		javaType="java.lang.Integer"    	jdbcType="INTEGER"       		mode="OUT"   />
+		<parameter property="CUR"             			javaType="java.sql.ResultSet"   	jdbcType="ORACLECURSOR"  	mode="OUT"  resultMap="resultMap1" />
+	</parameterMap>
+	
+	<resultMap id="resultMap1" class="java.util.HashMap">
+		<result property="SALE_DT" 				column="SALE_DT" 				nullValue=""/>
+		<result property="STR_CODE" 			column="STR_CODE"				nullValue=""/>
+		<result property="STR_NAME" 			column="STR_NAME"				nullValue=""/>
+		<result property="SLIP_NO" 				column="SLIP_NO" 				nullValue=""/>
+		<result property="POS_NO" 				column="POS_NO" 				nullValue=""/>
+		<result property="TRXN_NO" 				column="TRXN_NO" 				nullValue=""/>
+		<result property="PAY_METH" 			column="PAY_METH"				nullValue=""/>
+		<result property="PAY_METH_NAME" 	column="PAY_METH_NAME"	nullValue=""/>
+		<result property="PAY_AMT" 				column="PAY_AMT"				nullValue=""/>
+		<result property="CUST_NAME" 			column="CUST_NAME" 			nullValue=""/>
+		<result property="CUST_NO" 				column="CUST_NO" 				nullValue=""/>
+		<result property="ORD_STAT" 			column="ORD_STAT" 			nullValue=""/>
+		<result property="ORD_STAT_NAME"	column="ORD_STAT_NAME" 	nullValue=""/>
+		<result property="IDATE" 					column="IDATE" 					nullValue=""/>
+		<result property="EMP_NO" 				column="EMP_NO" 				nullValue=""/>
+		<result property="EMP_NAME" 			column="EMP_NAME" 			nullValue=""/>
+	</resultMap>
+	
+	<!-- 주문서관리 조회 -->
+	<procedure id="selectCallOrderPay" parameterMap="paramMap1"  resultMap="resultMap1">
+		{ call PKG_BUSINESS_CALL.CALL_ORDER_PAY_SELECT ( ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?  )  }
+	</procedure>
+	
+	<parameterMap id="paramMap2" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_ORD_STAT"      		javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_FISH_DT"      			javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="GRID_XML_DATA"      	javaType="java.lang.String"      	jdbcType="CLOB"       			mode="IN"    />
+		<parameter property="P_EMP_NO"      			javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="CUR"             			javaType="java.sql.ResultSet"   	jdbcType="ORACLECURSOR"  	mode="OUT"  resultMap="resultMap2" />
+	</parameterMap>
+	
+	<resultMap id="resultMap2" class="java.util.HashMap">
+		<result property="RETURN_CODE" 				column="RETURN_CODE" 				nullValue=""/>
+		<result property="RETURN_MESSAGE" 			column="RETURN_MESSAGE" 				nullValue=""/>
+	</resultMap>
+	
+	<!-- 주문서관리 등록 -->
+	<procedure id="selectCallOrderPayRegist" parameterMap="paramMap2"  resultMap="resultMap2">
+		{ call PKG_BUSINESS_CALL.CALL_ORDER_PAY_REGIST ( ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="paramMap3" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_STR_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_ORD_DT"			   	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_ORD_STAT"	      	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_SLIP_NO"		      	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="CUR"             			javaType="java.sql.ResultSet"   	jdbcType="ORACLECURSOR"  	mode="OUT"  resultMap="resultMap1" />
+	</parameterMap>
+	
+	<!-- 주문배달 엑셀다운로드 -->
+	<procedure id="excelCallOrderPay" parameterMap="paramMap3"  resultMap="resultMap1">
+		{ call PKG_BUSINESS_CALL.CALL_ORDER_PAY_EXCEL ( ?, ?, ?, ?, ?, ?  )  }
+	</procedure>
+	
+	<parameterMap id="paramMap4" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_STR_CODE"        	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_SALE_DT"		      	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_POS_NO"		      	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_TRXN_NO"		      	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="CUR"             			javaType="java.sql.ResultSet"   	jdbcType="ORACLECURSOR"  	mode="OUT"  resultMap="resultMap4" />
+	</parameterMap>
+	
+	<resultMap id="resultMap4" class="java.util.HashMap">
+		<result property="SLIP_NO" 		column="SLIP_NO" 		nullValue=""/>
+		<result property="STR_CODE" 	column="STR_CODE" 	nullValue=""/>
+		<result property="STR_NAME" 	column="STR_NAME" 	nullValue=""/>
+		<result property="SALE_DT" 		column="SALE_DT" 		nullValue=""/>
+		<result property="POS_NO" 		column="POS_NO"			nullValue=""/>
+		<result property="TRXN_NO" 		column="TRXN_NO" 		nullValue=""/>
+		<result property="ITM_CODE" 	column="ITM_CODE" 	nullValue=""/>
+		<result property="ITM_NAME" 	column="ITM_NAME" 	nullValue=""/>
+		<result property="SALE_QTY"		column="SALE_QTY" 		nullValue=""/>
+		<result property="SALE_AMT" 	column="SALE_AMT"		nullValue=""/>
+	</resultMap>
+	
+	<!-- 주문배달 상세조회 -->
+	<procedure id="selectCallOrderDetail" parameterMap="paramMap4"  resultMap="resultMap4">
+		{ call PKG_BUSINESS_CALL.CALL_ORDER_DETAIL_SELECT ( ?, ?, ?, ?, ?, ?  )  }
+	</procedure>
+
+</sqlMap>

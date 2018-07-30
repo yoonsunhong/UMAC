@@ -1,0 +1,144 @@
+<%@ page language="java"   contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@include file="/WEB-INF/jsp/retail/inc_common/inc_common.jsp" %>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<!-- 스프링 메세지 테그사용 :: 다국어 -->
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@page import ="java.util.List" %>
+<%@page import ="java.util.HashMap" %>
+<%@page import ="java.util.ArrayList" %>
+<%@page import ="java.util.List" %>
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>공제등록 관리</title>
+
+<link type="text/css" rel="stylesheet" href="/resources/css/jquery-ui.css">
+<link type="text/css" rel="stylesheet" href="/resources/css/common.css">
+<link type="text/css" rel="stylesheet" href="/resources/css/font-awesome.min.css">
+
+<!--[if lt IE 9]>
+<script src="/resources/js/html5shiv.js"></script>
+<script src="/resources/js/IE9.js"></script>
+<link type="text/css" rel="stylesheet" href="/resources/css/ie8.css">
+<![endif]-->
+<script type="text/javascript" src="/resources/js/jquery-1.7.1.min.js" charset="utf-8"></script>
+<script src="/resources/js/jquery.ui-1.10.4.datepicker.min.js"></script>
+<script src="/resources/js/style.js"></script>
+<%--
+	설명: 대금지불 마감관리
+		
+	수정일      	   수정자        수정내용
+	------------------------------------------------------
+	2017-01-24    오동근       초기작성 
+	------------------------------------------------------
+	version : 1.0
+--%> 
+
+<jsp:include page="/WEB-INF/jsp/retail/inc_common/inc_head.jsp" />	
+
+<!-- rMateGridH5 CSS -->
+<link rel="stylesheet" type="text/css" href="/resources/js/rMateGridH5/Assets/rMateH5.css"/> 
+<!-- rMateGridH5 라이센스 -->
+<script type="text/javascript" src="/resources/js/rMateGridH5/LicenseKey/rMateGridH5License.js" charset="utf-8"></script> 
+<!-- rMateGridH5 라이브러리 -->
+<script type="text/javascript" src="/resources/js/rMateGridH5/JS/rMateGridH5.js"></script>
+<script type="text/javascript" src="/resources/js/rMateStyle.js"></script>
+<script type="text/javascript" src="/resources/js/page/payment/close/paymentCloseInfo.js?ver=1.2" charset="utf-8"></script>	
+
+</head>
+ <style>
+ 	.DATE_YM table.ui-datepicker-calendar { display:none; }
+</style>
+ <body id="in_frame">
+		<div id="iframeCnt">
+			<div class="btn_area clear">
+				<button type="button" class="btn btn_style1 f_l"><img src="resources/img/common/help_ico.png"><spring:message code="btnHelp"/></button>
+				<div class="advice p_a">
+					<h4>information</h4>
+					<pre id="helpText"></pre>
+					<a href="" class="close_btn p_a">도움말 닫기</a>
+				</div>
+				<button id="bookMarkIcon" type="button" class="fav fav_inactive"></button>
+				<div class="f_r">
+					<!-- 권한에 따른 버튼 show/hide -->
+					<c:if test="${sessionScope.AUTH_SAVE eq   'Y'}">
+					    <button type="button" id="btn_update"  class="btn btn_style2"  onclick="fnUpdate()"><spring:message code="btnSave"/></button>
+					</c:if>
+					<c:if test="${sessionScope.AUTH_SEARCH eq   'Y'}">
+						<button type="button" id="btn_read" class="btn btn_style3"  onclick="fnSearch()"><i class="fa fa-search"></i><spring:message code="btnSearch"/></button>
+					</c:if>
+				</div>
+			</div>
+			
+			<!-- 조회폼 영역 -->
+			<div class="search_area" id="top_search">
+				<div class="last">
+					<label for=""><em>필수입력항목</em><spring:message code="payYm"/></label>
+					<input type="text" class="datepicker2 datepickerYm datepicker" id="P_SEARCH_DT" name="P_SEARCH_DT">
+					
+					<!--
+					<label for=""><spring:message code="paySeq"/></label>
+					<select id="P_PAY_SEQ" name="P_PAY_SEQ" class="wid2">
+						<option value=""><spring:message code="all"/></option>
+					</select>
+					-->
+				</div>
+			</div>
+			<!-- //조회폼 영역 -->
+			
+			<h3 class="bul_arr f_l"><spring:message code="paymentDeadline"/></h3>
+			<form name="reg_form" id="reg_form">
+			<input type="hidden" name="I_PAY_YM" id="I_PAY_YM">
+			<input type="hidden" name="I_PAY_SEQ" id="I_PAY_SEQ">
+			<table class="tbl_st2 th_wid">
+				<tbody>
+					<tr>
+						<th scope="row"><label><spring:message code="purClose"/></label></th>
+						<td>
+							<select id=P_PUR_CLOSE name="P_PUR_CLOSE" class="wid2">
+							</select>
+						</td>
+						<th scope="row"><label><spring:message code="saleClose"/></label></th>
+						<td>
+							<select id="P_SALE_CLOSE" name="P_SALE_CLOSE" class="wid2">
+							</select>
+						</td>
+						<th scope="row"><label><spring:message code="jangClose"/></label></th>
+						<td>
+							<select id="P_JANG_CLOSE" name="P_JANG_CLOSE" class="wid2">
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label><spring:message code="orgCreat"/></label></th>
+						<td>
+							<select id="P_ORG_CREAT" name="P_ORG_CREAT" class="wid2" onchange="chgClose('ORG_CREAT');">
+							</select>
+						</td>
+						<th scope="row"><label><spring:message code="payClose"/></label></th>
+						<td>
+							<!--
+							<select id="P_PAY_CLOSE" name="P_PAY_CLOSE" class="wid2">
+							</select>
+							-->
+							<input type="text" id="P_PAY_CLOSE" name="P_PAY_CLOSE" class="datepicker1 datepicker">
+							<input type="hidden" id="P_UDATE" name="P_UDATE">
+						</td>
+					</tr>			
+				</tbody>
+			</table>			
+			</form>
+			<div class="sec_grid">
+				<div class="content">
+					<h3 class="bul_arr tit_top f_l"><spring:message code="paymentDeadlineMng"/></h3>
+					<div id="gridHolder1"></div>
+				</div>
+			</div>
+			
+		</div>
+		<!-- //Content : 본문 영역 -->
+	 
+</body>
+</html>

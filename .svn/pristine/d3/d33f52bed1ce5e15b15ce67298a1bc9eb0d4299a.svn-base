@@ -1,0 +1,13 @@
+#AItoHtml make
+#Mon May 29 15:58:22 KST 2017
+param_P_GRE_GB=
+url=http\://localhost\:8080/WEB-INF/jsp/retail/aireport/payment/mng/paymentRequestInfoPrint.jsp
+HttpParameterDecoder=true
+charSetEncoding=utf-8
+param_P_PAY_YM=2017-04
+param_P_PAY_SEQ=
+parameterTranferMethod=GET
+param_P_VEN_CODE=
+param_P_PAY_CON=
+param_P_CORP_CODE=U1
+param_P_BANK_GB=P

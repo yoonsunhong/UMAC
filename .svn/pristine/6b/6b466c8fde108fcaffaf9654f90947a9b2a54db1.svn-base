@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BCM">
+
+	<typeAlias alias="BusinessVO" type="retail.business.campaignmaster.service.BusinessCampaignMasterVO" />
+
+	<!-- 행사코드마스터 조회 파라미터 -->
+	<parameterMap id="paramMap1" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_STR_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EVT_STR_DT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EVT_END_DT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EVT_FLAG" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_SEARCH_FLAG" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap1" />
+	</parameterMap>
+	<!-- 행사코드마스터 조회 리절트 -->
+	<resultMap id="resultMap1" class="BusinessVO">
+	    <result property="RN"  column="RN"  nullValue="" />
+	    <result property="STR_CODE"  column="STR_CODE"  nullValue="" />
+	    <result property="EVT_CODE"  column="EVT_CODE"  nullValue="" />
+	    <result property="EVT_NAME"  column="EVT_NAME"  nullValue="" />
+	    <result property="EVT_STR_DT"  column="EVT_STR_DT"  nullValue="" />
+	    <result property="EVT_END_DT"  column="EVT_END_DT"  nullValue="" />
+	    <result property="ORD_STR_DT"  column="ORD_STR_DT"  nullValue="" />
+	    <result property="ORD_END_DT"  column="ORD_END_DT"  nullValue="" />
+	    <result property="EVT_FLAG"  column="EVT_FLAG"  nullValue="" />
+	    <result property="EVT_FLAG_NM"  column="EVT_FLAG_NM"  nullValue="" />
+	    <result property="IEMP_NO"  column="IEMP_NO"  nullValue="" />
+	    <result property="IEMP_NAME"  column="IEMP_NAME"  nullValue="" />
+	    <result property="IDATE"  column="IDATE"  nullValue="" />
+	    <result property="UEMP_NO"  column="UEMP_NO"  nullValue="" />
+	    <result property="UEMP_NAME"  column="UEMP_NAME"  nullValue="" />
+	    <result property="UDATE"  column="UDATE"  nullValue="" />
+	    <result property="REMARK"  column="REMARK"  nullValue="" />
+	    <result property="EXCHG_PRT_YN"  column="EXCHG_PRT_YN"  nullValue="" />
+	    <result property="EXCHG_BASE_AMT"  column="EXCHG_BASE_AMT"  nullValue="" />
+	    <result property="EXCHG_CONTS"  column="EXCHG_CONTS"  nullValue="" />
+	    <result property="CARD_BASE_AMT"  column="CARD_BASE_AMT"  nullValue="" />
+	    <result property="DC_FLAG"  column="DC_FLAG"  nullValue="" />
+	    <result property="DC_AMT"  column="DC_AMT"  nullValue="" />
+	    <result property="DC_RATE"  column="DC_RATE"  nullValue="" />
+	    <result property="EVT_TYPE"  column="EVT_TYPE"  nullValue="" />
+	    <result property="EVT_TYPE_NM"  column="EVT_TYPE_NM"  nullValue="" />
+	    <result property="PRODUCT_CNT"  column="PRODUCT_CNT"  nullValue="" />
+	    <result property="TGET_CUST"  column="TGET_CUST"  nullValue="" />
+	    <result property="POINT_NET_YN"  column="POINT_NET_YN"  nullValue="" />
+	</resultMap>
+	
+	<!-- 행사코드마스터 저장 파라미터 -->
+	<parameterMap id="paramMap2" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_STR_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EVT_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EVT_NAME" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EVT_FLAG" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EVT_STR_DT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EVT_END_DT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_ORD_STR_DT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_ORD_END_DT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_REMARK" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EVT_TYPE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CARD_BASE_AMT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_DC_FLAG" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_DC_AMT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_DC_RATE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EXCHG_PRT_YN" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EXCHG_BASE_AMT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EXCHG_CONTS" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="GRID_XML_DATA" javaType="java.lang.String" jdbcType="CLOB" mode="IN" />
+	     <parameter property="P_TGET_CUST" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_POINT_NET_YN" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EMP_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap2" />
+	</parameterMap>
+	
+	<!-- 행사코드마스터 저장 리절트 -->
+	<resultMap id="resultMap2" class="BusinessVO">
+	    <result property="RETURN_CODE"  column="RETURN_CODE" nullValue="" />  
+	    <result property="RETURN_MESSAGE"  column="RETURN_MESSAGE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 행사코드마스터 삭제 파라미터 -->
+	<parameterMap id="paramMap3" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_STR_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EVT_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap3" />
+	</parameterMap>
+	<!-- 행사코드마스터 삭제 리절트 -->
+	<resultMap id="resultMap3" class="BusinessVO">
+	    <result property="RETURN_CODE"  column="RETURN_CODE" nullValue="" />  
+	    <result property="RETURN_MESSAGE"  column="RETURN_MESSAGE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 행사코드마스터 삭제 파라미터 -->
+	<parameterMap id="paramMap4" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_STR_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap4" />
+	</parameterMap>
+	<!-- 행사코드마스터 삭제 리절트 -->
+	<resultMap id="resultMap4" class="BusinessVO">
+	    <result property="EVT_CODE"  column="EVT_CODE" nullValue="" />
+	    <result property="EVT_STR_DT"  column="EVT_STR_DT" nullValue="" />  
+	    <result property="EVT_END_DT"  column="EVT_END_DT"  nullValue="" />
+	</resultMap>
+	
+	<!--행사코드 마스터 조회 -->
+ 	<procedure id="selectBusinessCampaignMst" parameterMap="paramMap1" >
+ 		{ call PKG_BUSINESS.BUSINESS_CAMPAIGN_SELECT (?, ?, ?, ?, ?, ?, ?) }
+	</procedure>
+	
+	<!-- 행사코드 마스터 저장 -->
+ 	<procedure id="registBusinessCampaignMst" parameterMap="paramMap2" >
+ 		{ call PKG_BUSINESS.BUSINESS_CAMPAIGN_REGISTER (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }
+	</procedure>
+	
+	<!-- 행사코드 마스터 삭제 -->
+ 	<procedure id="deleteBusinessCampaignMst" parameterMap="paramMap3" >
+ 		{ call PKG_BUSINESS.BUSINESS_CAMPAIGN_DELETE (?, ?, ?, ?) }
+	</procedure>
+	
+	<!-- 행사코드마스터 일정 체크를 위한 조회 -->
+ 	<procedure id="validationCampaignDate" parameterMap="paramMap4" >
+ 		{ call PKG_BUSINESS.BUSINESS_CAMPAIGN_CHECK_DATE ( ?, ?, ?) }
+	</procedure>
+	
+	
+	<!-- 카드행사 카드 정보 조회 파라미터 -->
+	<parameterMap id="paramMap5" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CARD_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MBR_DSNT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EVT_TYPE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap5" />
+	</parameterMap>
+	<!-- 카드행사 카드 정보 조회 리절트 -->
+	<resultMap id="resultMap5" class="BusinessVO">
+	    <result property="CARD_CODE"  column="CARD_CODE" nullValue="" />
+	    <result property="CARD_NAME"  column="CARD_NAME" nullValue="" />  
+	    <result property="CARD_PREFIX"  column="CARD_PREFIX" nullValue="" />  
+	    <result property="MBR_DSNT"  column="MBR_DSNT" nullValue="" />    
+	</resultMap>
+	
+	<!-- 카드행사 카드 정보 조회 -->
+ 	<procedure id="selectBusinessCampaignCard" parameterMap="paramMap5" >
+ 		{ call PKG_BUSINESS.BUSINESS_EVT_CARD_SELECT ( ?, ?, ?, ?, ?) }
+	</procedure>
+	
+	
+	<!-- 행사 등록된 카드 조회 파라미터 -->
+	<parameterMap id="paramMap6" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EVT_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap6" />
+	</parameterMap>
+	<!-- 행사 등록된 카드 조회 리절트 -->
+	<resultMap id="resultMap6" class="BusinessVO">
+	    <result property="CARD_CODE"  column="CARD_CODE" nullValue="" />
+	    <result property="CARD_NAME"  column="CARD_NAME" nullValue="" />  
+	    <result property="CARD_PREFIX"  column="CARD_PREFIX" nullValue="" />  
+	    <result property="MBR_DSNT"  column="MBR_DSNT" nullValue="" />    
+	</resultMap>
+	
+	<!-- 행사 등록된 카드 조회 -->
+	<procedure id="selectEventCard" parameterMap="paramMap6" >
+ 		{ call PKG_BUSINESS.BUSINESS_EVT_CARD_SEARCH ( ?, ?, ?) }
+	</procedure>
+	
+	
+	
+	
+
+</sqlMap>

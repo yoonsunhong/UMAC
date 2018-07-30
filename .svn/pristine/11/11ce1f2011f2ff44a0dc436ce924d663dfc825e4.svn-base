@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="productVenChange">
+	   
+	<parameterMap id="productVenChangeListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"      	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT" />
+	</parameterMap>
+
+	<parameterMap id="productVenChangeUpdateMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_TARGET1"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_TARGET2"      		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_BEFORE_CODE"      	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_AFTER_CODE"      	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />		
+		<parameter property="P_STR_CODE"      	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />		
+		 
+		<parameter property="CUR"             	 	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"   resultMap="productVenChangeUpdateResultMap" />
+		<parameter property="RETURN_CMN_NUMBER"     javaType="java.lang.String"      jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_CODE"      		javaType="java.lang.String"      jdbcType="INTEGER"       mode="OUT"   />
+	</parameterMap>
+	
+	<resultMap id="productVenChangeUpdateResultMap" class="java.util.HashMap">
+		<result property="STR_NAME" column="STR_NAME"/>
+		<result property="CT" column="CT"/>
+	</resultMap>	
+
+	<procedure id="productVenChangeList" parameterMap="productVenChangeListMap" resultClass="java.util.HashMap">
+		{ call PKG_CATEGORY.PRODUCT_VENCHANGE_lIST ( ?, ?, ? )  }
+	</procedure>	
+
+	<procedure id="productVenChangeUpdate" parameterMap="productVenChangeUpdateMap" resultClass="java.util.HashMap">
+		{ call PKG_CATEGORY.PRODUCT_VENCHANGE_UPDATE ( ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>		
+</sqlMap>

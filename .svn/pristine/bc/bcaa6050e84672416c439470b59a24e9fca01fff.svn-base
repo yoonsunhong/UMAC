@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="paymentClose">
+
+	<parameterMap id="paymentCloseMap" class="java.util.Map">
+		<parameter property="P_SEARCH_DT" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_SEQ"   		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CORP_CODE"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="paymentCloseResultMap" />
+	</parameterMap>
+	
+	<parameterMap id="paymentCloseUpdateMap" class="java.util.Map">
+		<parameter property="I_PAY_YM"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="I_PAY_SEQ"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CORP_CODE"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_USER_ID"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PUR_CLOSE"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALE_CLOSE"      javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_JANG_CLOSE"    	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ORG_CREAT"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_CLOSE"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"     	javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	<resultMap id="paymentCloseResultMap" class="java.util.HashMap">
+		<result property="PAY_SEQ_NAME" column="PAY_SEQ_NAME" />
+		<result property="PUR_CLOSE" 	column="PUR_CLOSE" />
+		<result property="SALE_CLOSE" 	column="SALE_CLOSE" />
+		<result property="JANG_CLOSE" 	column="JANG_CLOSE" />
+		<result property="ORG_CREAT" 	column="ORG_CREAT" />
+		<result property="PAY_CLOSE" 	column="PAY_CLOSE" />
+		<result property="UDATE" 		column="UDATE" />
+		<result property="PAY_YM" 		column="PAY_YM" />
+		<result property="PAY_SEQ" 		column="PAY_SEQ" />
+	</resultMap>
+	
+	
+  	<procedure id="selectPaymentClose" parameterMap="paymentCloseMap" >
+		{   call PKG_PAYMENT.PAYMENT_CLOSE_SELECT ( ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	
+  	<procedure id="updatePaymentClose" parameterMap="paymentCloseUpdateMap" >
+		{   call PKG_PAYMENT.PAYMENT_CLOSE_UPDATE ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+
+	<parameterMap id="paymentPurchaseMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_START_DT" javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_END_DT"   javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"   		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PUR_GB"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_FIRST_INDEX"   javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_RECORD_COUNT"  javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_COLUMN_NAME"   javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ORDERBY"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT" resultMap="paymentPurchaseResultMap" />
+		<parameter property="TOT_CNT"         javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="OUT"   />
+	</parameterMap>
+	<resultMap id="paymentPurchaseResultMap" class="java.util.HashMap">
+		<result property="VEN_NAME" 	column="VEN_NAME" />
+		<result property="STR_NAME" 	column="STR_NAME" />
+		<result property="PUR_DT" 		column="PUR_DT" />
+		<result property="ITM_CODE" 	column="ITM_CODE" />
+		<result property="LINK_CODE" 	column="LINK_CODE" />
+		<result property="ITM_NAME" 	column="ITM_NAME" />
+		<result property="TAX_GB" 		column="TAX_GB" />
+		<result property="DEC_QTY" 		column="DEC_QTY" />
+		<result property="PUR_WPRC" 	column="PUR_WPRC" />
+		<result property="PUR_WVAT" 	column="PUR_WVAT" />
+		<result property="PUR_WAMT" 	column="PUR_WAMT" />
+		<result property="PUR_WAMT2" 	column="PUR_WAMT2" />
+		<result property="PUR_SPRC" 	column="PUR_SPRC" />
+		<result property="PUR_SAMT" 	column="PUR_SAMT" />
+		<result property="ROUTE_GB" 	column="ROUTE_GB" />
+		<result property="BOT_SPRC" 	column="BOT_SPRC" />
+		<result property="BOT_SUM" 		column="BOT_SUM" />
+		<result property="CFM_DT" 		column="CFM_DT" />
+		<result property="SLIP_NO" 		column="SLIP_NO" />
+		<result property="VEN_CODE" 	column="VEN_CODE" />
+	</resultMap>
+  	<procedure id="purchClosedList" parameterMap="paymentPurchaseMap" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_PURCH_CLOSE_SELECT ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	<parameterMap id="paymentPurchCloseUpdateMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PUR_DT" 			javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_EMP_NO"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"     	javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+  	<procedure id="updatePurchClose" parameterMap="paymentPurchCloseUpdateMap" >
+		{   call PKG_PURCH_CLOSED.CREATE_PURCH_CLOSED ( ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	
+  	
+  	<parameterMap id="selectPurchClosedMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"   		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PUR_DT"  			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             		javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="selectPurchClosedResultMap" />
+	</parameterMap>
+	
+	<resultMap id="selectPurchClosedResultMap" class="java.util.HashMap">
+		<result property="STR_CODE" 					column="STR_CODE" />
+		<result property="STR_NAME" 					column="STR_NAME" />
+		<result property="PURCH_DT" 					column="PURCH_DT" />
+		<result property="NO" 								column="NO" />
+		<result property="VEN_CODE" 					column="VEN_CODE" />
+		<result property="VEN_NAME" 					column="VEN_NAME" />
+		<result property="LST_CONF_EMP_NO" 		column="LST_CONF_EMP_NO" />
+		<result property="LAST_CONF_EMP_NAME" 	column="LAST_CONF_EMP_NAME" />
+		<result property="LST_CFM_DT" 					column="LST_CFM_DT" />
+		<result property="CONF_EMP_NO" 				column="CONF_EMP_NO" />
+		<result property="CONF_EMP_NAME" 			column="CONF_EMP_NAME" />
+		<result property="CONF_DT" 						column="CONF_DT" />
+		<result property="DRCR_FG_AMT1" 				column="DRCR_FG_AMT1" />
+		<result property="DRCR_FG_AMT2" 				column="DRCR_FG_AMT2" />
+		<result property="TAX_GB" 						column="TAX_GB" />
+		<result property="TAX_GB_NAME" 				column="TAX_GB_NAME" />
+	</resultMap>
+  	
+  	<!-- 매입정산조회 -->
+  	<procedure id="selectPurchClosed" parameterMap="selectPurchClosedMap" >
+		{   call PKG_PURCH_CLOSED.SELECT_PURCH_CLOSED ( ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	<parameterMap id="selectPurchClosedDetailMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"   		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PUR_DT"  			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_TAX_GB"			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             		javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="selectPurchClosedDetailResultMap" />
+	</parameterMap>
+	
+	<resultMap id="selectPurchClosedDetailResultMap" class="java.util.HashMap">
+		<result property="SEQ" 					column="SEQ" />
+		<result property="DRCR_FG" 			column="DRCR_FG" />
+		<result property="DRCR_FG_NAME" 	column="DRCR_FG_NAME" />
+		<result property="ACCT_CD" 			column="ACCT_CD" />
+		<result property="ACCT_NAME" 		column="ACCT_NAME" />
+		<result property="SALE_AMT" 		column="SALE_AMT" />
+		<result property="RMK_DC" 			column="RMK_DC" />
+		<result property="ATTR_CD" 			column="ATTR_CD" />
+	</resultMap>
+  	
+  	<!-- 매입정산 상세조회 -->
+  	<procedure id="selectPurchClosedDetail" parameterMap="selectPurchClosedDetailMap" >
+		{   call PKG_PURCH_CLOSED.SELECT_PURCH_CLOSED_DETAIL ( ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	
+  	<parameterMap id="updatePurchClosedConfMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PUR_DT" 			javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_EMP_NO"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"     	javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+  	
+  	<!-- 매입정산 담당자확정 -->
+  	<procedure id="updatePurchClosedConf" parameterMap="updatePurchClosedConfMap" >
+		{   call PKG_PURCH_CLOSED.UPDATE_PURCH_CLOSED_CONF ( ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	
+  	<parameterMap id="insertPurchClosedDouzoneMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PUR_DT" 			javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_EMP_NO"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"     	javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+  	<!-- 매입정산 회계승인 -->
+  	<procedure id="insertPurchClosedDouzone" parameterMap="insertPurchClosedDouzoneMap" >
+		{   call PKG_PURCH_CLOSED.INSERT_PURCH_CLOSED_DOUZONE ( ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	<parameterMap id="insertPurchClosedDouzoneSendMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"      javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PUR_DT" 			javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"     	javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+		<parameter property="CUR"         		  	javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    />
+	</parameterMap>
+	
+  	<!-- 매입정산 회계승인 -->
+  	<procedure id="insertPurchClosedDouzoneSend" parameterMap="insertPurchClosedDouzoneSendMap"  resultClass="java.util.HashMap" >
+		{   call PKG_PURCH_CLOSED.SELECT_PURCH_CLOSED_SEND ( ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+
+</sqlMap>

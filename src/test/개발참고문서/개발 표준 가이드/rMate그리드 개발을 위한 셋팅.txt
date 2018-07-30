@@ -1,0 +1,46 @@
+rMate Grid for HTML5 Version 사용방법
+
+1. index.html 을 클릭하면 여러 종류의 다양한 그리드의 샘플화면과, 샘플의 소스와 데이터를 확인 할 수 있습니다.
+
+   rMate 그리드를 Local 환경(개인컴퓨터)에서 테스트할 경우 크롬 브라우져를 사용할 경우에는 다음 작업으로 브라우져를 띄워야 합니다.
+   이는 구글 크롬 브라우져의 보안정책에 해당됩니다.
+   (서버에 올리셔서 사용하는 경우에는 아래작업은 불필요합니다.)
+
+   Step1. 구글 크롬 폴더로 이동하십시오. ( ex / C:\Program Files\Google\Chrome\Application\chrome.exe )
+
+
+   Step2. 크롬 실행시 아래의 파라메터를 추가하여 브라우져를 실행하도록 합니다.
+          1. "chrome.exe"에 마우스 오른쪽 버튼 클릭 -> 바로가기 만들기
+          2. "chrome.exe - 바로가기"에 마우스 오른쪽 버튼 클릭 -> 속성 -> 바로 가기 탭
+          3. 바로가기 탭에서 "대상"의 마지막 부분에 "--allow-file-access-from-files" 추가 -> 적용 -> 확인
+          ex ) "C:\Program Files\Google\Chrome\Application\chrome.exe" --allow-file-access-from-files 와 같이 적용
+          4. 모든 크롬 브라우저를 끄신 후 새로 만드신 크롬 바로가기로 샘플 실행.
+          5. 이후에 샘플을 보시려면 항상 새로 만드신 바로가기로 실행하셔야 합니다.
+
+
+   파이어 폭스 브라우져에서는 Local 환경에서 실행시 서버에 접속이 제한되오니 샘플 실행시 참고 바랍니다.
+
+
+2. 디렉토리 구조
+
+   디렉토리는 rMateGridH5, LicenseKey, Docs, Samples 로 되어 있으며, 각각 디렉토리의 역할은 아래와 같습니다.
+
+   가. rMateGridH5 
+       제품의 자바스크립트 및 필요한 이미지와 스타일이 위치하고 있으며, 실제 제품을 실행하는데 필요한 최소한의 파일이 들어 있습니다.
+
+   나. LicenseKey
+       정품 인증을 위한 라이센스키를 보관해 두는 디렉토리입니다.
+       이 디렉토리에 있는 rMateGridH5License.js 파일은 프로그램 개발시에 필요한 디렉토리에 복사하시고,
+       Path를 지정하여 사용하시면 됩니다.
+
+   다. Docs
+       그리드의 사용방법(메뉴얼)이 위치하고 있습니다.
+
+   라. Samples
+       각종 그리드에 대한 예제를 보이기 위하여 필요한 파일들이 위치하고 있습니다. 
+       예제를 보기 위해서는 위 1번의 index.html을 click하시면 됩니다.
+       예제화면 아래에 "Layout", "Data", "Source" 탭을 click하시면 그리드를 표시하기 위한
+       Layout 과 Data와 html의 설정내용을 보실 수 있습니다. 
+
+
+3. 그리드에 대한 자세한 사용방법은 Docs 디렉토리의 'rMateGridHTML5_사용설명서.pdf' 파일을 참고하시기 바랍니다.

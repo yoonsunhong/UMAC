@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="posClosedCard">
+	
+	<parameterMap id="posClosedCardMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALE_DT"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CUST_NO"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_FIRST_INDEX"   javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_RECORD_COUNT"  javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_COLUMN_NAME"   javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ORDERBY"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="posClosedCardResultMap" />
+		<parameter property="TOT_CNT"         javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="OUT"   />
+	</parameterMap>
+	
+	<resultMap id="posClosedCardResultMap" class="java.util.HashMap">
+		<result property="RNUM" column="RNUM" />
+		<result property="CORP_CODE" column="CORP_CODE" />
+		<result property="CUST_NO" column="CUST_NO" />
+		<result property="CUST_NAME" column="CUST_NAME" />
+		<result property="SALE_AMT" column="SALE_AMT" />
+		<result property="TAX_AMT" column="TAX_AMT" />
+		<result property="SUM_SALE_AMT" column="SUM_SALE_AMT" />
+		<result property="SUM_AN_AMT" column="SUM_AN_AMT" />
+		<result property="TAX_GB" column="TAX_GB" />
+		<result property="TAX_GB_NM" column="TAX_GB_NM" />
+		<result property="ACCT_DEPT" column="ACCT_DEPT" />
+		<result property="BUSI_NO" column="BUSI_NO" />
+	</resultMap>
+	
+	<procedure id="getPosClosedCard" parameterMap="posClosedCardMap" >
+		{ call PKG_POS_CLOSED.POS_CLOSED_CARD_SELECT ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="posClosedCardListExcelMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALE_DT"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CUST_NO"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"   />
+	</parameterMap>
+	
+	<procedure id="posClosedCardListExcel" parameterMap="posClosedCardListExcelMap" resultClass="java.util.HashMap" >
+		{ call PKG_POS_CLOSED.POS_CLOSED_CARD_SELECT2 ( ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+</sqlMap>

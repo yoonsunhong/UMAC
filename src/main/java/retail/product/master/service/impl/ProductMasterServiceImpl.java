@@ -1,0 +1,122 @@
+/*
+ * Copyright 2008-2009 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package retail.product.master.service.impl;
+
+import java.util.HashMap;
+import java.util.List;
+  
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+ 
+
+import retail.product.master.service.ProductMasterService;
+import retail.product.master.service.ProductMasterVO; 
+
+
+/**
+ * @Class Name : ProductMasterServiceImpl.java
+ * @Description : ProductMasterServiceImpl Class
+ * @Modification Information
+ * @
+ * @  수정일      수정자              수정내용
+ * @ ---------   ---------   -------------------------------
+ * @ 2016.12.05           최초생성
+ *
+ * @author 유재훈
+ * @since 2016.12.05
+ * @version 1.0
+ * @see Copyright (C) by Retailtech All right reserved.
+ */
+
+@Service("ProductMasterService")
+public class ProductMasterServiceImpl  implements ProductMasterService {
+
+	@Autowired
+	private ProductMasterDao productMasterDao;
+	 
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(ProductMasterServiceImpl.class);
+
+	  
+	@Override
+	public List<Map<String, Object>> productMasterDetail(Map<String, Object> param) throws Exception {
+		return productMasterDao.productMasterDetail(param);
+	}
+	
+	 
+ 	@Override
+	public List<Map<String, Object>> productStoreList(Map<String, Object> param) throws Exception {
+		return productMasterDao.productStoreList(param);
+	}
+ 
+ 	
+	
+	@Override
+	@Transactional
+	public List<Map<String, Object>> productMasterRegister(  Map<String, Object> param) throws Exception { 
+		return productMasterDao.productMasterRegister(param);
+	}
+	
+ 	@Override
+	public List<Map<String, Object>> productStoreNewList(Map<String, Object> param) throws Exception {
+		return productMasterDao.productStoreNewList(param);
+	}
+ 
+ 	
+
+
+	//	공병코드를 select box 에 넣는다.
+	@Override
+	@Transactional
+	public void getBotCodeSelectBoxList(Map<String, Object> paramMap) throws Exception {
+		productMasterDao.getBotCodeSelectBoxList(paramMap);
+	}
+
+	
+	@Override
+	@Transactional
+	public List<ProductMasterVO> productMasterScanCodeDup(  Map<String, Object> paramMap) throws Exception { 
+		return productMasterDao.productMasterScanCodeDup(paramMap);
+	}
+
+	
+	 
+	@Override
+	@Transactional
+	public void getItmGb(Map<String, Object> paramMap) throws Exception {
+		productMasterDao.getItmGb(paramMap);
+	}
+	 
+	
+	//묶음상품
+	@Override
+	public List<Map<String, Object>> productMukkum(Map<String, Object> param) throws Exception {
+		return productMasterDao.productMukkum(param);
+	}
+	
+	//박스상품
+	@Override
+	public List<Map<String, Object>> productBoxList(Map<String, Object> param) throws Exception {
+		return productMasterDao.productBoxList(param);
+	}
+	
+	
+}

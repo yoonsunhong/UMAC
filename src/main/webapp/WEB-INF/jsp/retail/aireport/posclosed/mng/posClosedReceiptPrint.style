@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="euc-kr"?>
+
+<StyleMappingTable>
+<FontFaceList>
+<FontFace id="0" name="굴림"/>
+<FontFace id="1" name="맑은 고딕"/>
+<FontFace id="2" name="굴림체"/>
+</FontFaceList>
+<CharShapeList>
+<CharShape id="0" fontFace="0" height="11" fontColor="0" useHeight="y"/>
+<CharShape id="1" fontFace="1" height="13" fontColor="0" useHeight="y" bold="y"/>
+<CharShape id="2" fontFace="2" height="9" fontColor="0" useHeight="y"/>
+</CharShapeList>
+<ParaShapeList>
+<ParaShape id="0"/>
+<ParaShape id="1" margin="16,0,0,2" wordWrap="xl"/>
+</ParaShapeList>
+<BorderShapeList>
+<BorderShape id="0"/>
+<BorderShape id="1" type="solid" width="1" color="12632256"/>
+<BorderShape id="2" type="solid" color="12632256"/>
+</BorderShapeList>
+<BandList>
+<AIReport>
+<AISubReport name="sheet1" form="relative">
+<AIFrame name="frame0">
+<AIBand name="vv3" type="void" object="sheet10_B1"/>
+<AIBand name="test" type="repeat" object="sheet10_B2"/>
+<AIBand name="test2" type="void" object="sheet10_B4|sheet10_C4|sheet10_D4|sheet10_E4|sheet10_F4"/>
+<AIBand name="VoidBand100" type="void"/>
+</AIFrame>
+</AISubReport>
+</AIReport>
+</BandList>
+<StyleList>
+<CellObjectStyle name="cell_style_0" charShape="1" vertAlign="top" fillColor="12632256" rightBorder="1"/>
+<CellObjectStyle name="cell_style_1" charShape="2" paraShape="1" vertAlign="top" leftBorder="2" rightBorder="2"/>
+<CellObjectStyle name="cell_style_2" topBorder="2"/>
+<DrawObjectStyle name="image_style_0" type="5" binData="stream"/>
+</StyleList>
+
+<BinDataList>
+</BinDataList>
+</StyleMappingTable>

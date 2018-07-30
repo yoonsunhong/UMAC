@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="paymentPurchase">
+
+	<resultMap id="resultMap1" class="java.util.HashMap">
+		<result property="RNUM" 			column="RNUM" 	nullValue=""  />
+		<result property="VEN_NAME" 	column="VEN_NAME" nullValue=""   />
+		<result property="STR_NAME" 	column="STR_NAME" nullValue=""   />
+		<result property="PUR_DT" 		column="PUR_DT" nullValue=""   />
+		<result property="ITM_CODE" 	column="ITM_CODE" nullValue=""   />
+		<result property="LINK_CODE" 	column="LINK_CODE" nullValue=""   />
+		<result property="ITM_NAME" 	column="ITM_NAME" nullValue=""   />
+		<result property="TAX_GB" 		column="TAX_GB" nullValue=""   />
+		<result property="DEC_QTY" 		column="DEC_QTY"  nullValue=""  />
+		<result property="PUR_WPRC" 	column="PUR_WPRC" nullValue=""   />
+		<result property="PUR_WVAT" 	column="PUR_WVAT"  nullValue=""  />
+		<result property="PUR_WAMT" 	column="PUR_WAMT" nullValue=""   />
+		<result property="PUR_WAMT2" 	column="PUR_WAMT2" nullValue=""   />
+		<result property="PUR_SPRC" 		column="PUR_SPRC"  nullValue=""  />
+		<result property="PUR_SAMT" 	column="PUR_SAMT"  nullValue=""   />
+		<result property="ROUTE_GB" 	column="ROUTE_GB" nullValue=""  />
+		<result property="BOT_SPRC" 	column="BOT_SPRC" nullValue=""   />
+		<result property="BOT_SUM" 		column="BOT_SUM" nullValue=""   />
+		<result property="CFM_DT" 		column="CFM_DT" nullValue=""   />
+		<result property="SLIP_NO" 		column="SLIP_NO" nullValue=""    />
+		<result property="VEN_CODE" 	column="VEN_CODE" nullValue=""   />
+<!-- 		<result property="GRE_GB" 	    column="GRE_GB" nullValue=""   /> -->
+	</resultMap>
+	
+	<resultMap id="paymentPurchaseResultMap" class="java.util.HashMap">
+		<result property="RNUM" 			column="RNUM" />
+		<result property="VEN_NAME" 	column="VEN_NAME" />
+		<result property="STR_NAME" 	column="STR_NAME" />
+		<result property="PUR_DT" 		column="PUR_DT" />
+		<result property="ITM_CODE" 	column="ITM_CODE" />
+		<result property="LINK_CODE" 	column="LINK_CODE" />
+		<result property="ITM_NAME" 	column="ITM_NAME" />
+		<result property="TAX_GB" 		column="TAX_GB" />
+		<result property="DEC_QTY" 		column="DEC_QTY" />
+		<result property="PUR_WPRC" 	column="PUR_WPRC" />
+		<result property="PUR_WVAT" 	column="PUR_WVAT" />
+		<result property="PUR_WAMT" 	column="PUR_WAMT" />
+		<result property="PUR_WAMT2" 	column="PUR_WAMT2" />
+		<result property="PUR_SPRC" 		column="PUR_SPRC" />
+		<result property="PUR_SAMT" 	column="PUR_SAMT" />
+		<result property="ROUTE_GB" 	column="ROUTE_GB" />
+		<result property="BOT_SPRC" 	column="BOT_SPRC" />
+		<result property="BOT_SUM" 		column="BOT_SUM" />
+		<result property="CFM_DT" 		column="CFM_DT" />
+		<result property="SLIP_NO" 		column="SLIP_NO" />
+		<result property="VEN_CODE" 	column="VEN_CODE" />
+	</resultMap>
+	
+	<resultMap id="paymentPurchaseSumResultMap" class="java.util.HashMap">
+		<result property="TOT_TAX_GB" 		column="TOT_TAX_GB" />
+		<result property="TOT_TAX_COUNT" 	column="TOT_TAX_COUNT" />
+		<result property="TOT_DEC_QTY" 		column="TOT_DEC_QTY" />
+		<result property="TOT_PUR_WPRC" 	column="TOT_PUR_WPRC" />
+		<result property="TOT_PUR_WVAT" 	column="TOT_PUR_WVAT" />
+		<result property="TOT_SUM" 			column="TOT_SUM" />
+		<result property="TOT_BOT_SUM" 		column="TOT_BOT_SUM" />
+	</resultMap>
+	
+	<resultMap id="paymentCancelComboResultMap" class="java.util.HashMap">
+		<result property="CD_ID" column="CD_ID" />
+		<result property="CD_NM" column="CD_NM" />
+	</resultMap>
+	
+	
+	
+	<parameterMap id="paymentPurchaseMap_Page" class="java.util.Map">
+		<parameter property="P_CORP_CODE" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_START_DT" javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_END_DT"   javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"   		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PUR_GB"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+<!-- 		<parameter property="P_GRE_GB"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    /> -->
+		<parameter property="P_FIRST_INDEX"   javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_RECORD_COUNT"  javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_COLUMN_NAME"   javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ORDERBY"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT" resultMap="resultMap1" />
+		<parameter property="CUR2"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT" resultMap="paymentPurchaseSumResultMap" />
+		<parameter property="TOT_CNT"         javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="OUT"   />
+	</parameterMap>
+  	<procedure id="selectPaymentPurchase" parameterMap="paymentPurchaseMap_Page" resultClass="java.util.HashMap">
+		<!-- {   call PKG_PAYMENT.PAYMENT_PURCH_SEARCH_SELECT ( ?, ?, ?, ?, ?, ?, ?, ? )  } -->
+		{   call PKG_PAYMENT.PAYMENT_PURCH_SEARCH_SELECT_P ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	<!-- 매입집계
+  	<procedure id="selectPaymentPurchase_2" parameterMap="paymentPurchaseMap_Page" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_PURCH_SEARCH_SELECT_P2 ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	-->
+  	<parameterMap id="paymentPurchaseMap_v2" class="java.util.Map">
+		<parameter property="P_CORP_CODE" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_START_DT" javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_END_DT"   javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"   		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PUR_GB"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_GRE_GB"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT" resultMap="paymentPurchase_v2ResultMap" />
+		<parameter property="CUR2"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT" resultMap="paymentPurchaseSumResultMap" />
+	</parameterMap>
+	<resultMap id="paymentPurchase_v2ResultMap" class="java.util.HashMap">
+		<result property="VEN_NAME" 	column="VEN_NAME" />
+		<result property="STR_NAME" 	column="STR_NAME" />
+<!-- 		<result property="PUR_DT" 		column="PUR_DT" /> -->
+		<result property="TAX_GB" 		column="TAX_GB" />
+		<result property="PUR_WPRC" 	column="PUR_WPRC" />
+		<result property="PUR_WVAT" 	column="PUR_WVAT" />
+		<result property="PUR_WAMT" 	column="PUR_WAMT" />
+		<result property="PUR_WPRC2" 	column="PUR_WPRC2" />
+		<result property="PUR_WVAT2" 	column="PUR_WVAT2" />
+		<result property="PUR_WAMT2" 	column="PUR_WAMT2" />
+		<result property="PUR_SPRC" 	column="PUR_SPRC" />
+		<result property="PUR_SAMT" 	column="PUR_SAMT" />
+		<result property="BOT_SPRC" 	column="BOT_SPRC" />
+		<result property="BOT_SUM" 		column="BOT_SUM" />
+		<result property="VEN_CODE" 	column="VEN_CODE" />
+	</resultMap>
+  	<procedure id="selectPaymentPurchase_v2" parameterMap="paymentPurchaseMap_v2" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_PURCH_SEARCH_SELECT_v2 ( ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+
+  	<parameterMap id="paymentPurchaseMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_START_DT" javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_END_DT"   javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"   		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PUR_GB"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_GRE_GB"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_COLUMN_NAME"   	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_ORDERBY"       		javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT" resultMap="paymentPurchaseResultMap" />
+		<parameter property="CUR2"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT" resultMap="paymentPurchaseSumResultMap" />
+	</parameterMap>
+  	<procedure id="excelPaymentPurchaseInfoList" parameterMap="paymentPurchaseMap" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_PURCH_SEARCH_SELECT ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)  }
+  	</procedure>
+  	<!-- 매출집계
+  	<procedure id="excelPaymentPurchaseInfoList_2" parameterMap="paymentPurchaseMap" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_PURCH_SEARCH_SELECT_2 ( ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	-->
+  	
+  	<parameterMap id="paymentSalesMap_Page" class="java.util.Map">
+		<parameter property="P_CORP_CODE" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_START_DT" javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_END_DT"   javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"   		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CANC_FLAG"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_FIRST_INDEX"   javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_RECORD_COUNT"  javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_COLUMN_NAME"   javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ORDERBY"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT" resultMap="paymentSaleResultMap"   />
+		<parameter property="CUR2"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT" resultMap="paymentSaleSumResultMap" />
+		<parameter property="TOT_CNT"         javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="OUT"   />
+	</parameterMap>
+	<resultMap id="paymentSaleResultMap" class="java.util.HashMap">
+		<result property="RNUM" 			column="RNUM" />
+		<result property="VEN_NAME" 	column="VEN_NAME" />
+		<result property="STR_NAME" 	column="STR_NAME" />
+		<result property="SALE_DT" 		column="SALE_DT" />
+		<result property="ITM_CODE" 	column="ITM_CODE" />
+		<result property="SCAN_CODE" 	column="SCAN_CODE" />
+		<result property="ITM_NAME" 	column="ITM_NAME" />
+		<result property="CANC_FLAG" 	column="CANC_FLAG" />
+		<result property="SALE_AMT" 	column="SALE_AMT" />
+		<result property="PRGT_RATE" 	column="PRGT_RATE" />
+		<result property="CMIS_AMT" 	column="CMIS_AMT" />
+		<result property="PAY_AMT" 		column="PAY_AMT" />
+		<result property="VEN_CODE" 	column="VEN_CODE" />
+	</resultMap>
+	<resultMap id="paymentSaleSumResultMap" class="java.util.HashMap">
+		<result property="TOT_SALE_AMT" 	column="TOT_SALE_AMT" />
+		<result property="TOT_PRGT_RATE" 	column="TOT_PRGT_RATE" />
+		<result property="TOT_CMIS_AMT" 	column="TOT_CMIS_AMT" />
+		<result property="TOT_PAY_AMT" 		column="TOT_PAY_AMT" />
+	</resultMap>
+	
+	<!-- 거래선별 매출 조회 -->
+  	<procedure id="selectPaymentSales" parameterMap="paymentSalesMap_Page" resultClass="java.util.HashMap">
+		<!-- {   call PKG_PAYMENT.PAYMENT_SALES_SEARCH_SELECT ( ?, ?, ?, ?, ?, ?, ? )  } -->
+		{   call PKG_PAYMENT.PAYMENT_SALES_SEARCH_SELECT_P ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	<!-- 매출집계
+  	<procedure id="selectPaymentSales_2" parameterMap="paymentSalesMap_Page" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_SALES_SEARCH_SELECT_P2 ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	-->
+
+
+  	<!-- Excel Download -->
+  	<parameterMap id="paymentSalesMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_START_DT" javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_END_DT"   javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"   		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CANC_FLAG"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"   />
+	</parameterMap>
+  	<!--
+  	<procedure id="excelPaymentSalesInfoList" parameterMap="paymentSalesMap" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_SALES_SEARCH_SELECT ( ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	-->
+  	<parameterMap id="paramMap6" class="java.util.Map">
+	    <parameter property="P_CORP_CODE" 				javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN"    />
+		<parameter property="P_SEARCH_START_DT"		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN"    />
+		<parameter property="P_SEARCH_END_DT"  		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN"    />
+		<parameter property="P_VEN_CODE"   				javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN"    />
+		<parameter property="P_STR_CODE"  				javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN"    />
+		<parameter property="P_CANC_FLAG"  				javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN"    />
+		<parameter property="P_COLUMN_NAME"   		javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN"    />
+		<parameter property="P_ORDERBY"       			javaType="java.lang.String"      	jdbcType="VARCHAR"       	mode="IN"    />
+		<parameter property="CUR"             				javaType="java.sql.ResultSet"	jdbcType="ORACLECURSOR"		mode="OUT"    resultMap="resultMap6" />
+	</parameterMap> 
+	<resultMap id="resultMap6" class="java.util.HashMap">
+		<result property="STR_NAME" 		column="STR_NAME" 		nullValue=""  	/>
+		<result property="VEN_NAME" 		column="VEN_NAME" 		nullValue=""  	/>
+		<result property="SALE_DT" 			column="SALE_DT" 			nullValue=""  	/>
+		<result property="ITM_CODE" 		column="ITM_CODE" 		nullValue=""  	/>
+		<result property="SCAN_CODE" 		column="SCAN_CODE" 		nullValue=""  	/>
+		<result property="ITM_NAME" 		column="ITM_NAME" 		nullValue=""  	/>
+		<result property="CANC_FLAG" 		column="CANC_FLAG" 		nullValue=""  	/>
+		<result property="SALE_AMT" 		column="SALE_AMT" 			nullValue=""  	/>
+		<result property="PRGT_RATE" 		column="PRGT_RATE" 		nullValue=""  	/>
+		<result property="CMIS_AMT" 		column="CMIS_AMT" 		nullValue=""  	/>
+		<result property="PAY_AMT" 			column="PAY_AMT" 			nullValue=""  	/>
+		<result property="VEN_CODE" 		column="VEN_CODE" 		nullValue=""  	/>
+		<result property="GRE_GB" 	        column="GRE_GB"				nullValue=""     />
+	</resultMap> 
+	
+	<!-- 거래선별 매출 조회 엑셀다운로드 -->
+	<procedure id="excelPaymentSalesInfoList" parameterMap="paramMap6"  resultMap="resultMap6">
+		{   call PKG_PAYMENT.PAYMENT_SALES_SEARCH_SELECT ( ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	<!-- 매출집계
+	<procedure id="excelPaymentSalesInfoList_2" parameterMap="paramMap6"  resultMap="resultMap6">
+		{   call PKG_PAYMENT.PAYMENT_SALES_SEARCH_SELECT_2 ( ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	-->
+
+  	<parameterMap id="paymentCancelComboMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CD_CL"  			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"   resultMap="paymentCancelComboResultMap" />
+	</parameterMap>
+  	<procedure id="getPaymentCancelSelectBoxList" parameterMap="paymentCancelComboMap" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_CANCEL_COMBO_SELECT ( ?, ?, ? )  }
+  	</procedure>
+
+</sqlMap>

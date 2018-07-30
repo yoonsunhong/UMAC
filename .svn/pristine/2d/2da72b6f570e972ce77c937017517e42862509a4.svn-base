@@ -1,0 +1,200 @@
+/*
+ * Copyright 2008-2009 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package retail.product.box.web;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+     
+import net.sf.json.JSONArray;
+import net.sf.json.JSONSerializer;
+import net.sf.json.xml.XMLSerializer;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
+
+import retail.code.service.CodeVO;
+import retail.common.CommonUtil; 
+import retail.product.customer.service.ProductCustomerVO;
+import retail.product.box.service.ProductBoxService;
+import retail.product.box.service.ProductBoxVO;
+import retail.login.service.LoginVO;
+ 
+
+/**
+ * @Class Name : GroupGridTestController.java
+ * @Description : 메뉴관리
+ * @Modification Information @ 
+ * @ 수정일 수정자 수정내용 @ --------- ---------
+ * @author 문희훈
+ * @since 2016. 10.31
+ * @version 1.0
+ * @see Copyright (C) by Retailtech All right reserved.
+ */
+
+@Controller
+public class ProductBoxController {
+
+	@Autowired
+	private ProductBoxService productBoxService;
+
+	/** log */
+	private final Log log = LogFactory.getLog(this.getClass());
+
+	
+	/**
+	 * 화면뷰 만들기.  
+	 * 
+	 * @param  
+	 *             
+	 * @param model
+	 * @return "mav"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/productBox.do", method = RequestMethod.GET)
+	public ModelAndView productStore(HttpServletRequest request, HttpServletResponse response )throws Exception { 
+		ModelAndView mav = new  ModelAndView("retail/product/box/productBox"); 
+		 
+		return   mav; 
+	}
+	
+	
+
+	 
+
+	/**
+	 * 박스  상품 C/U/D .    
+	 * 
+	 * @param  
+	 * @param model
+	 * @return "mav"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/productBoxUpdate.do", method = RequestMethod.POST)
+	@ResponseBody
+	public   void productBoxUpdate(@RequestParam Map<String, Object> param ,HttpServletRequest request, HttpServletResponse response )throws Exception { 
+  
+//		Map<String, Object>  paramMap = new HashMap<String, Object>();		    
+		ArrayList<Object> CUR = new ArrayList<Object>(); 
+		    
+		ProductBoxVO  RETURN_CUR  = new  ProductBoxVO ();
+		String GRID_XML_DATA1	  = request.getParameter("gridXmlData1" );  
+		   
+		 
+		param.put("CORP_CODE"    	  		, CommonUtil.getEnv(request.getSession()).getCORP_CODE() ) ;
+		param.put("EMP_NO"    	 	  		, CommonUtil.getEnv(request.getSession()).getUserId()) ;  
+		param.put("GRID_XML_DATA1"    		, GRID_XML_DATA1 ) ;     
+		param.put("RETURN_CUR"	      		, RETURN_CUR);
+		 
+		List<Map<String, Object>> resultList = productBoxService.productBoxUpdate(param);
+ 		  
+ 		
+ 		 
+ 		 
+		Gson gson = new Gson();  
+		String jsonStr_RETURN_CUR 	= gson.toJson( resultList );
+		
+		
+		System.out.println( "strXml3 : " + jsonStr_RETURN_CUR );
+		 
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr_RETURN_CUR);
+		  
+	}
+	
+	
+	
+	
+	 
+	/**
+	 * 박스 상품 리스트
+	 * @param model
+	 * @return "mav"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/productBoxSearchList.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void productBoxSearchList(@RequestParam Map<String, Object> param, HttpServletRequest request, HttpServletResponse response ) throws Exception {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		System.out.println("@@PARAM : " + param);
+		
+		try {
+			param.put("CORP_CODE"    , CommonUtil.getEnv(request.getSession()).getCORP_CODE() ) ;   
+			List<Map<String, Object>> resultList =   productBoxService.productBoxSearchList(param);
+			Gson gson = new Gson(); 
+			String jsonStr 				= gson.toJson(  resultList  );
+	 
+			System.out.println("[ CUR ] : "         + jsonStr);
+	 
+			
+			response.setContentType("text/json; charset=utf-8");
+			response.getWriter().print(jsonStr);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		 
+	}
+	
+	/**
+	 * 박스 상품 리스트
+	 * @param model
+	 * @return "mav"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/productBoxalready_ch.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void productBoxalready_ch(@RequestParam Map<String, Object> param, HttpServletRequest request, HttpServletResponse response ) throws Exception {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		System.out.println("@@PARAM : " + param);
+		
+		try {
+			param.put("P_CORP_CODE"    , CommonUtil.getEnv(request.getSession()).getCORP_CODE() ) ;   
+			List<Map<String, Object>> resultList =   productBoxService.productBoxalready_ch(param);
+			Gson gson = new Gson(); 
+			String jsonStr 				= gson.toJson(  resultList  );
+	 
+			System.out.println("[ CUR1111 ] : "         + jsonStr);
+	 
+			
+			response.setContentType("text/json; charset=utf-8");
+			response.getWriter().print(jsonStr);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		 
+	}
+ 
+	
+	 
+}

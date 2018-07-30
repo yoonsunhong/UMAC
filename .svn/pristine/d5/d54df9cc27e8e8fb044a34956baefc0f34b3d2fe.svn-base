@@ -1,0 +1,76 @@
+package retail.stock.stockRealExcel.service;
+
+import java.util.List;
+import java.util.Map;
+
+
+/**
+ * 실사재고엑셀조정
+ * @author 문희훈
+ * @since 2017. 05.03
+ * @version 1.0
+ * @see Copyright (C) by Retailtech All right reserved.
+ */
+
+public interface StockRealExcelService {
+
+	/**
+	 * 점포별 재고조사 날짜 리스트 조회
+	 * @param paramMap
+	 * @throws Exception
+	 */
+	void getInvInspDtList(Map<String, Object> paramMap) throws Exception;
+
+	/**
+	 * 점포별 전  재고조사 날짜 조회
+	 * @param paramMap
+	 * @throws Exception
+	 */
+	void getInvBeforeDt(Map<String, Object> paramMap) throws Exception;
+
+	/**
+	 * 실사재고엑셀조정 조회
+	 * @param param
+	 * @throws Exception
+	 */
+	void getStockRealExcelList(Map<String, Object> param) throws Exception;
+	
+	/**
+	 * 실사재고엑셀조정 팝업 행추가 저장시 그리드 세부내역 조회에서 그리드에 추가
+	 * @param param
+	 * @throws Exception
+	 */
+	List<Map<String, Object>> stockExcelUploadSave(Map<String, Object> param) throws Exception;
+
+	/**
+	 *  EXCEL 업로드 데이터 TEMP디비에 저장 후 유효성 체크 
+	 * 1.해당 점포에 취급하는 상품 인지 체크
+	 * 2.재고수량이 숫자인지 체크
+	 * 3.매장구분 1 OR 2로 입력했는지
+	 * @param result
+	 * @throws Exception
+	 */
+	void stockExcelUpload(Map<String, Object> result) throws Exception;
+
+	
+	/**
+	 * 실사재고엑셀조정 엑셀 업로드 데이터 저장
+	 * @param param
+	 * @throws Exception
+	 */
+	void saveStockExcelData(Map<String, Object> param) throws Exception;
+	
+	/**
+	 * 실사재고엑셀조정 엑셀 업로드 데이터 확정
+	 * @param param
+	 * @throws Exception
+	 */
+	void confirmStockRealExcelFinish(Map<String, Object> param) throws Exception;
+	
+	/**
+	 * 실사재고 미리보기
+	 * @param param
+	 * @throws Exception
+	 */
+	List<Map<String, Object>> stockRealExcelPreview(Map<String, Object> param) throws Exception;
+}

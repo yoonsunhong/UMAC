@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="profitandloss">
+
+	<!-- 일재고(조정전, 후) 공통파라미터 -->
+	<parameterMap id="paramMap1" class="java.util.HashMap">
+		<parameter property="P_CORP_CODE"			javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+	    <parameter property="P_WORK_DT" 			javaType="java.lang.String" 	 	jdbcType="VARCHAR" 			mode="IN" />
+	    <parameter property="P_WORK_TYPE" 			javaType="java.lang.String"			jdbcType="VARCHAR"			mode="IN" />
+	</parameterMap>
+	
+	<!-- 월재고(조정전, 후), 손익생성 공통파라미터 -->
+	<parameterMap id="paramMap2" class="java.util.HashMap">
+		<parameter property="P_CORP_CODE"			javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+	    <parameter property="P_WORK_DT" 			javaType="java.lang.String" 	 	jdbcType="VARCHAR" 			mode="IN" />
+	</parameterMap>
+	
+	<!-- 실사확정/취소, 원가율 공통파라미터 -->
+	<parameterMap id="paramMap3" class="java.util.HashMap">
+		<parameter property="P_CORP_CODE" 			javaType="java.lang.String" 		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_STR_CODE" 			javaType="java.lang.String"  		jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_INV_DT" 				javaType="java.lang.String" 	 	jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="P_UEMP_NO"				javaType="java.lang.String" 	 	jdbcType="VARCHAR" 			mode="IN" />
+		<parameter property="CUR"  					javaType="java.sql.ResultSet" 		jdbcType="ORACLECURSOR" 	mode="OUT" />
+	</parameterMap>
+			
+			
+			
+	<!-- 일재고마감(조정전) -->
+	<procedure id="batch_iv_dt_item_coll_ver2" parameterMap="paramMap1" resultClass="java.util.HashMap">
+		{ call PKG_INV_ITEM_PROFIT.BATCH_IV_DT_ITEM_COLL_SUB (?, ?, ? ) }
+	</procedure>
+ 	 
+	<!-- 월재고마감(조정전) -->
+	<procedure id="batch_iv_mt_item_coll_ver2" parameterMap="paramMap2" resultClass="java.util.HashMap">
+		{ call PKG_INV_ITEM_PROFIT.BATCH_IV_MT_ITEM_COLL_SUB (?, ? ) }
+	</procedure>
+	 
+	<!-- 실사확정 -->
+	<procedure id="stock_excel_upload_finish_ver2" parameterMap="paramMap3" resultClass="java.util.HashMap">
+		{ call PKG_INV_ITEM_PROFIT.STOCK_EXCEL_UPLOAD_FINISH_SUB (?,  ?,  ?,  ?,  ?) }
+	</procedure>
+	 
+	<!-- 실사확정취소 -->
+	<procedure id="stock_excel_upload_cancel_ver2" parameterMap="paramMap3" resultClass="java.util.HashMap">
+		{ call PKG_INV_ITEM_PROFIT.STOCK_EXCEL_UPLOAD_CANCEL_SUB (?,  ?,  ?,  ?,  ?) }
+	</procedure>
+	 
+	<!-- 원가율 -->
+	<procedure id="stock_profit_rate_ver2" parameterMap="paramMap3" resultClass="java.util.HashMap">
+		{ call PKG_INV_ITEM_PROFIT.STOCK_PROFIT_RATE_SUB (?,  ?,  ?,  ?,  ? ) }
+	</procedure>
+	 
+	<!-- 손익생성_비생식 -->
+	<procedure id="batch_iv_mt_item_coll_profit_ver2_b" parameterMap="paramMap2" resultClass="java.util.HashMap">
+		{ call PKG_INV_ITEM_PROFIT.BATCH_IV_MT_ITEM_COLL_PROFIT (?, ? ) }
+	</procedure>
+	 
+	<!-- 손익생성_생식 -->
+	<procedure id="batch_iv_mt_item_coll_profit_ver2_s" parameterMap="paramMap2" resultClass="java.util.HashMap">
+		{ call PKG_INV_ITEM_PROFIT.BATCH_IV_MT_ITEM_COLL_PROFIT_S (?, ?  }
+	</procedure>
+
+</sqlMap>

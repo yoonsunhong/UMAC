@@ -1,0 +1,248 @@
+/********************************************************
+*    설명: WMS - 할당 조정
+*		
+*	수정일      	   수정자        수정내용
+*	------------------------------------------------------
+*	2018-02-14     송원두        초기작성 
+*	------------------------------------------------------
+*	version : 1.0
+ ********************************************************/
+	
+$(document).ready(function(){
+	
+	init();
+	
+	//검색조건 LOG_NAME 셀렉트 박스 셋팅
+	$("#iframeCnt select[name=P_LOG_NAME]").append('<option value="">'+ all +'</option>');
+		jQuery.ajax({ 
+		    url:"/getBatchLogNameList.do",         
+		    type:"POST",
+			datatype:"json",
+			success:function(data){  
+				if(data.length > 0){
+					for(var i=0 ; i < data.length ; i++){
+					$("#P_LOG_NAME").append('<option value="'+ data[i].LOG_NAME +'">'+ data[i].LOG_SHORT_NAME +'</option>'); 
+					}
+				}
+			},
+	    complete : function(data) {
+	    },
+	});
+		
+	//검색조건 LOG_STATUS 셀렉트 박스 셋팅
+	$("#iframeCnt select[name=P_LOG_STATUS]").append('<option value="">'+ all +'</option>');
+		jQuery.ajax({ 
+		    url:"/getBatchLogStatusList.do",         
+		    type:"POST",
+			datatype:"json",
+			success:function(data){  
+				if(data.length > 0){
+					for(var i=0 ; i < data.length ; i++){
+					$("#P_LOG_STATUS").append('<option value="'+ data[i].LOG_STATUS +'">'+ data[i].LOG_STATUS +'</option>'); 
+					}
+				}
+			},
+	    complete : function(data) {
+	    },
+	});
+
+	/**검색조건 날짜 체크*/
+	 $(".datepicker1").datepicker({ onSelect: function(dateText){ 	 	 
+			 //var CUR_DT = new CommDateManager().after(0, 0, 0).getDate("yyyy-mm-dd"); 
+			 if($("#P_STR_DATE").val()  >  $("#P_END_DATE").val()){   
+				//날자 검색조건의 시작일이 종료일보다 클 수 없습니다.
+				alert(msgDateValidation);
+				$("#P_STR_DATE").val(CUR_DT);
+				return;
+			}	 
+		}, 	
+		showMonthAfterYear:true 
+	});
+		 
+	$(".datepicker2").datepicker({ onSelect: function(dateText){
+			//var CUR_DT = new CommDateManager().after(0, 0, 0).getDate("yyyy-mm-dd"); 
+			if($("#P_STR_DATE").val()  >  $("#P_END_DATE").val()){
+				//날자 검색조건의 시작일이 종료일보다 클 수 없습니다.
+				alert(msgDateValidation);
+				$("#P_END_DATE").val(CUR_DT);
+				return;
+			}	 
+		}, 	
+		showMonthAfterYear:true 
+	});
+	
+	$(".datepicker").datepicker();
+	//최초 도움말 불러오기 
+	setHelpMessage($(location).attr('pathname').replace('/',''));
+	
+	var oneDayBefore = new CommDateManager(new Date().before(0, 0, 0, 0, 0, 0, 0)).getDate("yyyy-mm-dd");
+	
+	$("#P_END_DATE").val(oneDayBefore);
+	$("#P_STR_DATE").val(oneDayBefore);
+});
+
+// ----------------------- 그리드 설정 시작 -------------------------------------
+//rMate그리드 경로정보 셋팅
+rMateGridH5.setAssetsPath("/resources/js/rMateGridH5/Assets/");
+rMateGridH5.setConfig(rMateGridH5.style);
+
+// rMate 그리드 생성 준비가 완료된 상태 시 호출할 함수를 지정합니다.
+var jsVars1 = "rMateOnLoadCallFunction=gridReadyHandler1";
+
+// rMateDataGrid 를 생성합니다.
+// 파라메터 (순서대로)
+//  1. 그리드의 id ( 임의로 지정하십시오. )
+//  2. 그리드가 위치할 div 의 id (즉, 그리드의 부모 div 의 id 입니다.)
+//  3. 그리드 생성 시 필요한 환경 변수들의 묶음인 jsVars
+//  4. 그리드의 가로 사이즈 (생략 가능, 생략 시 100%)
+//  5. 그리드의 세로 사이즈 (생략 가능, 생략 시 100%)
+rMateGridH5.create("grid1", "gridHolder1", jsVars1);
+
+//그리드의 데이터 제어를 위한 전역변수 설정
+var gridApp1, gridRoot1, dataGrid1, dataRow1,clickData1,selectorColumn1, collection1;
+
+//그리드 데이터 초기화
+var gridData1 = [];
+
+//그리드1 레디 핸들러
+function gridReadyHandler1(id) {
+	// rMateGrid 관련 객체
+	gridApp1 = document.getElementById(id); // 그리드를 포함하는 div 객체
+	gridRoot1 = gridApp1.getRoot(); // 데이터와 그리드를 포함하는 객체
+
+	//그리드1에 헤더 및 레이아웃 셋팅
+	gridApp1.setLayout(layoutStr1);
+	
+	//최초 로딩시 그리드1 데이터 조회 X
+	gridApp1.setData(gridData1);
+
+	gridRoot1.addEventListener("layoutComplete", layoutCompleteHandler1);
+	gridRoot1.addEventListener("dataComplete", dataCompleteHandler1);
+}
+
+//그리드1 layoutCompleteHandler1
+function layoutCompleteHandler1() {
+	dataGrid1 = gridRoot1.getDataGrid();  // 그리드 객체
+	// 헤드 정렬 초기화
+	rMateSortHeadInit(dataGrid1);	
+	dataGrid1.setDoubleClickEnabled(true);
+}
+
+//그리드1 컴플릿트 핸들러
+function dataCompleteHandler1(event) {	
+	// 그리드 객체
+	dataGrid1 = gridRoot1.getDataGrid();
+	// 데이터 그리드의 내부의 데이터를 담고있는 객체 입니다.
+	collection1 = gridRoot1.getCollection();	
+}
+
+//----------------------- 그리드 설정 끝 -----------------------
+
+
+//<DataGridColumn dataField="RNUM" headerText="No"  textAlign="center" sortable="false" width="40" /> 넘버링을 하면 병합오류 발생
+//그리드1<Wms입고내역> 헤더 설정
+var layoutStr1 =
+'<rMateGrid>\
+	<NumberFormatter id="numfmt" useThousandsSeparator="true"/>\
+	<DateFormatter id="datefmt" formatString="YYYY-MM-DD HH:NN:SS"/>\
+		<DataGrid id="dg1" sortableColumns="true" selectionMode="multipleRows"   verticalAlign="middle" showDataTips="true">\
+			<groupedColumns>\
+				<DataGridColumn dataField="LOG_SEQ" 		headerText="LOG_SEQ"		textAlign="center"	sortable="false"	width="80"	/>\
+			 	<DataGridColumn dataField="LOG_STATUS" 		headerText="LOG_STATUS"		textAlign="center"	sortable="false" 	width="105"	/>\
+				<DataGridColumn dataField="LOG_NAME" 		headerText="LOG_NAME" 		textAlign="left"	sortable="false"				/>\
+				<DataGridColumn dataField="LOG_DESC" 		headerText="LOG_DESC" 		textAlign="left"	sortable="false"				/>\
+				<DataGridColumn dataField="LOG_DATETIME" 	headerText="LOG_DATETIME" 	textAlign="center"	sortable="false"	width="250"	/>\
+			</groupedColumns>\
+	</DataGrid>\
+</rMateGrid>';
+// ----------------------- 그리드 설정 끝 -------------------------------------
+
+
+function init() {
+
+}
+
+
+//########################################################
+//###	8. init ( 시작 )   							   ###
+//########################################################
+  
+
+//########################################################
+//###   사용자 정의 함수 ( 시작 )							   ###
+//########################################################
+
+//조회
+function btn_search(){
+	
+	var loadData =  $("#top_search").serializeAllObject();
+	
+	
+	loadData.P_STR_DATE = loadData.P_STR_DATE.replace(/-/gi, '');
+	loadData.P_END_DATE = loadData.P_END_DATE.replace(/-/gi, '');
+	loadData.LOG_NAME = $("#P_LOG_NAME").val();
+	//loadData.LOG_STATUS = $("#P_LOG_STATUS").val();
+	
+	if(loadData.P_STR_DATE  >  loadData.P_END_DATE){
+		//날자 검색조건의 시작일이 종료일보다 클 수 없습니다.
+		alert(msgDateValidation);
+		$("#P_STR_DATE").focus();
+		return;
+	}
+	
+	
+	//그리드1 데이터 조회 및 그리드 데이터 셋팅(데이터 로고 출력)
+	jQuery.ajax({ 
+	    url:"/getBatchMonitoringList.do",         
+	    type:"POST",
+		datatype:"json",
+		
+		data: loadData,
+		success:function(data){  
+			gridData1 = data; 
+			gridApp1.setData(data);
+	    },
+	    complete : function(data) {
+	    	hideLoadingBar1();
+	    },
+	    error : function(xhr, status, error) {
+	    	hideLoadingBar1();
+	    	CommonJs.alertErrorStatus(xhr.status, error);
+	    }
+	});
+}
+
+
+
+//그리드 로딩바  보이기
+function showLoadingBar1() {
+	gridRoot1.addLoadingBar();
+	}
+
+//그리드 로딩바  숨기기
+function hideLoadingBar1() {
+	gridRoot1.removeLoadingBar();
+	}
+
+//########################################################
+//###   상단 버튼 구현 ( 끝 )   							   ###
+//########################################################
+
+/* 추가 js */
+//그리드 너비 제어
+$(document).ready(function (){
+	$("#gridHolder1").width("100%");
+
+	var hei = ($(window).height() - 157) / 5;
+
+	$("#gridHolder1").height(hei*5);
+
+
+	$(window).on('resize',function (){	
+
+		var hei = ($(window).height() - 157) / 5;
+		
+		$("#gridHolder1").height(hei*5);
+
+	});
+});

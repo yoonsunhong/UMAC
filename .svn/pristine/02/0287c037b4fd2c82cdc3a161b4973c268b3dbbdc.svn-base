@@ -1,0 +1,147 @@
+/*
+ * Copyright 2008-2009 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package retail.inoutcenter.mng.service.impl;
+
+import java.util.HashMap;
+import java.util.List;
+  
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+  
+
+
+import retail.inoutcenter.mng.service.InOutCenterMngService;
+import retail.inoutcenter.mng.service.InOutCenterMngVO; 
+
+
+/**
+ * @Class Name : InOutCenterMngServiceImpl.java
+ * @Description : InOutCenterMngServiceImpl Class
+ * @Modification Information
+ * @
+ * @  수정일      수정자              수정내용
+ * @ ---------   ---------   -------------------------------
+ * @ 2016.12.05           최초생성
+ *
+ * @author 유재훈
+ * @since 2016.12.05
+ * @version 1.0
+ * @see Copyright (C) by Retailtech All right reserved.
+ */
+
+@Service("InOutCenterMngService")
+public class InOutCenterMngServiceImpl  implements InOutCenterMngService {
+
+	@Autowired
+	private InOutCenterMngDao inOutCenterMngDao;
+	 
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(InOutCenterMngServiceImpl.class);
+
+	
+	
+ 
+	@Override
+	public List<Map<String, Object>> inOutCenterHeadSearch(Map<String, Object> param) throws Exception {
+		return inOutCenterMngDao.inOutCenterHeadSearch(param);
+	}
+
+
+	 
+	@Override
+	public List<Map<String, Object>> inOutCenterDetailInfo(Map<String, Object> param) throws Exception {
+		return inOutCenterMngDao.inOutCenterDetailInfo(param);
+	}
+ 
+ 
+	@Override
+	@Transactional
+	public List<Map<String, Object>> inOutCenterConfirm(  Map<String, Object> param) throws Exception { 
+		return inOutCenterMngDao.inOutCenterConfirm(param);
+	}
+	
+ 
+	@Override
+	@Transactional
+	public List<Map<String, Object>> inOutRegister(  Map<String, Object> param) throws Exception { 
+		return inOutCenterMngDao.inOutRegister(param);
+	}
+
+ 
+//	@Override
+//	@Transactional
+//	public List<Map<String, Object>> jobOrderToPurch(  Map<String, Object> param) throws Exception { 
+//		return purchMngDao.jobOrderToPurch(param);
+//	}
+//	
+
+	@Override
+	public Map<String, Object> inoutcenterSumMng_check(Map<String, Object> params) throws Exception {
+		return inOutCenterMngDao.inoutcenterSumMng_check(params);
+	}
+	
+	public Map<String, Object> supplyPurchStateInout_list(Map<String, Object> params)	throws Exception {
+		Map<String, Object> result = new HashMap<String, Object>();
+/*		int totCount = 0; // 건수합
+		int totDecQty = 0; // 수량 합
+		long totPurWprc = 0; // 매입원가 합
+		long totPurWvat = 0; // 부가세 합
+		//int totSum = 0; // 매입합계 합
+		long totSum = 0; // 매입합계 합
+		long totBotSum = 0; // 공병예수금 (공병단가 * 확정수량)
+		//int totPay = 0; // 공병포함 원가 총합 
+		long totPay = 0; // 공병포함 원가 총합 
+*/		
+		result = inOutCenterMngDao.supplyPurchStateInout_list(params);
+
+/*		@SuppressWarnings("unchecked")
+		List<Map<String, Object>> resultList = (List<Map<String, Object>>) result.get("CUR2");
+		if(resultList.size() != 0){
+			for(Map<String, Object> data : resultList){
+				//TOT_TAX_GB
+				totCount += Integer.parseInt(data.get("TOT_TAX_COUNT").toString());
+				totDecQty += Integer.parseInt(data.get("TOT_DEC_QTY").toString());
+				totPurWprc += Long.parseLong(data.get("TOT_PUR_WPRC").toString());
+				totPurWvat += Long.parseLong(data.get("TOT_PUR_WVAT").toString());
+				//totSum += Integer.parseInt(data.get("TOT_SUM").toString());
+				totSum += Long.parseLong(data.get("TOT_SUM").toString());
+				totBotSum += Long.parseLong(data.get("TOT_BOT_SUM").toString());
+				//totPay += Integer.parseInt(data.get("TOT_TAX_COUNT").toString());
+				totPay += Long.parseLong(data.get("TOT_TAX_COUNT").toString());
+				
+			}
+		}
+		
+		totPay = totSum + totBotSum;
+		
+		result.put("RESULT_COUNT", totCount);
+		result.put("RESULT_DEC_QTY", totDecQty);
+		result.put("RESULT_PUR_WPRC", totPurWprc);
+		result.put("RESULT_PUR_WVAT", totPurWvat);
+		result.put("RESULT_SUM", totSum);
+		result.put("TOT_BOT_SUM", totBotSum);
+		result.put("TOT_PAY", totPay);*/
+		return result;
+	}
+	 
+	
+ 
+}

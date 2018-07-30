@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="paymentLedgerSearch">
+
+	<parameterMap id="paymentLedgerSearchMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE" 	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_DT" 	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_GRE_GB"   	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_CON"   	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_SEQ"   	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"   	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"  	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"           javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"   />
+	</parameterMap>
+	
+  	<procedure id="selectPaymentLedgerPurch" parameterMap="paymentLedgerSearchMap" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_LEDGER_PURCH_SELECT ( ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	<procedure id="selectPaymentLedgerSales" parameterMap="paymentLedgerSearchMap" resultClass="java.util.HashMap">
+		{   call PKG_PAYMENT.PAYMENT_LEDGER_SALES_SELECT ( ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	<parameterMap id="paramPaymentLedgerSearchMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE" 	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_DT" 	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_GRE_GB"   	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_CON"   	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_SEQ"   	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"   	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"  	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"           javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  />
+	</parameterMap>
+  	<procedure id="selectPaymentLedgerSearch" parameterMap="paramPaymentLedgerSearchMap"  resultClass="java.util.HashMap" >
+		{   call PKG_PAYMENT.PAYMENT_LEDGER_SEARCH_SELECT ( ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  
+</sqlMap>

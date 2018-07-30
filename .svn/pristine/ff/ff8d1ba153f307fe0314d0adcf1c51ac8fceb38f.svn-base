@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="stockStatus">
+
+	<parameterMap id="stockStatusListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_DATE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_END_DATE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ITM_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CLS_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_FIRST_INDEX"   javaType="java.lang.Integer"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_RECORD_COUNT"  javaType="java.lang.Integer"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_COLUMN_NAME"   	javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_ORDERBY"       		javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="P_ITM_NAME"       		javaType="java.lang.String"      	jdbcType="VARCHAR"       		mode="IN"    />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="resultMap1"    />
+		<parameter property="TOT_CNT"         javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="OUT"   />
+	</parameterMap>
+	
+	<resultMap id="resultMap1" 	class="java.util.HashMap">
+		<result property="ITM_CODE" 			column="ITM_CODE" nullValue=""  />
+		<result property="SCAN_CODE" 			column="SCAN_CODE" nullValue=""  />
+		<result property="ITM_NAME"   			column="ITM_NAME" nullValue=""  />
+		<result property="VEN_NAME"   			column="VEN_NAME" nullValue=""  />
+		<result property="STR_NAME"   			column="STR_NAME" nullValue=""  />
+		<result property="ITM_SALE_CNT"   	column="ITM_SALE_CNT" nullValue=""  />
+		<result property="ITM_INV_CNT"  		column="ITM_INV_CNT" nullValue=""  />
+		<result property="CLS_CODE" 			column="CLS_CODE" nullValue=""  />
+		<result property="CLS_NAME" 			column="CLS_NAME" nullValue=""  />
+	</resultMap>
+
+	<procedure id="stockStatusList" parameterMap="stockStatusListMap" resultMap="resultMap1" >
+		{ call PKG_STAT_ETC.ITEM_SALE_STOCK_STAT ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ? )  }
+	</procedure>  
+
+	<parameterMap id="stockStatusExcelMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_DATE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_END_DATE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ITM_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CLS_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_COLUMN_NAME"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ORDERBY"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"    resultMap="stockStatusExcelResult"   />
+	</parameterMap>
+
+	<resultMap id="stockStatusExcelResult" class="java.util.HashMap">
+		<result property="RNUM"       column="RNUM"       nullValue=""/>
+		<result property="CORP_CODE"       column="CORP_CODE"       nullValue=""/>
+		<result property="ITM_CODE"        column="ITM_CODE"        nullValue=""/>
+		<result property="SCAN_CODE"       column="SCAN_CODE"       nullValue=""/>
+		<result property="ITM_NAME"        column="ITM_NAME"        nullValue=""/>
+		<result property="VEN_CODE"        column="VEN_CODE"        nullValue=""/>
+		<result property="VEN_NAME"        column="VEN_NAME"        nullValue=""/>
+		<result property="STR_CODE"        column="STR_CODE"        nullValue=""/>
+		<result property="STR_NAME"        column="STR_NAME"        nullValue=""/>
+		<result property="CLS_CODE"        column="CLS_CODE"        nullValue=""/>
+		<result property="CLS_NAME"        column="CLS_NAME"        nullValue=""/>
+		<result property="ITM_SALE_CNT"    column="ITM_SALE_CNT"    nullValue=""/>
+		<result property="ITM_INV_CNT"     column="ITM_INV_CNT"     nullValue=""/>
+	</resultMap>
+
+	<procedure id="stockStatusExcel" parameterMap="stockStatusExcelMap" resultMap="stockStatusExcelResult">
+		{ call PKG_STAT_ETC.ITEM_SALE_STOCK_STAT_EXCEL ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>  
+
+</sqlMap>

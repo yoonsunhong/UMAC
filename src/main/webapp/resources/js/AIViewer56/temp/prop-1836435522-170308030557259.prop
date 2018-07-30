@@ -1,0 +1,6 @@
+#AItoHtml make
+#Wed Mar 08 15:05:57 GMT+09:00 2017
+url=http\://localhost\:8080/WEB-INF/jsp/retail/aireport/sample/sample.jsp
+charSetEncoding=utf-8
+parameterTranferMethod=GET
+HttpParameterDecoder=true

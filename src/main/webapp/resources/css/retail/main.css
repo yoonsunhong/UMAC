@@ -1,0 +1,39 @@
+@charset "utf-8";
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+/* -------- 1) 태그 초기화 -------- */
+body,h1, h2, h3, input[type="text"], td{margin:0px;padding:0px}
+body,html{height:100%;overflow-y:hidden}
+body{font-family:"Nanum Gothic",Dotum;color:#222;font-size:0.75em}
+h1, h2, h3{font-size:100%}
+img{border:0px;vertical-align:top}
+header, article, footer{display:block}
+caption{font-size:0px;line-height:0px;width:0px;height:0px;overflow:hidden}
+address{font-style:normal}
+input[type="button"]{border:0px;cursor:pointer}
+
+/* -------- 2) 공통클래스 모음 -------- */
+.f_l{float:left}
+.f_r{float:right}
+.p_r{position:relative}
+.p_a{position:absolute}
+.clear:after{display:block;content:"";clear:both}
+
+/* -------- 3) 상단헤더 영역 -------- */
+#header{height:47px;background:url("/resources/_img/ruckus/tit_bg.jpg") repeat-x 0 0;}
+#header .logo{padding:12px 15px 0 30px;}
+#header .title{padding-top:20px;font-size:13px;font-weight:900;}
+
+/* -------- 4) 콘텐츠 영역  -------- */
+#content{width:100%;height:100%;background:url("/resources/_img/ruckus/bg.jpg") no-repeat 50% 0;}
+#content .main_img{height:100%;background:url("/resources/_img/ruckus/main_img.png") no-repeat 50% 90px}
+#content .login{left:50%;margin-left:-236.5px;width:473px;height:161px;margin-top:374px;background:#fff;-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;}
+#content .login h3{padding-top:20px;text-align:center}
+#content table{width:374px;margin:21px auto;}
+#content table label{padding-left:11px;font-size:14px;font-weight:bold;}
+#content table input[type="text"]{width:150px;height:33px;padding-left:6px;border:1px solid #ccc;-webkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px;box-shadow: 2px 2px 2px rgba(233, 233, 233, .8) inset;}
+#content table input[type="password"]{width:150px;height:33px;padding-left:6px;border:1px solid #ccc;-webkit-border-radius:3px; -moz-border-radius:3px; border-radius:3px;box-shadow: 2px 2px 2px rgba(233, 233, 233, .8) inset;}
+#content table input[type="button"]{width:93px;height:76px;background:url("/resources/_img/ruckus/login.gif") no-repeat;}
+
+/* -------- 5) 하단푸터 영역  -------- */
+#footer{position:fixed;top:600px;left:50%;margin-left:-133.975px;text-align:center;color:#fff}

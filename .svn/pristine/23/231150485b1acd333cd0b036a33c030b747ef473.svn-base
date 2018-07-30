@@ -1,0 +1,39 @@
+@media screen  {
+	
+	
+#report
+   {
+   -webkit-text-size-adjust:none;
+   	//overflow-y:hidden;
+	}
+	
+#subreport > div
+	{
+	-webkit-text-size-adjust:none;
+	}
+
+#report table
+   {
+   	margin:0pt;
+   	padding:0pt;
+   	border-collapse:collapse;
+    table-layout: fixed;
+   }
+   
+#report tr
+   {
+   -webkit-text-size-adjust:none;
+   margin:0pt;
+   padding:0pt;
+   }
+
+#report td
+   {
+   -webkit-text-size-adjust:none;
+	margin:0pt;
+   	white-space:normal;
+   	//letter-spacing:-1px;
+   	word-spacing:0px;
+   }
+
+}

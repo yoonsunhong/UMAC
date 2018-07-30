@@ -1,0 +1,121 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>공통코드 관리</title>
+
+<link type="text/css" rel="stylesheet" href="/resources/css/jquery-ui.css">
+<link type="text/css" rel="stylesheet" href="/resources/css/common.css">
+<link type="text/css" rel="stylesheet" href="/resources/css/font-awesome.min.css">
+
+<!--[if lt IE 9]>
+<script src="/resources/js/html5shiv.js"></script>
+<script src="/resources/js/IE9.js"></script>
+<link type="text/css" rel="stylesheet" href="/resources/css/ie8.css">
+<![endif]-->
+<script type="text/javascript" src="/resources/js/jquery-1.7.1.min.js" charset="utf-8"></script>
+<script src="/resources/js/jquery.ui-1.10.4.datepicker.min.js"></script>
+<script src="/resources/js/style.js"></script>
+<%--
+	설명: 매출부가세전송
+		
+	수정일      	   수정자        수정내용
+	------------------------------------------------------
+	2017-06-07    김경진       초기작성 
+	------------------------------------------------------
+	version : 1.0
+--%> 
+
+<jsp:include page="/WEB-INF/jsp/retail/inc_common/inc_head.jsp" />	
+
+<!-- rMateGridH5 CSS -->
+<link rel="stylesheet" type="text/css" href="/resources/js/rMateGridH5/Assets/rMateH5.css"/> 
+<!-- rMateGridH5 라이센스 -->
+<script type="text/javascript" src="/resources/js/rMateGridH5/LicenseKey/rMateGridH5License.js" charset="utf-8"></script> 
+<!-- rMateGridH5 라이브러리 -->
+<script type="text/javascript" src="/resources/js/rMateGridH5/JS/rMateGridH5.js"></script>
+<script type="text/javascript" src="/resources/js/rMateStyle.js"></script>
+<jsp:include page="/WEB-INF/jsp/retail/commonPopup/commPop.jsp" />
+<script type="text/javascript" src="/resources/js/page/posclosed/card/posClosedCard.js" charset="utf-8"></script>
+
+<style>
+ 	.DATE_YM table.ui-datepicker-calendar { display:none; }
+</style>
+
+</head>
+
+<body id="in_frame">
+	
+	<div id="iframeCnt">
+		<div class="btn_area clear">
+			<button type="button" class="btn btn_style1 f_l"><img src="resources/img/common/help_ico.png"><spring:message code="btnHelp"/></button>
+			<div class="advice p_a">
+				<h4>information</h4>
+				<pre id="helpText"></pre>
+				<a href="" class="close_btn p_a"><spring:message code="btnHelpClose"/></a>
+			</div>
+			<button id="bookMarkIcon" type="button" class="fav fav_inactive"></button> 
+			<div class="f_r">
+				<c:if test="${sessionScope.AUTH_EXCEL_DOWN eq 'Y'}">
+					<button type="button" class="btn btn_style2" id="btn_excel_down" ><spring:message code="btnExcelDown"/></button>
+				</c:if>
+				<c:if test="${sessionScope.AUTH_SEARCH eq 'Y'}">
+					<button type="button" class="btn btn_style3" id="btn_search" ><i class="fa fa-search"></i><spring:message code="btnSearch"/></button>
+				</c:if>
+			</div>
+		</div>
+		
+		<form name="frm" id="frm">
+			<input type="hidden" name="P_CORP_CODE" id="P_CORP_CODE" value="${sessionScope.CORP_CODE }" />
+			<input type="hidden" name="P_REG_ID" id="P_REG_ID" value="${sessionScope.ID }" />
+			<input type="hidden" name="pageIndex" id="pageIndex" value="1" />
+			<input type="hidden" name="pageUnit" id="pageUnit" value="20" />	<!-- 한 페이지당 게시되는 게시물 건 수 -->
+			<input type="hidden" name="pageSize" id="pageSize" value="10" />	<!-- 페이지 리스트에 게시되는 페이지 건수, -->
+			<input type="hidden" name="P_COLUMN_NAME" id="P_COLUMN_NAME" />
+			<input type="hidden" name="P_ORDERBY" id="P_ORDERBY" />
+			
+			<!-- 조회폼 영역 -->
+			<div class="search_area" id="top_search">
+				<div class="last">
+					<label for=""><em>필수입력항목</em>매출년월</label>
+					<input type="text" id="P_SALE_DT" name="P_SALE_DT" class="datepicker2 datepickerYm" />
+					
+					<label for=""><em>필수입력항목</em><spring:message code="store"/></label>
+					<select id="P_STR_CODE" name="P_STR_CODE" >
+						
+					</select>
+					
+					<label for=""><spring:message code="cusName"/></label>
+					<input type="text" id="P_CUST_NAME" name="P_CUST_NAME" class="search_txt">
+					<input type="hidden" id="P_CUST_NO" name="P_CUST_NO" class="search_txt">
+					<button type="button" onclick="btn_comm_user_search('S');" class="search_btn">검색 아이콘</button>
+				</div>
+			</div>
+			<!-- //조회폼 영역 -->
+		</form>
+		
+		<div class="col2 sub_cnt">
+			<h3 class="bul_arr">매출부가세 (신용카드 안분)</h3>
+			<div class="sec_grid">
+				<div class="content">
+					<div id="gridHolder1">
+					</div>
+					<div class="gridPaging" id="gridPageNavigationDiv">
+					</div>
+				</div>
+			</div>
+			<br />
+			
+		</div>
+		
+	</div>
+	<!-- //Content : 본문 영역 -->
+	
+</body>
+</html>

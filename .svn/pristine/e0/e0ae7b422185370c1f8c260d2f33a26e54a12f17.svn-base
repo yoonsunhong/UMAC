@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" "http://www.ibatis.com/dtd/sql-map-config-2.dtd">
+
+
+<sqlMapConfig>
+  <settings useStatementNamespaces="true"   />
+
+    <!-- 메인 -->
+    <sqlMap resource="egovframework/sqlmap/main/main.xml" />
+    <!-- 로그인 -->
+    <sqlMap resource="egovframework/sqlmap/login/login.xml" />
+    <!-- 공통코드관리 -->
+    <sqlMap resource="egovframework/sqlmap/code/code.xml" />
+    <!-- 메뉴관리 -->
+    <sqlMap resource="egovframework/sqlmap/menu/menu.xml" />
+    <!-- 권한그룹관리 -->
+    <sqlMap resource="egovframework/sqlmap/auth/auth.xml" />
+    <!-- 사용자관리 -->
+    <sqlMap resource="egovframework/sqlmap/user/user.xml" />
+    <!-- 조직마스터 관리 -->
+    <sqlMap resource="egovframework/sqlmap/organization/organization.xml" />
+
+    <!-- 그룹 그리드 테스트  -->
+    <sqlMap resource="egovframework/sqlmap/groupGridTest/groupGridTest.xml" />
+    <!-- 공통 팝업  -->
+    <sqlMap resource="egovframework/sqlmap/commonPopup/commPopup.xml" />
+
+    <!-- 공통  -->
+    <sqlMap resource="egovframework/sqlmap/comm/comm.xml" />
+
+    <!-- POS관리 > POS 마스터관리 -->
+    <sqlMap resource="egovframework/sqlmap/posmaster/info/posMasterInfo.xml" />
+    <!-- POS관리 > POS 사용자등록 -->
+    <sqlMap resource="egovframework/sqlmap/posmaster/member/posMasterMember.xml" />
+    <!-- POS관리 > POS 점별 명판 등록 -->
+    <sqlMap resource="egovframework/sqlmap/posmaster/plate/posMasterPlate.xml" />
+    <!-- POS관리 > POS 안내문관리 -->
+    <sqlMap resource="egovframework/sqlmap/posmaster/alram/posMasterAlram.xml" />
+    <!-- POS관리 > POS 공지관리 -->
+    <sqlMap resource="egovframework/sqlmap/posmaster/notice/posMasterNotice.xml" />
+    <!-- POS관리 > POS 단축키관리 -->
+    <sqlMap resource="egovframework/sqlmap/posmaster/shortcuts/posMasterShortcuts.xml" />
+
+    <!-- 매출목표관리  -->
+    <sqlMap resource="egovframework/sqlmap/salesinfo/goal/salesInfoGoal.xml" />
+    <!-- 협력업체매출현황 -->
+    <sqlMap resource="egovframework/sqlmap/salesinfo/supply/supplySalesState.xml" />
+    <!-- 매출정보 -->
+    <sqlMap resource="egovframework/sqlmap/salesinfo/report/salesInfoReport.xml" />
+    <!-- 단품매출판매내역 -->
+    <sqlMap resource="egovframework/sqlmap/salesinfo/item/itemSalesState.xml" />
+    <!-- 영업분석-매출정보-신용카드지불현황 -->
+    <sqlMap resource="egovframework/sqlmap/salesinfo/creditcard/ccPaymentStatus.xml" />
+    <!-- 영업분석-매출정보-매출대비실적조회 -->
+    <sqlMap resource="egovframework/sqlmap/salesinfo/sales/salesPerformanceView.xml" />
+
+    <!-- 분석정보 -->
+    <sqlMap resource="egovframework/sqlmap/salesanal/report/salesAnalReport.xml" />
+
+    <!-- 상품관리-->
+    <sqlMap resource="egovframework/sqlmap/product/category/productCategory.xml" />
+    <!-- 협력업체 관리-->
+    <sqlMap resource="egovframework/sqlmap/product/customer/productCustomer.xml" />
+    <!-- 상품 마스터 관리 -->
+    <sqlMap resource="egovframework/sqlmap/product/master/productMaster.xml" />
+    <!-- 기본상품마스터조회 -->
+    <sqlMap resource="egovframework/sqlmap/product/masterbasic/productMasterBasic.xml" />
+    <!-- 점 상품 관리 -->
+    <sqlMap resource="egovframework/sqlmap/product/store/productStore.xml" />
+    <!-- 협력업체일괄변경 -->
+    <sqlMap resource="egovframework/sqlmap/product/venChange/productVenChange.xml" />
+   <!-- 긴급매가변경-->
+    <sqlMap resource="egovframework/sqlmap/product/changeEmergencyPrice/changeEmergencyPrice.xml" />
+    
+    <!-- 예약매가변경-->
+    <sqlMap resource="egovframework/sqlmap/product/reservation/changeReservationPrice.xml" />
+
+    <!-- 회원정보 > 멤버쉽관리 -->
+    <sqlMap resource="egovframework/sqlmap/member/point/memberPoint.xml" />
+    <!-- 회원정보 > 회원정보관리 -->
+    <sqlMap resource="egovframework/sqlmap/member/info/memberInfo.xml" />
+    <!-- 회원정보 > 회원등급변경기준 관리 -->
+    <sqlMap resource="egovframework/sqlmap/member/grade/memberGradeStandard.xml" />
+    <!-- 회원정보 > 회원등급변경(일괄) -->
+    <sqlMap resource="egovframework/sqlmap/member/grade/memberGradeBatch.xml" />
+    <!-- 회원정보 > 회원등급변경(개별) -->
+    <sqlMap resource="egovframework/sqlmap/member/grade/memberGrade.xml" />
+    <!-- 회원정보 > 회원거래현황 -->
+    <sqlMap resource="egovframework/sqlmap/member/deal/memberDeal.xml" />
+    <!-- 회원정보 > 회원매출상세내역 -->
+    <sqlMap resource="egovframework/sqlmap/member/sales/memberSalesState.xml" />
+    <!-- 고객관리 > SMS발송관리 -->
+    <sqlMap resource="egovframework/sqlmap/member/sms/memberSms.xml" />
+    <!-- 고객관리 > DM발송관리 -->
+    <sqlMap resource="egovframework/sqlmap/member/dm/memberDm.xml" />
+    <!-- 고객관리 > 예외고객관리 -->
+    <sqlMap resource="egovframework/sqlmap/member/exception/memberException.xml" />
+    <!-- 회원정보 > 고객미수원장조회 -->
+    <sqlMap resource="egovframework/sqlmap/member/receivables/custReceivablesLedger.xml" />
+    <!-- 회원정보 > 멤버쉽관리 > 사업자매출현황 -->
+    <sqlMap resource="egovframework/sqlmap/member/stat/memberSalesStat.xml" />
+
+    <!-- 영업분석 > 사후관리 -->
+    <sqlMap resource="egovframework/sqlmap/salesmng/point/salesMngPoint.xml" />
+
+    <!-- 행사코드마스터 -->
+    <sqlMap resource="egovframework/sqlmap/business/campaign/businessCampaignMaster.xml" />
+    <!-- 행사상품마스터 -->
+    <sqlMap resource="egovframework/sqlmap/business/product/businessCampaignProduct.xml" />
+    <!-- 콜센터주문등록 -->
+    <sqlMap resource="egovframework/sqlmap/business/callreceipt/businessCallReceiptInput.xml" />
+    <!-- 주문서관리 -->
+    <sqlMap resource="egovframework/sqlmap/business/callorder/businessCallOrder.xml" />
+    <!-- 주문배달관리 -->
+    <sqlMap resource="egovframework/sqlmap/business/orderdelivery/businessOrderDelivery.xml" />
+    <!-- 외상매출관리 -->
+    <sqlMap resource="egovframework/sqlmap/business/credit/businessCredit.xml" />
+    <!-- 사은행사 -->
+    <sqlMap resource="egovframework/sqlmap/business/gift/businessGift.xml" />
+    <!-- 영업정보 > 영업관리 > 견적서 조회 등록수정 -->
+    <sqlMap resource="egovframework/sqlmap/business/estimate/businessEstimate.xml" />
+    <!-- 영업정보 > 영업관리 > 회원별미수원장 -->
+    <sqlMap resource="egovframework/sqlmap/business/doc/businessDoc.xml" />
+    <!-- 영업정보 > 영업관리 > 일매출정산집계조회 -->
+    <sqlMap resource="egovframework/sqlmap/business/daysales/daySalesSettlement.xml" />
+
+    <!-- 영업정보 > POS정산 > POS마감정산 -->
+    <sqlMap resource="egovframework/sqlmap/posclosed/cal/posClosedCal.xml" />
+    <!-- 영업정보 > POS정산 > POS마감정보 -->
+    <sqlMap resource="egovframework/sqlmap/posclosed/info/posClosedInfo.xml" />
+    <!-- 영업정보 > POS정산 > POS시재등록 -->
+    <sqlMap resource="egovframework/sqlmap/posclosed/cash/posClosedCash.xml" />
+    <!-- 영업정보 > POS정산 > POS영수증조회 -->
+    <sqlMap resource="egovframework/sqlmap/posclosed/receipt/posClosedReceipt.xml" />
+    <!-- 영업정보 > POS정산 > 매출부가세전송 -->
+    <sqlMap resource="egovframework/sqlmap/posclosed/douzone/posClosedDouzone.xml" />
+    <!-- 영업정보 > POS정산 > 매출부가세전송 -->
+    <sqlMap resource="egovframework/sqlmap/posclosed/card/posClosedCard.xml" />
+    <!-- 영업정보 > POS정산 > 일매출마감 -->
+    <sqlMap resource="egovframework/sqlmap/posclosed/douzoneDay/posClosedDouzoneDay.xml" />
+    <!-- 영업정보 > POS정산 > 외상입금상세 -->
+    <sqlMap resource="egovframework/sqlmap/posclosed/report/creditDpotDtlState.xml" />
+
+    <!-- WMS-입고예정관리 -->
+    <sqlMap resource="egovframework/sqlmap/wms/in/wmsIn.xml" />
+    <!-- WMS-LOCATION 관리 -->
+    <sqlMap resource="egovframework/sqlmap/wms/in/wmsInLocation.xml" />
+    <!-- WMS-출고조회/수정 -->
+    <sqlMap resource="egovframework/sqlmap/wms/out/wmsOut/wmsOut.xml" />
+    <!-- WMS-출고현황조회 -->
+    <sqlMap resource="egovframework/sqlmap/wms/out/wmsOutReport/wmsOutReport.xml" />
+    <!-- WMS-미/오출현황 -->
+    <sqlMap resource="egovframework/sqlmap/wms/out/wmsOutMiss/wmsOutMiss.xml" />
+    <!-- WMS-재고조사일정관리 -->
+    <sqlMap resource="egovframework/sqlmap/wms/stock/wmsStockSchedule/wmsStockSchedule.xml" />
+    <!-- WMS-실사재고 등록 -->
+    <sqlMap resource="egovframework/sqlmap/wms/stock/wmsStockReal/wmsStockReal.xml" />
+    <!-- WMS-실사재고 엑셀조정등록 -->
+    <sqlMap resource="egovframework/sqlmap/wms/stock/wmsStockRealExcel/wmsStockRealExcel.xml" />
+    <!-- WMS-Location재고 조회 -->
+    <sqlMap resource="egovframework/sqlmap/wms/stock/wmsStockLocation/wmsStockLocation.xml" />
+    <!-- WMS-소분상품관리 -->
+    <sqlMap resource="egovframework/sqlmap/wms/stock/wmsStockDivision/wmsStockDivision.xml" />
+
+    <!-- 영업관리-재고정보-재고조사 일정 관리 -->
+    <sqlMap resource="egovframework/sqlmap/stock/stockSchedule/stockSchedule.xml" />
+    <!-- 영업관리-재고정보-실사재고 등록 -->
+    <sqlMap resource="egovframework/sqlmap/stock/stockReal/stockReal.xml" />
+    <!-- 영업관리-재고정보-재고조정 등록 -->
+    <sqlMap resource="egovframework/sqlmap/stock/stockChange/stockChange.xml" />
+    <!-- 영업관리-재고정보-실사재고엑셀조정 -->
+    <sqlMap resource="egovframework/sqlmap/stock/stockRealExcel/stockRealExcel.xml" />
+    <!-- 영업관리-재고정보-현상품재고현황 -->
+    <sqlMap resource="egovframework/sqlmap/stock/stockStatus/stockStatus.xml" />
+
+    <!-- 공지사항(유맥)등록 -->
+    <sqlMap resource="egovframework/sqlmap/business/notice/businessNotice.xml" />
+    <!-- 영업관리-카드프릭픽스, 주류판매대장 관리 -->
+    <sqlMap resource="egovframework/sqlmap/business/manage/businessManage.xml" />
+
+    <!-- 대금지불 > 대금공제등록 -->
+    <sqlMap resource="egovframework/sqlmap/payment/deduction/paymentDeduction.xml" />
+    <!-- 대금지불 > 대금지불 마감관리 -->
+    <sqlMap resource="egovframework/sqlmap/payment/close/paymentClose.xml" />
+    <!-- 대금지불 > 대금지불 의뢰조회 -->
+    <sqlMap resource="egovframework/sqlmap/payment/request/paymentRequest.xml" />
+    <!-- 대금지불 > 업체별 여신한도관리 -->
+    <sqlMap resource="egovframework/sqlmap/payment/limit/paymentLimit.xml" />
+    <!-- 대금지불 > 매입집계 및 대금지불원장 생성 -->
+    <sqlMap resource="egovframework/sqlmap/payment/ledger/paymentLedger.xml" />
+    <!-- 대금지불 > 거래선별 매입 조회(직매입) -->
+    <sqlMap resource="egovframework/sqlmap/payment/purchase/paymentPurchase.xml" />
+    <!-- 대금지불 > 거래선별 매입, 매출, 원장 집계 조회 -->
+    <sqlMap resource="egovframework/sqlmap/payment/ledgerSearch/paymentLedgerSearch.xml" />
+    <!-- 장려금생성 관리 - 장려금 생성 및 금액 수정, 생성된 장려금 조회 -->
+    <sqlMap resource="egovframework/sqlmap/payment/incentive/paymentIncentive.xml" />
+
+    <!-- BOX 마스터   관리 -->
+    <sqlMap resource="egovframework/sqlmap/product/box/productBox.xml" />
+
+    <!-- 발주  관리 R1 R2 -->
+    <sqlMap resource="egovframework/sqlmap/order/store/orderStore.xml" />
+    <!-- 발주  관리 R3 -->
+    <sqlMap resource="egovframework/sqlmap/order/store/orderStoreR3.xml" />
+    <!-- 바이어 발주 R1   -->
+    <sqlMap resource="egovframework/sqlmap/order/store/orderStoreR1Buyer.xml" />
+    <!-- 발주  관리 R2 -->
+    <sqlMap resource="egovframework/sqlmap/order/store/orderStoreR2.xml" />
+    <!-- 덤상품 발주 R1   -->
+    <sqlMap resource="egovframework/sqlmap/order/store/orderStoreBonus.xml" />
+    <!-- 엑셀 발주 점 -->
+    <sqlMap resource="egovframework/sqlmap/order/store/orderStoreExcel.xml" />
+    <!-- 엑셀 발주 바이어 -->
+    <sqlMap resource="egovframework/sqlmap/order/store/orderStoreExcelBuyer.xml" />
+
+    <!-- 프로모션 등록관리 -->
+    <sqlMap resource="egovframework/sqlmap/business/promotionreg/promotionRegistManage.xml" />
+    <!-- 프로모션 점상품내역조회 -->
+    <sqlMap resource="egovframework/sqlmap/business/promotionlist/promotionStrItmList.xml" />
+    <!-- 프로모션 특단가상품관리 -->
+    <sqlMap resource="egovframework/sqlmap/business/promotionsp/promotionSpecial.xml" />
+
+    <!-- 매입전표 관리 -->
+    <sqlMap resource="egovframework/sqlmap/purch/mng/purchMng.xml" />
+    <!-- 직매입 관련 현황 조회 및 출력 -->
+    <sqlMap resource="egovframework/sqlmap/purch/R3/purchR3State.xml" />
+
+    <!-- 대출입 전표 관리 -->
+    <sqlMap resource="egovframework/sqlmap/inoutcenter/mng/inOutCenterMng.xml" />
+
+    <!-- 외상매출미수채권  -->
+    <sqlMap resource="egovframework/sqlmap/business/receivables/creditReceivables.xml" />
+
+    <!-- 회원정보 > 배달집계현황 -->
+    <sqlMap resource="egovframework/sqlmap/member/delivery/memberDelivery.xml" />
+
+    <!-- 컴플레인접수등록 -->
+    <sqlMap resource="egovframework/sqlmap/claim/userClaim.xml" />
+
+    <!-- 영업점 휴무일관리 -->
+    <sqlMap resource="egovframework/sqlmap/business/salesMst/salesMst.xml" />
+
+    <!-- 점간 대출입 -->
+    <sqlMap resource="egovframework/sqlmap/check/productCheckInOut.xml" />
+
+    <!-- 대출입 전표 차량 분리 관리 -->
+    <sqlMap resource="egovframework/sqlmap/inoutcenter/carDivision/inOutCenterCarDivision.xml" />
+	
+	<!--  멤버십회원조회 -->
+	<sqlMap resource="egovframework/sqlmap/member/membership/memberShip.xml" />
+
+		<!--  WMS 자동할당 -->
+	<sqlMap resource="egovframework/sqlmap/wms/auto/wmsAuto.xml" />
+	
+	  <!-- 매입전표 삭제  -->
+    <sqlMap resource="egovframework/sqlmap/purch/mng/purchMngDelete.xml" />
+    
+</sqlMapConfig>

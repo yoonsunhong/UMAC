@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="paymentIncentive">
+
+	<parameterMap id="paymentIncentiveInsertMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="I_APPL_MON"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_IEMP_NO"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"       javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+
+	<parameterMap id="paymentIncentiveUpdateMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_APPL_MON"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CFM_JANG_AMT"    javaType="java.lang.String"    jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_REMARK"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_UEMP_NO"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"       javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+
+	<parameterMap id="paymentIncentiveMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_APPL_MON"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_VEN_CODE"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<!--<parameter property="S_STR_CODE"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />-->
+		<parameter property="S_PAY_SEQ"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"               javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="paymentIncentiveResultMap" />
+	</parameterMap>
+
+	<resultMap id="paymentIncentiveResultMap" class="java.util.HashMap">
+		<result property="VEN_CODE"         column="VEN_CODE" />
+		<result property="VEN_NAME"         column="VEN_NAME" />
+		<result property="STR_CODE"         column="STR_CODE" />
+		<result property="PAY_SEQ"          column="PAY_SEQ" />
+		<result property="CHASU"            column="CHASU" />
+		<result property="PUR_SECTION"      column="PUR_SECTION" />
+		<result property="GUGAN"            column="GUGAN" />
+		<result property="MIN_STD_AMT"      column="MIN_STD_AMT" />
+		<result property="MAX_STD_AMT"      column="MAX_STD_AMT" />
+		<result property="PUR_RATE"         column="PUR_RATE" />
+		<result property="TOTAL_AMT"        column="TOTAL_AMT" />
+		<result property="JANG_AMT"         column="JANG_AMT" />
+		<result property="JANG_AMT_WON"     column="JANG_AMT_WON" />
+		<result property="CFM_JANG_AMT"     column="CFM_JANG_AMT" />
+		<result property="APPL_MON_WOL"     column="APPL_MON_WOL" />
+		<result property="APPL_TGT"         column="APPL_TGT" />
+		<result property="APPL_MON_DASH"    column="APPL_MON_DASH" />
+		<result property="APPL_MON"         column="APPL_MON" />
+		<result property="REMARK"           column="REMARK" />
+		<result property="STR_NAME"         column="STR_NAME" />
+	</resultMap>
+
+	<procedure id="selectPaymentIncentive" parameterMap="paymentIncentiveMap" >
+		{   call PKG_PY_INCENTIVE.PAYMENT_INCENTIVE_SELECT ( ?, ?, ?, ?, ? )  }
+	</procedure>
+
+	<procedure id="insertPaymentIncentive" parameterMap="paymentIncentiveInsertMap" >
+		{   call PKG_PY_INCENTIVE.PAYMENT_INCENTIVE_INSERT ( ?, ?, ?, ?, ? )  }
+	</procedure>
+
+	<procedure id="updatePaymentIncentive" parameterMap="paymentIncentiveUpdateMap" >
+		{   call PKG_PY_INCENTIVE.PAYMENT_INCENTIVE_UPDATE ( ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="paymentIncentiveDeleteMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="I_APPL_MON_2"      javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"       javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	<procedure id="deletePaymentIncentive" parameterMap="paymentIncentiveDeleteMap" >
+		{   call PKG_PY_INCENTIVE.PAYMENT_INCENTIVE_DELETE ( ?, ?, ?, ? )  }
+	</procedure>
+
+</sqlMap>

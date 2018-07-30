@@ -1,0 +1,151 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<!-- 스프링 메세지 테그사용 :: 다국어 -->
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@page import ="java.util.List" %>
+<%@page import ="java.util.HashMap" %>
+<%@page import ="java.util.ArrayList" %>
+<%@page import ="java.util.List" %>
+<%@page import ="java.util.Calendar" %>
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>공통코드 관리</title>
+
+<link type="text/css" rel="stylesheet" href="/resources/css/jquery-ui.css">
+<link type="text/css" rel="stylesheet" href="/resources/css/common.css">
+<link type="text/css" rel="stylesheet" href="/resources/css/font-awesome.min.css">
+
+<!--[if lt IE 9]>
+<script src="/resources/js/html5shiv.js"></script>
+<script src="/resources/js/IE9.js"></script>
+<link type="text/css" rel="stylesheet" href="/resources/css/ie8.css">
+<![endif]-->
+<script type="text/javascript" src="/resources/js/jquery-1.7.1.min.js" charset="utf-8"></script>
+<script src="/resources/js/jquery.ui-1.10.4.datepicker.min.js"></script>
+<script src="/resources/js/style.js"></script>
+<%--
+	설명: 영업정보 > 재고정보 > 손익생산
+		
+	수정일      	   수정자        수정내용
+	------------------------------------------------------
+	2017-11-10    윤태희       초기작성 
+	------------------------------------------------------
+	version : 1.0
+--%> 
+
+<jsp:include page="/WEB-INF/jsp/retail/inc_common/inc_head.jsp" />	
+
+<!-- rMateGridH5 CSS -->
+<link rel="stylesheet" type="text/css" href="/resources/js/rMateGridH5/Assets/rMateH5.css"/> 
+<!-- rMateGridH5 라이센스 -->
+<script type="text/javascript" src="/resources/js/rMateGridH5/LicenseKey/rMateGridH5License.js" charset="utf-8"></script> 
+<!-- rMateGridH5 라이브러리 -->
+<script type="text/javascript" src="/resources/js/rMateGridH5/JS/rMateGridH5.js"></script>
+<script type="text/javascript" src="/resources/js/rMateStyle.js"></script>
+<script type="text/javascript" src="/resources/js/page/stock/profitandloss/stockprofitAndLoss.js" charset="utf-8"></script>
+<script language="javascript">
+	$(document).ready(function () {	    
+		datePickerYearMonth();
+	});
+</script>
+</head>
+<style>  
+ 	.DATE_YM table.ui-datepicker-calendar { display:none; }
+</style>
+
+<%
+	//전달구하기
+	Calendar mon = Calendar.getInstance();
+	String nowMonth = new java.text.SimpleDateFormat("yyyy-MM").format(mon.getTime());	
+	mon.add(Calendar.MONTH , -1);	
+	String beforeMonth = new java.text.SimpleDateFormat("yyyy-MM").format(mon.getTime());		
+	
+	String P_START_DATE = beforeMonth + "-01";
+	String P_END_DATE = beforeMonth + "-" + mon.getActualMaximum(Calendar.DATE);
+%>
+
+<body id="in_frame">
+	
+	<div id="iframeCnt">
+		<div class="btn_area clear">
+			<button type="button" class="btn btn_style1 f_l"><img src="resources/img/common/help_ico.png"><spring:message code="btnHelp"/></button>
+			<div class="advice p_a">
+				<h4>information</h4>
+				<pre id="helpText"></pre>
+				<a href="" class="close_btn p_a"><spring:message code="btnHelpClose"/></a>
+			</div>
+			<button id="bookMarkIcon" type="button" class="fav fav_inactive"></button> 
+			<div class="f_r">
+				<!-- 권한에 따른 버튼 show/hide -->
+				<%-- <c:if test="${sessionScope.AUTH_EXCEL_DOWN eq   'Y'}">
+					    <button type="button" id="btn_excel"  class="btn btn_style2"  onclick="excelExport()"><spring:message code="btnExcelDown"/></button>
+					</c:if>
+				<c:if test="${sessionScope.AUTH_SEARCH eq 'Y'}">
+					<button type="button" class="btn btn_style3" id="btn_search" ><i class="fa fa-search"></i><spring:message code="btnSearch"/></button>
+				</c:if> --%>
+			</div>
+		</div>
+		
+		<form name="frm" id="frm">
+			<input type="hidden" name="S_CORP_CODE" id="S_CORP_CODE" value="${sessionScope.CORP_CODE }" />
+			<input type="hidden" id="SESSION_STR_CODE" name="SESSION_STR_CODE" value="${sessionScope.STR_CODE}" />
+			<input type="hidden" id="P_WORK_DT" name="P_WORK_DT" value="" />
+			<!-- 조회폼 영역 -->
+			<div class="search_area" id="top_search">
+				<div class="last">
+					<label for=""><spring:message code="store"/></label>
+					<!-- <select id="S_STR_CODE" name="S_STR_CODE"  onchange="changeTopSelectStrCode(this.value)"> -->
+					<select id="S_STR_CODE" name="S_STR_CODE" >
+						<option value=""><spring:message code="all"/></option>
+					</select>
+						<label for=""><em>필수입력항목</em>작업년월</label>
+						<input type="text" id="P_INV_MT" name="P_INV_MT" class="datepicker1 datepickerYm"  readonly="readonly">
+					</select>
+				</div>
+				
+				<br />
+				실사확정여부 : <input type="radio" value="Y" name="ad_yn" id="ad_y" onchange="ad_yn_change(this.value)"/> 확정 
+				&nbsp;&nbsp; <input type="radio" value="N" name="ad_yn" id="ad_n" onchange="ad_yn_change(this.value)"/> 취소
+				&nbsp;&nbsp; <input type="radio" value="M" name="ad_yn" id="ad_m" onchange="ad_yn_change(this.value)" /> 비대상
+				&nbsp;&nbsp; <button type="button" class="btn btn_style3" id="btn_profitAndLoss" onclick="profitAndLoss_pr()"><i class="fa fa-search"></i>체크목록실행</button>
+				<br />
+				일재고마감(조정 전)	<input type="checkbox" name="day_closed" id="day_closed" disabled/> <span style="display:none;" id="day_closed_dis"><em>필수항목</em>필수항목</span>
+				<br />
+				월재고마감(조정 전)	<input type="checkbox" name="month_closed" id="month_closed" disabled/> <span style="display:none;" id="month_closed_dis"><em>필수항목</em>필수항목</span>
+				<br />
+				실사확정		<input type="checkbox" name="ad_real" id="ad_real" disabled/> <span style="display:none;" id="ad_real_dis"><em>필수항목</em>필수항목</span>
+				<br />
+				일재고마감(조정 후)	<input type="checkbox" name="day_real_closed" id="day_real_closed" disabled/>	<span style="display:none;" id="day_real_closed_dis"><em>필수항목</em>필수항목</span>
+				<br />
+				월재고마감(조정 후)	<input type="checkbox" name="month_real_closed" id="month_real_closed" disabled/>	<span style="display:none;" id="month_real_closed_dis"><em>필수항목</em>필수항목</span>
+				<br />
+				원가율					<input type="checkbox" name="profit" id="profit" />
+				<br />
+				<!-- 손익생성				<input type="checkbox" value="pal_y" name="profitandloss" id="profitandloss" onchange="profitandloss_change(this.value)"/>  주석 해제시, 손익생성 체크하면 원가율 자동으로 선택되는함수-->
+				손익생성				<input type="checkbox" value="pal_y" name="profitandloss" id="profitandloss" />
+			</div>
+			<!-- //조회폼 영역 -->
+		</form>
+		
+		<div class="col2 sub_cnt">
+			<h3 class="bul_arr">손익생성</h3>
+			<hr />
+			<hr />
+			<div class="sec_grid">
+				<div class="content">
+					<div id="gridHolder1">
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!-- //Content : 본문 영역 -->
+
+</body>
+</html>

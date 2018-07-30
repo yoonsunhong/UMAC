@@ -1,0 +1,429 @@
+package retail.common.service.impl;
+
+import retail.common.CommonUtil; 
+import retail.common.service.CommService; 
+import retail.common.service.CommVO;
+import retail.common.service.UserVO;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import egovframework.rte.fdl.cmmn.AbstractServiceImpl;
+
+/**
+ * @project	RETAIL
+ * @file	CommServiceImpl.java
+ * @comment
+ * <pre>
+ * </pre>
+ *
+ * @author	문희훈
+ * @since	2016. 10. 24.
+ */
+@Service
+public class CommServiceImpl extends AbstractServiceImpl implements CommService {
+
+	
+	@Autowired
+	private CommDAO commDAO;
+	 
+	
+	
+	//	공통코드를 select box 에 넣는다.
+	@Override
+	@Transactional
+	public void getCommonCodeSelectBoxList(Map<String, Object> paramMap) throws Exception {
+		commDAO.getCommonCodeSelectBoxList(paramMap);
+	}
+	
+//	공통코드의 회원등급을 회원구분 별로 SELECT BOX 리스트를 생성한다 
+	@Override
+	@Transactional
+	public void getCommonCodeGradeSelectBoxList(Map<String, Object> paramMap) throws Exception {
+		commDAO.getCommonCodeGradeSelectBoxList(paramMap);
+	}
+	
+	//	대중소 분류 코드를 select box 에 넣는다.
+	@Override
+	@Transactional
+	public void getCateCodeSelectBoxList(Map<String, Object> paramMap) throws Exception {
+		commDAO.getCateCodeSelectBoxList(paramMap);
+	}
+	 
+	@Override
+	@Transactional
+	public void getPaySeqCodeSelectBoxList(Map<String, Object> paramMap) throws Exception {
+		commDAO.getPaySeqCodeSelectBoxList(paramMap);
+	}
+	
+	
+	
+	
+	//	관리부서를 그리드의 select box 에 넣는다.
+	@Override
+	@Transactional
+	public void getDeptCodeSelectBoxListInGrid(Map<String, Object> paramMap) throws Exception {
+		commDAO.getDeptCodeSelectBoxListInGrid(paramMap);
+	}
+	
+	//	관리담당자를 그리드의 select box 에 넣는다.
+	@Override
+	@Transactional
+	public void getEmpNoSelectBoxListInGrid(Map<String, Object> paramMap) throws Exception {
+		commDAO.getEmpNoSelectBoxListInGrid(paramMap);
+	}
+	
+	
+	
+	
+	//점포코드를 조회하여 select box에 삽입
+	@Override
+	@Transactional
+	public void getStoreCode(Map<String, Object> paramMap) throws Exception{
+		commDAO.getStoreCode(paramMap);
+	}
+	
+	@Override
+	@Transactional
+	public void getStoreCodeFlag(Map<String, Object> paramMap) throws Exception{
+		commDAO.getStoreCodeFlag(paramMap);
+	}
+	
+	
+	@Override
+	public List<Map> sqlMapCallSelect(String asSqlMapId, Map paramMap) throws Exception {
+		return commDAO.sqlMapCallSelect(asSqlMapId, paramMap);
+	}
+	
+	@Override
+	public Integer sqlMapCallUpdate(String asSqlMapId, Map paramMap) throws Exception {
+		return commDAO.sqlMapCallUpdate(asSqlMapId, paramMap);
+	}
+	
+	@Override
+	@Transactional
+	public String ajaxServiceUpdateService( HttpServletRequest request, String asMsg) throws Exception {
+		
+		JSONObject	reqJson 		= null;					// json request
+		JSONObject	reqHeader 		= null;					// json request header
+		JSONArray	reqDatablock 	= null;					// json request datablock
+		
+		JSONObject	resJson 		= new JSONObject();		// json response
+		JSONObject	resHeader 		= new JSONObject();		// json response header
+		JSONArray	resDatablock 	= new JSONArray();		// json response datablock
+		
+		Map<String,Object> paramMap = null;					// ibatis 에 매핑할 Map
+        Map<String,Object> resultMap = null;				// ibatis 결과값을 저장할 Map
+		
+		// 최초 ERROR로 세팅
+		resHeader.put("RESULT", "ERROR");	// 결과코드 ( -1:오류 , 0:성공 )
+		resHeader.put("ROWCNT", 1);		// 결과 ROW 갯수
+		
+		reqJson = JSONObject.fromObject(asMsg);
+        
+		// request 로 넘어온 값을 구분하여 header 와 datablock 에 넣는다.
+		reqHeader		= reqJson.getJSONObject("HEADER");
+		reqDatablock	= reqJson.getJSONArray("DATABLOCK");
+		
+		CommonUtil.printJSONObject("reqHeader", reqHeader);
+		CommonUtil.printJSONArray("reqDatablock", reqDatablock);
+
+		boolean lbError = false;
+        
+		Iterator loItor = reqHeader.keySet().iterator();
+		
+		String lsKey = "";
+		while (loItor.hasNext()) {
+			lsKey = loItor.next().toString();
+			resHeader.put(lsKey, reqHeader.get(lsKey));
+		}
+		
+    
+        for (int i = 0; i < reqDatablock.size(); i++) {
+    		
+    		reqDatablock.getJSONObject(i).put("REG_IP", request.getRemoteAddr());
+    		reqDatablock.getJSONObject(i).put("UPD_IP", request.getRemoteAddr());
+			
+		}
+        
+        CommonUtil.printJSONObject("reqHeader", reqHeader);			// reqHeader print ( cmd , sqlid )
+        CommonUtil.printJSONArray("reqDatablock", reqDatablock);	// reqDatablock print  
+        
+        HashMap<String, Object> tmpMap = null;
+
+    	int liRowCnt = 0;
+		
+		for (int i = 0; i < reqDatablock.size(); i++) {
+        	
+        	paramMap = new HashMap<String,Object>();
+        	
+        	CommonUtil.setMapFromJsonObject(paramMap, reqDatablock.getJSONObject(i));
+        	
+        	CommonUtil.printMap("paramMap", paramMap);	// paramMap print
+        	
+        	Integer liRtn = sqlMapCallUpdate(reqHeader.getString("SQLMAPID"), paramMap);
+        	
+        	if(liRtn == -1) {
+        		liRtn = Integer.parseInt(paramMap.get("RTNCNT").toString());
+        	}
+        	
+        	if( liRtn == -99 ) {
+        		throw new Exception("정상적으로 채번이 되지 않았습니다. 다시 시도해 주세요");
+        	}
+        	
+        	if(liRtn > 0) {
+        		liRowCnt += liRtn;
+        	}
+    		
+		}
+		
+    	resHeader.put("RESULT", "SUCCESS");
+    	resHeader.put("ROWCNT", liRowCnt);
+    	
+    	//System.out.println("#### ===============> liRowCnt : " + liRowCnt);
+    	
+    	JSONObject loJson = new JSONObject();
+    	
+    	if( liRowCnt > 0 ) {	// 등록,수정,삭제 갯수가 1개 이상
+    		
+    		if( liRowCnt == 1 ) {
+    			loJson.put("SUCCESS", "정상처리 되었습니다.");
+    			
+    		} else {
+    			loJson.put("SUCCESS", "정상처리 되었습니다. 총 처리건수 : (" + liRowCnt + ") 건");
+    		}
+    		
+    		
+    	} else if ( liRowCnt == 0 ) {	// 등록,수정,삭제 갯수가 0개
+    		
+    		loJson.put("SUCCESS", "처리할 데이터가 존재하지 않습니다");
+    		
+    	}
+    	loJson.put("SCOUNT", liRowCnt);
+    	
+    	resDatablock.add(loJson);
+        	
+		resJson.put("HEADER", resHeader);
+		resJson.put("DATABLOCK", resDatablock);
+		
+		return resJson.toString();
+		
+	}
+	
+	@Override
+	@Transactional
+	public String ajaxServiceUpdateMultiService( HttpServletRequest request, String asMsg) throws Exception {
+		
+		JSONObject	reqJson 		= null;					// json request
+		JSONObject	reqHeader 		= null;					// json request header
+		JSONArray	reqDatablock 	= null;					// json request datablock
+		
+		JSONObject	resJson 		= new JSONObject();		// json response
+		JSONObject	resHeader 		= new JSONObject();		// json response header
+		JSONArray	resDatablock 	= new JSONArray();		// json response datablock
+		
+		// 최초 ERROR로 세팅
+		resHeader.put("RESULT", "ERROR");	// 결과코드 ( -1:오류 , 0:성공 )
+		resHeader.put("ROWCNT", 1);		// 결과 ROW 갯수
+		
+		Map<String,Object> paramMap = null;						// ibatis 에 매핑할 Map
+        Map<String,Object> resultMap = null;					// ibatis 결과값을 저장할 Map
+        
+        reqJson = JSONObject.fromObject(asMsg);
+        
+		// request 로 넘어온 값을 구분하여 header 와 datablock 에 넣는다.
+		reqHeader		= reqJson.getJSONObject("HEADER");
+		reqDatablock	= reqJson.getJSONArray("DATABLOCK");
+		
+		CommonUtil.printJSONObject("reqHeader", reqHeader);
+		CommonUtil.printJSONArray("reqDatablock", reqDatablock);
+
+		boolean lbError = false;
+        
+		Iterator loItor = reqHeader.keySet().iterator();
+		
+		String lsKey = "";
+		while (loItor.hasNext()) {
+			lsKey = loItor.next().toString();
+			resHeader.put(lsKey, reqHeader.get(lsKey));
+		}
+		
+    
+        for (int i = 0; i < reqDatablock.size(); i++) {
+    		
+    		reqDatablock.getJSONObject(i).put("REG_IP", request.getRemoteAddr());
+    		reqDatablock.getJSONObject(i).put("UPD_IP", request.getRemoteAddr());
+			
+		}
+        
+        CommonUtil.printJSONObject("reqHeader", reqHeader);			// reqHeader print ( cmd , sqlid )
+        CommonUtil.printJSONArray("reqDatablock", reqDatablock);	// reqDatablock print  
+        
+        HashMap<String, Object> tmpMap = null;
+
+    	int liRowCnt = 0;
+    	int liIdx = 0;
+    	
+    	JSONArray  ljrSql        = reqHeader.getJSONArray("SQLMAPID");	// [ { "UPDATE_INSERT":[sqlmapid1,sqlmapid2]},{"UPDATE":[sqlmapid3,sqlmapid4,......]} ]
+    	JSONObject ljoSql        = null;
+    	JSONArray  ljrSqlMapId   = null;
+    	Integer    liRtn         = -1;
+    	
+    	for (int i = 0; i < ljrSql.size(); i++) {
+    		ljoSql = ljrSql.getJSONObject(i);
+
+    		// UPDATE 처리 후 없으면 INSERT 처리
+    		if( ljoSql.containsKey("UPDATE_INSERT") ) {
+    			
+    			ljrSqlMapId = ljoSql.getJSONArray("UPDATE_INSERT");
+    			
+    			for (int j = 0; j < ljrSqlMapId.size(); j++) {
+
+    				paramMap = new HashMap<String,Object>();
+    				CommonUtil.setMapFromJsonObject(paramMap, reqDatablock.getJSONObject(liIdx));
+    				//System.out.println("ljrSqlMapId.getString(" + j + ") = " + ljrSqlMapId.getString(j));
+    				liRtn = sqlMapCallUpdate(ljrSqlMapId.getString(j), paramMap);
+    				
+    				//System.out.println("### liRtn = " + liRtn);
+    				
+    				if(liRtn == 0) {			// 업데이트된 갯수가 0이라면
+    					
+    					liIdx++;		// 다음paramMap를 실행하자
+    					
+    				} else if( liRtn > 0 ) {	// 업데이트 되었다면 INSERT 처리는 지나가자
+    					
+    					if(j == 0) liIdx += 2;			// UPDATE 가 되었으므로 INSERT 없이 UPDATE_INSERT 문을 지나가자.
+    					else	   liIdx++;				// INSERT 후 정상적으로 UPDATE 처리가 된경우는 +1 만 증가한다.
+    					
+    					liRowCnt += liRtn;	// 결과갯수를 적용한다.
+    					break;		// 
+    					
+    				} else {
+    					// 0 , 1이상이 아니면 에러가 발생한 경우로 자동으로 exception 이 발생한다.
+    				}
+    				
+    				//System.out.println("liIdx = " + liIdx);
+				}
+    		
+    		// 일반 INSERT, UPDATE, DELETE 처리
+    		} else if( ljoSql.containsKey("UPDATE") ) {
+    			
+    			ljrSqlMapId = ljoSql.getJSONArray("UPDATE");
+    			
+    			for (int j = 0; j < ljrSqlMapId.size(); j++) {
+    				
+    				//System.out.println("liIdx = " + liIdx);
+					
+    				paramMap = new HashMap<String,Object>();
+    				CommonUtil.setMapFromJsonObject(paramMap, reqDatablock.getJSONObject(liIdx));
+    				//System.out.println("ljrSqlMapId.getString(" + j + ") = " + ljrSqlMapId.getString(j));
+    				liRtn = sqlMapCallUpdate(ljrSqlMapId.getString(j), paramMap);
+    				
+    				liIdx++;			// 다음paramMap를 실행하자
+    				liRowCnt += liRtn;	// 결과갯수를 적용한다.
+				}
+    			
+    		}
+    		
+    	}
+		
+    	resHeader.put("RESULT", "SUCCESS");
+    	resHeader.put("ROWCNT", liRowCnt);
+    	
+    	//System.out.println("#### ===============> liRowCnt : " + liRowCnt);
+    	
+    	JSONObject loJson = new JSONObject();
+    	
+    	if( liRowCnt > 0 ) {	// 등록,수정,삭제 갯수가 1개 이상
+    		
+    		if( liRowCnt == 1 ) {
+    			loJson.put("SUCCESS", "정상처리 되었습니다.");
+    			
+    		} else {
+    			loJson.put("SUCCESS", "정상처리 되었습니다. 총 처리건수 : (" + liRowCnt + ") 건");
+    		}
+    		
+    		
+    	} else if ( liRowCnt == 0 ) {	// 등록,수정,삭제 갯수가 0개
+    		
+    		loJson.put("SUCCESS", "처리할 데이터가 존재하지 않습니다");
+    		
+    	}
+    	loJson.put("SCOUNT", liRowCnt);
+    	
+    	resDatablock.add(loJson);
+        	
+		resJson.put("HEADER", resHeader);
+		resJson.put("DATABLOCK", resDatablock);
+		
+		return resJson.toString();
+		
+	}
+ 
+ 
+ 
+
+	 
+
+	@Override
+	public List<UserVO> getUserList(UserVO params) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	/* 권한그룹 목록 조회
+	 * @see retail.common.service.CommService#getAuthSelectBoxList(retail.common.service.CommVO)
+	 */
+	@Override
+	@Transactional
+	public void getAuthSelectBoxList(Map<String, Object> paramMap) throws Exception {
+		commDAO.getAuthSelectBoxList(paramMap);
+	}
+	
+	@Override
+	@Transactional
+	public void getPosMasterMember(Map<String, Object> paramMap) throws Exception{
+		commDAO.getPosMasterMember(paramMap);
+	}
+	
+	
+	@Override
+	public List<Map<String, Object>> orderPurDtSelect(Map<String, Object> param) throws Exception {
+		return commDAO.orderPurDtSelect(param);
+	}
+	
+	//	공통코드를 select box 에 넣는다.
+	@Override
+	@Transactional
+	public void getCommonCodeSelectBoxList2(Map<String, Object> paramMap) throws Exception {
+		commDAO.getCommonCodeSelectBoxList2(paramMap);
+	}	
+	
+	
+	@Override
+	@Transactional
+	public void getPayNum(Map<String, Object> paramMap) throws Exception {
+		commDAO.getPayNum(paramMap);
+	}
+
+	/*  로그인한 사용자의 권한에 따른 프로그램 버튼 권한 조회
+	 * @see retail.common.service.CommService#getAuthButtonList(java.util.Map)
+	 */
+	@Override
+	@Transactional
+	public void getAuthButtonList(Map<String, Object> paramMap) throws Exception {
+		commDAO.getAuthButtonList(paramMap);
+	}
+	
+}

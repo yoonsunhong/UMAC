@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ccPaymentStatus">
+
+	<parameterMap id="paymentStatusListMap" class="java.util.Map">
+		<parameter property="S_CORP_CODE"   javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_STR_CODE"    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_STR_DATE"    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_END_DATE"    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_POS_NO"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_CANC_FLAG"   javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_CARD_NAME"   javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_APP_NO"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="S_CARD_NO"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"           javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"   />
+	</parameterMap>
+
+	<parameterMap id="paramMap1" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     		javaType="java.lang.String"     jdbcType="VARCHAR"	 mode="IN"    />
+	  	<parameter property="P_GRID_XML_DATA"  	javaType="java.lang.String"     jdbcType="CLOB"        mode="IN"      />  
+	  	<parameter property="CUR"        				javaType="java.sql.ResultSet"  jdbcType="ORACLECURSOR"   mode="OUT"   resultMap="resultMap1"   /> 
+	</parameterMap>
+
+	<resultMap id="resultMap1" class="java.util.HashMap">
+		<result property="RETURN_CODE"      column="RETURN_CODE" nullValue=""   />
+    	<result property="RETURN_MESSAGE" column="RETURN_MESSAGE" nullValue=""  /> 
+	</resultMap>
+
+	<procedure id="ccPaymentStatusList" parameterMap="paymentStatusListMap" resultClass="java.util.HashMap">
+		{ call PKG_STAT_ETC.CREDITCARD_SALE_STAT ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	  
+	<procedure id="saveCcPaymentStatus" parameterMap="paramMap1" resultMap="resultMap1">
+		{ call PKG_STAT_ETC.SAVE_CCPAYMENTSTATUS ( ?, ?, ?)  }
+	</procedure>  
+
+</sqlMap>

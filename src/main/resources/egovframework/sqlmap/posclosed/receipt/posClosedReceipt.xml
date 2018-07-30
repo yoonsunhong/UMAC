@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="posClosedReceipt">
+	
+	<parameterMap id="posClosedReceiptMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALE_DT"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_POS_NO"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_TRXN_NO_S"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_TRXN_NO_E"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_FIRST_INDEX"   javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_RECORD_COUNT"  javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_COLUMN_NAME"   javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ORDERBY"       javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="posClosedReceiptResultMap" />
+		<parameter property="TOT_CNT"         javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="OUT"   />
+	</parameterMap>
+	
+	<resultMap id="posClosedReceiptResultMap" class="java.util.HashMap">
+		<result property="RNUM" column="RNUM" />
+		<result property="CORP_CODE" column="CORP_CODE" />
+		<result property="SALE_DT" column="SALE_DT" />
+		<result property="STR_CODE" column="STR_CODE" />
+		<result property="POS_NO" column="POS_NO" />
+		<result property="POS_NAME" column="POS_NAME" />
+		<result property="TRXN_NO" column="TRXN_NO" />
+		<result property="SEQ" column="SEQ" />
+		<result property="JURNAL" column="JURNAL" javaType="java.lang.String" jdbcType="CLOB" />
+		<result property="RECEIPT" column="RECEIPT" javaType="java.lang.String" jdbcType="CLOB" />
+		<result property="GRE_TYPE" column="GRE_TYPE" />
+		<result property="CANC_FLAG" column="CANC_FLAG" />
+		<result property="CANC_NM" column="CANC_NM" />
+		<result property="POS_DT" column="POS_DT" />
+		<result property="POS_TIMES" column="POS_TIMES" />
+		<result property="TRXN_NO_OLD" column="TRXN_NO_OLD" />
+	</resultMap>
+	
+	<procedure id="getPosClosedReceipt" parameterMap="posClosedReceiptMap" >
+		{ call PKG_POS_CLOSED.POS_CLOSED_RECEIPT_SELECT ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+</sqlMap>

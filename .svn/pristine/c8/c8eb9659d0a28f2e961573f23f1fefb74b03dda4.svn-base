@@ -1,0 +1,77 @@
+/*
+ * Copyright 2008-2009 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package retail.product.changeEmergencyPrice.service.impl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
+
+import org.springframework.stereotype.Repository;
+
+
+
+/**
+ * 긴급매가변경
+ * @author 문희훈
+ * @since 2017. 04.27
+ * @version 1.0
+ * @see Copyright (C) by Retailtech All right reserved.
+ */
+
+@Repository("ChangeEmergencyPriceDao")
+public class ChangeEmergencyPriceDao extends EgovAbstractDAO {
+
+	/**
+	 * 긴급매가변경 조회
+	 * @param param
+	 * @throws Exception
+	 */
+	public void getChangePriceInfo(Map<String, Object> param) throws Exception{
+		list("changeEmergencyPrice.getChangePriceInfo", param);	
+	}
+	
+	/**
+	 * 긴급매가변경중복 등록 체크 
+	 * @param param
+	 * @throws Exception
+	 */
+	public void checkChangePriceInfo(Map<String, Object> param) throws Exception{
+		select("changeEmergencyPrice.checkChangePriceInfo", param);	
+	}
+
+	/**
+	 * 긴급매가변경 등록
+	 * @param param
+	 * @throws Exception
+	 */
+	public void insertChangePriceInfo(Map<String, Object> param)  throws Exception{
+		insert("changeEmergencyPrice.insertChangePriceInfo", param);	
+	}
+	
+	/**
+	 * 긴급매가변경 수정
+	 * @param param
+	 * @throws Exception
+	 */
+	public void updateChangePriceInfo(Map<String, Object> param)  throws Exception{
+		insert("changeEmergencyPrice.updateChangePriceInfo", param);	
+	}
+	
+
+
+}

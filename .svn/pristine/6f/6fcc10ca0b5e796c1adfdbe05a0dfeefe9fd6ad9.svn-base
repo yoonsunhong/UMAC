@@ -1,0 +1,36 @@
+@media print {
+
+#menu {display:none}
+
+#report
+   {
+   	overflow-y:visible;
+   	width:800px; 
+	height:800px;
+   	text-align: left;
+   	margin:0pt;
+   	padding:0pt;
+}
+
+#report table
+   {
+   	margin:0pt;
+   	padding:0pt;
+   	border-collapse:collapse;
+   	table-layout:fixed;
+   
+   }
+#report tr
+   {
+   	margin:0pt;
+   	padding:0pt;
+   }
+#report td
+   {
+   margin:0pt;
+   white-space:normal;
+   letter-spacing:-1px;
+   word-spacing:0px;
+   }
+   
+}

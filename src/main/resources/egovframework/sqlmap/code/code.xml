@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="code">
+		
+	<typeAlias alias="CodeVO" type="retail.code.service.CodeVO" />
+	
+	<!-- 권한그룹 목록 조회 파라미터 맵 -->
+	<parameterMap id="parmaMap1" class="java.util.HashMap">
+	     <parameter property="P_CD_NM" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_USE_YN" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap1" />
+	</parameterMap>
+	<!-- 권한그룹 목록 조회 리절트 맵 -->
+	<resultMap id="resultMap1" class="CodeVO">
+	    <result property="CD_CL"  column="CD_CL" nullValue="" />  
+	    <result property="CD_ID"  column="CD_ID"  nullValue="" />
+	    <result property="CD_NM"  column="CD_NM"  nullValue="" />
+	    <result property="DEL_YN"  column="DEL_YN"  nullValue="" />
+	    <result property="CD_DESCRIPTION"  column="CD_DESCRIPTION"  nullValue="" />
+	</resultMap>
+	
+	<!-- 공통코드 상세 조회 파라미터 맵 -->
+	<parameterMap id="parmaMap2" class="java.util.HashMap">
+	     <parameter property="P_CD_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap2" />
+	</parameterMap>
+	<!-- 공통코드 상세 조회 리절트 맵 -->
+	<resultMap id="resultMap2" class="java.util.HashMap">
+	    <result property="CD_ID"  column="CD_ID"  nullValue="" />
+	    <result property="CD_NM"  column="CD_NM" nullValue="" />
+	    <result property="CD_SHORT_NM"  column="CD_SHORT_NM"  nullValue="" />
+	    <result property="CD_DESCRIPTION"  column="CD_DESCRIPTION"  nullValue="" />
+	    <result property="SORT_ORDER"  column="SORT_ORDER"  nullValue="" />
+	    <result property="MGMT_ENTRY_1"  column="MGMT_ENTRY_1"  nullValue="" />
+	    <result property="MGMT_ENTRY_DESCRIPTION_1"  column="MGMT_ENTRY_DESCRIPTION_1"  nullValue="" />
+	    <result property="MGMT_ENTRY_2"  column="MGMT_ENTRY_2"  nullValue="" />
+	    <result property="MGMT_ENTRY_DESCRIPTION_2"  column="MGMT_ENTRY_DESCRIPTION_2"  nullValue="" />
+	    <result property="MGMT_ENTRY_3"  column="MGMT_ENTRY_3"  nullValue="" />
+	    <result property="MGMT_ENTRY_DESCRIPTION_3"  column="MGMT_ENTRY_DESCRIPTION_3"  nullValue="" />
+	    <result property="MGMT_ENTRY_4"  column="MGMT_ENTRY_4"  nullValue="" />
+	    <result property="MGMT_ENTRY_DESCRIPTION_4"  column="MGMT_ENTRY_DESCRIPTION_4"  nullValue="" />
+	    <result property="MGMT_ENTRY_5"  column="MGMT_ENTRY_5"  nullValue="" />
+	    <result property="MGMT_ENTRY_DESCRIPTION_5"  column="MGMT_ENTRY_DESCRIPTION_5"  nullValue="" />
+	    <result property="DEL_YN"  column="DEL_YN"  nullValue="" />
+	    <result property="CD_CL"  column="CD_CL"  nullValue="" />
+	</resultMap>
+	
+	<!-- 공통코드 중복 검사 파라미터 맵 -->
+	<parameterMap id="parmaMap3" class="java.util.HashMap">
+	     <parameter property="P_CD_CL" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CD_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap3" />
+	</parameterMap>
+	<!-- 공통코드 중복 검사리절트 맵 -->
+	<resultMap id="resultMap3" class="CodeVO">
+	    <result property="CNT"  column="CNT" nullValue="" />  
+	</resultMap>
+	
+	<!-- 공통코드 신규 등록 파라미터 맵 -->
+	<parameterMap id="parmaMap4" class="java.util.HashMap">
+	     <parameter property="P_CD_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CD_NM" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CD_DESCRIPTION" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_DEL_YN" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_REG_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_REG_IP" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap4" />
+	</parameterMap>
+	<!-- 공통코드 신규 등록 리절트 맵 -->
+	<resultMap id="resultMap4" class="CodeVO">
+	    <result property="RETURN_CODE"  column="RETURN_CODE" nullValue="" />  
+	    <result property="RETURN_MESSAGE"  column="RETURN_MESSAGE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 공통코드 상세 등록 파라미터 맵 -->
+	<parameterMap id="parmaMap5" class="java.util.HashMap">
+	     <parameter property="P_CD_CL" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CD_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CD_NM" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CD_SHORT_NM" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CD_DESCRIPTION" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_SORT_ORDER" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MGMT_ENTRY_1" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MGMT_ENTRY_DESCRIPTION_1" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MGMT_ENTRY_2" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MGMT_ENTRY_DESCRIPTION_2" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MGMT_ENTRY_3" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MGMT_ENTRY_DESCRIPTION_3" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MGMT_ENTRY_4" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MGMT_ENTRY_DESCRIPTION_4" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MGMT_ENTRY_5" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MGMT_ENTRY_DESCRIPTION_5" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_DEL_YN" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_REG_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_REG_IP" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap5" />
+	</parameterMap>
+	<!-- 공통코드 상세 등록 리절트 맵 -->
+	<resultMap id="resultMap5" class="CodeVO">
+	    <result property="RETURN_CODE"  column="RETURN_CODE" nullValue="" />  
+	    <result property="RETURN_MESSAGE"  column="RETURN_MESSAGE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 공통코드 수정 파라미터 맵 -->
+	<parameterMap id="parmaMap6" class="java.util.HashMap">
+	     <parameter property="P_CD_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CD_NM" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CD_DESCRIPTION" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_DEL_YN" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_UPD_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_UPD_IP" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap6" />
+	</parameterMap>
+	<!-- 공통코드 수정 리절트 맵 -->
+	<resultMap id="resultMap6" class="CodeVO">
+	    <result property="RETURN_CODE"  column="RETURN_CODE" nullValue="" />  
+	    <result property="RETURN_MESSAGE"  column="RETURN_MESSAGE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 공통코드 삭제 파라미터 맵 -->
+	<parameterMap id="parmaMap7" class="java.util.HashMap">
+	     <parameter property="P_CD_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap7" />
+	</parameterMap>
+	<!-- 공통코드 삭제 리절트 맵 -->
+	<resultMap id="resultMap7" class="CodeVO">
+	    <result property="RETURN_CODE"  column="RETURN_CODE" nullValue="" />  
+	    <result property="RETURN_MESSAGE"  column="RETURN_MESSAGE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 공통코드 상세 수정 파라미터 맵 -->
+	<parameterMap id="parmaMap8" class="java.util.HashMap">
+		 <parameter property="P_ORIGIN_CD_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CD_CL" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CD_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CD_NM" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CD_SHORT_NM" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CD_DESCRIPTION" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_SORT_ORDER" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MGMT_ENTRY_1" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MGMT_ENTRY_DESCRIPTION_1" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MGMT_ENTRY_2" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MGMT_ENTRY_DESCRIPTION_2" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MGMT_ENTRY_3" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MGMT_ENTRY_DESCRIPTION_3" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MGMT_ENTRY_4" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MGMT_ENTRY_DESCRIPTION_4" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MGMT_ENTRY_5" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_MGMT_ENTRY_DESCRIPTION_5" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_DEL_YN" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_UPD_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_UPD_IP" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap8" />
+	</parameterMap>
+	<!-- 공통코드 상세 수정 리절트 맵 -->
+	<resultMap id="resultMap8" class="CodeVO">
+	    <result property="RETURN_CODE"  column="RETURN_CODE" nullValue="" />  
+	    <result property="RETURN_MESSAGE"  column="RETURN_MESSAGE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 공통코드 상세 삭제 파라미터 맵 -->
+	<parameterMap id="parmaMap9" class="java.util.HashMap">
+	     <parameter property="P_CD_CL" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CD_ID" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap9" />
+	</parameterMap>
+	<!-- 공통코드 상세 삭제 리절트 맵 -->
+	<resultMap id="resultMap9" class="CodeVO">
+	    <result property="RETURN_CODE"  column="RETURN_CODE" nullValue="" />  
+	    <result property="RETURN_MESSAGE"  column="RETURN_MESSAGE"  nullValue="" />
+	</resultMap>
+	
+	
+	<!-- 공통코드 목록 조회 -->
+	<procedure id="getCodeCategory" parameterMap="parmaMap1" resultMap="resultMap1">
+        { call PKG_CODE.PR_SELECT_COMM_CODE_LIST( ? , ? , ?, ?) }   
+  	</procedure>
+  	
+  	 <!-- 공통코드 상세 조회 -->
+	<procedure id="getCodeDetail" parameterMap="parmaMap2" resultMap="resultMap2">
+        { call PKG_CODE.PR_SELECT_COMM_CODE_DETAIL( ? , ? , ?) }   
+  	</procedure>
+  	
+  	<!-- 공통코드 중복 검사 -->
+	<procedure id="selectCountCode" parameterMap="parmaMap3" resultMap="resultMap3">
+        { call PKG_CODE.PR_SELECT_CODE_COUNT( ? , ? , ?, ?) }   
+  	</procedure>
+  	
+  	<!-- 공통코드 신규등록 -->
+	<procedure id="insertCategory" parameterMap="parmaMap4" resultMap="resultMap4">
+        { call PKG_CODE.PR_INSERT_CODE( ? , ? , ?, ?, ? , ? , ?, ?) }   
+  	</procedure>
+  	
+  	<!-- 공통코드 상세 등록 -->
+	<procedure id="insertCodeDetail" parameterMap="parmaMap5" resultMap="resultMap5">
+        { call PKG_CODE.PR_INSERT_COMM_CODE_DETAIL( ? , ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }   
+  	</procedure>
+   
+	<!-- 공통코드 수정 -->
+	<procedure id="updateCategory" parameterMap="parmaMap6" resultMap="resultMap6">
+        { call PKG_CODE.PR_UPDATE_COMM_CODE( ? , ? , ?, ?, ?, ?, ?, ?) }   
+  	</procedure>	
+  	
+  	<!-- 공통코드 삭제 -->
+	<procedure id="deleteCode" parameterMap="parmaMap7" resultMap="resultMap7">
+        { call PKG_CODE.PR_DELETE_COMM_CODE( ? , ? , ?) }   
+  	</procedure>	
+		
+	<!-- 공통코드 상세 수정 -->
+	<procedure id="updateCodeDetail" parameterMap="parmaMap8" resultMap="resultMap8">
+        { call PKG_CODE.PR_UPDATE_DETAIL_CODE( ? , ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) }   
+  	</procedure>	
+  	
+  	<!-- 공통코드 상세 삭제 -->
+	<procedure id="deleteCodeDetail" parameterMap="parmaMap9" resultMap="resultMap9">
+        { call PKG_CODE.PR_DELETE_DETAIL_CODE( ? , ? , ?, ?) }   
+  	</procedure>	
+	
+</sqlMap>

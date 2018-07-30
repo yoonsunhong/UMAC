@@ -1,0 +1,91 @@
+package retail.member.delivery.web;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
+
+import retail.common.CommonUtil;
+import retail.member.delivery.service.MemberDeliveryService;
+
+/**
+ * 
+ * @Class Name : MemberDeliveryController.java
+ * @Description : 
+ * @Modification Information
+ * @
+ * @  수정일      수정자              수정내용
+ * @ ---------   ---------   -------------------------------
+ * @ 2017. 04.07           최초생성
+ *
+ * @author 김창열
+ * @since 2017. 01. 09.
+ * @version 1.0
+ * @see Copyright (C) by Retailtech All right reserved.
+ */
+@Controller
+public class MemberDeliveryController {
+	@Autowired
+	private MemberDeliveryService memberDeliveryService;
+	
+	/** log */
+	private final Log log = LogFactory.getLog(this.getClass());
+	
+	/************************** 배달집계현황 ***************************/
+	@RequestMapping(value="/memberDelivery.do", method=RequestMethod.GET)
+	public ModelAndView MemberDelivery() throws Exception{
+		ModelAndView mav = new ModelAndView("retail/member/delivery/memberDelivery");
+			
+		return mav; 
+	}
+
+	@RequestMapping(value="/memberDeliveryList.do", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> memberDeliveryList(@RequestParam Map<String, Object> param, HttpServletResponse response, HttpServletRequest request) throws Exception{
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		try{
+			param.put("P_CORP_CODE", CommonUtil.getEnv(request.getSession()).getCORP_CODE());
+			
+			log.debug("===========================================================================");
+			log.debug("MemberDeliveryController.memberDeliveryList param :: " + param.toString());
+			
+			param = memberDeliveryService.memberDeliveryList(param);
+			//log.debug("result : " + param.toString());
+			
+			Gson gson = new Gson(); 
+			String jsonList = gson.toJson(param.get("CUR"));			
+			
+			result.put("list1", jsonList);
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+}
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="ko" xmlns:v="urn:schemas-microsoft-com:vml">
+    <head>
+        <title>TODO supply a title</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="Content-Style-Type" content="text/css" />
+
+        <script type="text/javascript" src="/springViewer/AIViewer50/common/js/jquery-1.9.1.min.js"></script>
+        <script type="text/javascript" src="/springViewer/AIViewer50/common/js/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="/springViewer/AIViewer50/common/js/jquery.contextMenu.js"></script>
+        <script type="text/javascript" src="/springViewer/AIViewer50/common/js/jquery.cookie.js"></script>
+        <script type="text/javascript" src="/springViewer/AIViewer50/common/js/aireport_directprint.js"></script>
+
+    </head>
+    <body>
+        <div id="loading3" style="position:fixed; top:50%; left:50%; margin-top:-10px; margin-left:-110px; z-index:10000; display:none">
+            <img src="/springViewer/AIViewer50/common/images/loadingbar3.gif" alt=" " />
+        </div>
+        <div id="pdfdiv" align="center" style="position:absolute;left:1px;top:1px;"></div>
+        <button onClick='callReport()'>인쇄</button>
+        <script type="text/javascript" >
+
+            /*
+            function PDFPrint(){
+                window.open("http://127.0.0.1:8085/springViewer/test7/objectTest.jsp?reportParams=init_mode:print_dialog,printmode:pdfsave,showPrintDialog:false","", "left=1000, top=500, width=1, height=1, toolbar=no, menubar=no, channelmode=no");
+                //window.open("http://127.0.0.1:8085/springViewer/test7/objectTest.jsp?reportParams=init_mode:print_dialog,printmode:pdfsave","", "left=1000, top=500, width=1, height=1, toolbar=no, menubar=no, channelmode=no");
+                //opener.window.location="http://192.168.0.27:8084/springViewer/test7/objectTest.jsp?reportParams=init_mode:print_dialog,printmode:pdfsave";
+                //pdfPrint('/springViewer/test/AIprint.jsp?nameTag=','[{"targetURL":"wAkUud7Nu9rNFMzU0djQz97g2hS+tsvUr7u9EhALBg4GDgcRERIOCg8LDg0PDhEQChELCw0Vz9vd"}]',793,1123);
+                close();
+            }
+            */
+
+
+            var windowPrint = false;
+            function callReport() {
+                var params = {'reportMode': 'PDF', 'reportParams': 'init_mode:print_dialog'};
+                //var url = 'http://192.168.0.29:8085/springViewer/test6/07.jsp';
+                var url = 'http://localhost:8085/springViewer/test6/07.jsp';
+                directPrint(url, params);
+            }
+
+
+        </script>
+
+    </body>
+</html>

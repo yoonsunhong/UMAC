@@ -1,0 +1,930 @@
+package retail.common.web;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.tika.Tika;
+import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import retail.common.BaseEnv;
+import retail.common.CommonUtil;
+import retail.common.EgovStringUtil;
+import retail.common.EgovWebUtil;
+import retail.common.service.CommService;
+import retail.common.service.FileVO;
+
+import com.google.gson.Gson;
+  
+
+/**
+ * @project	RETAIL
+ * @file	CommController.java
+ * @comment
+ * <pre>
+ * </pre>
+ *
+ * @author	문희훈
+ * @since	2016. 10. 24.
+ */
+@Controller
+public class CommController {
+
+	
+	/** log */
+	private final Log log = LogFactory.getLog(this.getClass());
+	
+	/** service */
+	@Autowired 
+	private CommService commService;
+	
+	
+    // 글로벌 파일 경로    
+    @Value("#{props['Globals.FileUrl']}")
+    private String globalsFileUrl;     	
+	
+	
+	/**
+	 * @comment	첨부파일 목록 저장 : apache 제공 ServletFileUpload 이용 방법
+	 * @param		request
+	 * @param		response
+	 * @return		
+	 * @author		문희훈
+	 * @since		2016. 10. 24.
+	 */
+	@SuppressWarnings("rawtypes")
+	@RequestMapping(value="/saveAttachFileList.do")
+	@ResponseBody
+	public FileVO saveAttachFileList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// return FileVO
+		FileVO result = new FileVO();
+		// charset 설정
+		response.setContentType("text/html; charset=utf-8");
+		// 멀티파트인지 확인
+		boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+		// 멀티파트이면 파일목록만 저장한다.
+		if ( isMultipart ) {
+			// temporaryDir 설정
+			File temporaryDir = new File(BaseEnv.FILE_PATH_TEMP);
+			// 디렉토리가 없을경우 디렉토리 생성
+			if ( !temporaryDir.isDirectory() ) {
+				temporaryDir.mkdirs();
+			}
+			// 메모리나 파일로 업로드 파일 보관하는 FileItem의 Factory 설정
+			DiskFileItemFactory factory = new DiskFileItemFactory();
+			// 1메가가 넘지 않으면 메모리에 바로 사용
+			factory.setSizeThreshold(BaseEnv.FILE_SIZE_THRESHOLD);
+			// 1메가 이상이면 temporaryDir  경로 폴더로 이동
+			factory.setRepository(temporaryDir);
+			// 설정된 Factory 를 이용하여 업로드 할 파일의 크기 설정
+			ServletFileUpload upload = new ServletFileUpload(factory);
+			// 업로드 크기제한 : 15MB
+			upload.setSizeMax(BaseEnv.FILE_SIZE);
+			// parameter 와 file 목록 parsing
+			List items = null;
+			try {
+				items = upload.parseRequest(request);
+			} catch (FileUploadException fe){
+				System.out.println("FileUploadException Occured");
+			}
+			// 목록 존재시
+			if ( items != null ) { 
+				 
+				// 파일소유자코드
+				String fileOwner = null;
+				// 유저 Type
+				String userType = null;
+				// 넘어온 formItem 구분
+				Iterator formItems = items.iterator();
+				while ( formItems.hasNext() ) {
+					 
+					FileItem formItem = (FileItem) formItems.next();
+					// FormFiled 인 경우 parameter 처리
+					if ( formItem.isFormField() ) {
+						 
+						// parameter 이름
+						String fieldName = formItem.getFieldName().toLowerCase();
+						// parameter 값
+						String value = new String(formItem.getString().getBytes("ISO-8859-1"), "UTF-8");
+ 
+						if ( "file_owner".equals(fieldName) ) {
+							fileOwner = value;
+						// 파일 Type
+						} else if ( "user_type".equals(fieldName) ) {
+							userType = value;
+						}
+					// FormFiled 가 아닌경우 파일이라고 본다.
+					} else {
+						// 파일 존재 하는지 체크. size > 0 이면 존재.
+						if ( formItem.getSize() > 0 ) {
+							 
+							// 파일 이름 ( 확장자 포함 )
+							String fileName = FilenameUtils.getName(formItem.getName());
+							// 파일 첨부시 이름 ( 확장자 제거 )
+							String orgFileNm = fileName.substring(0, fileName.lastIndexOf('.')); 
+							// 파일 확장자
+							String fileExt = FilenameUtils.getExtension(formItem.getName());
+							// 파일 사이즈
+							Long fileSize = formItem.getSize();
+							// 파일경로
+							String filePath = null;
+							 
+							 
+							 filePath = "";	
+							// 파일명은 Naming Convention에 의해서 생성							
+							String fileNm = EgovStringUtil.getTimeStamp() + "_" + EgovStringUtil.getRandomString(10);
+							// 파일 mime_type
+							String mimeType = null;
+							 try {
+								// 디렉토리가 없을경우 디렉토리 생성
+								File uploadDir = new File(EgovWebUtil.filePathBlackList(filePath));
+								if ( !uploadDir.isDirectory() ) {
+									uploadDir.mkdirs();
+								}
+								// 실제 디렉토리에 fileName으로 카피 된다.
+								File uploadFile = new File(filePath, fileNm);
+								// 파일정보로 해당경로에 파일 생성
+								formItem.write(uploadFile);
+								// 파일의 MIME_TYPE 읽기
+								Tika tika = new Tika();
+								mimeType = tika.detect(uploadFile);
+								// 카피 완료후 temp폴더의 temp파일을 제거
+								formItem.delete();
+								// parameter 설정
+								FileVO fileVO = new FileVO();
+								fileVO.setFILE_PATH(filePath);
+								fileVO.setFILE_NM(fileNm);
+								fileVO.setFILE_SIZE(fileSize.intValue());   // 바이트
+								fileVO.setFILE_EXT(fileExt);
+								fileVO.setMIME_TYPE(mimeType);
+								fileVO.setORG_FILE_NM(orgFileNm);
+								fileVO.setFILE_OWNER(fileOwner);
+								 
+								 
+								 
+								 
+								// 파일정보 저장 -  나중에 수정								
+//								commService.saveAttachFile(fileVO);
+//								List<FileVO> resultList = fileVO.get("result");
+//								result = resultList.get(0);
+								 
+								
+							} catch(IOException ex) {
+								System.err.println("IOException Occured");
+							}
+								
+						} else {
+							// System.out.println("인코딩 타입이 multipart/form-data 가 아님.");
+						}
+					}
+				}
+			}
+		}
+		
+		return result;
+		
+	}
+	
+	private String getBrowser(HttpServletRequest request) {
+		
+		String header = request.getHeader("User-Agent");
+		
+		if (header.indexOf("MSIE") > -1) {
+			return "MSIE";
+		} else if (header.indexOf("Trident") > -1) {	// IE11 문자열 깨짐 방지
+			return "Trident";
+		} else if (header.indexOf("Chrome") > -1) {
+			return "Chrome";
+		} else if (header.indexOf("Opera") > -1) {
+			return "Opera";
+		}
+		
+		return "Firefox";
+	}
+
+	
+	/**
+	 * Disposition 지정하기.
+	 * 
+	 * @param filename
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	private void setDisposition(String filename, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		String browser = getBrowser(request);
+		
+		String dispositionPrefix = "attachment; filename=";
+		String encodedFilename = null;
+		
+		if (browser.equals("MSIE")) {
+			encodedFilename = URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
+		} else if (browser.equals("Trident")) {		// IE11 문자열 깨짐 방지
+			encodedFilename = URLEncoder.encode(filename, "UTF-8").replaceAll("\\+", "%20");
+		} else if (browser.equals("Firefox")) {
+			encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "8859_1") + "\"";
+		} else if (browser.equals("Opera")) {
+			encodedFilename = "\"" + new String(filename.getBytes("UTF-8"), "8859_1") + "\"";
+		} else if (browser.equals("Chrome")) {
+			StringBuffer sb = new StringBuffer();
+			for (int i = 0; i < filename.length(); i++) {
+				char c = filename.charAt(i);
+				if (c > '~') {
+					sb.append(URLEncoder.encode("" + c, "UTF-8"));
+				} else {
+					sb.append(c);
+				}
+			}
+			encodedFilename = sb.toString();
+		} else {
+			throw new IOException("Not supported browser");
+		}
+		
+		response.setHeader("Content-Disposition", dispositionPrefix + encodedFilename);
+		
+		if ("Opera".equals(browser)){
+			response.setContentType("application/octet-stream;charset=UTF-8");
+		}
+	}
+	
+	/**
+	 * 첨부파일로 등록된 파일에 대하여 다운로드를 제공한다.
+	 * 
+	 * @comment	파일 다운로드
+	 * @param		request
+	 * @param		response
+	 * @return		
+	 * @throws		Exception
+	 * @author		문희훈
+	 * @since		2016. 10. 24.
+	 */
+	@RequestMapping(value="/download.do", method=RequestMethod.POST)
+	public void fileDownload(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		// 사용자 아이디
+		String  user_id = request.getParameter("user_id");
+		// 파일ID
+		Integer fileId = Integer.parseInt(request.getParameter("fid"));
+		
+		// 파일경로
+		String filePath = "";
+		 
+		filePath =  "";	
+		
+		// 파일소유코드 ( NA: 공지사항, BA: 게시판 )
+		String fileOwnerCd = "";
+		// 공지사항 번호
+		Integer noticeNo = request.getParameter("nid") == null ? null : Integer.parseInt(request.getParameter("nid"));
+		if ( noticeNo != null ) {
+			fileOwnerCd = "NA";
+		}
+		// 게시판ID
+		String boardId = request.getParameter("bid");
+		if ( boardId != null ) {
+			fileOwnerCd = "BA";
+		}
+		// 게시물ID
+		Integer bulletinId = request.getParameter("id") == null ? null : Integer.parseInt(request.getParameter("id"));
+		// parameter 설정
+		FileVO params = new FileVO();
+ 
+		 
+		 
+		
+		// 파일 경로
+		 
+ 		// 파일 이름
+ 		String fileNm =  request.getParameter("attch_filename");
+ 		
+ 		// 파일 첨부시 이름
+ 		String orgFileNm = request.getParameter("real_filename");
+ 		
+ 		if(orgFileNm == null || "".equals(orgFileNm)) return;
+ 		
+ 		orgFileNm = orgFileNm.replaceAll("\r", "").replaceAll("\n", "");
+ 		
+ 		// 파일 확장자
+ 		//String fileExt = "png"; 
+ 		
+		// 다운받을 파일 설정
+		String targetFile = filePath + fileNm;
+		
+		// System.out.println("targetFile:"+targetFile);  
+		// 파일설정
+		File uFile = new File(targetFile);
+		int fSize = (int)uFile.length();
+		
+		if (fSize > 0) {
+			String mimetype = "application/x-msdownload";
+			
+			response.setContentType(mimetype);
+			setDisposition(orgFileNm , request, response);
+			response.setContentLength(fSize);
+			
+			/*
+			 * FileCopyUtils.copy(in, response.getOutputStream());
+			 * in.close(); 
+			 * response.getOutputStream().flush();
+			 * response.getOutputStream().close();
+			 */
+			BufferedInputStream in = null;
+			BufferedOutputStream out = null;
+			
+			try {
+				in = new BufferedInputStream(new FileInputStream(uFile));
+				out = new BufferedOutputStream(response.getOutputStream());
+				
+				FileCopyUtils.copy(in, out);
+				out.flush();
+			} catch (IOException ex) {
+				System.err.println("IOException Occured");
+				//ex.printStackTrace();
+				// 다음 Exception 무시 처리
+				// Connection reset by peer: socket write error
+//				log.debug("IGNORED: " + ex.getMessage());
+			} finally {
+				if (in != null) {
+					try {
+						in.close();
+					} catch (IOException ignore) {
+						System.err.println("IOException Occured");
+						// no-op
+//						log.debug("IGNORED: " + ignore.getMessage());
+					}
+				}
+				if (out != null) {
+					try {
+						out.close();
+					} catch (IOException ignore) {
+						// no-op
+						System.err.println("IOException Occured");
+//						log.debug("IGNORED: " + ignore.getMessage());
+					}
+				}
+			}
+		
+		} else {
+			
+			response.setContentType("text/html; charset=utf-8");
+			
+			PrintWriter printwriter = response.getWriter();
+			printwriter.println("<script>");
+			printwriter.println("alert('선택한 파일정보가 없습니다. 관리자에게 문의하세요.');");
+			printwriter.println("</script>");
+			
+		}
+		
+	}
+	
+
+	/**
+	 * 대중소 분류코드를 조회 하여 select box 를 만든다.  
+	 * 
+	 * @param searchVO
+	 * @param model
+	 * @return "egovSampleList"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/getCateCodeSelectBoxList.do", method=RequestMethod.POST)
+	public void getCateCodeSelectBoxList( HttpServletRequest request,HttpServletResponse response)throws Exception {
+		
+		Map<String, Object>  paramMap = new HashMap<String, Object>();
+		ArrayList<Object> CUR = new ArrayList<Object>();
+	  
+		paramMap.put("P_CORP_CODE", CommonUtil.getEnv(request.getSession()).getCORP_CODE());
+		paramMap.put("P_CATE_GUBUN", request.getParameter("CATE_GUBUN"));
+		paramMap.put("P_CATE_CODE", request.getParameter("CATE_CODE"));
+		paramMap.put("CUR", CUR);
+		
+		 
+		commService.getCateCodeSelectBoxList(paramMap);
+		
+		
+		Gson gson = new Gson(); 
+		String jsonStr = gson.toJson(paramMap.get("CUR"));
+		
+		System.out.println(jsonStr);
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr);	
+		
+	}
+	
+	
+
+	/**
+	 * 지불차수(PAY_SEQ)를 조회 하여 select box 를 만든다.  
+	 * 
+	 * @param searchVO
+	 * @param model
+	 * @return "egovSampleList"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/getPaySeqCodeSelectBoxList.do", method=RequestMethod.POST)
+	public void getPaySeqCodeSelectBoxList( HttpServletRequest request,HttpServletResponse response)throws Exception {
+		
+		Map<String, Object>  paramMap = new HashMap<String, Object>();
+		ArrayList<Object> CUR = new ArrayList<Object>();
+	  
+		paramMap.put("P_CORP_CODE", CommonUtil.getEnv(request.getSession()).getCORP_CODE());
+		paramMap.put("P_MGMT_ENTRY", request.getParameter("MGMT_ENTRY")); 
+		paramMap.put("CUR", CUR);
+		
+		 
+		commService.getPaySeqCodeSelectBoxList(paramMap);
+		
+		
+		Gson gson = new Gson(); 
+		String jsonStr = gson.toJson(paramMap.get("CUR"));
+		 
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr);	
+		
+	}
+	
+	 
+	/**
+	 * 공통코드를 조회 하여 select box 를 만든다.  
+	 * 
+	 * @param searchVO
+	 * @param model
+	 * @return "egovSampleList"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/getCommonCodeSelectBoxList.do", method=RequestMethod.POST)
+	public void getCommonCodeSelectBoxList( HttpServletRequest request,HttpServletResponse response)throws Exception {
+		
+		Map<String, Object>  paramMap = new HashMap<String, Object>();
+		ArrayList<Object> CUR = new ArrayList<Object>();
+		
+		paramMap.put("P_CORP_CODE", CommonUtil.getEnv(request.getSession()).getCORP_CODE());
+		paramMap.put("P_CD_CL", request.getParameter("CD_CL"));
+		paramMap.put("CUR", CUR);
+		
+		//공통코드 그룹을 조회
+		commService.getCommonCodeSelectBoxList(paramMap);
+		
+		
+		Gson gson = new Gson(); 
+		String jsonStr = gson.toJson(paramMap.get("CUR"));
+		
+		System.out.println(jsonStr);
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr);	
+		
+	}
+	
+	/**
+	 * 공통코드를 조회 하여 select box 를 만든다.  
+	 * 
+	 * @param searchVO
+	 * @param model
+	 * @return "egovSampleList"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/getCommonCodeSelectBoxList2.do", method=RequestMethod.POST)
+	public void getCommonCodeSelectBoxList2( HttpServletRequest request,HttpServletResponse response)throws Exception {
+		
+		Map<String, Object>  paramMap = new HashMap<String, Object>();
+		ArrayList<Object> CUR = new ArrayList<Object>();
+		
+		paramMap.put("P_CORP_CODE", CommonUtil.getEnv(request.getSession()).getCORP_CODE());
+		paramMap.put("P_CD_CL", request.getParameter("CD_CL"));
+		//추가 20170425 김창열
+		paramMap.put("P_MGMT_ENTRY", request.getParameter("MGMT_ENTRY"));
+		paramMap.put("CUR", CUR);
+		
+		//공통코드 그룹을 조회
+		commService.getCommonCodeSelectBoxList2(paramMap);
+		
+		
+		Gson gson = new Gson(); 
+		String jsonStr = gson.toJson(paramMap.get("CUR"));
+		
+		System.out.println(jsonStr);
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr);	
+		
+	}
+		
+	
+	/**
+	 * 공통코드의 회원등급을 회원구분 별로 SELECT BOX 리스트를 생성한다 
+	 * 
+	 * @param searchVO
+	 * @param model
+	 * @return "egovSampleList"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/getCommonCodeGradeSelectBoxList.do", method=RequestMethod.POST)
+	public void getCommonCodeGradeSelectBoxList( HttpServletRequest request,HttpServletResponse response)throws Exception {
+		
+		Map<String, Object>  paramMap = new HashMap<String, Object>();
+		
+		paramMap.put("P_CORP_CODE", CommonUtil.getEnv(request.getSession()).getCORP_CODE());
+		paramMap.put("P_CD_CL", request.getParameter("P_CD_CL"));
+		paramMap.put("P_MGMT_ENTRY_1", request.getParameter("P_MGMT_ENTRY_1"));
+		
+		//공통코드 그룹을 조회
+		commService.getCommonCodeGradeSelectBoxList(paramMap);
+		
+		Gson gson = new Gson(); 
+		String jsonStr = gson.toJson(paramMap.get("CUR"));
+		
+		System.out.println(jsonStr);
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr);	
+		
+	}
+	
+	
+	
+	/**
+	 * 관리부서를 를 조회 하여 그리드내의 select box 를 만든다.  
+	 * 
+	 * @param searchVO
+	 * @param model
+	 * @return "egovSampleList"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/getDeptCodeSelectBoxListInGrid.do", method=RequestMethod.POST)
+	public void getDeptCodeSelectBoxListInGrid( HttpServletRequest request,HttpServletResponse response)throws Exception {
+		
+		Map<String, Object>  paramMap = new HashMap<String, Object>();
+		ArrayList<Object> CUR = new ArrayList<Object>();
+		
+		paramMap.put("P_CORP_CODE", CommonUtil.getEnv(request.getSession()).getCORP_CODE());
+//		paramMap.put("P_CD_CL", request.getParameter("CD_CL"));
+		paramMap.put("CUR", CUR);
+		
+		//공통코드 그룹을 조회
+		commService.getDeptCodeSelectBoxListInGrid(paramMap);
+		
+		
+		Gson gson = new Gson(); 
+		String jsonStr = gson.toJson(paramMap.get("CUR"));
+		
+		System.out.println(jsonStr);
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr);	
+		
+	}
+	
+	/**
+	 * 관리담당자를 를 조회 하여 그리드내의 select box 를 만든다.  
+	 * 
+	 * @param searchVO
+	 * @param model
+	 * @return "egovSampleList"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/getEmpNoSelectBoxListInGrid.do", method=RequestMethod.POST)
+	public void getEmpNoSelectBoxListInGrid( HttpServletRequest request,HttpServletResponse response)throws Exception {
+		
+		Map<String, Object>  paramMap = new HashMap<String, Object>();
+		ArrayList<Object> CUR = new ArrayList<Object>();
+		
+		paramMap.put("P_CORP_CODE", CommonUtil.getEnv(request.getSession()).getCORP_CODE());
+//		paramMap.put("P_CD_CL", request.getParameter("CD_CL"));
+		paramMap.put("CUR", CUR);
+		
+		 
+		commService.getEmpNoSelectBoxListInGrid(paramMap);
+		
+		
+		Gson gson = new Gson(); 
+		String jsonStr = gson.toJson(paramMap.get("CUR"));
+		
+		System.out.println(jsonStr);
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr);	
+		
+	}
+	
+	
+	/**
+	 * 점포코드를 조회하여 SELECT BOX를 만든다
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getStoreCode.do", method=RequestMethod.POST)
+	public void getStoreCode( HttpServletRequest request,HttpServletResponse response)throws Exception {
+		
+		Map<String, Object>  paramMap = new HashMap<String, Object>();
+		ArrayList<Object> CUR = new ArrayList<Object>();
+		
+		paramMap.put("P_CORP_CODE", CommonUtil.getEnv(request.getSession()).getCORP_CODE());
+		paramMap.put("P_UPTAE_FLAG", request.getParameter("UPTAE_FLAG"));
+		paramMap.put("P_BONBU_FLAG", request.getParameter("BONBU_FLAG"));
+		paramMap.put("CUR", CUR);
+		
+		
+		log.debug("CommController.getStoreCode paramMap :: " + paramMap);
+		
+		//공통코드 그룹을 조회
+		commService.getStoreCode(paramMap);
+		
+		
+		Gson gson = new Gson(); 
+		String jsonStr = gson.toJson(paramMap.get("CUR"));
+		
+		System.out.println(jsonStr);
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr);	
+		
+	}
+	
+	@RequestMapping(value = "/getStoreCodeFlag.do", method=RequestMethod.POST)
+	public void getStoreCodeFlag( HttpServletRequest request,HttpServletResponse response)throws Exception {
+		
+		Map<String, Object>  paramMap = new HashMap<String, Object>();
+		ArrayList<Object> CUR = new ArrayList<Object>();
+		
+		paramMap.put("P_CORP_CODE", CommonUtil.getEnv(request.getSession()).getCORP_CODE());
+		paramMap.put("P_UPTAE_FLAG", request.getParameter("UPTAE_FLAG"));
+		paramMap.put("CUR", CUR);
+		
+		//공통코드 그룹을 조회
+		commService.getStoreCodeFlag(paramMap);
+		
+		
+		Gson gson = new Gson(); 
+		String jsonStr = gson.toJson(paramMap.get("CUR"));
+		
+		System.out.println(jsonStr);
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr);	
+		
+	}
+	
+	/**
+	 *권한그룹을 조회 하여 select box 를 만든다.  
+	 * 
+	 * @param searchVO
+	 * @param model
+	 * @return "egovSampleList"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/getAuthSelectBoxList.do", method=RequestMethod.POST)
+	@ResponseBody
+	public void getAuthSelectBoxList( HttpServletRequest request,HttpServletResponse response)throws Exception {
+		
+		
+		Map<String, Object>  paramMap = new HashMap<String, Object>();
+		ArrayList<Object> CUR = new ArrayList<Object>();
+		
+		paramMap.put("P_CORP_CODE", CommonUtil.getEnv(request.getSession()).getCORP_CODE());
+		paramMap.put("CUR", CUR);
+		
+		//권한그룹을 조회
+		commService.getAuthSelectBoxList(paramMap);
+		
+		
+		Gson gson = new Gson(); 
+		String jsonStr = gson.toJson(paramMap.get("CUR"));
+		
+		System.out.println(jsonStr);
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr);	
+	}
+	 
+	
+	
+	/**
+	 * excel저장
+	 * 
+	 * @param  
+	 *             
+	 * @param model
+	 * @return "mav"
+	 * @exception Exception
+	 * @author		김창열
+	 * @since		2016. 01. 11. 
+	 */
+	@RequestMapping(value = "/gridExcelDown.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void gridExcelDown(HttpServletRequest request, HttpServletResponse response)throws Exception{
+		String fileName = request.getParameter("fileName");
+		log.debug("===========================================================================");
+		log.debug("Commcontroller.gridExcelDown fileName :: " + fileName);
+
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		int j = 0;
+
+		while (true) {
+			String data = request.getParameter("fileData"+j);
+			
+			log.debug("Commcontroller.gridExcelDown fileData :: " + data);
+			
+			if (data != null && data.length() > 0) {
+				byte[] dataByte = Base64.decodeBase64(data.getBytes());
+				outputStream.write(dataByte);
+				j++;
+			} else
+				break;
+		}
+
+		if (outputStream.size() > 0) {
+		//System.out.println("outputStream.size():"+outputStream.size());
+			response.reset();
+			response.setContentType("application/octet-stream");
+			String client = request.getHeader("User-Agent");
+			// ie일 경우
+			if (client.indexOf("MSIE") != -1 || client.indexOf("Trident") != -1){
+				response.setHeader("Content-Disposition","attachment; filename=" + URLEncoder.encode(fileName, "8859_1").replaceAll("\\+", "%20"));
+			}else{
+				response.setHeader("Content-Disposition","attachment; filename=\"" + fileName + "\"");
+				response.setHeader("Content-Transfer-Encoding", "binary");
+				response.setHeader("Content-Length",String.valueOf(outputStream.size()));	
+			}
+			//out.clear();
+			//out = pageContext.pushBody();
+			ServletOutputStream out2 = response.getOutputStream();
+			out2.write(outputStream.toByteArray());
+			out2.flush();
+			out2.close();
+		}
+	}
+	
+	/**
+	 * excel업로드
+	 * 
+	 * @param  
+	 *             
+	 * @param model
+	 * @return "mav"
+	 * @exception Exception
+	 * @author		김창열
+	 * @since		2016. 01. 11.
+	 */
+	@RequestMapping(value = "/gridExcelUp.do", method = RequestMethod.POST)
+	@ResponseBody	
+	public void gridExcelUp(MultipartHttpServletRequest request, HttpServletResponse response)throws Exception{
+		log.debug("===========================================================================");
+		log.debug("SalesInfoGoalController.gridExcelUp request :: " + request);
+
+		Iterator<String> iter = request.getFileNames();
+		MultipartFile multipartFile = null;
+		
+        File file = new File(globalsFileUrl);
+        if(file.exists() == false){
+            file.mkdirs();
+        }
+        
+		while (iter.hasNext()) {
+			multipartFile = request.getFile(iter.next());
+			if(multipartFile.isEmpty() == false){
+				if ("fileImport".equals(multipartFile.getName())) {		// rMate Grid 컴포넌트가 올린 파일의 input file명
+					String fileName = multipartFile.getOriginalFilename();		// 경로가 포함된 파일명
+					fileName = fileName.substring(fileName.lastIndexOf("\\")+1);		//경로제거하여 파일명만 가지고 옴
+					//long fileSize = item.getSize();			//파일 사이즈
+					byte[] dataByte = Base64.encodeBase64(multipartFile.getBytes());
+
+					String outStr = "<html><body><textarea>fileName=" + URLEncoder.encode(fileName, "utf-8") + "&encodedStr=";
+					response.reset();
+					response.setContentType("text/html; charset=utf-8");
+					response.setHeader("Content-Length",String.valueOf(outStr.length() + dataByte.length + 25));
+
+					ServletOutputStream out2 = response.getOutputStream();
+					out2.write(outStr.getBytes());
+					out2.write(dataByte);
+					out2.write("</textarea></body></html>".getBytes());
+					out2.flush();
+					out2.close();
+				}
+			}	
+		}       
+		
+	}
+	
+	/**
+	 * 해당 점포의 POS 마스터 계산원을 조회하여 SELECT BOX를 만든다
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/getPosMasterMember.do", method=RequestMethod.POST)
+	public void getPosMasterMember( HttpServletRequest request,HttpServletResponse response)throws Exception {
+		
+		Map<String, Object>  paramMap = new HashMap<String, Object>();
+		
+		paramMap.put("P_CORP_CODE", CommonUtil.getEnv(request.getSession()).getCORP_CODE());
+		paramMap.put("P_STR_CODE", request.getParameter("P_STR_CODE"));
+		
+		log.debug("CommController.getPosMasterMember paramMap :: " + paramMap);
+		
+		commService.getPosMasterMember(paramMap);
+		
+		Gson gson = new Gson(); 
+		String jsonStr = gson.toJson(paramMap.get("CUR"));
+		
+		System.out.println(jsonStr);
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr);
+	}
+	
+	
+	
+	/**
+	 *  입고예정일 가져오기.    
+	 * 
+	 * @param  
+	 * @param model
+	 * @return "mav"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/orderPurDtSelect.do",  method = RequestMethod.POST)
+	@ResponseBody
+	public void  orderPurDtSelect( @RequestParam Map<String, Object> param , HttpServletRequest request, HttpServletResponse response )throws Exception { 
+   
+		Map<String, Object>  paramMap = new HashMap<String, Object>();
+ 	  
+		ArrayList<Object> CUR = new ArrayList<Object>();  
+		 
+		param.put("CORP_CODE"    , CommonUtil.getEnv(request.getSession()).getCORP_CODE()  ) ;    
+		param.put("STR_CODE"     , request.getParameter("STR_CODE")  ) ; 
+		param.put("BASE_DT"      , request.getParameter("BASE_DT")  ) ; 
+		param.put("TERM_DAY"     , request.getParameter("TERM_DAY")  ) ; 
+		param.put("CUR"			, CUR); 
+ 	   
+		List<Map<String, Object>> resultList = commService.orderPurDtSelect(param);
+   
+		Gson gson = new Gson(); 
+		String jsonStr 				= gson.toJson(  resultList  );
+  
+		
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr);
+		 
+	}
+	
+	/**
+	 * 협력업체(VEN_CODE) 조회하여 지불주기(PAY_CON),지불차수(PAY_SEQ)를 가져온다.  
+	 * 
+	 * @param searchVO
+	 * @param model
+	 * @return "egovSampleList"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/getPayNum.do", method=RequestMethod.POST)
+	public void getPayNum( HttpServletRequest request,HttpServletResponse response)throws Exception {
+		
+		Map<String, Object>  paramMap = new HashMap<String, Object>();
+		ArrayList<Object> CUR = new ArrayList<Object>();
+	  
+		paramMap.put("P_CORP_CODE", CommonUtil.getEnv(request.getSession()).getCORP_CODE());
+		paramMap.put("P_VEN_CODE", request.getParameter("P_VEN_CODE"));
+		paramMap.put("CUR", CUR);
+		
+		System.out.println("@@PARAM : " + paramMap);
+		 
+		commService.getPayNum(paramMap);
+		
+		
+		Gson gson = new Gson(); 
+		String jsonStr = gson.toJson(paramMap.get("CUR"));
+		 
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr);
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+}

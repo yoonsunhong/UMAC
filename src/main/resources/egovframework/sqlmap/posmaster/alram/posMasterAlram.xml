@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="posMasterAlram">
+	
+	<parameterMap id="posMasterAlramMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_LOGO_NO"       javaType="java.lang.String"      jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="posMasterAlramResultMap" />
+	</parameterMap>
+	
+	<resultMap id="posMasterAlramResultMap" class="java.util.HashMap">
+		<result property="CORP_CODE" column="CORP_CODE" />
+		<result property="STR_CODE" column="STR_CODE" />
+		<result property="LOGO_NO" column="LOGO_NO" />
+		<result property="POSITION_FLAG" column="POSITION_FLAG" />
+		<result property="POSITION_FLAG_INFO" column="POSITION_FLAG_INFO" />
+		<result property="SEQ" column="SEQ" />
+		<result property="LOGO_INFO" column="LOGO_INFO" />
+		<result property="LOGO_INFO_SIZE" column="LOGO_INFO_SIZE" />
+		<result property="FONT_STYLE" column="FONT_STYLE" />
+		<result property="FONT_STYLE_NM" column="FONT_STYLE_NM" />
+	</resultMap>
+	
+	<procedure id="getPosMasterAlram" parameterMap="posMasterAlramMap" >
+		{ call PKG_POS_MASTER.POS_MASTER_ALRAM_SELECT ( ?, ?, ?, ? )  }
+	</procedure>
+	
+	<parameterMap id="posMasterAlramLogNoMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"      javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  />
+	</parameterMap>
+	
+	<procedure id="getPosMasterAlramLogNo" parameterMap="posMasterAlramLogNoMap" resultClass="java.util.HashMap" >
+		{ call PKG_POS_MASTER.POS_MASTER_ALRAM_LOG_SELECT ( ?, ?, ? )  }
+	</procedure>
+	
+	<!-- <parameterMap id="updatePosMasterPlateMap" class="java.util.Map">
+		<parameter property="D_TYPE"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_CORP_CODE"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_STR_CODE"      javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_LOG_NO"        javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="D_POSITION_FLAG" javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_SEQ"           javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="D_MSG"           javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_USER_ID"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"     javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"      javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap> -->
+	
+	<parameterMap id="updatePosMasterPlateMap" class="java.util.Map">
+		<parameter property="D_TYPE"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_CORP_CODE"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_STR_CODE"      javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_LOG_NO"        javaType="java.lang.String"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="D_MSG_SEQ"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="D_USER_ID"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"     javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"      javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	<procedure id="updatePosMasterAlram" parameterMap="updatePosMasterPlateMap" >
+		{ call PKG_POS_MASTER.POS_MASTER_ALRAM_POP_UPDATE ( ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+</sqlMap>

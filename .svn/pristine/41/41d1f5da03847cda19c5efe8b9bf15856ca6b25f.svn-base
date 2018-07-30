@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="productCustomer">
+ 
+ 
+   <!--   사업자번호  중복 검사   -->
+  <parameterMap id="productCustomerBusiNoDupParameterMap" class="java.util.HashMap">   
+  	<parameter property="CORP_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      /> 
+  	<parameter property="BUSI_NO"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      /> 
+  	<parameter property="RETURN_CUR"  javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"   resultMap="RETURN_CUR_ResultMap"   /> 
+  </parameterMap>
+     
+  <resultMap id="RETURN_CUR_ResultMap" class="retail.product.customer.service.ProductCustomerVO">
+    <result property="RETURN_CODE"    column="RETURN_CODE"  />
+    <result property="RETURN_MESSAGE" column="RETURN_MESSAGE" /> 
+  </resultMap>  
+    
+  <procedure id="productCustomerBusiNoDup"  parameterMap="productCustomerBusiNoDupParameterMap"    > 
+    {   call PKG_PRODUCT.PRODUCT_CUSTOMER_BUSI_NO_DUP(  ? , ? , ?  )  }   
+  </procedure>	
+  
+  
+  
+  <!--   협력업체코드 중복 검사   -->
+  <parameterMap id="productCustomerVenCodeDupParameterMap" class="java.util.HashMap">   
+  	<parameter property="CORP_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      /> 
+  	<parameter property="VEN_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      /> 
+  	<parameter property="RETURN_CUR"  javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"   resultMap="VEN_CODE_ResultMap"   /> 
+  </parameterMap>
+     
+  <resultMap id="VEN_CODE_ResultMap" class="retail.product.customer.service.ProductCustomerVO">
+    <result property="RETURN_CODE"    column="RETURN_CODE"  />
+    <result property="RETURN_MESSAGE" column="RETURN_MESSAGE" /> 
+  </resultMap>  
+    
+  <procedure id="productCustomerVenCodeDup"  parameterMap="productCustomerVenCodeDupParameterMap"    > 
+    {   call PKG_PRODUCT.PRODUCT_CUSTOMER_VEN_CODE_DUP(  ? , ? , ?  )  }   
+  </procedure>	
+  
+
+
+  <!--   매입구간 - 최대 최소기준금액 값 가져오기   -->
+   <parameterMap id="purSectionStdPriceParameterMap" class="java.util.HashMap">   
+  	<parameter property="CORP_CODE"   	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      /> 
+  	<parameter property="CD_CL"    		javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      /> 
+  	<parameter property="CD_ID"    		javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      /> 
+  	<parameter property="RETURN_CUR"    javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"   resultMap="purSectionStdPriceResultMap"   /> 
+  </parameterMap>
+  
+  <resultMap id="purSectionStdPriceResultMap" class="retail.product.customer.service.ProductCustomerVO">
+    <result property="STD_PRICE_MIN"    column="STD_PRICE_MIN"  />
+    <result property="STD_PRICE_MAX"    column="STD_PRICE_MAX" /> 
+  </resultMap>  
+  
+  <procedure id="purSectionStdPrice"  parameterMap="purSectionStdPriceParameterMap"    > 
+    {   call PKG_PRODUCT.PRODUCT_PUR_SECTION_STD_PRICE(  ? , ? , ? , ?  )  }   
+  </procedure>
+  
+  
+  
+  <!--  협력업체 등록 -->
+  <parameterMap id="productCustomerRegisterParameterMap" class="java.util.Map">     
+    <parameter property="CORP_CODE"   		javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+    <parameter property="VEN_CODE"   		javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />   
+  	<parameter property="EMP_NO"   		    javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />   
+  	<parameter property="GRID_XML_DATA2"   	javaType="java.lang.String"     jdbcType="CLOB"       mode="IN"      />  
+  	<parameter property="GRID_XML_DATA3"   	javaType="java.lang.String"     jdbcType="CLOB"       mode="IN"      /> 
+  	<parameter property="GRID_XML_DATA4"   	javaType="java.lang.String"     jdbcType="CLOB"       mode="IN"      />  
+  	<parameter property="GRID_XML_DATA5"   	javaType="java.lang.String"     jdbcType="CLOB"       mode="IN"      />
+  	<parameter property="CD_SUPPLY"      	javaType="java.lang.String"     jdbcType="CLOB"       mode="IN"      /> 
+  	<parameter property="RETURN_CUR"        javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"   mode="OUT"     /> 
+  </parameterMap>
+  
+<!--   <resultMap id="REGISTER_RETURN_CUR_ResultMap" class="retail.product.customer.service.ProductCustomerVO"> -->
+<!--     <result property="RETURN_CODE"    column="RETURN_CODE"  /> -->
+<!--     <result property="RETURN_MESSAGE" column="RETURN_MESSAGE" />  -->
+<!--   </resultMap>   -->
+  
+  <procedure id="productCustomerRegister"  parameterMap="productCustomerRegisterParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_PRODUCT.PRODUCT_CUSTOMER_REGISTER( ? , ? ,? , ? , ? , ? , ? , ?, ?  )  }   
+  </procedure>
+  
+   
+  
+   <!--  협력업체  검색  -->
+   <parameterMap id="productCustomerListParameterMap" class="java.util.Map">
+  	<parameter property="P_GRE_GB"    	 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="P_VEN"    	 	 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="P_USE_YN"    	 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="P_CORP_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="CUR"         	 javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+  </parameterMap>
+   <procedure id="productCustomerList"  parameterMap="productCustomerListParameterMap"  resultClass="java.util.HashMap"  > 
+   	 {   call PKG_PRODUCT.PRODUCT_CUSTOMER_LIST( ? , ? , ? , ? , ? )       }
+   </procedure>
+  
+  
+   <!--  협력업체  상세조회  -->
+   <parameterMap id="productCustomerInfoSelectParameterMap" class="java.util.Map">
+    <parameter property="CORP_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="VEN_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="CUR"         javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+  </parameterMap>
+   <procedure id="productCustomerInfoSelect"  parameterMap="productCustomerInfoSelectParameterMap"  resultClass="java.util.HashMap"  > 
+   	 {   call PKG_PRODUCT.PRODUCT_CUSTOMER_INFO_SELECT( ? , ?, ? )       }
+   </procedure>
+   
+      <!-- getPayMgmtEntry   -->
+   <parameterMap id="getPayMgmtEntryParameterMap" class="java.util.Map">
+    <parameter property="CORP_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="CD_CL"    	  javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="CD_ID"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="CUR"         javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+  </parameterMap>
+   <procedure id="getPayMgmtEntry"  parameterMap="getPayMgmtEntryParameterMap"  resultClass="java.util.HashMap"  > 
+   	 {   call PKG_PRODUCT.GET_PAY_MGMT_ENTRY( ? ,? , ?, ? )       }
+   </procedure>
+   
+  
+  
+   <!--  지불조건 리스트  -->
+   <parameterMap id="productCustomerPyPayNumListParameterMap" class="java.util.Map">
+    <parameter property="P_CORP_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="P_VEN_CODE"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     /> 
+  	<parameter property="CUR"         	 javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+  </parameterMap>
+   <procedure id="productCustomerPyPayNumList"  parameterMap="productCustomerPyPayNumListParameterMap"  resultClass="java.util.HashMap"  > 
+   	 {   call PKG_PRODUCT.CUSTOMER_PY_PAY_NUM_LIST( ? ,? , ? )       }
+   </procedure>
+   
+  
+  
+   <!--  장려율 리스트  -->
+   <parameterMap id="productCustomerPyPayRateListParameterMap" class="java.util.Map">
+    <parameter property="P_CORP_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="P_VEN_CODE"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     /> 
+  	<parameter property="CUR"         	 javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+  </parameterMap>
+   <procedure id="productCustomerPyPayRateList"  parameterMap="productCustomerPyPayRateListParameterMap"  resultClass="java.util.HashMap"  > 
+   	 {   call PKG_PRODUCT.CUSTOMER_PY_PAY_RATE_LIST( ? ,? , ? )       }
+   </procedure>
+   
+   
+    <!--  장려금 제외 상품 리스트  -->
+   <parameterMap id="productCustomerPyExclItemListParameterMap" class="java.util.Map">
+    <parameter property="P_CORP_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="P_VEN_CODE"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     /> 
+  	<parameter property="CUR"         	 javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+   </parameterMap>
+   <procedure id="productCustomerPyExclItemList"  parameterMap="productCustomerPyExclItemListParameterMap"  resultClass="java.util.HashMap"  > 
+   	 {   call PKG_PRODUCT.CUSTOMER_PY_EXCL_ITEM_LIST( ? ,? , ? )       }
+   </procedure>
+   
+    <!--  담당자 리스트  -->
+   <parameterMap id="productCustomerCdSupplyPsnListParameterMap" class="java.util.Map">
+    <parameter property="P_CORP_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="P_VEN_CODE"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     /> 
+  	<parameter property="CUR"         	 javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+   </parameterMap>
+   <procedure id="productCustomerCdSupplyPsnList"  parameterMap="productCustomerCdSupplyPsnListParameterMap"  resultClass="java.util.HashMap"  > 
+   	 {   call PKG_PRODUCT.CUSTOMER_CD_SUPPLY_PSN_LIST( ? ,? , ? )       }
+   </procedure>
+    
+   
+   
+  
+   <!--  협력업체 상품  검색  -->
+   <parameterMap id="venProductListParameterMap" class="java.util.Map"> 
+    <parameter property="P_CORP_CODE"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="P_VEN_CODE"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="CUR"         	 javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+   </parameterMap>
+   <procedure id="venProductList"  parameterMap="venProductListParameterMap"  resultClass="java.util.HashMap"  > 
+   	 {   call PKG_PRODUCT.VEN_PRODUCT_LIST( ? , ? , ?  )       }
+   </procedure>
+
+</sqlMap>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="productMaster">
+ 
+  
+    
+   <!--  상품 마스터 상세조회    -->
+   <parameterMap id="productMasterDetailParameterMap" class="java.util.Map">
+    <parameter property="P_CORP_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="P_ITM_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="P_SCAN_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="CUR"           javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+   </parameterMap>
+   <procedure id="productMasterDetail"  parameterMap="productMasterDetailParameterMap"  resultClass="java.util.HashMap"  > 
+   	 {   call PKG_MASTER.PRODUCT_MASTER_DETAIL( ? , ?, ?, ? )       }
+   </procedure>
+    
+     
+    
+
+  
+  <!--  상품 마스터  등록 -->
+  <parameterMap id="productMasterRegisterParameterMap" class="java.util.Map">     
+    <parameter property="CORP_CODE"   				javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+    <parameter property="EMP_NO"   					javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />   
+  	<parameter property="CRUD_BIT"   		    	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />   
+  	<parameter property="PRODUCT_MASTER_DETAIL"   	javaType="java.lang.String"     jdbcType="CLOB"       mode="IN"      />  
+  	<parameter property="GRID_XML_DATA1"   			javaType="java.lang.String"     jdbcType="CLOB"       mode="IN"      /> 
+  	<parameter property="GRID_XML_DATA2"   			javaType="java.lang.String"     jdbcType="CLOB"       mode="IN"      /> 
+  	<parameter property="RETURN_CUR"        		javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"   mode="OUT"     /> 
+  </parameterMap>
+  
+<!--   <resultMap id="REGISTER_RETURN_CUR_ResultMap" class="retail.product.customer.service.ProductCustomerVO"> -->
+<!--     <result property="RETURN_CODE"    column="RETURN_CODE"  /> -->
+<!--     <result property="RETURN_MESSAGE" column="RETURN_MESSAGE" />  -->
+<!--   </resultMap>   -->
+  
+  <procedure id="productMasterRegister"  parameterMap="productMasterRegisterParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_MASTER.PRODUCT_MASTER_REGISTER( ? , ? , ? , ? , ? , ?, ?   )  }   
+  </procedure>
+  
+  
+  
+  	<!-- 공병코드 목록 조회 파라미터 맵 -->
+	<parameterMap id="parmaMapBot" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" 	javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" /> 
+		 <parameter property="CUR"  		javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMapBot" />
+	</parameterMap>
+
+	<!-- 공병코드 목록 조회 리절트 맵 -->
+	<resultMap id="resultMapBot" class="java.util.HashMap">
+	    <result property="CD_NM"  column="CD_NM" nullValue="" />  
+	    <result property="CD_ID"  column="CD_ID"  nullValue="" />
+	</resultMap>
+    <!-- 공병코드 목록 조회  -->
+ 	<procedure id="getBotCodeSelectBoxList" parameterMap="parmaMapBot" resultMap="resultMapBot" >
+		{ call PKG_MASTER.GET_BOT_CODE_SELECT_LIST ( ? , ? )  }
+	</procedure>
+  
+  
+   
+   <!--  취급점포 신규  리스트  -->
+   <parameterMap id="productStoreNewListParameterMap" class="java.util.Map">
+    <parameter property="P_CORP_CODE"    				javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="P_FOOD_MART_UPTAE_FLAG"   		javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="P_MART_AND_MART_UPTAE_FLAG"   	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="P_DC_CENTER_UPTAE_FLAG"   		javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     /> 
+  	<parameter property="CUR"         	 				javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+   </parameterMap>
+   <procedure id="productStoreNewList"  parameterMap="productStoreNewListParameterMap"  resultClass="java.util.HashMap"  > 
+   	 {   call PKG_MASTER.PRODUCT_STORE_NEW_LIST( ? , ? , ? , ? , ? )       }
+   </procedure>
+   
+  
+  
+   <!--  저장된 취급점포    리스트  -->
+   <parameterMap id="productStoreListParameterMap" class="java.util.Map">
+    <parameter property="CORP_CODE"    		javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="ITM_CODE"     		javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     /> 
+  	<parameter property="CUR"         	 	javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+  </parameterMap>
+   <procedure id="productStoreList"  parameterMap="productStoreListParameterMap"  resultClass="java.util.HashMap"  > 
+   	 {   call PKG_MASTER.PRODUCT_STORE_LIST( ? ,? , ? )       }
+   </procedure>
+   
+   <!-- 묶음상품 리스트 -->
+   <parameterMap id="productMukkumParameterMap" class="java.util.Map">
+	   	<parameter property="P_CORP_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+	  	<parameter property="P_ITM_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+	  	<parameter property="P_SCAN_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+	  	<parameter property="CUR"           javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+	  	<parameter property="RETURN_CODE"         javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+   </parameterMap>
+   
+      <!-- 박스상품 리스트 -->
+   <parameterMap id="productBoxListParameterMap" class="java.util.Map">
+	   	<parameter property="P_CORP_CODE"   javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+	  	<parameter property="P_ITM_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+	  	<parameter property="P_SCAN_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+	  	<parameter property="CUR"           javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+	  	<parameter property="RETURN_CODE"         javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+   </parameterMap>
+   
+   
+
+  
+  <!--   스캔코드 중복 검사   -->
+  <parameterMap id="productMasterScanCodeDupParameterMap" class="java.util.HashMap">   
+  	<parameter property="CORP_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      /> 
+  	<parameter property="SCAN_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      /> 
+  	<parameter property="RETURN_CUR"   javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"   resultMap="RETURN_CUR_ResultMap"   /> 
+  </parameterMap>
+     
+  <resultMap id="RETURN_CUR_ResultMap" class="retail.product.master.service.ProductMasterVO">
+    <result property="RETURN_CODE"    column="RETURN_CODE"  />
+    <result property="RETURN_MESSAGE" column="RETURN_MESSAGE" /> 
+  </resultMap>  
+    
+  <procedure id="productMasterScanCodeDup"  parameterMap="productMasterScanCodeDupParameterMap"    > 
+    {   call PKG_MASTER.PRODUCT_MASTER_SCAN_CODE_DUP(  ? , ? , ?  )  }   
+  </procedure>	
+  
+   
+   
+   
+	<parameterMap id="parmaMapItmGb" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" 	javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" /> 
+		 <parameter property="P_LRG_CODE" 	javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />  
+		 <parameter property="CUR"  		javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultItmGb" />
+	</parameterMap>
+	<resultMap id="resultItmGb" class="java.util.HashMap">
+	    <result property="ITM_GB_NM"  column="ITM_GB_NM" nullValue="" />  
+	    <result property="ITM_GB"     column="ITM_GB"    nullValue="" /> 
+	</resultMap>
+    <!-- 대분류 선택에 따른 ITM_GB 가져오기   -->
+ 	<procedure id="getItmGb" parameterMap="parmaMapItmGb" resultMap="resultItmGb" >
+		{ call PKG_MASTER.GET_ITM_GB ( ? , ?, ? )  }
+	</procedure>
+	
+	<procedure id="productMukkum" parameterMap="productMukkumParameterMap"  resultClass="java.util.HashMap"  >
+		 {   call PKG_MASTER.PRODUCT_MUKKUM_LIST(  ? , ? , ?, ?, ?  )  }   
+	</procedure>
+	
+		<procedure id="productBoxList" parameterMap="productBoxListParameterMap"  resultClass="java.util.HashMap"  >
+		 {   call PKG_MASTER.PRODUCT_BOX_LIST(  ? , ? , ?, ?, ?  )  }   
+	</procedure>
+	
+   
+
+</sqlMap>

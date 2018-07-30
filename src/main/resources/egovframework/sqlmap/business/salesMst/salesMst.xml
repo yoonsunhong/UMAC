@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="salesMst">
+	
+	<parameterMap id="salesMstInitResult" class="java.util.Map">
+		<parameter property="P_CORP_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_OPEN_DT"    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_EMP_NO"     javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"          javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  />
+	</parameterMap>
+		
+	<procedure id="SalesMstInit" parameterMap="salesMstInitResult" resultClass="java.util.HashMap">
+		{ call PKG_ZCP_REMAIN.PR_INIT_CARENDER ( ?, ?, ?, ?)  }
+	</procedure>
+	
+	
+	<parameterMap id="salesMstSearchParameterMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"   javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_OPEN_DT"    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"          javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT" />
+	</parameterMap>
+
+	<procedure id="salesMstSearch" parameterMap="salesMstSearchParameterMap" resultClass="java.util.HashMap">
+		{ call PKG_ZCP_REMAIN.PR_SALESMST_CARENDER ( ?, ?, ?, ?)  }
+	</procedure>
+
+
+  <!--  카렌더등록  -->
+  <parameterMap id="updateSalesMstParameterMap" class="java.util.Map">     
+    <parameter property="P_CORP_CODE"  	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+    <parameter property="P_EMP_NO"   	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />   
+  	<parameter property="P_GRIDXMLDATA" javaType="java.lang.String"     jdbcType="CLOB"       mode="IN"      /> 
+  	<parameter property="CUR"           javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"   mode="OUT"     /> 
+  </parameterMap>
+    
+  <procedure id="updateSalesMst"  parameterMap="updateSalesMstParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_ZCP_REMAIN.PR_SALESMST_UPDATE( ? , ? , ? , ?)  }   
+  </procedure>
+   	<procedure id="updateSalesMstAll" parameterMap="updateSalesMstParameterMap" resultClass="java.util.HashMap">
+		{ call PKG_ZCP_REMAIN.PR_SALESMST_UPDATE_ALL ( ?, ?, ?, ?)  }
+	</procedure>
+
+
+</sqlMap>

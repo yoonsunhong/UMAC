@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="productBox">
+ 
+   
+ 
+    <!--  박스 상품 조회  -->
+	<parameterMap id="productBoxSearchListMap" class="java.util.Map">
+	    <parameter property="CORP_CODE" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="BOX_CODE" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="ITM_CODE" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="VEN_CODE" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    /> 
+		<parameter property="CLS_CODE" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />  
+		<parameter property="CUR"           	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"   />
+	</parameterMap> 
+  	<procedure id="productBoxSearchList" parameterMap="productBoxSearchListMap"   resultClass="java.util.HashMap"  >
+		{   call PKG_PRODUCT_BOX.PRODUCT_BOX_SEARCH_LIST ( ? , ? , ? , ? , ?, ? )  }
+  	</procedure>
+   
+   
+   
+   
+   
+
+  <!--  박스 상품 업데이트  -->
+  <parameterMap id="productBoxUpdateParameterMap" class="java.util.Map">     
+    <parameter property="CORP_CODE"   				javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+    <parameter property="EMP_NO"   					javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />   
+  	<parameter property="GRID_XML_DATA1"   			javaType="java.lang.String"     jdbcType="CLOB"       mode="IN"      /> 
+  	<parameter property="RETURN_CUR"        		javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"   mode="OUT"     /> 
+  </parameterMap>
+    
+  <procedure id="productBoxUpdate"  parameterMap="productBoxUpdateParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_PRODUCT_BOX.PRODUCT_BOX_UPDATE( ? , ? , ? , ?    )  }   
+  </procedure>
+   
+   
+    
+   
+   
+
+</sqlMap>

@@ -1,0 +1,134 @@
+package retail.product.reservation.web;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import retail.common.CommonUtil;
+import retail.product.reservation.service.ChangeReservationPriceService;
+
+import com.google.gson.Gson;
+
+/**
+ * 예약매가변경
+ * @author 권용욱
+ * @since 2017. 06.09
+ * @version 1.0
+ * @see Copyright (C) by Retailtech All right reserved.
+ */
+@Controller
+public class ChangeReservationPriceController {
+	
+	@Autowired
+	private ChangeReservationPriceService crpService;
+	
+	/**
+	 * 예약매가변경
+	 * @param model
+	 * @return "mav"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/changeReservationPrice.do", method = RequestMethod.GET)
+	public ModelAndView changeReservationPrice(HttpServletRequest request, HttpServletResponse response )throws Exception { 
+		ModelAndView mav = new  ModelAndView("retail/product/reservation/changeReservationPrice"); 
+		return   mav; 
+	}
+	
+	/**
+	 * 예약매가변경 조회
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/selectChangeReservationPrice.do", method = RequestMethod.POST)
+	public void selectChangeReservationPrice(HttpServletRequest request, HttpServletResponse response ) throws Exception {
+		Map<String, Object>  paramMap = new HashMap<String, Object>();
+		ArrayList<Object> CUR = new ArrayList<Object>();
+		
+		paramMap.put("P_CORP_CODE", CommonUtil.getEnv(request.getSession()).getCORP_CODE());
+		paramMap.put("P_STR_CODE", request.getParameter("P_STR_CODE"));
+		paramMap.put("P_APPL_STR_DT", request.getParameter("P_APPL_STR_DT"));
+		paramMap.put("P_APPL_END_DT", request.getParameter("P_APPL_END_DT"));
+		paramMap.put("P_ITM_CODE", request.getParameter("P_ITM_CODE"));
+		paramMap.put("CUR", CUR);
+		
+		crpService.selectChangeReservationPrice(paramMap);
+		
+		Gson gson = new Gson(); 
+		String jsonStr = gson.toJson(paramMap.get("CUR"));
+		
+		System.out.println(jsonStr);
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr);
+		
+	}
+	
+	@RequestMapping(value = "/excelChangeReservationPrice.do", method = RequestMethod.POST)
+	public ModelAndView excelChangeReservationPrice(@RequestParam Map<String, Object> param, HttpServletRequest request, HttpServletResponse response ) throws Exception {
+		
+		ModelAndView mav = new ModelAndView();
+		Map<String, Object> map;
+		
+		param.put("P_CORP_CODE", CommonUtil.getEnv(request.getSession()).getCORP_CODE());
+		param.put("P_STR_CODE", (String) param.get("P_STR_CODE"));
+		param.put("P_APPL_STR_DT", (String) param.get("P_APPL_STR_DT"));
+		param.put("P_APPL_END_DT", (String) param.get("P_APPL_END_DT"));
+		param.put("P_ITM_CODE", (String) param.get("P_ITM_CODE"));
+		
+		map = crpService.excelChangeReservationPrice(param);
+		
+		mav.addObject("excelList", map);
+		mav.setViewName("excelDownloadView");
+		
+		return mav;
+		
+	}
+	
+	/**
+	 * 예약매가변경 저장
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/registChangeReservationPrice.do", method = RequestMethod.POST)
+	public void registChangeReservationPrice(HttpServletRequest request, HttpServletResponse response ) throws Exception {
+		Map<String, Object>  paramMap = new HashMap<String, Object>();
+		ArrayList<Object> CUR = new ArrayList<Object>();
+		
+		paramMap.put("P_CORP_CODE", CommonUtil.getEnv(request.getSession()).getCORP_CODE());
+		paramMap.put("P_STR_CODE", request.getParameter("ADD_STR_CODE"));
+		paramMap.put("P_APPL_DT", request.getParameter("ADD_APPL_DT"));
+		paramMap.put("P_SCAN_CODE", request.getParameter("ADD_SCAN_CODE"));
+		paramMap.put("P_ITM_CODE", request.getParameter("ADD_ITM_CODE"));
+		paramMap.put("P_TAX_GB", request.getParameter("ADD_TAX_GB"));
+		paramMap.put("P_WPRC", request.getParameter("ADD_WPRC"));
+		paramMap.put("P_WVAT", request.getParameter("ADD_WVAT"));
+		paramMap.put("P_SPRC", request.getParameter("ADD_SPRC"));
+		paramMap.put("P_CHG_WPRC", request.getParameter("ADD_CHG_WPRC"));
+		paramMap.put("P_CHG_WVAT", request.getParameter("ADD_CHG_WVAT"));
+		paramMap.put("P_CHG_SPRC", request.getParameter("ADD_CHG_SPRC"));
+		paramMap.put("P_EMP_NO", CommonUtil.getEnv(request.getSession()).getUserId());
+		paramMap.put("CUR", CUR);
+		
+		crpService.registChangeReservationPrice(paramMap);
+		
+		Gson gson = new Gson(); 
+		String jsonStr = gson.toJson(paramMap.get("CUR"));
+		
+		System.out.println(jsonStr);
+		response.setContentType("text/json; charset=utf-8");
+		response.getWriter().print(jsonStr);
+		
+	}
+
+}

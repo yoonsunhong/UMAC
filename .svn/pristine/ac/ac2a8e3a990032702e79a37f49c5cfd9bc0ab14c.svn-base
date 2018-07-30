@@ -1,0 +1,325 @@
+package retail.member.point.web;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import retail.common.CommonUtil;
+import retail.common.EgovStringUtil;
+import retail.member.point.service.MemberPointService;
+
+import com.google.gson.Gson;
+
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
+
+/**
+ * 
+ * @Class Name : MemberPointController.java
+ * @Description : 
+ * @Modification Information
+ * @
+ * @  수정일      수정자              수정내용
+ * @ ---------   ---------   -------------------------------
+ * @ 2016. 12.26           최초생성
+ *
+ * @author 오동근
+ * @since 2016. 12. 26.
+ * @version 1.0
+ * @see Copyright (C) by Retailtech All right reserved.
+ */
+@Controller
+public class MemberPointController {
+	
+	@Autowired
+	private MemberPointService memberPointService;
+	
+	/** log */
+	private final Log log = LogFactory.getLog(this.getClass());
+	
+	/**
+	 * 포인트임의관리 화면 이동
+	 * @param model
+	 * @return "mav"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/memberPointOptionManagement.do", method = RequestMethod.GET)
+	public ModelAndView memberPointOptionManagement(HttpServletRequest request, HttpServletResponse response )throws Exception { 
+		ModelAndView mav = new  ModelAndView("retail/member/point/memberPointOption");
+		return   mav; 
+	}
+	
+	/**
+	 * 포인트임의관리 리스트
+	 * @param model
+	 * @return "mav"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/memberPointOptionList.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> memberPointOptionList(@RequestParam Map<String, Object> param, HttpServletResponse response ) throws Exception {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		System.out.println("@@PARAM : " + param);
+		
+		try {
+			
+			param = memberPointService.selectMemberPoint(param);
+			Gson gson = new Gson(); 
+			String jsonList = gson.toJson(  param.get("CUR2") );
+			result.put("result", param.get("CUR"));
+			result.put("list", jsonList);
+			System.out.println("@@pointMap : " + param.get("CUR"));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 점포명 selectBoxList
+	 * @param model
+	 * @return "mav"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/getStrNameSelectBoxList.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> getStrNameSelectBoxList(@RequestParam Map<String, Object> param, HttpServletResponse response ) throws Exception {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		System.out.println("@@PARAM : " + param);
+		
+		try {
+			// 여기부터
+			param = memberPointService.getStrNameSelectBoxList(param);
+			result.put("list", param.get("CUR"));
+			System.out.println("@@pointMap : " + param.get("CUR"));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 포인트임의관리 등록
+	 * @param model
+	 * @return "mav"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/memberPointOptionInsert.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> memberPointOptionInsert(@RequestParam Map<String, Object> param, HttpServletResponse response ) throws Exception {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		System.out.println("@@PARAM : " + param);
+		
+		try {
+			
+			param = memberPointService.memberPointOptionInsert(param);
+			
+			System.out.println("@@RETURN_CODE : " + param.get("RETURN_CODE"));
+			System.out.println("@@RETURN_MSG : " + param.get("RETURN_MSG"));
+			
+			result.put("RETURN_CODE", param.get("RETURN_CODE"));
+			result.put("RETURN_MSG", param.get("RETURN_MSG"));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 포인트기준관리 진입
+	 * @param  
+	 *             
+	 * @param model
+	 * @return "mav"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/memberPoint.do", method = RequestMethod.GET)
+	public ModelAndView memberPoint(@RequestParam Map<String, Object> param, HttpServletResponse response ) throws Exception {
+		
+		ModelAndView mav = new  ModelAndView();
+		mav.setViewName("retail/member/point/memberPoint");
+		
+		return mav; 
+	}
+	
+	/**
+	 * 포인트기준관리 리스트
+	 * @param  
+	 *             
+	 * @param model
+	 * @return "mav"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/memberPointList.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> memberPointList(@RequestParam Map<String, Object> param, HttpServletResponse response ) throws Exception {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		try {
+			
+			log.debug("param :: " + param.toString());
+			List<Map<String, Object>> memberPointList = memberPointService.getMemberPointList(param);
+			log.debug("result :: " + memberPointList);
+			
+			Gson gson = new Gson(); 
+			String jsonList = gson.toJson(memberPointList);
+			
+			result.put("list", jsonList);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 포인트기준관리 등록 수정
+	 * @param  
+	 *             
+	 * @param model
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/updateMemberPoint.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> updateMemberPoint(@RequestParam Map<String, Object> param, HttpServletResponse response) throws Exception {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		try {
+			
+			log.debug("param :: " + param.toString());
+			param = memberPointService.updateMemberPoint(param);
+			log.debug("result :: " + param);
+			
+			result.put("RETURN_CODE", param.get("RETURN_CODE"));
+			result.put("RETURN_MSG", param.get("RETURN_MSG"));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	
+	/************************** 포인트적립/사용현황 ***************************/
+	//포인트적립/사용현황
+	@RequestMapping(value="/memberPointStatus.do", method=RequestMethod.GET)
+	public ModelAndView memberPointStatus() throws Exception{
+		ModelAndView mav = new ModelAndView("retail/member/point/memberPointStatus");
+		return mav;
+	}
+	
+	/**
+	 * 포인트적립/사용현황 리스트 조회
+	 * @param param
+	 * @param response
+	 * @param request
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/memberPointStatusList.do", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> memberPointStatusList(@RequestParam Map<String, Object> param, HttpServletRequest request, HttpServletResponse response ) throws Exception {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		/** pageing setting */
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(EgovStringUtil.isNullToString(param.get("pageIndex"), 1));		// 현재페이지
+		paginationInfo.setRecordCountPerPage(EgovStringUtil.isNullToString(param.get("pageUnit"), 25));	// 한 페이지당 게시되는 게시물 건 수
+		paginationInfo.setPageSize(EgovStringUtil.isNullToString(param.get("pageSize"), 10));			// 페이지 리스트에 게시되는 페이지 건수,
+		
+		
+		param.put("P_FIRST_INDEX", paginationInfo.getFirstRecordIndex());
+		param.put("P_RECORD_COUNT", paginationInfo.getRecordCountPerPage());
+		param.put("P_CORP_CODE", CommonUtil.getEnv(request.getSession()).getCORP_CODE());
+		
+		//log.debug("===========================================================================");
+		//log.debug("MemberPointController.memberPointStatusList param :: " + param.toString());
+		
+		log.debug("param :: " + param.toString());
+		memberPointService.memberPointStatusList(param);
+		log.debug("result :: " + param.toString());
+		//log.debug("resultSize :: " + resultList.size());
+		
+		Gson gson = new Gson(); 
+		String jsonList = gson.toJson(  param.get("CUR") );
+		String jsonList2 = gson.toJson(  param.get("CUR2") );
+		
+		result.put("list", jsonList);
+		result.put("list2", jsonList2);
+		
+		
+		return result;
+	}
+	
+	/**
+	 * 포인트적립/사용현황 엑셀을 다운한다.
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/memberPointStatusListExcelDown.do", method=RequestMethod.POST)
+	public ModelAndView memberPointStatusListExcelDown(@RequestParam Map<String, Object> paramMap, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		ModelAndView mav = new ModelAndView();
+		Map<String, Object> map;
+		
+		//Map<String, Object> paramMap = new HashMap<String, Object>();
+		Map<String, Object>  CUR =  new HashMap<String, Object>();
+		
+		paramMap.put("P_OPEN_DT", ((String) paramMap.get("P_OPEN_DT")).replaceAll("-", ""));
+		paramMap.put("P_END_DT", ((String) paramMap.get("P_END_DT")).replaceAll("-", ""));
+		paramMap.put("P_CORP_CODE", CommonUtil.getEnv(request.getSession()).getCORP_CODE());
+		paramMap.put("CUR", CUR);
+		
+		
+		map = memberPointService.memberPointStatusListExcelDown(paramMap);
+
+
+		mav.addObject("excelList", map);
+		mav.setViewName("excelDownloadView");
+
+
+		
+		return mav;
+	}
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

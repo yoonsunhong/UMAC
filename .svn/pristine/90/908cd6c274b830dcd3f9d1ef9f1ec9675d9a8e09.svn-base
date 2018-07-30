@@ -1,0 +1,17 @@
+package retail.product.reservation.service;
+
+import java.util.List;
+import java.util.Map;
+
+public interface ChangeReservationPriceService {
+	
+	void selectChangeReservationPrice(Map<String, Object> paramMap) throws Exception;
+	
+	void registChangeReservationPrice(Map<String, Object> paramMap) throws Exception;
+	
+	Map<String, Object> excelChangeReservationPrice(Map<String, Object> paramMap) throws Exception;
+	
+	List<Map<String, Object>> changeReserExcel(Map<String, Object> param) throws Exception;
+	
+	void changeReserExcel_map(Map<String, Object> params) throws Exception;
+}

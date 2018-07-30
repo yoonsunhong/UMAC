@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="stockRealExcel">
+	
+	<!--  점포별 재고조사 날짜 리스트 조회 param 맵 -->
+	 <parameterMap id="paramMap1" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_STR_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap1" />
+	</parameterMap>
+	<!--  점포별 재고조사 날짜 리스트 조회 리절트 맵 -->
+	<resultMap id="resultMap1" class="java.util.HashMap">
+	    <result property="INV_DT"  					column="INV_DT"					 	nullValue="" /> 
+	    <result property="INV_INSP_SCHD_ID"  column="INV_INSP_SCHD_ID" 	nullValue="" />  
+	    <result property="CFM_FLAG"  				column="CFM_FLAG" 	nullValue="" />  
+	    <result property="INV_INSP_GB"  				column="INV_INSP_GB" 	nullValue="" />  
+	</resultMap>
+	
+	<!--  점포별 전  재고조사 날짜 조회 param 맵 -->
+	 <parameterMap id="paramMap2" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_STR_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_INV_DT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap2" />
+	</parameterMap>
+	<!--  점포별 전  재고조사 날짜 조회 리절트 맵 -->
+	<resultMap id="resultMap2" class="java.util.HashMap">
+	    <result property="INV_BEFORE_DT"  		column="INV_BEFORE_DT" 		nullValue="" />  
+	    <result property="INV_INSP_SCHD_ID"  	column="INV_INSP_SCHD_ID" 	nullValue="" />  
+	</resultMap>
+	
+	
+	<!--  실사재고엑셀조정 조회 param 맵 -->
+	 <parameterMap id="paramMap3" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" 			javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_STR_CODE" 				javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_INV_INSP_SCHD_ID" 	javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_INV_BEFORE_ID" 		javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_LRG_CODE" 				javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_VEN_NAME" 				javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_ITEM_NAME" 			javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_DIFF_CNT" 				javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_GUBUN" 				javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap3" />
+	</parameterMap>
+	<!--  실사재고엑셀조정 조회 리절트 맵 -->
+	<resultMap id="resultMap3" class="java.util.HashMap">
+	    <result property="STR_CODE"  					column="STR_CODE"					nullValue="" /> 
+	    <result property="STR_NAME"  					column="STR_NAME" 				nullValue="" />
+	    <result property="INV_DT"  						column="INV_DT" 					nullValue="" />  
+	    <result property="INV_INSP_SCHD_ID"  	column="INV_INSP_SCHD_ID" 		nullValue="" />  
+	    <result property="LINE_CODE"  				column="LINE_CODE" 				nullValue="" />  
+	    <result property="MKT_GB_CODE"  			column="MKT_GB_CODE" 			nullValue="" />  
+	    <result property="MKT_GB"  					column="MKT_GB" 					nullValue="" />  
+	    <result property="VEN_CODE"  					column="VEN_CODE" 				nullValue="" />  
+	    <result property="VEN_NAME"  					column="VEN_NAME" 				nullValue="" />  
+	    <result property="SCAN_CODE"  				column="SCAN_CODE" 				nullValue="" />  
+	    <result property="ITM_CODE"  					column="ITM_CODE" 				nullValue="" />  
+	    <result property="ITM_NAME"  					column="ITM_NAME" 				nullValue="" />  
+	    <result property="CLS_NAME"  					column="CLS_NAME" 				nullValue="" />  
+	    <result property="PUR_SALE_QTY"  			column="PUR_SALE_QTY" 			nullValue="" />  
+	    <result property="INV_END_QTY"  			column="INV_END_QTY" 			nullValue="" />  
+	    <result property="DEC_QTY"  					column="DEC_QTY" 					nullValue="" />  
+	    <result property="SURVEYQTY1"  				column="SURVEYQTY1" 					nullValue="" />  
+	    <result property="SURVEYQTY2"  				column="SURVEYQTY2" 					nullValue="" />  
+	    <result property="LOSS_QTY"  					column="LOSS_QTY" 				nullValue="" />  
+	    <result property="BEFORE_LOSS_QTY"  		column="BEFORE_LOSS_QTY" 		nullValue="" />  
+	    <result property="WAMT"  						column="WAMT" 						nullValue="" />
+	    <result property="SPRC"  							column="SPRC" 						nullValue="" />
+	    <result property="LOSS_WAMT"  				column="LOSS_WAMT" 				nullValue="" />  
+	    <result property="LOSS_SPRC"  				column="LOSS_SPRC" 				nullValue="" />    
+	    <result property="SEQ"  							column="SEQ" 				nullValue="" />    
+	    <result property="VALID_YN"  					column="VALID_YN" 					nullValue="" />
+	    <result property="ITM_GB"  						column="ITM_GB" 					nullValue="" />
+	</resultMap>
+	
+	<parameterMap id="paramMap4" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     						javaType="java.lang.String"     jdbcType="VARCHAR"	 mode="IN"    />
+		<parameter property="P_STR_CODE"     						javaType="java.lang.String"     jdbcType="VARCHAR"	 mode="IN"    />
+		<parameter property="P_INV_INSP_SCHD_ID"     			javaType="java.lang.String"     jdbcType="VARCHAR"	 mode="IN"    />
+		<parameter property="P_INV_BEFORE_ID"     				javaType="java.lang.String"     jdbcType="VARCHAR"	 mode="IN"    />
+		<parameter property="P_IEMP_NO"     							javaType="java.lang.String"     jdbcType="VARCHAR"	 mode="IN"    />
+		<parameter property="P_GUBUN"     							javaType="java.lang.String"     jdbcType="VARCHAR"	 mode="IN"    />
+		<parameter property="P_INV_INSP_GB"			    javaType="java.lang.String"     jdbcType="VARCHAR"        mode="IN"      />
+	  	<parameter property="P_EXCEL_UPLOAD_XML_DATA1"  	javaType="java.lang.String"     jdbcType="CLOB"        mode="IN"      />  
+	  	<parameter property="VALID_YN"         						javaType="java.lang.String"     jdbcType="VARCHAR"   mode="OUT"   />
+	  	<parameter property="CUR"        								javaType="java.sql.ResultSet"  jdbcType="ORACLECURSOR"   mode="OUT"   resultMap="resultMap4"   /> 
+	</parameterMap>
+	
+	<resultMap id="resultMap4" class="java.util.HashMap">
+		<result property="STR_CODE"  				column="STR_CODE"					nullValue="" /> 
+	    <result property="STR_NAME"  				column="STR_NAME" 				nullValue="" />
+	    <result property="INV_DT"  					column="INV_DT" 					nullValue="" />  
+	    <result property="INV_INSP_SCHD_ID"  	column="INV_INSP_SCHD_ID" 		nullValue="" />  
+	    <result property="LINE_CODE"  				column="LINE_CODE" 				nullValue="" />  
+	    <result property="MKT_GB_CODE"  			column="MKT_GB_CODE" 			nullValue="" />  
+	    <result property="MKT_GB"  					column="MKT_GB" 					nullValue="" />  
+	    <result property="VEN_CODE"  				column="VEN_CODE" 				nullValue="" />  
+	    <result property="VEN_NAME"  				column="VEN_NAME" 				nullValue="" />  
+	    <result property="SCAN_CODE"  				column="SCAN_CODE" 				nullValue="" />  
+	    <result property="ITM_CODE"  				column="ITM_CODE" 				nullValue="" />  
+	    <result property="ITM_NAME"  				column="ITM_NAME" 				nullValue="" />  
+	    <result property="CLS_NAME"  				column="CLS_NAME" 				nullValue="" />  
+	    <result property="PUR_SALE_QTY"  			column="PUR_SALE_QTY" 			nullValue="" />  
+	    <result property="INV_END_QTY"  			column="INV_END_QTY" 			nullValue="" />  
+	    <result property="DEC_QTY"  				column="DEC_QTY" 					nullValue="" />  
+	    <result property="SURVEYQTY1"  				column="SURVEYQTY1" 					nullValue="" />  
+	    <result property="SURVEYQTY2"  				column="SURVEYQTY2" 					nullValue="" />  
+	    <result property="LOSS_QTY"  				column="LOSS_QTY" 				nullValue="" />  
+	    <result property="BEFORE_LOSS_QTY"  	column="BEFORE_LOSS_QTY" 		nullValue="" />  
+	    <result property="WAMT"  						column="WAMT" 						nullValue="" />
+	    <result property="SPRC"  						column="SPRC" 						nullValue="" />
+	    <result property="LOSS_WAMT"  				column="LOSS_WAMT" 				nullValue="" />  
+	    <result property="LOSS_SPRC"  				column="LOSS_SPRC" 				nullValue="" />    
+	    <result property="VALID_YN"  				column="VALID_YN" 					nullValue="" />
+	    <result property="ITM_GB"  				column="ITM_GB" 					nullValue="" />
+	</resultMap>
+	
+	<parameterMap id="paramMap5" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     			javaType="java.lang.String"     jdbcType="VARCHAR"	 mode="IN"   	 />
+	  	<parameter property="P_UEMP_NO"   		    	javaType="java.lang.String"     jdbcType="VARCHAR"   mode="IN"      />
+	  	<parameter property="P_GUBUN"   		    	javaType="java.lang.String"     jdbcType="VARCHAR"   mode="IN"      />
+	  	<parameter property="P_UPLOAD_FLAG"   		    	javaType="java.lang.String"     jdbcType="VARCHAR"   mode="IN"      />
+	  	<parameter property="P_GRID_XML_DATA1"  		javaType="java.lang.String"     jdbcType="CLOB"        mode="IN"      />  
+	  	<parameter property="CUR"        					javaType="java.sql.ResultSet"  jdbcType="ORACLECURSOR"   mode="OUT"   resultMap="resultMap5"   /> 
+	</parameterMap>
+	
+	<resultMap id="resultMap5" class="java.util.HashMap">
+		<result property="RETURN_CODE"      column="RETURN_CODE"  		nullValue=""  />
+    	<result property="RETURN_MESSAGE" column="RETURN_MESSAGE"  	nullValue="" /> 
+	</resultMap>
+	
+	<parameterMap id="paramMap6" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     			javaType="java.lang.String"     jdbcType="VARCHAR"		 mode="IN"   	 />
+	  	<parameter property="P_STR_CODE"   		    	javaType="java.lang.String"     jdbcType="VARCHAR"   	 mode="IN"      />
+	  	<parameter property="P_INV_DT"  					javaType="java.lang.String"     jdbcType="VARCHAR"        mode="IN"      />  
+	  	<parameter property="P_INV_BEFORE_ID"  		javaType="java.lang.String"     jdbcType="VARCHAR"        mode="IN"      />  
+	  	<parameter property="P_INV_INSP_SCHD_ID"  	javaType="java.lang.String"     jdbcType="VARCHAR"        mode="IN"      />  
+	  	<parameter property="P_POP_SCAN_CODE"  		javaType="java.lang.String"     jdbcType="VARCHAR"        mode="IN"      />  
+	  	<parameter property="P_POP_INV_QTY"  			javaType="java.lang.String"     jdbcType="VARCHAR"        mode="IN"      />  
+	  	<parameter property="P_POP_MKT_GB"  			javaType="java.lang.String"     jdbcType="VARCHAR"        mode="IN"      />  
+	  	<parameter property="P_POP_ITM_CODE"  		javaType="java.lang.String"     jdbcType="VARCHAR"        mode="IN"      />  
+	  	<parameter property="P_POP_SPRC"  				javaType="java.lang.String"     jdbcType="VARCHAR"        mode="IN"      />  
+	  	<parameter property="P_LINE_CODE"  				javaType="java.lang.String"     jdbcType="VARCHAR"        mode="IN"      />
+	  	<parameter property="P_IEMP_NO"  				    javaType="java.lang.String"     jdbcType="VARCHAR"        mode="IN"      />
+	  	<parameter property="VALID_YN"         			javaType="java.lang.String"     jdbcType="VARCHAR"  			 mode="OUT"   />  
+	  	<parameter property="CUR"        						javaType="java.sql.ResultSet"  jdbcType="ORACLECURSOR"   mode="OUT"    /> 
+	</parameterMap>
+	
+	
+	<resultMap id="resultMap6" class="java.util.HashMap">
+	    <result property="CORP_CODE"  					column="CORP_CODE"					nullValue="" /> 
+	    <result property="STR_CODE"  					column="STR_CODE"					nullValue="" /> 
+	    <result property="STR_NAME"  					column="STR_NAME" 				nullValue="" />
+	    <result property="INV_DT"  						column="INV_DT" 					nullValue="" />  
+	    <result property="INV_INSP_SCHD_ID"  	column="INV_INSP_SCHD_ID" 		nullValue="" />  
+	    <result property="LINE_CODE"  				column="LINE_CODE" 				nullValue="" />  
+	    <result property="MKT_GB_CODE"  			column="MKT_GB_CODE" 			nullValue="" />  
+	    <result property="MKT_GB"  					column="MKT_GB" 					nullValue="" />  
+	    <result property="VEN_CODE"  					column="VEN_CODE" 				nullValue="" />  
+	    <result property="VEN_NAME"  					column="VEN_NAME" 				nullValue="" />  
+	    <result property="SCAN_CODE"  				column="SCAN_CODE" 				nullValue="" />  
+	    <result property="ITM_CODE"  					column="ITM_CODE" 				nullValue="" />  
+	    <result property="ITM_NAME"  					column="ITM_NAME" 				nullValue="" />  
+	    <result property="CLS_NAME"  					column="CLS_NAME" 				nullValue="" />  
+	    <result property="MID_CODE"  					column="MID_CODE" 				nullValue="" />  
+	    <result property="PUR_SALE_QTY"  			column="PUR_SALE_QTY" 			nullValue="" />  
+	    <result property="INV_END_QTY"  			column="INV_END_QTY" 			nullValue="" />  
+	    <result property="DEC_QTY"  					column="DEC_QTY" 					nullValue="" />  
+	    <result property="SURVEYQTY1"  				column="SURVEYQTY1" 					nullValue="" />  
+	    <result property="SURVEYQTY2"  				column="SURVEYQTY2" 					nullValue="" />  
+	    <result property="LOSS_QTY"  					column="LOSS_QTY" 				nullValue="" />  
+	    <result property="BEFORE_LOSS_QTY"  		column="BEFORE_LOSS_QTY" 		nullValue="" />  
+	    <result property="WAMT"  						column="WAMT" 						nullValue="" />
+	    <result property="SPRC"  							column="SPRC" 						nullValue="" />
+	    <result property="LOSS_WAMT"  				column="LOSS_WAMT" 				nullValue="" />  
+	    <result property="LOSS_SPRC"  				column="LOSS_SPRC" 				nullValue="" />    
+	    <result property="VALID_YN"  					column="VALID_YN" 					nullValue="" />
+	    <result property="ITM_GB"  						column="ITM_GB" 					nullValue="" />
+	</resultMap>	
+	
+	<parameterMap id="paramMap7" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     			javaType="java.lang.String"     jdbcType="VARCHAR"		 mode="IN"   	 />
+	  	<parameter property="P_STR_CODE"   		    	javaType="java.lang.String"     jdbcType="VARCHAR"   	 mode="IN"      />
+	  	<parameter property="P_INV_DT"  					javaType="java.lang.String"     jdbcType="VARCHAR"        mode="IN"      />  
+	  	<parameter property="P_UEMP_NO"  				    javaType="java.lang.String"     jdbcType="VARCHAR"        mode="IN"      />
+	  	<parameter property="CUR"        						javaType="java.sql.ResultSet"  jdbcType="ORACLECURSOR"   mode="OUT"    resultMap="resultMap7"  /> 
+	</parameterMap>
+	
+	<resultMap id="resultMap7" class="java.util.HashMap">
+		<result property="RETURN_CODE"      column="RETURN_CODE"  		nullValue=""  />
+    	<result property="RETURN_MESSAGE" column="RETURN_MESSAGE"  	nullValue="" /> 
+	</resultMap>
+	
+	
+	 <!-- 점포별 재고조사 날짜 리스트 -->
+	 <procedure id="getInvInspDtList" parameterMap="paramMap1" resultMap="resultMap1">
+	 	{ call PKG_STOCK.GET_INSP_DT_LIST ( ?,  ? , ? )  }
+	 </procedure>
+	
+	 <!-- 점포별 전  재고조사 날짜 조회 -->
+	 <procedure id="getInvBeforeDt" parameterMap="paramMap2" resultMap="resultMap2">
+	 	{ call PKG_STOCK.GET_INSP_BEFORE_DT ( ?,  ? , ? , ?)  }
+	 </procedure>
+	
+	<!-- 실사재고엑셀조정 조회 -->
+	 <procedure id="getStockRealExcelList" parameterMap="paramMap3" resultMap="resultMap3">
+	 	{ call PKG_STOCK.GET_STOCK_REAL_EXCEL_LIST( ?,  ? , ? , ?, ?,  ? , ? , ? , ? ,?)  }
+	 </procedure>
+	 
+	<!-- 실사재고엑셀조정 팝업 행추가 저장시 그리드 세부내역 조회에서 그리드에 추가 -->
+	 <procedure id="stockExcelUploadSave" parameterMap="paramMap6" resultClass="java.util.HashMap">
+	 	{ call PKG_STOCK.STOCK_EXCEL_UPLOAD_GRID_ADD( ?,  ? , ? , ?, ?,  ? , ? , ? , ? ,? ,? ,?,? ,?)  }
+	 </procedure>
+	
+	<!-- 실사재고엑셀등록 엑셀업로드 유효성 체크 -->
+	 <procedure id="stockExcelUpload" parameterMap="paramMap4" resultMap="resultMap4">
+	 	{ call PKG_STOCK.STOCK_EXCEL_UPLOAD_CHECK ( ?,?,  ?,  ?, ?, ?, ?, ?, ?, ? )  }
+	 </procedure>
+	 
+	 <!-- 실사재고엑셀조정 엑셀 업로드 데이터 저장 -->
+	 <procedure id="saveStockExcelData" parameterMap="paramMap5" resultMap="resultMap5">
+	 	{ call PKG_STOCK.STOCK_EXCEL_DATA_SAVE ( ?,  ?,  ?, ?, ? ,?)  }
+	 </procedure>
+	 
+	 <!-- 실사재고엑셀조정 엑셀 업로드 데이터 확정 -->
+	 <procedure id="confirmStockRealExcelFinish" parameterMap="paramMap7" resultMap="resultMap7">
+	 	{ call PKG_STOCK.STOCK_EXCEL_UPLOAD_FINISH ( ?,  ?,  ?, ?, ? )  }
+	 </procedure>
+	 
+</sqlMap>

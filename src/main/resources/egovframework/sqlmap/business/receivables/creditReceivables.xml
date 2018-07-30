@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="creditReceivables">
+	
+	<!-- 외상매출미수채권 조회 -->
+	<parameterMap id="paramMap1" class="java.util.Map">
+		<parameter property="P_STR_CODE"      	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_BUSI_FLAG"    		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CUST_NAME" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CORP_CODE" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CUST_NO" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="resultMap1" />
+	</parameterMap>
+	
+	<resultMap id="resultMap1" class="java.util.HashMap">
+		<result property="STR_CODE" 			column="STR_CODE"  		nullValue="" />
+		<result property="STR_NAME" 			column="STR_NAME"  		nullValue="" />
+		<result property="ACCT_DEPT" 		column="ACCT_DEPT"  		nullValue="" />
+		<result property="CUST_NO" 			column="CUST_NO"  		nullValue="" />
+		<result property="CUST_NAME" 		column="CUST_NAME"  		nullValue="" />
+		<result property="CREDIT_SALE" 		column="CREDIT_SALE"  		nullValue="" />
+		<result property="DPOT_AMT" 			column="DPOT_AMT"  		nullValue="" />
+		<result property="ACCT_REABLE" 		column="ACCT_REABLE"  		nullValue="" />
+		<result property="BUSI_FLAG_NAME" column="BUSI_FLAG_NAME"  		nullValue="" />
+		<result property="MBR_GRADE_NAME" column="MBR_GRADE_NAME"  		nullValue="" />
+		<result property="SALE_DT" 			column="SALE_DT"  		nullValue="" />
+		<result property="RCP_DT" 				column="RCP_DT"  		nullValue="" />
+	</resultMap>
+	
+	<procedure id="creditReceivablesList" parameterMap="paramMap1"  resultMap="resultMap1">
+		{ call PKG_CREDIT_RECEIVABLES.CREDIT_RECEIVABLES_SELECT ( ?, ?, ?, ?, ?, ?) }
+	</procedure>		
+</sqlMap>

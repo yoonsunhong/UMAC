@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="paymentClose">
+
+	<parameterMap id="paymentCloseMap" class="java.util.Map">
+		<parameter property="P_SEARCH_DT" 		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_SEQ"   		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CORP_CODE"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="paymentCloseResultMap" />
+	</parameterMap>
+	
+	<parameterMap id="paymentCloseUpdateMap" class="java.util.Map">
+		<parameter property="I_PAY_YM"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="I_PAY_SEQ"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CORP_CODE"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_USER_ID"       	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PUR_CLOSE"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALE_CLOSE"      javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_JANG_CLOSE"    	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ORG_CREAT"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_PAY_CLOSE"       javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="RETURN_CODE"     	javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+		<parameter property="RETURN_MSG"      	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+	</parameterMap>
+	
+	<resultMap id="paymentCloseResultMap" class="java.util.HashMap">
+		<result property="PAY_SEQ_NAME" column="PAY_SEQ_NAME" />
+		<result property="PUR_CLOSE" 	column="PUR_CLOSE" />
+		<result property="SALE_CLOSE" 	column="SALE_CLOSE" />
+		<result property="JANG_CLOSE" 	column="JANG_CLOSE" />
+		<result property="ORG_CREAT" 	column="ORG_CREAT" />
+		<result property="PAY_CLOSE" 	column="PAY_CLOSE" />
+		<result property="UDATE" 		column="UDATE" />
+		<result property="PAY_YM" 		column="PAY_YM" />
+		<result property="PAY_SEQ" 		column="PAY_SEQ" />
+	</resultMap>
+	
+	
+  	<procedure id="selectPaymentClose" parameterMap="paymentCloseMap" >
+		{   call PKG_PAYMENT.PAYMENT_CLOSE_SELECT ( ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	
+  	<procedure id="updatePaymentClose" parameterMap="paymentCloseUpdateMap" >
+		{   call PKG_PAYMENT.PAYMENT_CLOSE_UPDATE ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  	
+  
+</sqlMap>

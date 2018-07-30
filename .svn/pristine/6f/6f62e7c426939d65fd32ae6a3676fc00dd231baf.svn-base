@@ -1,0 +1,121 @@
+<%@ page language="java"   contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@include file="/WEB-INF/jsp/retail/inc_common/inc_common.jsp" %>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<!-- 스프링 메세지 테그사용 :: 다국어 -->
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@page import ="java.util.List" %>
+<%@page import ="java.util.HashMap" %>
+<%@page import ="java.util.ArrayList" %>
+<%@page import ="java.util.List" %>
+<!DOCTYPE HTML>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title><spring:message code="commonCodeManagement"/></title>
+<link type="text/css" rel="stylesheet" href="/resources/css/jquery-ui.css">
+<link type="text/css" rel="stylesheet" href="/resources/css/common.css">
+<link type="text/css" rel="stylesheet" href="/resources/css/font-awesome.min.css">
+<!--[if lt IE 9]>
+<script src="/resources/js/html5shiv.js"></script>
+<script src="/resources/js/IE9.js"></script>
+<link type="text/css" rel="stylesheet" href="/resources/css/ie8.css">
+<![endif]-->
+<script type="text/javascript" src="/resources/js/jquery-1.7.1.min.js" charset="utf-8"></script>
+<script src="/resources/js/jquery-ui.js"></script>
+<script src="/resources/js/style.js"></script>
+<%--
+	설명: WMS-재고조사 일정 관리
+		
+	수정일      	   수정자        수정내용
+	------------------------------------------------------
+	2017-02-21    문희훈       초기작성 
+	------------------------------------------------------
+	version : 1.0
+--%> 
+
+<jsp:include page="/WEB-INF/jsp/retail/inc_common/inc_head.jsp" />	
+
+<!-- rMateGridH5 CSS -->
+<link rel="stylesheet" type="text/css" href="/resources/js/rMateGridH5/Assets/rMateH5.css"/> 
+<!-- rMateGridH5 라이센스 -->
+<script type="text/javascript" src="/resources/js/rMateGridH5/LicenseKey/rMateGridH5License.js" charset="utf-8"></script> 
+<!-- rMateGridH5 라이브러리 -->
+<script type="text/javascript" src="/resources/js/rMateGridH5/JS/rMateGridH5.js"></script>
+<script type="text/javascript" src="/resources/js/rMateStyle.js"></script>
+<script type="text/javascript" src="/resources/js/page/wms/stock/wmsStockSchedule/wmsStockSchedule.js" charset="utf-8"></script>
+<style type="text/css">
+    option.disabled { color: lightgrey; }
+</style>
+<script>
+var STR_CODE = "${sessionScope.STR_CODE}";
+var STR_NAME = "${sessionScope.STR_NAME}";
+</script>
+</head>
+ 
+ <body id="in_frame">
+	<div id="iframeCnt">
+		<div class="btn_area clear">
+			<button type="button" class="btn btn_style1 f_l"><img src="resources/img/common/help_ico.png"><spring:message code="btnHelp"/></button>
+			<div class="advice p_a">
+				<h4>information</h4>
+				<pre id="helpText"></pre>
+				<a href="" class="close_btn p_a">도움말 닫기</a>
+			</div>
+			<button id="bookMarkIcon" type="button" class="fav fav_inactive"></button>
+			<div class="f_r">
+				<!-- 권한에 따른 버튼 show/hide -->
+				<c:if test="${sessionScope.AUTH_NEW eq   'Y'}">
+					<button type="button" id="btn_create"  class="btn btn_style2" onclick="btn_create()" ><spring:message code="btnNew"/></button>
+				</c:if>
+				<c:if test="${sessionScope.AUTH_SAVE eq   'Y'}">
+				    <button type="button" id="btn_update"  class="btn btn_style2"  onclick="btn_update()"><spring:message code="btnSave"/></button>
+				</c:if>
+				<c:if test="${sessionScope.AUTH_SEARCH eq   'Y'}">
+					<button type="button" id="btn_read" class="btn btn_style3"  onclick="btn_read()"><i class="fa fa-search"></i><spring:message code="btnSearch"/></button>
+				</c:if> 
+			</div>
+		</div>
+			
+		<div class="sec_category" id="form1" name="form1">
+			<section>
+				<input type="hidden" id="GRADE" name="GRADE"/>
+				<h3 class="bul_arr f_l"><spring:message code="detailedInventorySurveySchedule"/></h3> 
+				<table class="tbl_st2">
+					<tbody>
+						<tr>
+							<th scope="row"><em>필수입력항목</em><spring:message code="storNm"/></th>
+							<td><select id="P_STR_NAME" name="P_STR_NAME" class="wid2" onchange="setStrCode()"></select></td>
+							<th scope="row"><em>필수입력항목</em><spring:message code="storCode"/></th>
+							<td><input type="text" id="P_STR_CODE" name="P_STR_CODE" class="wid2" disabled></td>						
+							<th scope="row"><em>필수입력항목</em><spring:message code="inventorySurveyScheduleID"/></th>
+							<td><input type="text" id="P_INV_INSP_SCHD_ID" name="P_INV_INSP_SCHD_ID" class="wid2" disabled></td>
+						</tr>					
+						<tr>							
+							<th scope="row"><em>필수입력항목</em><spring:message code="inventorySurveyScheduleDate"/></th>
+							<td><input type="text" id="P_INV_INSP_DT" name="P_INV_INSP_DT" class="datepicker wid2"></td>							
+							<th scope="row"><em>필수입력항목</em><spring:message code="inventorySurveyClassification"/></th>
+							<td>
+								<select id="P_INV_INSP_GB" name="P_INV_INSP_GB" class="wid2"></select>
+							</td>
+							<th scope="row"><em>필수입력항목</em><spring:message code="inventorySurveyMethod"/></th>
+							<td>
+								<select id="P_INV_SURL_MTHD" name="P_INV_SURL_MTHD" class="wid2"></select>
+							</td>
+						</tr>						
+					</tbody>
+				</table>	
+				<div class="col2 sub_cnt" id="" name="">
+				<h3 class="bul_arr tit_top"><spring:message code="inventorySurveySchedule"/></h3>
+				<div class="sec_grid">
+					<div class="content">
+						<div id="gridHolder1"></div>
+					</div>
+				</div>
+				</div>		
+			</section>	
+		</div>		
+	</div>
+</body>
+</html>
+	

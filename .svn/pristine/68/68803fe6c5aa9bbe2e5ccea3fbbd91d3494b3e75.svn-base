@@ -1,0 +1,22 @@
+package retail.product.reservation.service.impl;
+
+import java.util.Map;
+
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import egovframework.rte.psl.dataaccess.EgovAbstractDAO;
+
+@SuppressWarnings("unchecked")
+@Repository("ChangeReservationPriceDao")
+public class ChangeReservationPriceDao extends EgovAbstractDAO {
+
+	public void selectChangeReservationPrice(Map<String, Object> paramMap) throws Exception{
+		list("changeReservationPrice.selectChangeReservationPrice", paramMap);
+	}
+	
+	public void registChangeReservationPrice(Map<String, Object> paramMap) throws Exception{
+		list("changeReservationPrice.registChangeReservationPrice", paramMap);
+	}
+	
+}

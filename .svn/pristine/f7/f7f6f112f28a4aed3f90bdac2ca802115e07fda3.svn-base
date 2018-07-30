@@ -1,0 +1,29 @@
+package retail.inoutcenter.mng.service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+ 
+
+public interface InOutCenterMngService {
+
+  
+	List<Map<String, Object>> inOutCenterHeadSearch(Map<String, Object> param) throws Exception;
+
+
+	List<Map<String, Object>> inOutCenterDetailInfo(Map<String, Object> param) throws Exception;
+
+	List<Map<String, Object>>  inOutCenterConfirm(  Map<String, Object> param) throws Exception;
+	
+ 
+	List<Map<String, Object>>  inOutRegister(  Map<String, Object> param) throws Exception;
+ 
+//	List<Map<String, Object>>  jobOrderToPurch(  Map<String, Object> param) throws Exception;
+//	
+	Map<String, Object> inoutcenterSumMng_check(Map<String, Object> params) throws Exception;
+	
+	Map<String, Object> supplyPurchStateInout_list(Map<String, Object> params) 	throws Exception;
+	 
+
+
+}

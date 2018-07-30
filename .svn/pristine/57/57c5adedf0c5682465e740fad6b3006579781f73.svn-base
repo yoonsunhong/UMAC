@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BCR">
+
+	<typeAlias alias="BusinessCallReceiptInputVO" type="retail.business.callreceipt.service.BusinessCallReceiptInputVO" />
+
+	<!-- 콜센터 주문등록 사용자 정보 조회 파라미터맵 -->
+	<parameterMap id="paramMap1" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CUST_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap1" />
+	</parameterMap>
+	<!-- 콜센터 주문등록 사용자 정보 조회 리절트맵 -->
+	<resultMap id="resultMap1" class="BusinessCallReceiptInputVO">
+		<result property="CUST_NO"  column="CUST_NO"  nullValue="" />
+		<result property="CUST_NAME"  column="CUST_NAME"  nullValue="" />
+		<result property="SMS_YN"  column="SMS_YN"  nullValue="" />
+		<result property="CREDIT_LIMIT"  column="CREDIT_LIMIT"  nullValue="" />
+		<result property="ACCT_REABLE"  column="ACCT_REABLE"  nullValue="" />
+		<result property="CREDIT_USE_LIMIT"  column="CREDIT_USE_LIMIT"  nullValue="" />
+		<result property="TEL_NO"  column="TEL_NO"  nullValue="" />
+		<result property="END_TEL_NO"  column="END_TEL_NO"  nullValue="" />
+		<result property="MOBIL_NO"  column="MOBIL_NO"  nullValue="" />
+		<result property="MBR_GRADE"  column="MBR_GRADE"  nullValue="" />
+		<result property="ADDR"  column="ADDR"  nullValue="" />
+		<result property="ADDR_DTL"  column="ADDR_DTL"  nullValue="" />
+		<result property="BUSI_FLAG"  column="BUSI_FLAG"  nullValue="" />
+		<result property="BUSI_FLAG_NAME"  column="BUSI_FLAG_NAME"  nullValue="" />
+		<result property="LAST_STR_CODE"  column="LAST_STR_CODE"  nullValue="" />
+		<result property="LAST_PAY_METH"  column="LAST_PAY_METH"  nullValue="" />
+	</resultMap>
+
+		
+	<!-- 콜센터 주문등록 사용자 정보 조회 -->
+ 	<procedure id="businessCallReceiptUserInfo" parameterMap="paramMap1" >
+ 		{ call PKG_BUSINESS_CALL.CALL_RECEIPT_USER_SELECT ( ?, ?, ?) }
+	</procedure>
+	
+	<!-- 콜센터 주문등록 사용자 주문 이력 조회 파라미터 -->
+	<parameterMap id="paramMap2" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CUST_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_STR_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap2" />
+	</parameterMap>
+	<!-- 콜센터 주문등록 사용자 주문 이력 조회 리절트 -->
+	<resultMap id="resultMap2" class="BusinessCallReceiptInputVO">
+		<result property="ORD_DT"  column="ORD_DT"  nullValue="" />
+		<result property="STR_CODE"  column="STR_CODE"  nullValue="" />
+		<result property="STR_NAME"  column="STR_NAME"  nullValue="" />
+		<result property="ITM_CODE"  column="ITM_CODE"  nullValue="" />
+		<result property="SCAN_CODE"  column="SCAN_CODE"  nullValue="" />
+		<result property="ITM_NAME"  column="ITM_NAME"  nullValue="" />
+		<result property="UNIT"  column="UNIT"  nullValue="" />
+		<result property="IPSU_QTY"  column="IPSU_QTY"  nullValue="" />
+		<result property="ORD_QTY"  column="ORD_QTY"  nullValue="" />
+		<result property="SPRC"  column="SPRC"  nullValue="" />
+	</resultMap>
+	
+	<!-- 콜센터 주문등록 사용자 주문 이력 조회 -->
+ 	<procedure id="businessCallOrderHistory" parameterMap="paramMap2" >
+ 		{ call PKG_BUSINESS_CALL.CALL_RECEIPT_HISTORY_SELECT ( ?, ?, ?, ?) }
+	</procedure>
+	
+	
+	<!-- 콜센터 주문등록 사용자 주문 이력 조회 파라미터 -->
+	<parameterMap id="paramMap3" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_STR_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_SEARCH_WORD" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CUST_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap3" />
+	</parameterMap>
+	<!-- 콜센터 주문등록 사용자 주문 이력 조회 리절트 -->
+	<resultMap id="resultMap3" class="BusinessCallReceiptInputVO">
+		<result property="ITM_NAME"  column="ITM_NAME"  nullValue="" />
+		<result property="INV_END_QTY"  column="INV_END_QTY"  nullValue="" />
+		<result property="ITM_CODE"  column="ITM_CODE"  nullValue="" />
+		<result property="SCAN_CODE"  column="SCAN_CODE"  nullValue="" />
+		<result property="UNIT"  column="UNIT"  nullValue="" />
+		<result property="ITM_FORM"  column="ITM_FORM"  nullValue="" />
+		<result property="WPRC"  column="WPRC"  nullValue="" />
+		<result property="SPRC"  column="SPRC"  nullValue="" />
+		<result property="EVT_SPRC"  column="EVT_SPRC"  nullValue="" />
+		<result property="VEN_CODE"  column="VEN_CODE"  nullValue="" />
+		<result property="VEN_NAME"  column="VEN_NAME"  nullValue="" />
+		<result property="IPSU_QTY"  column="IPSU_QTY"  nullValue="" />
+		<result property="ORD_CNT"  column="ORD_CNT"  nullValue="" />
+		<result property="ORD_DT"  column="ORD_DT"  nullValue="" />
+		<result property="GRE_GB"  column="GRE_GB"  nullValue="" />
+		<result property="EVT_GB"  column="EVT_GB"  nullValue="" />
+		<result property="EVT_CODE"  column="EVT_CODE"  nullValue="" />
+		<result property="IMAGE_NUM"  column="IMAGE_NUM"  nullValue="" />
+	</resultMap>
+	
+	<!-- 콜센터 주문등록 사용자 주문 이력 조회 -->
+ 	<procedure id="businessCallSelectProduct" parameterMap="paramMap3" >
+ 		{ call PKG_BUSINESS_CALL.CALL_RECEIPT_PRODUCT_SELECT ( ?, ?, ?, ?, ?) }
+	</procedure>
+	
+	<!-- 콜센터 주문등록 사용자 주문 이력 조회 파라미터 -->
+	<parameterMap id="paramMap9" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_STR_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_ITM_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap9" />
+	</parameterMap>
+	<!-- 콜센터 주문등록 사용자 주문 이력 조회 리절트 -->
+	<resultMap id="resultMap9" class="BusinessCallReceiptInputVO">
+		<result property="ITM_NAME"  column="ITM_NAME"  nullValue="" />
+		<result property="INV_END_QTY"  column="INV_END_QTY"  nullValue="" />
+		<result property="ITM_CODE"  column="ITM_CODE"  nullValue="" />
+		<result property="SCAN_CODE"  column="SCAN_CODE"  nullValue="" />
+		<result property="UNIT"  column="UNIT"  nullValue="" />
+		<result property="ITM_FORM"  column="ITM_FORM"  nullValue="" />
+		<result property="WPRC"  column="WPRC"  nullValue="" />
+		<result property="SPRC"  column="SPRC"  nullValue="" />
+		<result property="EVT_SPRC"  column="EVT_SPRC"  nullValue="" />
+		<result property="VEN_CODE"  column="VEN_CODE"  nullValue="" />
+		<result property="VEN_NAME"  column="VEN_NAME"  nullValue="" />
+		<result property="IPSU_QTY"  column="IPSU_QTY"  nullValue="" />
+		<result property="GRE_GB"  column="GRE_GB"  nullValue="" />
+	</resultMap>
+	
+	<!-- 콜센터 주문등록 사용자 주문 이력 조회 -->
+ 	<procedure id="businessCallSelectProduct2" parameterMap="paramMap9" >
+ 		{ call PKG_BUSINESS_CALL.CALL_RECEIPT_PRODUCT_SELECT2 ( ?, ?, ?, ?) }
+	</procedure>
+		
+	<!-- 콜센터 주문등록 행사상품 조회 파라미터 -->
+	<parameterMap id="paramMap4" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_STR_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_SEARCH_WORD1" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_SEARCH_WORD2" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_IMAGE_NUM" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap4" />
+	</parameterMap>
+	
+	<!-- 콜센터 주문등록 행사상품 조회 리절트 -->
+	<resultMap id="resultMap4" class="BusinessCallReceiptInputVO">
+		<result property="IMAGE_NUM"  column="IMAGE_NUM"  nullValue="" />
+		<result property="ITM_NAME"  column="ITM_NAME"  nullValue="" />
+		<result property="INV_END_QTY"  column="INV_END_QTY"  nullValue="" />
+		<result property="ITM_CODE"  column="ITM_CODE"  nullValue="" />
+		<result property="SCAN_CODE"  column="SCAN_CODE"  nullValue="" />
+		<result property="UNIT"  column="UNIT"  nullValue="" />
+		<result property="ITM_FORM"  column="ITM_FORM"  nullValue="" />
+		<result property="WPRC"  column="WPRC"  nullValue="" />
+		<result property="SPRC"  column="SPRC"  nullValue="" />
+		<result property="EVT_SPRC"  column="EVT_SPRC"  nullValue="" />
+		<result property="VEN_CODE"  column="VEN_CODE"  nullValue="" />
+		<result property="VEN_NAME"  column="VEN_NAME"  nullValue="" />
+		<result property="IPSU_QTY"  column="IPSU_QTY"  nullValue="" />
+		<result property="GRE_GB"  column="GRE_GB"  nullValue="" />
+		<result property="EVT_STR_DT"  column="EVT_STR_DT"  nullValue="" />
+		<result property="EVT_END_DT"  column="EVT_END_DT"  nullValue="" />
+		<result property="EVT_CODE"  column="EVT_CODE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 콜센터 주문등록 행사상품 조회 -->
+ 	<procedure id="businessCallSelectEvent" parameterMap="paramMap4" >
+ 		{ call PKG_BUSINESS_CALL.CALL_RECEIPT_IMAGE_SELECT ( ?, ?, ?, ?, ?, ? ) }
+	</procedure>
+	
+	
+	<!-- 콜센터 주문등록 행사상품 조회 파라미터 -->
+	<parameterMap id="paramMap5" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="GRID_XML_DATA" javaType="java.lang.String" jdbcType="CLOB" mode="IN" />
+	     <parameter property="P_CUST_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_ORD_DT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CUST_NAME" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_STR_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_PAY_METH" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_SMS_YN" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_ORD_ADDR" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_ORD_ADDR_DTL" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_SLIP_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_RESERVE_DT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_RESERVE_TIME" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_ORD_MTHD" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_REMARK" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_EMP_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap5" />
+	</parameterMap>
+	
+	<!-- 콜센터 주문등록 행사상품 조회 리절트 -->
+	<resultMap id="resultMap5" class="BusinessCallReceiptInputVO">
+		<result property="RETURN_CODE"  column="RETURN_CODE" nullValue="" />  
+	    <result property="RETURN_MESSAGE"  column="RETURN_MESSAGE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 콜센터 주문등록  -->
+ 	<procedure id="businessCallReceiptRegist" parameterMap="paramMap5" >
+ 		{ call PKG_BUSINESS_CALL.CALL_RECEIPT_REGIST ( ?, ?, ?, ?, ?, ? , ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) }
+	</procedure>
+	
+	
+	<!-- 콜센터 주문등록 사용자 주문 이력 조회 파라미터 -->
+	<parameterMap id="paramMap6" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CUST_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_SLIP_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap6" />
+	</parameterMap>
+	<!-- 콜센터 주문등록 사용자 주문 이력 조회 리절트 -->
+	<resultMap id="resultMap6" class="BusinessCallReceiptInputVO">
+		<result property="RN"  column="RN"  nullValue="" />
+		<result property="INPUT_YN"  column="INPUT_YN"  nullValue="" />
+		<result property="STR_CODE"  column="STR_CODE"  nullValue="" />
+		<result property="ITM_NAME"  column="ITM_NAME"  nullValue="" />
+		<result property="ORD_QTY"  column="ORD_QTY"  nullValue="" />
+		<result property="IPSU_QTY"  column="IPSU_QTY"  nullValue="" />
+		<result property="INV_END_QTY"  column="INV_END_QTY"  nullValue="" />
+		<result property="ITM_CODE"  column="ITM_CODE"  nullValue="" />
+		<result property="SCAN_CODE"  column="SCAN_CODE"  nullValue="" />
+		<result property="UNIT"  column="UNIT"  nullValue="" />
+		<result property="WPRC"  column="WPRC"  nullValue="" />
+		<result property="SPRC"  column="SPRC"  nullValue="" />
+		<result property="EVT_SPRC"  column="EVT_SPRC"  nullValue="" />
+		<result property="REMARK"  column="REMARK"  nullValue="" />
+		<result property="GRE_GB"  column="GRE_GB"  nullValue="" />
+		<result property="ORD_FLAG"  column="ORD_FLAG"  nullValue="" />
+		<result property="ORD_FLAG_NAME"  column="ORD_FLAG_NAME"  nullValue="" />
+		<result property="EVT_SPRC_TOTAL"  column="EVT_SPRC_TOTAL"  nullValue="" />
+		<result property="IMAGE_NUM"  column="IMAGE_NUM"  nullValue="" />
+		<result property="EVT_CODE"  column="EVT_CODE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 콜센터 주문등록 사용자 주문 이력 조회 -->
+ 	<procedure id="businessCallOrderProduct" parameterMap="paramMap6" >
+ 		{ call PKG_BUSINESS_CALL.CALL_RECEIPT_ORDER_SELECT ( ?, ?, ?, ?) }
+	</procedure>
+	
+	
+	<!-- 콜센터 주문등록 고객 조회 파라미터 -->
+	<parameterMap id="paramMap7" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CUST_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_SLIP_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap7" />
+	</parameterMap>
+	<!-- 콜센터 주문등록 고객 조회 리절트 -->
+	<resultMap id="resultMap7" class="BusinessCallReceiptInputVO">
+		<result property="CUST_NO"  column="CUST_NO"  nullValue="" />
+		<result property="CUST_NAME"  column="CUST_NAME"  nullValue="" />
+		<result property="SMS_YN"  column="SMS_YN"  nullValue="" />
+		<result property="CREDIT_LIMIT"  column="CREDIT_LIMIT"  nullValue="" />
+		<result property="ACCT_REABLE"  column="ACCT_REABLE"  nullValue="" />
+		<result property="CREDIT_USE_LIMIT"  column="CREDIT_USE_LIMIT"  nullValue="" />
+		<result property="TEL_NO"  column="TEL_NO"  nullValue="" />
+		<result property="END_TEL_NO"  column="END_TEL_NO"  nullValue="" />
+		<result property="MOBIL_NO"  column="MOBIL_NO"  nullValue="" />
+		<result property="MBR_GRADE"  column="MBR_GRADE"  nullValue="" />
+		<result property="ADDR"  column="ADDR"  nullValue="" />
+		<result property="ADDR_DTL"  column="ADDR_DTL"  nullValue="" />
+		<result property="ORD_ADDR"  column="ORD_ADDR"  nullValue="" />
+		<result property="ORD_ADDR_DTL"  column="ORD_ADDR_DTL"  nullValue="" />
+		<result property="BUSI_FLAG"  column="BUSI_FLAG"  nullValue="" />
+		<result property="BUSI_FLAG_NAME"  column="BUSI_FLAG_NAME"  nullValue="" />
+		<result property="ORD_MTHD"  column="ORD_MTHD"  nullValue="" />
+		<result property="ORD_STAT"  column="ORD_STAT"  nullValue="" />
+		<result property="ORD_STAT_CD"  column="ORD_STAT_CD"  nullValue="" />
+		<result property="RESERVE_DT"  column="RESERVE_DT"  nullValue="" />
+		<result property="RESERVE_TIME"  column="RESERVE_TIME"  nullValue="" />
+		<result property="REMARK"  column="REMARK"  nullValue="" />
+		<result property="STR_CODE"  column="STR_CODE"  nullValue="" />
+		<result property="SLIP_NO"  column="SLIP_NO"  nullValue="" />
+		<result property="ORD_DT"  column="ORD_DT"  nullValue="" />
+		<result property="IEMP_NM"  column="IEMP_NM"  nullValue="" />
+		<result property="IDATE"  column="IDATE"  nullValue="" />
+		<result property="PAY_METH"  column="PAY_METH"  nullValue="" />
+	</resultMap>
+	
+	<!-- 콜센터 주문등록 고객 조회 -->
+ 	<procedure id="businessCallOrderUser" parameterMap="paramMap7" >
+ 		{ call PKG_BUSINESS_CALL.CALL_RECEIPT_USER_SEARCH ( ?, ?, ?, ?) }
+	</procedure>
+	
+	<!-- 콜센터 주문등록 주문확정 파라미터 -->
+	<parameterMap id="paramMap8" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CUST_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_SLIP_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap8" />
+	</parameterMap>
+	
+	<!-- 콜센터 주문등록 주문확정 리절트 -->
+	<resultMap id="resultMap8" class="BusinessCallReceiptInputVO">
+		<result property="RETURN_CODE"  column="RETURN_CODE" nullValue="" />  
+	    <result property="RETURN_MESSAGE"  column="RETURN_MESSAGE"  nullValue="" />
+	</resultMap>
+	
+	<!-- 콜센터 주문등록 주문확정 -->
+ 	<procedure id="businessCallDetermine" parameterMap="paramMap8" >
+ 		{ call PKG_BUSINESS_CALL.CALL_RECEIPT_DETERMINE ( ?, ?, ?, ?) }
+	</procedure>
+	
+	
+	<!-- 콜센터 주문등록 주문번호 검색 -->
+	<parameterMap id="paramMap10" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CUST_NM" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_ORD_DT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_STR_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_SLIP_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap10" />
+	</parameterMap>
+	
+	<resultMap id="resultMap10" class="BusinessCallReceiptInputVO">
+		<result property="SLIP_NO"  column="SLIP_NO"  nullValue="" />  
+	    <result property="CUST_NO"  column="CUST_NO"  nullValue="" />
+	    <result property="CUST_NAME"  column="CUST_NAME"  nullValue="" />
+	    <result property="ORD_DT"  column="ORD_DT"  nullValue="" />  
+	    <result property="PAY_METH"  column="PAY_METH"  nullValue="" />
+	    <result property="ORD_MTHD"  column="ORD_MTHD"  nullValue="" />  
+	    <result property="STR_NAME"  column="STR_NAME"  nullValue="" />
+	</resultMap>
+	
+	<procedure id="businessCallSelectSlip" parameterMap="paramMap10" >
+ 		{ call PKG_BUSINESS_CALL.CALL_RECEIPT_SLIP_SELECT ( ?, ?, ?, ?, ?, ?) }
+	</procedure>
+	
+	
+	
+	<parameterMap id="paramMap11" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CUST_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_SLIP_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap11" />
+	</parameterMap>
+	
+	<resultMap id="resultMap11" class="BusinessCallReceiptInputVO">
+		<result property="SALE_DT"  column="SALE_DT"  nullValue="" />
+		<result property="STR_CODE"  column="STR_CODE"  nullValue="" />
+		<result property="POS_NO"  column="POS_NO"  nullValue="" />
+		<result property="TRXN_NO"  column="TRXN_NO"  nullValue="" />
+		<result property="SCAN_CODE"  column="SCAN_CODE"  nullValue="" />
+		<result property="ITM_CODE"  column="ITM_CODE"  nullValue="" />
+		<result property="ITM_NAME"  column="ITM_NAME"  nullValue="" />
+		<result property="UNIT"  column="UNIT"  nullValue="" />
+		<result property="SALE_QTY"  column="SALE_QTY"  nullValue="" />
+		<result property="SALE_AMT"  column="SALE_AMT"  nullValue="" />
+	</resultMap>
+	
+	<procedure id="selectBusinessCallPos" parameterMap="paramMap11" >
+ 		{ call PKG_BUSINESS_CALL.CALL_RECEIPT_POS_SELECT ( ?, ?, ?, ?) }
+	</procedure>
+
+</sqlMap>

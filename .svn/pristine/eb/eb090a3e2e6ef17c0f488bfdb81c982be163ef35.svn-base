@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="salesMngPoint">
+
+	<parameterMap id="salesMngPointMap" class="java.util.Map">
+		<parameter property="P_SEARCH_START_DT" javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SEARCH_END_DT"   javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_MNUL_REASON"   	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CUST_NO"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CORP_CODE"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_EMP_NO"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"  		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="salesMngPointResultMap" />
+	</parameterMap>
+	
+	<resultMap id="salesMngPointResultMap" class="java.util.HashMap">
+		<result property="CORP_CODE" column="CORP_CODE" />
+		<result property="CUST_NO" column="CUST_NO" />
+		<result property="CUST_NAME" column="CUST_NAME" />
+		<result property="APP_DT" column="APP_DT" />
+		<result property="STR_CODE" column="STR_CODE" />
+		<result property="MNUL_POINT" column="MNUL_POINT" />
+		<result property="MNUL_REASON" column="MNUL_REASON" />
+		<result property="REMARK" column="REMARK" />
+		<result property="IEMP_NO" column="IEMP_NO" />
+		<result property="STR_NAME" column="STR_NAME" />
+	</resultMap>
+	
+  	<procedure id="selectSalesMngPoint" parameterMap="salesMngPointMap" >
+		{   call PKG_SALES_MNG.SALES_MNG_POINT_SELECT ( ?, ?, ?, ?, ?, ?, ?, ? )  }
+  	</procedure>
+  	
+  
+</sqlMap>

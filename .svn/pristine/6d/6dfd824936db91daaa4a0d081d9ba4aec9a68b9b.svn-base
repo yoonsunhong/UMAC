@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="itemSalesState">
+
+	<parameterMap id="itemInfoReportPromptListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE" javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALES_SD"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALES_ED"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_NAME"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_LRG_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_MID_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CLS_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="ITM_NAME"    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             	 javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="resultMap8" />	
+	</parameterMap>
+	
+	<parameterMap id="itemInfoListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"          javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALES_SD"           javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALES_ED"           javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"          javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_LRG_CODE"          javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_MID_CODE"          javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CLS_CODE"           javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SCAN_CODE"        javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_FIRST_INDEX"      javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_RECORD_COUNT"  javaType="java.lang.Integer"     jdbcType="INTEGER"       mode="IN"    />
+		<parameter property="P_COLUMN_NAME"    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_ORDERBY"      	    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             	        javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="resultMap1" />
+		<parameter property="CUR2"             	        javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="resultMap7" />	
+	</parameterMap>
+	
+	<parameterMap id="itemInfoDetailListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"   javaType="java.lang.String"       jdbcType="VARCHAR"          mode="IN"    />
+		<parameter property="P_STR_CODE"     javaType="java.lang.String"       jdbcType="VARCHAR"           mode="IN"    />
+		<parameter property="P_SALES_SD"      javaType="java.lang.String"       jdbcType="VARCHAR"            mode="IN"    />
+		<parameter property="P_SALES_ED"      javaType="java.lang.String"       jdbcType="VARCHAR"           mode="IN"    />
+		<parameter property="P_VEN_CODE"     javaType="java.lang.String"       jdbcType="VARCHAR"           mode="IN"    />
+		<parameter property="P_SCAN_CODE"     javaType="java.lang.String"       jdbcType="VARCHAR"            mode="IN"    />
+		<parameter property="CUR"             	   javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="resultMap6" />	
+		<parameter property="TOT_CNT"           javaType="java.lang.Integer"     jdbcType="INTEGER"  	        mode="OUT" 	/>				
+	</parameterMap>
+	
+
+		
+
+	<parameterMap id="itemInfoReportEventPromptPopupMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"   javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_EVT_NAME"    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALES_SD"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALES_ED"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"           javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="resultMap3" />
+	</parameterMap>
+	
+	<parameterMap id="itemInfoReportEventPromptListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE" javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_EVT_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_NAME"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_LRG_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_MID_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CLS_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="ITM_NAME"    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"         javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="resultMap5" />
+	</parameterMap>
+	
+	<parameterMap id="deliverDayPromptHeaderMap" class="java.util.Map">
+		<parameter property="P_START_MM"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_END_MM"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"         javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT" />
+	</parameterMap>
+	
+	
+	<parameterMap id="deliverDayPromptListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE" javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_START_MM"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_END_MM"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"         javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT" />
+	</parameterMap>
+	
+	<resultMap id="resultMap1" class="java.util.HashMap">
+		<result property="RNUM" 				column="RNUM"/>
+		<result property="CORP_CODE" 			column="CORP_CODE"/>
+		<result property="STR_CODE" 			column="STR_CODE"/>
+		<result property="STR_NAME" 			column="STR_NAME"/>
+		<result property="SCAN_CODE" 			column="SCAN_CODE"/>
+		<result property="ITM_CODE" 			column="ITM_CODE"/>
+		<result property="ITM_NAME" 			column="ITM_NAME"/>
+		<result property="UNIT" 				column="UNIT"/>
+		<result property="SALE_QTY" 			column="SALE_QTY"/>
+		<result property="SALE_AMT" 			column="SALE_AMT"/>
+		<result property="SALE_AVG" 			column="SALE_AVG"/>
+		<result property="BOT_AMT" 				column="BOT_AMT"/>
+		<result property="DC_AMT" 				column="DC_AMT"/>
+		<result property="MBR_DC_AMT" 			column="MBR_DC_AMT"/>
+		<result property="SALE_TOTAL" 			column="SALE_TOTAL"/>
+		<result property="CNT" 					column="CNT"/>
+		<result property="CNT_PRICE" 			column="CNT_PRICE"/>
+	</resultMap>
+	
+	<resultMap id="resultMap2" class="java.util.HashMap">
+		<result property="CORP_CODE" 			column="CORP_CODE"/>
+		<result property="SALE_DT" 				column="SALE_DT"/>
+		<result property="STR_CODE" 			column="STR_CODE"/>
+		<result property="SCAN_CODE" 			column="SCAN_CODE"/>
+		<result property="ITM_CODE" 			column="ITM_CODE"/>
+		<result property="ITM_NAME" 			column="ITM_NAME"/>
+		<result property="UNIT" 				column="UNIT"/>
+		<result property="GUBN" 				column="GUBN"/>
+		<result property="SALE_QTY" 			column="SALE_QTY"/>
+		<result property="SALE_AMT" 			column="SALE_AMT"/>
+		<result property="SALE_AVG" 			column="SALE_AVG"/>
+		<result property="BOT_AMT" 				column="BOT_AMT"/>
+		<result property="DC_AMT" 				column="DC_AMT"/>
+		<result property="MBR_DC_AMT" 			column="MBR_DC_AMT"/>
+		<result property="SALE_TOTAL" 			column="SALE_TOTAL"/>
+		<result property="CNT" 					column="CNT"/>
+		<result property="CNT_PRICE" 			column="CNT_PRICE"/>
+	</resultMap>	
+	
+	<resultMap id="resultMap3" class="java.util.HashMap">
+		<result property="CORP_CODE" 			column="CORP_CODE"/>
+		<result property="EVT_NAME" 				column="EVT_NAME"/>
+		<result property="EVT_CODE" 				column="EVT_CODE"/>
+		<result property="STR_CODE" 				column="STR_CODE"/>
+		<result property="EVT_STR_DT" 			column="EVT_STR_DT"/>
+		<result property="EVT_END_DT" 			column="EVT_END_DT"/>
+		<result property="EVT_FLAG_NM" 			column="EVT_FLAG_NM"/>
+		<result property="EVT_FLAG" 				column="EVT_FLAG"/>
+	</resultMap>	
+	
+	
+	<resultMap id="resultMap5" class="java.util.HashMap">
+		<result property="CORP_CODE" 			column="CORP_CODE"	/>
+		<result property="SCAN_CODE" 			column="SCAN_CODE"	/>
+		<result property="ITM_NAME" 				column="ITM_NAME"	/>
+		<result property="EVT_STR_DT" 			column="EVT_STR_DT"	/>
+		<result property="EVT_END_DT" 			column="EVT_END_DT"	/>
+		<result property="WPRC" 						column="WPRC"	/>
+		<result property="SPRC" 						column="SPRC"	/>
+		<result property="SALE_DT" 				column="SALE_DT"	/>
+		<result property="ITM_CNT" 				column="ITM_CNT"	/>
+		<result property="WPRC_CNT" 				column="WPRC_CNT"	/>
+		<result property="SPRC_CNT" 				column="SPRC_CNT"	/>
+		<result property="EVT_WPRC_CNT" 		column="EVT_WPRC_CNT"	/>
+		<result property="EVT_SALE" 				column="EVT_SALE"	/>
+		<result property="DIFF_WPRC" 				column="DIFF_WPRC"	/>
+		<result property="DIFF_SPRC" 				column="DIFF_SPRC"	/>
+	</resultMap>	
+	
+	<resultMap id="resultMap6" class="java.util.HashMap">
+		<result property="CORP_CODE" 			column="CORP_CODE"/>
+		<result property="STR_CODE" 			column="STR_CODE"/>
+		<result property="SCAN_CODE" 			column="SCAN_CODE"/>
+		<result property="ITM_CODE" 			column="ITM_CODE"/>
+		<result property="ITM_NAME" 			column="ITM_NAME"/>
+		<result property="UNIT" 				column="UNIT"/>
+		<result property="GUBN" 				column="GUBN"/>
+		<result property="SALE_DT" 				column="SALE_DT"/>
+		<result property="SALE_QTY" 			column="SALE_QTY"/>
+		<result property="SALE_AMT" 			column="SALE_AMT"/>
+		<result property="SALE_AVG" 			column="SALE_AVG"/>
+		<result property="BOT_AMT" 				column="BOT_AMT"/>
+		<result property="DC_AMT" 				column="DC_AMT"/>
+		<result property="MBR_DC_AMT" 			column="MBR_DC_AMT"/>
+		<result property="SALE_TOTAL" 			column="SALE_TOTAL"/>
+		<result property="CNT" 					column="CNT"/>
+		<result property="CNT_PRICE" 			column="CNT_PRICE"/>
+	</resultMap>
+	
+	<resultMap id="resultMap7" class="java.util.HashMap">
+		<result property="SALE_QTY" 			column="SALE_QTY"/>
+		<result property="SALE_AVG" 		column="SALE_AVG"/>
+		<result property="SALE_AMT" 		column="SALE_AMT"/>
+		<result property="BOT_AMT" 			column="BOT_AMT"/>
+		<result property="DC_AMT" 			column="DC_AMT"/>
+		<result property="MBR_DC_AMT" 	column="MBR_DC_AMT"/>
+		<result property="SALE_TOTAL" 	    column="SALE_TOTAL"/>
+		<result property="CNT" 				    column="CNT"/>
+		<result property="CNT_PRICE" 	    column="CNT_PRICE"/>
+		<result property="TOT_CNT" 			column="TOT_CNT"/>
+	</resultMap>
+	
+	
+
+	<parameterMap id="itemSalesStateDownloadMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE" javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALES_SD"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALES_ED"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_VEN_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_LRG_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_MID_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CLS_CODE"  javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SCAN_CODE"    javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"          javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="resultMap1" />	
+	</parameterMap>
+	
+	<resultMap id="resultMap8" class="java.util.HashMap">
+		<result property="CORP_CODE" 			column="CORP_CODE"/>
+		<result property="SALE_DT" 		column="SALE_DT"/>
+		<result property="STR_CODE" 		column="STR_CODE"/>
+		<result property="STR_NAME" 			column="STR_NAME"/>
+		<result property="SCAN_CODE" 			column="SCAN_CODE"/>
+		<result property="ITM_CODE" 	column="ITM_CODE"/>
+		<result property="ITM_NAME" 	    column="ITM_NAME"/>
+		<result property="CUST_NO" 				    column="CUST_NO"/>
+		<result property="CUST_NAME" 	    column="CUST_NAME"/>
+		<result property="CUST_UPJONG" 			column="CUST_UPJONG"/>
+		<result property="CLS_NAME" 			column="CLS_NAME"/>
+		<result property="SALE_QTY" 			column="SALE_QTY"/>
+		<result property="SALE_TOTAL" 			column="SALE_TOTAL"/>
+	</resultMap>
+	
+	
+	
+	
+	<procedure id="itemSalesStateList" parameterMap="itemInfoListMap" resultClass="java.util.HashMap">
+		{ call PKG_ZCP_REMAIN.ITEM_SALES_LIST ( ?, ?, ?, ?, ?, ?, ?, ? ,? ,?, ?, ?, ? ,? ,? )  }
+	</procedure>
+	
+	<procedure id="itemSalesStateDetailList" parameterMap="itemInfoDetailListMap" resultClass="java.util.HashMap">
+		{ call PKG_ZCP_REMAIN.ITEM_SALES_DETAIL_LIST ( ?, ?, ?, ?, ?, ?, ?, ? )  }
+	</procedure>    
+
+	<procedure id="itemSalesCustStateList" parameterMap="itemInfoReportPromptListMap" resultClass="java.util.HashMap">
+		{ call PKG_ZCP_REMAIN.ITEM_SALES_CUST_LIST ( ?, ?, ?, ?, ?, ?, ?, ? ,? ,? )  }
+	</procedure>  
+			
+			
+
+	<procedure id="itemSalesEventPopupList" parameterMap="itemInfoReportEventPromptPopupMap" resultMap="resultMap3" >
+		{ call PKG_ZCP_REMAIN.ITEMSALESEVENT_POPUP_LIST ( ?, ?, ?, ?, ?, ? )  }
+	</procedure>  
+			
+	
+	<procedure id="itemSalesEventStateList" parameterMap="itemInfoReportEventPromptListMap" resultMap="resultMap5" >	
+		{ call PKG_ZCP_REMAIN.ITEMSALESEVENT_LIST ( ?, ?, ?, ?, ?, ?, ? ,? ,? ,?)  }
+	</procedure>
+	  
+
+	<procedure id="deliverDayStateHeader" parameterMap="deliverDayPromptHeaderMap" resultClass="java.util.HashMap">
+		{ call PKG_ZCP_REMAIN.DELIVERDAYSTATE_HEADER ( ?, ?, ? )  }
+	</procedure>  
+
+	
+	<procedure id="deliverDayStateListCount" parameterMap="deliverDayPromptListMap" resultClass="java.util.HashMap">
+		{ call PKG_ZCP_REMAIN.DELIVERDAYSTATE_LIST_COUNT ( ?, ?, ?, ?, ? )  }
+	</procedure>  
+
+	<procedure id="deliverDayStateListSum" parameterMap="deliverDayPromptListMap" resultClass="java.util.HashMap">
+		{ call PKG_ZCP_REMAIN.DELIVERDAYSTATE_LIST_SUM ( ?, ?, ?, ?, ? )  }
+	</procedure>  
+
+
+	
+	<procedure id="itemSalesStateDownload" parameterMap="itemSalesStateDownloadMap" resultClass="java.util.HashMap">
+		{ call PKG_ZCP_REMAIN.ITEM_SALES_DOWN ( ?, ?, ?, ?, ?, ?, ?, ? ,? ,? )  }
+	</procedure>  
+
+
+
+</sqlMap>				
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

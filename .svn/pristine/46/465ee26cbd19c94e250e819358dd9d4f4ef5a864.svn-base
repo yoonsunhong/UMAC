@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="memberDelivery">	
+	<parameterMap id="memberDeliveryListMap" class="java.util.Map">
+		<parameter property="P_CORP_CODE"        	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_SALE_DT"           	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CUST_NO_YN"         	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"        	javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"   />
+		<parameter property="CUR"         			javaType="java.sql.ResultSet"     jdbcType="ORACLECURSOR"       mode="OUT"   resultMap="memberDeliveryListMapResultMap"/>		
+	</parameterMap>
+	
+	<resultMap id="memberDeliveryListMapResultMap" class="java.util.HashMap">
+		<result property="CORP_CODE" column="CORP_CODE" />	
+		<result property="STR_CODE" column="STR_CODE" />	
+		<result property="TOTAL_NAME" column="TOTAL_NAME" />	
+		<result property="DAY_ORDER_PRICE" column="DAY_ORDER_PRICE" />	
+		<result property="DAY_ORDER_NUMBER" column="DAY_ORDER_NUMBER" />	
+		<result property="DAY_VISIT_PRICE" column="DAY_VISIT_PRICE" />	
+		<result property="DAY_VISIT_NUMBER" column="DAY_VISIT_NUMBER" />
+		<result property="DAY_ORDER_VISIT_PRICE" column="DAY_ORDER_VISIT_PRICE" />	
+		<result property="DAY_ORDER_VISIT_NUMBER" column="DAY_ORDER_VISIT_NUMBER" />	
+		
+		<result property="MONTH_ORDER_PRICE" column="MONTH_ORDER_PRICE" />	
+		<result property="MONTH_ORDER_NUMBER" column="MONTH_ORDER_NUMBER" />	
+		<result property="MONTH_VISIT_PRICE" column="MONTH_VISIT_PRICE" />	
+		<result property="MONTH_VISIT_NUMBER" column="MONTH_VISIT_NUMBER" />
+		<result property="MONTH_ORDER_VISIT_PRICE" column="MONTH_ORDER_VISIT_PRICE" />
+		<result property="MONTH_ORDER_VISIT_NUMBER" column="MONTH_ORDER_VISIT_NUMBER" />
+		
+		<result property="CD_SHORT_NM" column="CD_SHORT_NM" />	
+		<result property="STR_NAME" column="STR_NAME" />	
+	</resultMap>		
+	
+	<procedure id="memberDeliveryList" parameterMap="memberDeliveryListMap" >
+		{ call PKG_MEMBER.MEMBER_DELIVERY_LIST ( ?, ?, ?, ?, ? )  }
+	</procedure>
+	
+	
+</sqlMap>
+
+
+
+
+

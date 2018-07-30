@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PSP">
+	
+	<!-- 프로모션적용회원 조회 -->
+	<parameterMap id="paramMap1" class="java.util.Map">
+		<parameter property="P_CORP_CODE"     	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_CODE"      	javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_CUST_NO"    		javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="P_STR_DT" 			javaType="java.lang.String"      jdbcType="VARCHAR"       mode="IN"    />
+		<parameter property="CUR"             	javaType="java.sql.ResultSet"    jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="resultMap1" />
+	</parameterMap>
+	
+	<resultMap id="resultMap1" class="java.util.HashMap">
+		<result property="CUST_NO" 		column="CUST_NO"  		nullValue="" />
+		<result property="CUST_NAME" 	column="CUST_NAME" 		nullValue="" />
+		<result property="MBR_GRADE" 	column="MBR_GRADE" 		nullValue="" />
+		<result property="MBR_GRADE_NM" column="MBR_GRADE_NM"  	nullValue="" />
+		<result property="STR_NAME" 	column="STR_NAME"   	nullValue="" />
+		<result property="STR_CODE"		column="STR_CODE"   	nullValue="" />
+	</resultMap>
+	
+	<procedure id="selectPromotionSpecialCustom" parameterMap="paramMap1"  resultMap="resultMap1">
+		{ call PKG_PROMOTION.CALL_PROMOTION_SP_CUST_SEARCH ( ?, ?, ?, ?, ?) }
+	</procedure>
+	
+
+   	<!-- 프로모션적용 특단가 상품조회 -->
+	<parameterMap id="paramMap2" class="java.util.Map">
+	     <parameter property="P_CORP_CODE" 	javaType="java.lang.String" 	jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CUST_NO" 	javaType="java.lang.String" 	jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  		javaType="java.sql.ResultSet" 	jdbcType="ORACLECURSOR" mode="OUT"  />
+	</parameterMap>
+ 	<procedure id="selectPromotionSpecialItem" 	parameterMap="paramMap2"  		resultClass="java.util.HashMap"  >
+ 		{ call PKG_PROMOTION.CALL_PROMOTION_SP_ITEM_SEARCH ( ?, ?, ? ) }
+	</procedure>
+	
+	
+  <!--  프로모션 특단가상품등록  -->
+  <!-- <parameterMap id="paramMap3" class="java.util.Map">   
+  	<parameter property="P_REG_FLAG"   		javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_CORP_CODE"   	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_STR_CODE"   		javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_CUST_NO"   		javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_SCAN_CODE"   	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_STR_DT"   		javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_END_DT"  		javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_SPECIAL_SPRC"  	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_RMK"  			javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+    <parameter property="P_EMP_NO"   		javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      />
+  	<parameter property="RETURN_CUR"		javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"   mode="OUT" resultMap="RETURN_CUR_ResultMap"  /> 
+  </parameterMap> -->
+  
+  <parameterMap id="paramMap3" class="java.util.Map">   
+    <parameter property="P_CORP_CODE"   	javaType="java.lang.String"     jdbcType="VARCHAR"    			mode="IN"      />
+    <parameter property="GRID_XML_DATA"  	javaType="java.lang.String"     jdbcType="CLOB"    	 		 	mode="IN"      />
+    <parameter property="P_CUST_NO"   		javaType="java.lang.String"     jdbcType="VARCHAR"    			mode="IN"      />
+    <parameter property="P_EMP_NO"   		javaType="java.lang.String"     jdbcType="VARCHAR"    			mode="IN"      />
+  	<parameter property="RETURN_CUR"		javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"   	mode="OUT" resultMap="RETURN_CUR_ResultMap"  /> 
+  </parameterMap>
+  
+  <resultMap id="RETURN_CUR_ResultMap" class="java.util.HashMap">
+    <result property="RETURN_CODE"    column="RETURN_CODE"  />
+    <result property="RETURN_MESSAGE" column="RETURN_MESSAGE" /> 
+  </resultMap> 
+    
+  <procedure id="promotionSpecialItemRegister"  parameterMap="paramMap3"    > 
+    {   call PKG_PROMOTION.CALL_PROMOTION_SPE_ITEM_REG( ?, ?, ?, ?, ?)  }   
+  </procedure>	
+
+</sqlMap>

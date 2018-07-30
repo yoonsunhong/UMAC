@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="purchMngDelete">
+ 
+    
+  
+  
+
+   <!--  매입 헤더 조회  검색  -->
+   <parameterMap id="purchHeadSearchParameterMap" class="java.util.Map">
+  	<parameter property="CORP_CODE"    	 	 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="STR_CODE"    	 	 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="VEN_CODE"    	 	 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="PUR_DT_FROM"    	 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="PUR_DT_TO"    		 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="PUR_GB"    		 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="CFM_YN"    		 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	
+  	<parameter property="PUR_CFM_DT"    	 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	<parameter property="SLIP_NO"    		 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     />
+  	 
+  	<parameter property="CUR"         	 	 javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+   </parameterMap>
+   <procedure id="purchHeadSearchDelete"  parameterMap="purchHeadSearchParameterMap"  resultClass="java.util.HashMap"  > 
+   	 {   call PKG_PURCH_DEL.PURCH_HEAD_LIST( ? , ? , ? , ?    , ? , ? , ? , ?, ? , ? )       }
+   </procedure>
+  
+  
+   <!--  매입상품 리스트 정보 보여주기  -->
+   <parameterMap id="purchDetailInfoParameterMap" class="java.util.Map">
+    <parameter property="CORP_CODE"   		 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     /> 
+  	<parameter property="PUR_DT"     		 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     /> 
+  	<parameter property="STR_CODE"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     /> 
+  	<parameter property="SLIP_NO"     		 javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"     /> 
+  	<parameter property="CUR"        		 javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"    /> 
+   </parameterMap>
+   <procedure id="purchDetailInfoDelete"  parameterMap="purchDetailInfoParameterMap"  resultClass="java.util.HashMap"  > 
+   	 {   call PKG_PURCH_DEL.PURCH_DETAIL_INFO( ? , ? , ? , ? , ? )       }
+   </procedure>
+   
+	 
+	
+ 
+  <!--  매입 삭제  -->
+  <parameterMap id="purchDeleteAllParameterMap" class="java.util.Map">     
+    <parameter property="CORP_CODE"   				javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+    <parameter property="SLIP_NO"   		    	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+  	<parameter property="RETURN_CUR"        		javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"   mode="OUT"     /> 
+  </parameterMap> 
+  <procedure id="purchDeleteAll"  parameterMap="purchDeleteAllParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_PURCH_DEL.PURCH_DELETE_ALL( ? , ? , ?   )  }   
+  </procedure>
+   
+   
+  
+ <!--  매입 전표 날짜 수정  -->
+  <parameterMap id="purchChangeDateParameterMap" class="java.util.Map">     
+    <parameter property="CORP_CODE"   				javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+    <parameter property="SLIP_NO"   		    	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+  	<parameter property="PUR_DT_CHG"   		    	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+  	<parameter property="EMP_NO"   		    		javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+  	 
+  	<parameter property="RETURN_CUR"        		javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"   mode="OUT"     /> 
+  </parameterMap> 
+  <procedure id="purchChangeDate"  parameterMap="purchChangeDateParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_PURCH_DEL.PURCH_CHANGE_DATE( ? , ? , ? , ? , ?   )  }   
+  </procedure>
+   
+   
+  
+  
+  
+</sqlMap>
+
+
+
+
+
+
+
+
+
+

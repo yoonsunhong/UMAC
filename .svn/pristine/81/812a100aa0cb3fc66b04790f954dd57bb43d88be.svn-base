@@ -1,0 +1,338 @@
+//그리드1 데이터 초기화
+var gridData1 = [];
+//그리드의 데이터 제어를 위한 전역변수 설정
+var gridApp, gridRoot, dataGrid,dataRow,clickData,selectorColumn, collection;
+var layoutStr =
+	'<rMateGrid>\
+		<DataGrid id="dg1" editable="true" selectionMode="singleRow" itemRenderer="EditableIconItem" sortableColumns="false">\
+			<columns>\
+				<DataGridRowStateColumn id="rowState" textAlign="center" /> \
+				<DataGridColumn dataField="STR_CODE"    headerText="점포"  textAlign="center" editable="false" visible="false" />\
+				<DataGridColumn dataField="BASE_DT"     headerText="일자2" textAlign="center" editable="false" visible="false" />\
+				<DataGridColumn dataField="BASE_DTV"    headerText="일자"  textAlign="right"  width="60" editable="false" itemRenderer="HtmlItem" />\
+				<DataGridColumn dataField="BASE_D"      headerText="요일2" textAlign="center" editable="false" visible="false" />\
+				<DataGridColumn dataField="BASE_DNAME"  headerText="요일"  textAlign="center" width="60" editable="false" itemRenderer="HtmlItem" />\
+				<DataGridColumn dataField="BASE_H"      headerText="구분"  textAlign="center" width="80" showEditableIcon="always" editableIcon="DownArrow"  itemEditor="ComboBoxEditor" editorDataField="selectedDataField" itemRendererDataField="code" itemRenderer="ComboxItem" itemRendererDataProvider="[{\'label\':\' \',\'code\':\'1\'},{\'label\':\'휴일\',\'code\':\'2\'}]"/>\
+				<DataGridColumn dataField="REMARK"      headerText="비고"  textAlign="center" showEditableIcon="always" cursor="pointer"/>\
+			</columns>\
+		</DataGrid>\
+	</rMateGrid>';
+
+// ----------------------- 그리드 설정 시작 -------------------------------------
+//rMate그리드 경로정보 셋팅
+rMateGridH5.setAssetsPath("/resources/js/rMateGridH5/Assets/");
+rMateGridH5.setConfig(rMateGridH5.style);
+
+// rMate 그리드 생성 준비가 완료된 상태 시 호출할 함수를 지정합니다.
+var jsVars = "rMateOnLoadCallFunction=gridReadyHandler";
+
+// rMateDataGrid 를 생성합니다.
+// 파라메터 (순서대로)
+//  1. 그리드의 id ( 임의로 지정하십시오. )
+//  2. 그리드가 위치할 div 의 id (즉, 그리드의 부모 div 의 id 입니다.)
+//  3. 그리드 생성 시 필요한 환경 변수들의 묶음인 jsVars
+//  4. 그리드의 가로 사이즈 (생략 가능, 생략 시 100%)
+//  5. 그리드의 세로 사이즈 (생략 가능, 생략 시 100%)
+rMateGridH5.create("grid1", "gridHolder1", jsVars+"&dataType=xml", "100%");
+
+// 그리드의 속성인 rMateOnLoadCallFunction 으로 설정된 함수.
+// rMate 그리드의 준비가 완료된 경우 이 함수가 호출됩니다.
+// 이 함수를 통해 그리드에 레이아웃과 데이터를 삽입합니다.
+// 파라메터 : id - rMateGridH5.create() 사용 시 사용자가 지정한 id 입니다.
+function gridReadyHandler(id) {
+	// rMateGrid 관련 객체
+	switch(id){
+		case 'grid1':
+			gridApp = document.getElementById(id);	// 그리드를 포함하는 div 객체	
+			gridRoot = gridApp.getRoot();	// 데이터와 그리드를 포함하는 객체
+
+			gridApp.setDataType("xml");
+			gridApp.setLayout(layoutStr);
+			gridApp.setData(gridData1);
+			
+			gridRoot.addEventListener("layoutComplete", layoutCompleteHandler);
+			gridRoot.addEventListener("dataComplete", dataCompleteHandler);
+			$("#btnCopyCalendar").hide();	
+			break;
+	}
+}
+
+function layoutCompleteHandler(event) {
+	switch(event['target'].id){
+		case "grid1":
+			dataGrid = gridRoot.getDataGrid();  // 그리드 객체	
+			// 헤드 정렬 초기화
+			rMateSortHeadInit(dataGrid);	
+			dataGrid.setDoubleClickEnabled(true);
+			break;
+	}
+}
+
+function dataCompleteHandler(event) {	
+	// 그리드 객체
+	switch(event['target'].id){
+		case "grid1":
+			dataGrid = gridRoot.getDataGrid(); 
+			
+			// 데이터 그리드의 내부의 데이터를 담고있는 객체 입니다.
+			collection = gridRoot.getCollection();	
+			dataGrid = gridRoot.getDataGrid();
+			break;
+	}
+}
+
+$(document).ready(function () {
+	//최초 도움말 불러오기 
+	setHelpMessage($(location).attr('pathname').replace('/',''));
+
+	// 점포코드 콤보 가져오기
+	getStoreCode("P_STR_CODE");
+	$("#frm select[id='P_STR_CODE']").val(SSSC).prop("selected", true);	
+	
+	//그리드 너비 제어
+	$("#gridHolder1").width("100%");
+	$("#gridHolder1").height( $(window).height() - 110 );
+
+	$(window).on('resize',function (){			
+		$("#gridHolder1").width("100%");	
+		$("#gridHolder1").height( $(window).height() - 110 );		
+	});		
+	$("#btnInitCalendar").click(function() {
+		btnButton("btnInitCalendar");
+	});
+	
+	$("#saveAll").click(function() {
+		fn_saveAll();		
+	});
+	
+	$("#save").click(function() {
+		fn_save();		
+	});
+
+	$("#btn_search").click(function() {
+		btnButton("btn_search");		
+	});
+});
+
+function getXmlString(xmlElement) {
+	if (window.XMLSerializer)
+		return new XMLSerializer().serializeToString(xmlElement);
+	return   xmlElement.xml  ;
+}
+
+fn_save = function(){
+	window.returnVal = "";
+	var changeStrArray = gridRoot.getChangedData();
+	if(changeStrArray == '' || changeStrArray.legnth == 0){
+		alert("변경한 데이터가 없습니다.");		
+		return;
+	}	
+	var object = new Array();
+	var idx = "";
+	var job = "";
+	var data = "";
+	var tranxml = "";
+	
+	var firstTag="<GRIDROW></GRIDROW>";  
+	var STR_CODE = "";
+	var BASE_DT = "";
+	var BASE_H= "";
+	var REMARK = "";
+	for(var j = 0 ;j < changeStrArray.length ; j++){
+		if (window.DOMParser)
+	    {   parser = new DOMParser();
+	        xmlDoc = parser.parseFromString(firstTag,"text/xml");
+		}
+		else // 인터넷 익스플로러
+		{   xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+		    xmlDoc.async=false;
+	        xmlDoc.loadXML(firstTag); 
+	    }  
+		STR_CODE	= xmlDoc.createElement('STR_CODE');  
+		BASE_DT		= xmlDoc.createElement('BASE_DT'); 
+		BASE_H		= xmlDoc.createElement('BASE_H'); 
+		REMARK		= xmlDoc.createElement('REMARK'); 
+
+		object = new Array();
+		object = changeStrArray[j];
+		idx = object.idx; // idx 변경 행수
+		job = object.job; // job : U update job : I Insert, job : D Delete
+		data = object.data; // data
+		
+		STR_CODE.appendChild( xmlDoc.createTextNode(data.STR_CODE));  
+		BASE_DT.appendChild( xmlDoc.createTextNode(data.BASE_DT));  
+		BASE_H.appendChild(xmlDoc.createTextNode(data.BASE_H));  
+		REMARK.appendChild(xmlDoc.createTextNode(data.REMARK));  
+
+		xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(STR_CODE);		
+		xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(BASE_DT);		
+		xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(BASE_H);		
+		xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(REMARK);		
+		tranxml = tranxml +  getXmlString(xmlDoc);		
+	}
+	tranxml =  "<GRIDLIST>"+tranxml+"</GRIDLIST>" ;
+	
+	jQuery.ajax({ 
+	    url:"/salesMstUpdate.do",         
+	    type:"POST",
+		datatype:"xml",
+		async:false,
+		data: {
+					"gridXmlData" : tranxml
+		        }, 
+		success:function(data){   			
+			gridRoot.removeAll();
+
+			returnVal = eval(data['result']);
+			returnVal = returnVal[0];
+			if(returnVal['RETURN_CODE'] == "0000"){					
+				alert("저장에 성공하였습니다");
+			}else{
+				alert(returnVal['RESULTVALUE']);
+			}
+	    },
+	    complete : function(data) {
+			btnButton("btn_search");
+	    },
+	    error : function(xhr, status, error) {
+	    	CommonJs.alertErrorStatus(xhr.status, error);
+	    }
+	});
+};
+
+fn_saveAll = function(){
+	window.returnVal = "";
+	var changeStrArray = gridRoot.getChangedData();
+	
+	if(changeStrArray == '' || changeStrArray.legnth == 0){
+		alert("변경한 데이터가 없습니다.");		
+		return;
+	}	
+	var result = confirm('변경된 내용을 전점에 적용하겠습니까? 기초 데이터가 생성된 점만 적용되며 기존에 적용된 내용은 해당 내용으로 변경되니다. ');
+	if(!result){
+		return;		
+	}
+	
+	
+	var object = new Array();
+	var idx = "";
+	var job = "";
+	var data = "";
+	var tranxml = "";
+	
+	var firstTag="<GRIDROW></GRIDROW>";  
+	var STR_CODE = "";
+	var BASE_DT = "";
+	var BASE_H= "";
+	var REMARK = "";
+	for(var j = 0 ;j < changeStrArray.length ; j++){
+		if (window.DOMParser)
+	    {   parser = new DOMParser();
+	        xmlDoc = parser.parseFromString(firstTag,"text/xml");
+		}
+		else // 인터넷 익스플로러
+		{   xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+		    xmlDoc.async=false;
+	        xmlDoc.loadXML(firstTag); 
+	    }  
+		BASE_DT		= xmlDoc.createElement('BASE_DT'); 
+		BASE_H		= xmlDoc.createElement('BASE_H'); 
+		REMARK		= xmlDoc.createElement('REMARK'); 
+
+		object = new Array();
+		object = changeStrArray[j];
+		idx = object.idx; // idx 변경 행수
+		job = object.job; // job : U update job : I Insert, job : D Delete
+		data = object.data; // data
+		
+		BASE_DT.appendChild( xmlDoc.createTextNode(data.BASE_DT));  
+		BASE_H.appendChild(xmlDoc.createTextNode(data.BASE_H));  
+		REMARK.appendChild(xmlDoc.createTextNode(data.REMARK));  
+
+		xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(BASE_DT);		
+		xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(BASE_H);		
+		xmlDoc.getElementsByTagName("GRIDROW")[0].appendChild(REMARK);		
+		tranxml = tranxml +  getXmlString(xmlDoc);		
+	}
+	tranxml =  "<GRIDLIST>"+tranxml+"</GRIDLIST>" ;
+	
+	jQuery.ajax({ 
+	    url:"/salesMstUpdateAll.do",         
+	    type:"POST",
+		datatype:"xml",
+		async:false,
+		data: {
+					"gridXmlData" : tranxml
+		        }, 
+		success:function(data){   			
+			gridRoot.removeAll();
+
+			returnVal = eval(data['result']);
+			returnVal = returnVal[0];
+			if(returnVal['RETURN_CODE'] == "0000"){					
+				alert("저장에 성공하였습니다");
+			}else{
+				alert(returnVal['RESULTVALUE']);
+			}
+	    },
+	    complete : function(data) {
+			btnButton("btn_search");
+	    },
+	    error : function(xhr, status, error) {
+	    	CommonJs.alertErrorStatus(xhr.status, error);
+	    }
+	});	
+	
+}
+
+btnButton = function(id){
+	window.s_id = id;
+	window.returnVal = "";
+	window.param = $("#frm").serializeArray();
+	window.s_url = "";
+	switch(s_id){
+		case "btnInitCalendar":			
+			s_url="/salesMstInit.do";
+			break;		
+		case "btn_search":
+			s_url="/salesMstSearch.do";
+			break;
+	}
+	//로딩바 출력
+	jQuery.ajax({ 
+	    url:s_url,
+	    type:"POST",
+		datatype:"json",
+		async:false,
+		data: param,
+		beforeSend : function(){
+			gridRoot.addLoadingBar();
+		},
+		success:function(data){
+			if(s_id == "btn_search"){
+				gridApp.setData(data);			
+			}else{
+				returnVal = eval(data['result']);
+				returnVal = returnVal[0];
+				if(returnVal['RETURN_CODE'] == "0000"){					
+					alert("생성에 성공하였습니다");
+				}else if(returnVal['RETURN_CODE'] == "9001"){					
+					alert(returnVal['RESULTVALUE']);					
+				}else{
+					alert(returnVal['RESULTVALUE']);
+				}
+			}
+	    },
+	    complete : function(data) {
+	       	gridRoot.removeLoadingBar();	       	
+	    	//로딩바 숨기기
+	    },
+	    error : function(xhr, status, error) {
+	    	//로딩바 숨기기
+			gridRoot.removeLoadingBar();				
+	    	CommonJs.alertErrorStatus(xhr.status, error);
+	    }
+	});
+};
+
+

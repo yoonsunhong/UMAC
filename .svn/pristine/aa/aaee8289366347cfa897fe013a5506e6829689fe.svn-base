@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="productCheckInOutDel">
+
+	<typeAlias alias="ProductCheckInOutDelVO" type="retail.check.service.ProductCheckInOutDelVO" />
+	
+	<!-- 점간대출 조회 파라미터 -->
+	<parameterMap id="paramMap1" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" 		javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_STR_CODE" 		javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_DIN_STR_CODE" 	javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_DOUT_STR_DT" 	javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_DOUT_END_DT" 	javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_CFM_YN" 		javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap1" />
+	</parameterMap>
+	<!-- 점간대출 조회 결과 -->
+	<resultMap id="resultMap1" class="ProductCheckInOutDelVO">
+		<result property="DOUT_DT"  		column="DOUT_DT"  		nullValue="" />
+		<result property="SLIP_NO"  		column="SLIP_NO"  		nullValue="" />
+		<result property="STR_CODE"  		column="STR_CODE"  		nullValue="" />
+		<result property="STR_NAME"  		column="STR_NAME"  		nullValue="" />
+		<result property="DIN_STR_CODE"  	column="DIN_STR_CODE"  	nullValue="" />
+		<result property="DIN_STR_NAME"  	column="DIN_STR_NAME"  	nullValue="" />
+		<result property="DOUT_CFM_DT"  	column="DOUT_CFM_DT"   	nullValue="" />
+		<result property="DIN_CFM_DT"  		column="DIN_CFM_DT"  	nullValue="" />
+		<result property="DOUT_TOTAL"  		column="DOUT_TOTAL"  	nullValue="" />
+		<result property="REMARK"  			column="REMARK"  		nullValue="" />
+		<result property="IEMP_NO"  		column="IEMP_NO"  		nullValue="" />
+		<result property="IEMP_NAME"  		column="IEMP_NAME"  	nullValue="" />
+		<result property="IDATE"  			column="IDATE"  		nullValue="" />
+		<result property="CFM_YN"  			column="CFM_YN"  		nullValue="" />
+		<result property="UEMP_NO"  		column="UEMP_NO"  		nullValue="" />
+		<result property="UEMP_NAME"  		column="UEMP_NAME"  	nullValue="" />
+		<result property="UDATE"  			column="UDATE"  		nullValue="" />
+	</resultMap>
+		
+	<!-- 점간대출 조회 -->
+ 	<procedure id="selectProductCheckOutDel" parameterMap="paramMap1" >
+ 		{ call PKG_PRODUCT_IN_OUT_DEL.PRODUCT_OUT_SELECT ( ?, ?, ?, ? ,? ,?, ?) }
+	</procedure>
+	
+	
+	
+
+  
+  <!--  점간 대출입 삭제  -->
+  <parameterMap id="productCheckOutDeleteParameterMap" class="java.util.Map">     
+    <parameter property="CORP_CODE"   				javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+    <parameter property="SLIP_NO"   		    	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+  	<parameter property="RETURN_CUR"        		javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"   mode="OUT"     /> 
+  </parameterMap> 
+  <procedure id="productCheckOutDelete"  parameterMap="productCheckOutDeleteParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_PRODUCT_IN_OUT_DEL.PRODUCT_CHECK_OUT_DELETE( ? , ? , ?   )  }   
+  </procedure>
+   
+	
+	
+	
+<!-- 점간대출 상세 조회 파라미터 -->
+	<parameterMap id="paramMap3" class="java.util.HashMap">
+	     <parameter property="P_CORP_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_STR_CODE" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_SLIP_NO" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+	     <parameter property="P_DOUT_DT" javaType="java.lang.String" jdbcType="VARCHAR" mode="IN" />
+		 <parameter property="CUR"  javaType="java.sql.ResultSet" jdbcType="ORACLECURSOR" mode="OUT"   resultMap="resultMap3" />
+	</parameterMap>
+	<!-- 점간대출 상세 조회 결과 -->
+	<resultMap id="resultMap3" class="ProductCheckInOutVO">
+		<result property="INPUT_YN"  column="INPUT_YN"  nullValue="" />
+		<result property="SEQ"  column="SEQ"  nullValue="" />
+		<result property="SCAN_CODE"  column="SCAN_CODE"  nullValue="" />
+		<result property="ITM_CODE"  column="ITM_CODE"  nullValue="" />
+		<result property="ITM_NAME"  column="ITM_NAME"  nullValue="" />
+		<result property="DP_PRC_UNIT"  column="DP_PRC_UNIT"  nullValue="" />
+		<result property="UNIT"  column="UNIT"  nullValue="" />
+		<result property="STR_CODE"  column="STR_CODE"  nullValue="" />
+		<result property="TAX_GB"  column="TAX_GB"  nullValue="" />
+		<result property="DOUT_QTY"  column="DOUT_QTY"  nullValue="" />
+		<result property="DOUT_WPRC"  column="DOUT_WPRC"  nullValue="" />
+		<result property="DOUT_WVAT"  column="DOUT_WVAT"  nullValue="" />
+		<result property="DOUT_SPRC"  column="DOUT_SPRC"  nullValue="" />
+		<result property="BOT_SPRC"  column="BOT_SPRC"  nullValue="" />
+		<result property="ITM_GB"  column="ITM_GB"  nullValue="" />
+		<result property="DOUT_CFM_QTY"  column="DOUT_CFM_QTY"  nullValue="" />
+		<result property="DIN_CFM_QTY"  column="DIN_CFM_QTY"  nullValue="" />
+	</resultMap>
+		 
+	<!-- 점간대출 상세 조회 -->
+ 	<procedure id="selectProductCheckOutDtlDel" parameterMap="paramMap3" >
+ 		{ call PKG_PRODUCT_IN_OUT_DEL.PRODUCT_OUT_SELECT_DTL ( ?, ?, ?, ?, ? ) }
+	</procedure>
+	
+	
+	
+  <!--  점간대출  확정 취소 -->
+  <parameterMap id="productCheckOutCancelParameterMap" class="java.util.Map">     
+    <parameter property="CORP_CODE"   				javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+    <parameter property="EMP_NO"   		    		javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+       
+    <parameter property="SLIP_NO"   		    	javaType="java.lang.String"     jdbcType="VARCHAR"    mode="IN"      /> 
+  	<parameter property="RETURN_CUR"        		javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"   mode="OUT"     /> 
+  </parameterMap> 
+  <procedure id="productCheckOutCancel"  parameterMap="productCheckOutCancelParameterMap"   resultClass="java.util.HashMap" > 
+    {   call PKG_PRODUCT_IN_OUT_DEL.PDRODUCT_CHECK_OUT_CANCEL( ? ,? , ? , ?    )  }   
+  </procedure>
+  
+	 
+
+
+</sqlMap>

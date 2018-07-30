@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="groupGridTest">
+
+<!--     <typeAlias alias="GroupGridTestVO" type="retail.groupGridTest.service.GroupGridTestVO" /> -->
+  
+  <parameterMap id="groupGridTestMap" class="java.util.HashMap">
+  	<parameter property="P_YEAR_Y"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"      />
+  	<parameter property="CUR"         javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"   resultMap="CUR_ResultMap"   /> 
+  	<parameter property="RETURN_CUR"  javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"   resultMap="RETURN_CUR_ResultMap"   /> 
+  </parameterMap>
+   
+   
+  <!-- 리턴 메시지 -->
+  <resultMap id="RETURN_CUR_ResultMap" class="retail.groupGridTest.service.GroupGridTestVO">
+    <result property="RETURN_CODE"    column="RETURN_CODE"  />
+    <result property="RETURN_MESSAGE" column="RETURN_MESSAGE" /> 
+  </resultMap>  
+  
+ 
+  <resultMap id="CUR_ResultMap" class="retail.groupGridTest.service.GroupGridTestVO">
+    <result property="YEAR_Y"  column="YEAR_Y"  />
+    <result property="QUARTER" column="QUARTER" />
+    <result property="MONTH_M" column="MONTH_M" />
+    <result property="CURR1"   column="CURR1"   />
+    <result property="CURR2"   column="CURR2"   />
+    <result property="CURR3"   column="CURR3"   /> 
+  </resultMap>
+  
+  <procedure id="groupGridTest"  parameterMap="groupGridTestMap"    >
+ 
+    {   call  PKG_TEST.GROUP_GRID_TEST (  ? , ? , ? )  }
+   
+  </procedure>	
+   
+
+</sqlMap>
+
+
+
+
+
+
+
+
+
+
+
+

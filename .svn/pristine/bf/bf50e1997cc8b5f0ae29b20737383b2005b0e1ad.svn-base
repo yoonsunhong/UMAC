@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="wmsStockDivision">
+
+    <parameterMap id="wmsDivisionItemConfirmMap" class="java.util.Map">
+        <parameter property="P_CORP_CODE"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_DVION_DT"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_STR_CODE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_SEQ"              javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="RETURN_CODE"        javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+        <parameter property="RETURN_MSG"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+    </parameterMap>
+
+    <parameterMap id="wmsDivisionItemInsertMap" class="java.util.Map">
+        <parameter property="P_CORP_CODE"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_DVION_DT"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_STR_CODE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_SCAN_CODE"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_ITM_CODE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_TAX_GB"           javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_QTY"              javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_UNIT"             javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_PUR_WPRC"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_PUR_WVAT"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_PUR_SPRC"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_DIV_SCAN_CODE"    javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_DIV_ITM_CODE"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_DIV_QTY"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_DIV_PUR_WPRC"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_DIV_PUR_WVAT"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_DIV_PUR_SPRC"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_IEMP_NO"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="RETURN_CODE"        javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+        <parameter property="RETURN_MSG"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+    </parameterMap>
+
+    <parameterMap id="wmsDivisionItemUpdateMap" class="java.util.Map">
+        <parameter property="P_CORP_CODE"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_DVION_DT"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_STR_CODE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_SEQ"              javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_PUR_WPRC"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_PUR_WVAT"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_PUR_SPRC"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_DIV_QTY"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_DIV_PUR_WPRC"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_DIV_PUR_WVAT"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_DIV_PUR_SPRC"     javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_UEMP_NO"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="RETURN_CODE"        javaType="java.lang.Integer"    jdbcType="INTEGER"       mode="OUT"   />
+        <parameter property="RETURN_MSG"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="OUT"   />
+    </parameterMap>
+
+    <parameterMap id="wmsDivisionItemSearchMap" class="java.util.Map">
+        <parameter property="P_CORP_CODE"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_STR_CODE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_FLAG"             javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_KEYWORD"          javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="P_CLS_CODE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="CUR"                javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="wmsDivisionItemSearchResultMap" />
+    </parameterMap>
+
+    <resultMap id="wmsDivisionItemSearchResultMap" class="java.util.HashMap">
+        <result property="CORP_CODE"             column="CORP_CODE" />
+        <result property="STR_CODE"              column="STR_CODE" />
+        <result property="ITM_CODE"              column="ITM_CODE" />
+        <result property="ITM_NAME"              column="ITM_NAME" />
+        <result property="SCAN_CODE"             column="SCAN_CODE" />
+        <result property="UNIT"                  column="UNIT" />
+        <result property="WPRC"                  column="WPRC" />
+        <result property="WVAT"                  column="WVAT" />
+        <result property="SPRC"                  column="SPRC" />
+        <result property="CLS_CODE"              column="CLS_CODE" />
+        <result property="CLS_NAME"              column="CLS_NAME" />
+        <result property="VEN_CODE"              column="VEN_CODE" />
+        <result property="VEN_NAME"              column="VEN_NAME" />
+        <result property="ORD_UNIT"              column="ORD_UNIT" />
+        <result property="IPSU_QTY"              column="IPSU_QTY" />
+        <result property="WEIGHT_YN"             column="WEIGHT_YN" />
+        <result property="USE_YN"                column="USE_YN" />
+        <result property="TAX_GB"                column="TAX_GB" />
+        <result property="TAX_GB_STR"            column="TAX_GB_STR" />
+        <result property="DP_PRC_UNIT"           column="DP_PRC_UNIT" />
+        <result property="BOT_SPRC"              column="BOT_SPRC" />
+    </resultMap>
+
+    <parameterMap id="wmsDivisionItemSelectMap" class="java.util.Map">
+        <parameter property="P_CORP_CODE"        javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="S_STR_CODE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="S_STR_DATE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="S_END_DATE"         javaType="java.lang.String"     jdbcType="VARCHAR"       mode="IN"    />
+        <parameter property="CUR"                javaType="java.sql.ResultSet"   jdbcType="ORACLECURSOR"  mode="OUT"  resultMap="wmsDivisionItemSelectResultMap" />
+    </parameterMap>
+
+    <resultMap id="wmsDivisionItemSelectResultMap" class="java.util.HashMap">
+        <result property="CORP_CODE"             column="CORP_CODE" />
+        <result property="DVION_DT"              column="DVION_DT" />
+        <result property="STR_CODE"              column="STR_CODE" />
+        <result property="SEQ"                   column="SEQ" />
+        <result property="SCAN_CODE"             column="SCAN_CODE" />
+        <result property="ITM_CODE"              column="ITM_CODE" />
+        <result property="ITM_NAME"              column="ITM_NAME" />
+        <result property="TAX_GB"                column="TAX_GB" />
+        <result property="TAX_GB_STR"            column="TAX_GB_STR" />
+        <result property="QTY"                   column="QTY" />
+        <result property="UNIT"                  column="UNIT" />
+        <result property="PUR_WPRC"              column="PUR_WPRC" />
+        <result property="PUR_WPRC_DS"           column="PUR_WPRC_DS" />
+        <result property="PUR_WVAT"              column="PUR_WVAT" />
+        <result property="PUR_SPRC"              column="PUR_SPRC" />
+        <result property="PUR_SPRC_DS"           column="PUR_SPRC_DS" />
+        <result property="DIV_SCAN_CODE"         column="DIV_SCAN_CODE" />
+        <result property="DIV_ITM_CODE"          column="DIV_ITM_CODE" />
+        <result property="DIV_ITM_NAME"          column="DIV_ITM_NAME" />
+        <result property="DIV_QTY"               column="DIV_QTY" />
+        <result property="DIV_PUR_WPRC"          column="DIV_PUR_WPRC" />
+        <result property="DIV_PUR_WPRC_DS"       column="DIV_PUR_WPRC_DS" />
+        <result property="DIV_PUR_WVAT"          column="DIV_PUR_WVAT" />
+        <result property="DIV_PUR_SPRC"          column="DIV_PUR_SPRC" />
+        <result property="DIV_PUR_SPRC_DS"       column="DIV_PUR_SPRC_DS" />
+        <result property="CFM_DT"                column="CFM_DT" />
+    </resultMap>
+
+    <procedure id="searchDivisionItem" parameterMap="wmsDivisionItemSearchMap" >
+        {   call PKG_WMS_DIV_ITEM.PRODUCT_SEARCH ( ?, ?, ?, ?, ?, ? )  }
+    </procedure>
+
+    <procedure id="selectDivisionList" parameterMap="wmsDivisionItemSelectMap" >
+        {   call PKG_WMS_DIV_ITEM.WMS_DIVISION_ITEM_SELECT ( ?, ?, ?, ?, ? )  }
+    </procedure>
+
+    <procedure id="insertDivisionItem" parameterMap="wmsDivisionItemInsertMap" >
+        {   call PKG_WMS_DIV_ITEM.WMS_DIVISION_ITEM_INSERT ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+    </procedure>
+
+    <procedure id="updateDivisionItem" parameterMap="wmsDivisionItemUpdateMap" >
+        {   call PKG_WMS_DIV_ITEM.WMS_DIVISION_ITEM_UPDATE ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )  }
+    </procedure>
+
+    <procedure id="confirmDivisionItem" parameterMap="wmsDivisionItemConfirmMap" >
+        {   call PKG_WMS_DIV_ITEM.WMS_DIVISION_ITEM_CONFIRM ( ?, ?, ?, ?, ?, ? )  }
+    </procedure>
+
+</sqlMap>
